@@ -159,43 +159,23 @@ const dropdownLinksConfig = [
     ),
     links: [
       {
-        href: "/mrcare",
-        title: "Mr Care",
-        icon: <Search className="h-4 w-4 text-sky-600" />,
-      },
-      {
-        href: "/hms",
+        href: "/products/hospital-management-system",
         title: "Hospital Management System",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/balaji-juice-corner",
-        title: "Balaji Juice Corner",
+        href: "/products/balaji-juice-corner",
+        title: "Hostel Management System",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/sathi-cab",
-        title: "Sathi Cab",
+        href: "/products/sathi-cab",
+        title: "Food Delievery App",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/gr-energy-world",
-        title: "GR Energy World",
-        icon: <Megaphone className="h-4 w-4 text-sky-600" />,
-      },
-      {
-        href: "/ubl",
-        title: "UBL",
-        icon: <Megaphone className="h-4 w-4 text-sky-600" />,
-      },
-      {
-        href: "/koshi-services",
-        title: "Koshi Services",
-        icon: <Megaphone className="h-4 w-4 text-sky-600" />,
-      },
-      {
-        href: "/khusi-services",
-        title: "Khusi Services",
+        href: "/products/sathi-cab",
+        title: "Ride Booking Application",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
     ],

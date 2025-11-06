@@ -10,8 +10,9 @@ import {
   Menu,
   X,
   Heading,
+  CheckLine,
 } from "lucide-react";
-import { PiFlagBanner } from "react-icons/pi";
+import { PiComputerTowerFill, PiFlagBanner } from "react-icons/pi";
 import { BiStats } from "react-icons/bi";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,24 +35,36 @@ const sidebarLinks = [
   // },
   {
     label: "Hero Section",
-    href: "/admin/hero-section",
+    href: "/admin/banner",
     icon: <PiFlagBanner />,
     color: "text-green-500",
   },
   {
-    label: "Quick Stats",
-    href: "/admin/quick-stats",
+    label: "Blogs",
+    href: "/admin/blogs",
     icon: <BiStats />,
     color: "text-sky-500",
   },
   {
-    label: "Manufacturing Section",
-    href: "/admin/manufacturing",
+    label: "Our Clients",
+    href: "/admin/our-clients",
+    icon: <CheckLine />,
+    color: "text-pink-500",
+  },
+  {
+    label: "Invoices",
+    href: "/admin/bills",
     icon: <IoCreate />,
     color: "text-pink-500",
   },
   {
-    label: "Main CTA",
+    label: "Portfolio",
+    href: "/admin/portfolio",
+    icon: <PiComputerTowerFill />,
+    color: "text-blue-500",
+  },
+  {
+    label: "Products",
     href: "/admin/final-cta",
     icon: <MdCallToAction />,
     color: "text-pink-500",
@@ -117,14 +130,14 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static top-0 left-0 h-full w-64 bg-background-light shadow-md flex flex-col justify-between rounded-2xl z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:static bg-gray-100 top-0 left-0 h-full w-64 bg-background-light shadow-md flex flex-col justify-between rounded-2xl z-40 transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         {/* Logo */}
         <div className="flex items-center space-x-2 p-5">
           <LayoutDashboard className="w-6 h-6 text-indigo-600" />
-          <span className="text-lg font-semibold">Admin Pharma</span>
+          <span className="text-lg font-semibold">Admin SWS</span>
         </div>
         <hr className="border-gray-200 my-2" />
 

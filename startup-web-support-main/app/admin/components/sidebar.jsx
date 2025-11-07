@@ -53,7 +53,7 @@ const sidebarLinks = [
   },
   {
     label: "Invoices",
-    href: "/admin/bills",
+    href: "/admin/invoices",
     icon: <IoCreate />,
     color: "text-pink-500",
   },
@@ -70,6 +70,12 @@ const sidebarLinks = [
     color: "text-pink-500",
   },
   {
+    label: "Contacts",
+    href: "/admin/contacted",
+    icon: <MdCallToAction />,
+    color: "text-purple-500",
+  },
+  {
     label: "CSR / Sustainability",
     href: "/admin/csr",
     icon: <MdCallToAction />,
@@ -81,6 +87,7 @@ const sidebarLinks = [
     icon: <MdCallToAction />,
     color: "text-purple-500",
   },
+
   // Account Section
   {
     label: "Profile",

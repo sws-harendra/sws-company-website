@@ -164,17 +164,17 @@ const dropdownLinksConfig = [
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/products/balaji-juice-corner",
-        title: "Hostel Management System",
+        href: "/products/ecommerce-website",
+        title: "Ecommerce",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
+      // {
+      //   href: "/products/sathi-cab",
+      //   title: "Food Delievery App",
+      //   icon: <Megaphone className="h-4 w-4 text-sky-600" />,
+      // },
       {
-        href: "/products/sathi-cab",
-        title: "Food Delievery App",
-        icon: <Megaphone className="h-4 w-4 text-sky-600" />,
-      },
-      {
-        href: "/products/sathi-cab",
+        href: "/products/cab-booking-app",
         title: "Ride Booking Application",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },

@@ -29,6 +29,8 @@ app.use("/api/banners", require("./routes/banner.route"));
 app.use("/api/blogs", require("./routes/blog.routes"));
 app.use("/api/our-clients", require("./routes/ourClients.routes"));
 app.use("/api/portfolio", require("./routes/portfolio.routes"));
+app.use("/api/contacts", require("./routes/contact.routes"));
+app.use("/api/invoices", require("./routes/invoice.route"));
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {

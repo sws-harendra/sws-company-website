@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Activity,
   Shield,
@@ -18,21 +19,17 @@ import {
   FlaskConical,
   Lock,
   ArrowRight,
-  Menu,
-  X,
   CheckCircle2,
 } from "lucide-react";
+import ContactUs from "@/components/ContactUs";
 
 export default function HMSLandingPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeModule, setActiveModule] = useState("dashboard");
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    hospitalName: "",
-  });
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   const features = [
     {
@@ -146,36 +143,39 @@ export default function HMSLandingPage() {
     },
   ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Thank you! We will contact you soon.");
-  };
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Navigation */}
-
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <motion.section
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
+        initial="hidden"
+        whileInView="visible"
+        variants={fadeUp}
+        transition={{ duration: 0.6 }}
+      >
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h1 className="text-5xl font-bold text-gray-900 mb-6">
+            <motion.h1
+              className="text-5xl font-bold text-gray-900 mb-6"
+              variants={fadeUp}
+              transition={{ delay: 0.2 }}
+            >
               Smart, Secure & Paperless Healthcare
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            </motion.h1>
+            <motion.p
+              className="text-xl text-gray-600 mb-8"
+              variants={fadeUp}
+              transition={{ delay: 0.2 }}
+            >
               Complete Hospital Management System bringing OPD, IPD, Billing,
               Pharmacy, Lab, and HR together on one secure platform – accessible
               anytime.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            </motion.p>
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4"
+              variants={fadeUp}
+              transition={{ delay: 0.3 }}
+            >
               <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition flex items-center justify-center space-x-2">
                 <span>Book Free Demo</span>
                 <ArrowRight className="w-5 h-5" />
@@ -183,9 +183,15 @@ export default function HMSLandingPage() {
               <button className="border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-lg hover:bg-blue-50 transition">
                 Learn More
               </button>
-            </div>
+            </motion.div>
           </div>
-          <div className="relative">
+
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 shadow-2xl transform hover:scale-105 transition duration-300">
               <div className="bg-white rounded-lg p-6 space-y-4">
                 <div className="flex items-center justify-between">
@@ -195,32 +201,41 @@ export default function HMSLandingPage() {
                   <Activity className="w-5 h-5 text-blue-600" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <p className="text-2xl font-bold text-blue-600">142</p>
-                    <p className="text-sm text-gray-600">OPD Patients</p>
-                  </div>
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-2xl font-bold text-green-600">38</p>
-                    <p className="text-sm text-gray-600">IPD Patients</p>
-                  </div>
-                  <div className="bg-purple-50 p-4 rounded-lg">
-                    <p className="text-2xl font-bold text-purple-600">24</p>
-                    <p className="text-sm text-gray-600">Appointments</p>
-                  </div>
-                  <div className="bg-orange-50 p-4 rounded-lg">
-                    <p className="text-2xl font-bold text-orange-600">99.9%</p>
-                    <p className="text-sm text-gray-600">Uptime</p>
-                  </div>
+                  {[
+                    { label: "OPD Patients", value: "142", color: "blue" },
+                    { label: "IPD Patients", value: "38", color: "green" },
+                    { label: "Appointments", value: "24", color: "purple" },
+                    { label: "Uptime", value: "99.9%", color: "orange" },
+                  ].map((item, i) => (
+                    <motion.div
+                      key={i}
+                      className={`bg-${item.color}-50 p-4 rounded-lg`}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <p
+                        className={`text-2xl font-bold text-${item.color}-600`}
+                      >
+                        {item.value}
+                      </p>
+                      <p className="text-sm text-gray-600">{item.label}</p>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Features Section */}
       <section id="features" className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+          initial="hidden"
+          whileInView="visible"
+          variants={fadeUp}
+          transition={{ duration: 0.6 }}
+        >
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Why Choose Our Hospital Management System?
@@ -233,8 +248,13 @@ export default function HMSLandingPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div
+              <motion.div
                 key={index}
+                variants={fadeUp}
+                transition={{ delay: index * 0.1 }}
+                whileInView="visible"
+                initial="hidden"
+                viewport={{ once: true }}
                 className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl border border-blue-100 hover:shadow-xl transition duration-300 transform hover:-translate-y-1"
               >
                 <div className="bg-blue-600 text-white w-16 h-16 rounded-lg flex items-center justify-center mb-4">
@@ -244,16 +264,24 @@ export default function HMSLandingPage() {
                   {feature.title}
                 </h3>
                 <p className="text-gray-600">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Modules Section */}
-      <section id="modules" className="py-20">
+      <section
+        id="modules"
+        className="py-20 bg-gradient-to-b from-blue-50 to-white"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div
+            className="text-center mb-16"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+          >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               All-in-One Modules for Complete Hospital Automation
             </h2>
@@ -261,13 +289,19 @@ export default function HMSLandingPage() {
               Essential modules covering OPD/IPD management, pathology,
               pharmacy, billing, and more—designed to streamline workflows
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          <motion.div
+            className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+          >
             {modules.map((module) => (
-              <div
+              <motion.div
                 key={module.id}
                 onClick={() => setActiveModule(module.id)}
+                whileHover={{ scale: 1.05 }}
                 className={`p-6 rounded-xl cursor-pointer transition duration-300 ${
                   activeModule === module.id
                     ? "bg-blue-600 text-white shadow-xl transform scale-105"
@@ -282,11 +316,16 @@ export default function HMSLandingPage() {
                   {module.icon}
                 </div>
                 <h3 className="font-semibold mb-2">{module.title}</h3>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="mt-12 bg-white rounded-2xl shadow-xl p-8">
+          <motion.div
+            className="mt-12 bg-white rounded-2xl shadow-xl p-8"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+          >
             <div className="flex items-start space-x-4">
               <div className="bg-blue-100 text-blue-600 p-4 rounded-lg">
                 {modules.find((m) => m.id === activeModule)?.icon}
@@ -300,127 +339,36 @@ export default function HMSLandingPage() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Trust Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-[#0698D8] py-16">
+      <motion.section
+        className="bg-gradient-to-r from-blue-600 to-[#0698D8] py-16"
+        initial="hidden"
+        whileInView="visible"
+        variants={fadeUp}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 text-center text-white">
-            <div>
-              <p className="text-4xl font-bold mb-2">99.99%</p>
-              <p className="text-blue-100">System Uptime</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold mb-2">10+</p>
-              <p className="text-blue-100">Years Experience</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold mb-2">500+</p>
-              <p className="text-blue-100">Healthcare Facilities</p>
-            </div>
-            <div>
-              <p className="text-4xl font-bold mb-2">24/7</p>
-              <p className="text-blue-100">Support Available</p>
-            </div>
+            {[
+              { label: "System Uptime", value: "99.99%" },
+              { label: "Years Experience", value: "10+" },
+              { label: "Healthcare Facilities", value: "500+" },
+              { label: "Support Available", value: "24/7" },
+            ].map((item, i) => (
+              <motion.div key={i} whileHover={{ scale: 1.05 }}>
+                <p className="text-4xl font-bold mb-2">{item.value}</p>
+                <p className="text-blue-100">{item.label}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Get Started Today
-            </h2>
-            <p className="text-xl text-gray-600">
-              Transform your healthcare facility with our comprehensive
-              management system
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-xl">
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  First Name *
-                </label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Last Name *
-                </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Phone Number *
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Business Name
-              </label>
-              <input
-                type="text"
-                name="Business Name"
-                value={formData.hospitalName}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <button
-              onClick={handleSubmit}
-              className="w-full bg-blue-600 text-white py-4 rounded-lg hover:bg-blue-700 transition font-semibold text-lg flex items-center justify-center space-x-2"
-            >
-              <span>Request Free Demo</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
+      <ContactUs page="hms" />
     </div>
   );
 }

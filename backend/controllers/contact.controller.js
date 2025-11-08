@@ -28,11 +28,10 @@ exports.getAllContacts = async (req, res) => {
     const searchCondition = q
       ? {
           [Op.or]: [
-            { firstName: { [Op.like]: `%${q}%` } },
-            { lastName: { [Op.like]: `%${q}%` } },
+            { fullname: { [Op.like]: `%${q}%` } },
             { email: { [Op.like]: `%${q}%` } },
             { phone: { [Op.like]: `%${q}%` } },
-            { businessName: { [Op.like]: `%${q}%` } },
+            // { businessName: { [Op.like]: `%${q}%` } },
             { subject: { [Op.like]: `%${q}%` } },
             { pageUsed: { [Op.like]: `%${q}%` } },
           ],

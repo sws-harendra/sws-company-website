@@ -59,9 +59,6 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
     onSave(form);
   };
 
-  if (!selected) {
-    return "Loading";
-  }
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <Card>

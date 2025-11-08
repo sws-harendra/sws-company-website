@@ -12,11 +12,9 @@ const ContactUs = ({
   page = "/",
 }) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullname: "",
     email: "",
     phone: "",
-    businessName: "",
     pageUsed: page,
     subject: "",
   });
@@ -37,11 +35,9 @@ const ContactUs = ({
       await contactService.createContact(formData);
       setStatus("✅ Message sent successfully!");
       setFormData({
-        firstName: "",
-        lastName: "",
+        fullname: "",
         email: "",
         phone: "",
-        businessName: "",
         pageUsed: page,
         subject: "",
       });
@@ -55,40 +51,38 @@ const ContactUs = ({
   return (
     <section
       id="contact"
-      className={`py-20 bg-gradient-to-b ${accentColor} relative overflow-hidden`}
+      // className={`py-20 bg-gradient-to-b ${accentColor} relative overflow-hidden`}
     >
-      <div className="absolute inset-0">
+      {/* <div className="absolute inset-0">
         <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-tr from-blue-300/20 to-purple-400/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-bl from-purple-300/20 to-blue-400/20 rounded-full blur-3xl animate-pulse" />
-      </div>
+      </div> */}
 
       <div className="relative max-w-4xl mx-auto px-6 sm:px-8 lg:px-10">
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h2 className="text-4xl font-extrabold text-gray-900 mb-3">
             {title}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
-        </div>
+        </div> */}
 
         <div className="backdrop-blur-lg bg-white/60 border border-white/30 shadow-2xl rounded-2xl p-8 md:p-10 transition hover:shadow-3xl">
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
-            {["firstName", "lastName"].map((field, i) => (
-              <div key={i}>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  {field === "firstName" ? "First Name *" : "Last Name *"}
-                </label>
-                <input
-                  type="text"
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder={field === "firstName" ? "John" : "Doe"}
-                />
-              </div>
-            ))}
+          {/* Full Name */}
+          <div className="mb-6">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Full Name *
+            </label>
+            <input
+              type="text"
+              name="fullname"
+              value={formData.fullname}
+              onChange={handleInputChange}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              placeholder="John Doe"
+            />
           </div>
 
+          {/* Email & Phone */}
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             {[
               {
@@ -120,20 +114,7 @@ const ContactUs = ({
             ))}
           </div>
 
-          <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Business Name
-            </label>
-            <input
-              type="text"
-              name="businessName"
-              value={formData.businessName}
-              onChange={handleInputChange}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="Your business name"
-            />
-          </div>
-
+          {/* Subject */}
           <div className="mb-6">
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Subject
@@ -148,6 +129,7 @@ const ContactUs = ({
             />
           </div>
 
+          {/* Button */}
           <button
             disabled={loading}
             onClick={handleSubmit}

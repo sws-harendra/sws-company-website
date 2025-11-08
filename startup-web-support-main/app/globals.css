@@ -121,3 +121,31 @@
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   }
 }
+
+@layer utilities {
+  .grid-areas-gallery {
+    grid-template-areas:
+      "a b c"
+      "d b f"
+      "d e f";
+  }
+
+  .gallery-item-1 {
+    grid-area: a;
+  }
+  .gallery-item-2 {
+    grid-area: b;
+  }
+  .gallery-item-3 {
+    grid-area: c;
+  }
+  .gallery-item-4 {
+    grid-area: d;
+  }
+  .gallery-item-5 {
+    grid-area: e;
+  }
+  .gallery-item-6 {
+    grid-area: f;
+  }
+}

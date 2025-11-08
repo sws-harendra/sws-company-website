@@ -86,11 +86,11 @@ const ContactedPage = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>First Name</TableHead>
-                      <TableHead>Last Name</TableHead>
+                      <TableHead>Full Name</TableHead>
+                      {/* <TableHead>Last Name</TableHead> */}
                       <TableHead>Email</TableHead>
                       <TableHead>Phone</TableHead>
-                      <TableHead>Business Name</TableHead>
+                      {/* <TableHead>Business Name</TableHead> */}
                       <TableHead>Subject</TableHead>
                       <TableHead>Page Used for Contacting</TableHead>
                     </TableRow>
@@ -98,11 +98,11 @@ const ContactedPage = () => {
                   <TableBody>
                     {contacts.map((contact) => (
                       <TableRow key={contact.id}>
-                        <TableCell>{contact.firstName}</TableCell>
-                        <TableCell>{contact.lastName}</TableCell>
+                        <TableCell>{contact.fullname}</TableCell>
+                        {/* <TableCell>{contact.lastName}</TableCell> */}
                         <TableCell>{contact.email}</TableCell>
                         <TableCell>{contact.phone}</TableCell>
-                        <TableCell>{contact.businessName}</TableCell>
+                        {/* <TableCell>{contact.businessName}</TableCell> */}
                         <TableCell>{contact.subject}</TableCell>
                         <TableCell>{contact.pageUsed}</TableCell>
                       </TableRow>

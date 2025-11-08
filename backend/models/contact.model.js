@@ -1,12 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const Contact = sequelize.define("Contact", {
-    firstName: {
+    fullname: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -14,10 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: { isEmail: true },
     },
     phone: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    businessName: {
       type: DataTypes.STRING,
       allowNull: true,
     },

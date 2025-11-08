@@ -261,6 +261,16 @@ exports.downloadInvoicePDF = async (req, res) => {
 
     // 3️⃣ Prepare Data for Template
     // 3️⃣ Prepare Data for Template
+    // Read logo and embed as base64 so Puppeteer can render without external requests
+    const logoPath = path.join(__dirname, "..", "public", "sws-logo.png");
+    let logoSrc = "";
+    try {
+      const logoBuf = fs.readFileSync(logoPath);
+      const b64 = logoBuf.toString("base64");
+      logoSrc = `data:image/png;base64,${b64}`;
+    } catch (e) {
+      console.warn("Invoice logo not found at:", logoPath);
+    }
     const totalAmount =
       invoice.services?.reduce(
         (sum, s) => sum + parseFloat(s.amount || 0),
@@ -269,15 +279,15 @@ exports.downloadInvoicePDF = async (req, res) => {
 
     const totalReceived =
       invoice.payments?.reduce(
-        (sum, p) => sum + parseFloat(p.amount || 0),
+        (sum, p) => sum + parseFloat(p.receivedAmount || 0),
         0
       ) || 0;
 
-    const dueAmount = totalAmount - totalReceived;
     const gstPercent = parseFloat(invoice.gst) || 0;
     const gstAmount = (totalAmount * gstPercent) / 100;
     const grandTotal =
       totalAmount + gstAmount - (parseFloat(invoice.discount) || 0);
+    const dueAmount = grandTotal - totalReceived;
 
     // ✅ Register Helpers
     handlebars.registerHelper("inc", (value) => parseInt(value) + 1);
@@ -316,6 +326,7 @@ exports.downloadInvoicePDF = async (req, res) => {
         ifsc_code: invoice.details?.find((d) => d.ifsc)?.ifsc || "",
         gst: gstPercent,
         discount: parseFloat(invoice.discount) || 0,
+        logoSrc,
 
         // ✅ Added computed values
         total_amount: totalAmount.toFixed(2),
@@ -337,11 +348,18 @@ exports.downloadInvoicePDF = async (req, res) => {
     const html = compiledTemplate(data);
 
     // 5️⃣ Generate PDF with Puppeteer
+    // const browser = await puppeteer.launch({
+    //   headless: true,
+    //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    // });
+
     const browser = await puppeteer.launch({
-      headless: true,
+      executablePath: "/usr/bin/chromium-browser",
+      headless: "new",
+
+      // headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
-
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "load" });
 

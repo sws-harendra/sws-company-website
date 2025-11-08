@@ -24,6 +24,7 @@ app.use(
 app.use(express.json());
 
 app.use(morgan("dev")); // Shows :method :url :status :response-time ms
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

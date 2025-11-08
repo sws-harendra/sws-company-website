@@ -172,7 +172,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
           {form.payments.map((p, i) => (
             <div key={i} className="grid grid-cols-3 gap-2">
               <Input
-                placeholder="Mode (e.g. UPI)"
+                placeholder="Mode (e.g. UPI or bank_transfer or cash or cheque or other)"
                 value={p.modeOfPayment}
                 onChange={(e) =>
                   handleArrayChange(

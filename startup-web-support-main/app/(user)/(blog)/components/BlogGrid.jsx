@@ -73,7 +73,7 @@ export default function BlogGrid() {
                 variants={itemVariants}
               >
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={`/${post.slug}`}
                   className="block aspect-video overflow-hidden"
                 >
                   <img
@@ -94,13 +94,13 @@ export default function BlogGrid() {
                     </span>
                   </div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-sky-600 transition-colors">
-                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                    <Link href={`/${post.slug}`}>{post.title}</Link>
                   </h3>
                   <p className="text-gray-600 text-sm leading-relaxed flex-grow mb-5">
                     {post.short_description || "No description available."}
                   </p>
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`/${post.slug}`}
                     className="inline-flex items-center text-sky-600 font-semibold mt-auto group-hover:text-sky-700"
                   >
                     Read More &rarr;

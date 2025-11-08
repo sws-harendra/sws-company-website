@@ -20,7 +20,7 @@ const blogService = {
   },
 
   update: async (id, data) => {
-    const res = await axios.put(`${API_URL}/${id}`, data);
+    const res = await axios.put(`${API_URL}/blogs/${id}`, data);
     return res.data;
   },
 

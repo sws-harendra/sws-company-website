@@ -31,12 +31,12 @@ export default function HMSLandingPage() {
   const [activeModule, setActiveModule] = useState("dashboard");
 
   const images = [
-    { src: "/finance.png", caption: "Beautiful sunset" },
-    { src: "/mobile-app.jpg", caption: "Ferris wheel view" },
-    { src: "/partnership.jpg", caption: "Mountain sunrise" },
-    { src: "/pvt-ltd.jpg", caption: "Flower bouquet" },
-    { src: "/trust.png", caption: "Calm lake" },
-    { src: "/web.jpg", caption: "Chair on the beach" },
+    { src: "/hms/dashboard-web.png", caption: "Dashboard Management" },
+    { src: "/hms/bed-dashboard.png", caption: "Bed Management" },
+    { src: "/hms/dashboard.png", caption: "Dashboard" },
+    { src: "/hms/opd-management.png", caption: "OPD" },
+    { src: "/hms/patient.png", caption: "Patient Management" },
+    { src: "/hms/bed-management.png", caption: "Chair on the beach" },
   ];
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },

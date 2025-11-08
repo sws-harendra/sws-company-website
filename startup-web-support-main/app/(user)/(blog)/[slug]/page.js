@@ -72,7 +72,7 @@ export default async function BlogPostPage({ params }) {
               width={800}
               height={500}
               className="w-full h-auto object-cover"
-              priority
+              // priority
             />
           </div>
         )}

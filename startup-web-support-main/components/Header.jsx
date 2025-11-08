@@ -159,12 +159,12 @@ const dropdownLinksConfig = [
     ),
     links: [
       {
-        href: "/products/hospital-management-system",
+        href: "/hospital-management-system",
         title: "Hospital Management System",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/products/ecommerce-website",
+        href: "/ecommerce-website",
         title: "Ecommerce",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
@@ -174,7 +174,7 @@ const dropdownLinksConfig = [
       //   icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       // },
       {
-        href: "/products/cab-booking-app",
+        href: "/cab-booking-app",
         title: "Ride Booking Application",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },

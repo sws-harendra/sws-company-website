@@ -36,7 +36,7 @@ export default function HMSLandingPage() {
     { src: "/hms/dashboard.png", caption: "Dashboard" },
     { src: "/hms/opd-management.png", caption: "OPD" },
     { src: "/hms/patient.png", caption: "Patient Management" },
-    { src: "/hms/bed-management.png", caption: "Chair on the beach" },
+    { src: "/hms/bed-management.png", caption: "Bed Management" },
   ];
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },

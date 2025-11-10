@@ -13,7 +13,8 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
       gstNumber: "",
       address: "",
       email: "",
-      discount: 0,
+      gst: "",
+      discount: "",
       services: [{ description: "", amount: "", hsnCode: "" }],
       payments: [{ modeOfPayment: "", receivedAmount: "", paymentDate: "" }],
       details: [
@@ -89,6 +90,12 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
               onChange={handleChange}
             />
             <Input
+              name="gst"
+              placeholder="GST percentage"
+              value={form.gst}
+              onChange={handleChange}
+            />
+            <Input
               name="email"
               placeholder="Email"
               value={form.email}
@@ -99,14 +106,14 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
               placeholder="Address"
               value={form.address}
               onChange={handleChange}
+            />{" "}
+            <Input
+              name="discount"
+              placeholder="Discount"
+              value={form.discount}
+              onChange={handleChange}
             />
           </div>
-          <Input
-            name="discount"
-            placeholder="Discount"
-            value={form.discount}
-            onChange={handleChange}
-          />
         </CardContent>
       </Card>
 
@@ -171,8 +178,8 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
           </div>
           {form.payments.map((p, i) => (
             <div key={i} className="grid grid-cols-3 gap-2">
-              <Input
-                placeholder="Mode (e.g. UPI or bank_transfer or cash or cheque or other)"
+              <select
+                className="border border-gray-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 value={p.modeOfPayment}
                 onChange={(e) =>
                   handleArrayChange(
@@ -182,7 +189,15 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
                     e.target.value
                   )
                 }
-              />
+              >
+                <option value="">Select Payment Mode</option>
+                <option value="UPI">UPI</option>
+                <option value="bank_transfer">Bank Transfer</option>
+                <option value="cash">Cash</option>
+                <option value="cheque">Cheque</option>
+                <option value="other">Other</option>
+              </select>
+
               <Input
                 placeholder="Received Amount"
                 type="number"

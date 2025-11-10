@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     email: { type: DataTypes.STRING },
     gstNumber: { type: DataTypes.STRING },
     address: { type: DataTypes.TEXT },
-    gst: { type: DataTypes.INTEGER },
+    gst: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 18 },
     discount: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.0 },
     totalAmount: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.0 },
     totalReceived: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0.0 },

@@ -31,6 +31,7 @@ exports.createInvoice = async (req, res) => {
       address,
       discount,
       services,
+      gst,
       payments,
       details,
     } = req.body;
@@ -55,6 +56,7 @@ exports.createInvoice = async (req, res) => {
         email,
         address,
         discount,
+        gst,
         totalAmount,
         totalReceived,
         dueAmount,
@@ -106,7 +108,7 @@ exports.updateInvoice = async (req, res) => {
       version: invoice.version,
     });
 
-    const { services, payments, details, discount } = req.body;
+    const { services, payments, details, discount, gst } = req.body;
     const totalAmount =
       services.reduce((sum, s) => sum + parseFloat(s.amount || 0), 0) -
       parseFloat(discount || 0);
@@ -354,10 +356,10 @@ exports.downloadInvoicePDF = async (req, res) => {
     // });
 
     const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/chromium-browser",
-      headless: "new",
+      // executablePath: "/usr/bin/chromium-browser",
+      // headless: "new",
 
-      // headless: true,
+      headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();

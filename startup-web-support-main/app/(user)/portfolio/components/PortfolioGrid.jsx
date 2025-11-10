@@ -174,7 +174,7 @@ const PortfolioGrid = () => {
             <motion.div
               key={project.id}
               className="group cursor-pointer rounded-2xl bg-white shadow-lg border border-gray-200/60 overflow-hidden flex flex-col h-full transition-all duration-500 transform hover:shadow-2xl hover:-translate-y-3"
-              variants={itemVariants}
+              // variants={itemVariants}
               whileHover={{
                 scale: 1.02,
                 transition: { type: "spring", stiffness: 300, damping: 20 },

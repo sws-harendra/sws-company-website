@@ -39,6 +39,11 @@ app.use("/api/our-clients", require("./routes/ourClients.routes"));
 app.use("/api/portfolio", require("./routes/portfolio.routes"));
 app.use("/api/contacts", require("./routes/contact.routes"));
 app.use("/api/invoices", require("./routes/invoice.route"));
+app.use("/api/testimonials", require("./routes/testimonial.route"));
+
+app.use("/api/auth", require("./routes/auth.routes"));
+app.use("/api/roles", require("./routes/role.routes"));
+app.use("/api/permissions", require("./routes/permission.routes"));
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {

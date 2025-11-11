@@ -148,6 +148,7 @@ export default function InvoicesPage() {
       )}
 
       {/* History Modal */}
+      {/* History Modal */}
       {historyData && (
         <ReusableModal
           title={`Invoice History: ${historyData.code}`}
@@ -158,22 +159,44 @@ export default function InvoicesPage() {
           }}
         >
           <div className="p-4 space-y-3">
-            {historyData.histories.map((h, i) => (
-              <div key={i} className="border rounded-lg p-3 bg-gray-50 text-sm">
-                <p>
-                  <strong>Date:</strong>{" "}
-                  {new Date(h.createdAt).toLocaleString()}
-                </p>
-                <p>
-                  <strong>Total:</strong> ₹{h.totalAmount} |{" "}
-                  <strong>Received:</strong> ₹{h.totalReceived} |{" "}
-                  <strong>Due:</strong> ₹{h.dueAmount}
-                </p>
-                <p className="text-gray-600">
-                  <strong>Version ID:</strong> {h.id}
-                </p>
-              </div>
-            ))}
+            {historyData.histories.map((h, i) => {
+              const snap = h.snapshot || {};
+              return (
+                <div
+                  key={i}
+                  className="border rounded-lg p-3 bg-gray-50 text-sm"
+                >
+                  <p>
+                    <strong>Date:</strong>{" "}
+                    {new Date(h.createdAt).toLocaleString()}
+                  </p>
+                  <p>
+                    <strong>Version:</strong> {h.version}
+                  </p>
+                  <p>
+                    <strong>Total:</strong> ₹{snap.totalAmount} |{" "}
+                    <strong>Received:</strong> ₹{snap.totalReceived} |{" "}
+                    <strong>Due:</strong> ₹{snap.dueAmount}
+                  </p>
+                  <p className="text-gray-600">
+                    <strong>Customer:</strong> {snap.name} ({snap.companyName})
+                  </p>
+                  <p className="text-gray-600">
+                    <strong>GST:</strong> {snap.gstNumber || "—"}
+                  </p>
+                  <div className="mt-2">
+                    <strong>Services:</strong>
+                    <ul className="list-disc pl-5 text-gray-700">
+                      {snap.services?.map((s, idx) => (
+                        <li key={idx}>
+                          {s.description} — ₹{s.amount}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </ReusableModal>
       )}

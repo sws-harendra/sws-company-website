@@ -22,17 +22,17 @@ const sidebarLinks = [
     href: "/admin/portfolio",
     icon: <PiComputerTowerFill />,
   },
-  { label: "Products", href: "/admin/final-cta", icon: <MdCallToAction /> },
+  // { label: "Products", href: "/admin/final-cta", icon: <MdCallToAction /> },
   { label: "Admin Users", href: "/admin/users", icon: <User2 /> },
   { label: "Roles", href: "/admin/role", icon: <FaCriticalRole /> },
   // { label: "Permissions", href: "/admin/permission", icon: <MdCallToAction /> },
   { label: "Contacts", href: "/admin/contacted", icon: <MdCallToAction /> },
   { label: "Testimonial", href: "/admin/testimonial", icon: <MdReviews /> },
-  {
-    label: "Career Management",
-    href: "/admin/career-management",
-    icon: <MdCallToAction />,
-  },
+  // {
+  //   label: "Career Management",
+  //   href: "/admin/career-management",
+  //   icon: <MdCallToAction />,
+  // },
   {
     label: "Profile",
     href: "/admin/profile",
@@ -102,7 +102,7 @@ const Sidebar = () => {
         <hr className="border-gray-200 my-2" />
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto">
+        <nav className="flex-1 overflow-x-hidden overflow-y-auto">
           {Object.entries(groupedLinks).map(([section, links]) => (
             <div key={section}>
               {section !== "Main" && (

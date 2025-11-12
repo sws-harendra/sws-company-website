@@ -25,7 +25,13 @@ const blogService = {
   },
 
   remove: async (id) => {
-    const res = await axios.delete(`${API_URL}/${id}`);
+    const res = await axios.delete(`${API_URL}/blogs/${id}`);
+    return res.data;
+  },
+  setFeatured: async (id, featuredBlogIds) => {
+    const res = await axios.post(`${API_URL}/blogs/${id}/featured`, {
+      featuredBlogIds,
+    });
     return res.data;
   },
 };

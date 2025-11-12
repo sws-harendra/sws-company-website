@@ -34,10 +34,23 @@ exports.getAllBlogs = async (req, res) => {
 // GET SINGLE
 exports.getBlogBySlug = async (req, res) => {
   try {
-    const blog = await Blog.findOne({ where: { slug: req.params.slug } });
+    const blog = await Blog.findOne({
+      where: { slug: req.params.slug },
+      include: [
+        {
+          model: Blog,
+          as: "FeaturedBlogs",
+          attributes: ["id", "title", "short_description", "image_url", "slug"],
+          through: { attributes: [] }, // hides join table data
+        },
+      ],
+    });
+
     if (!blog) return res.status(404).json({ message: "Blog not found" });
+
     res.json(blog);
   } catch (err) {
+    console.error("Error fetching blog:", err);
     res.status(500).json({ message: err.message });
   }
 };
@@ -65,5 +78,20 @@ exports.deleteBlog = async (req, res) => {
     res.json({ message: "Blog deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+exports.featuredBlogs = async (req, res) => {
+  try {
+    const { featuredBlogIds } = req.body; // array of blog IDs
+    const blog = await Blog.findByPk(req.params.id);
+
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    await blog.setFeaturedBlogs(featuredBlogIds || []);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update featured blogs" });
   }
 };

@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import blogService from "@/services/blog.service";
 import CommonServices from "@/services/common.service";
 import { toast } from "sonner";
+import { Switch } from "@/components/ui/switch";
 
 const RichTextEditor = dynamic(
   () => import("@/app/admin/components/RichTextEditor"),
@@ -23,7 +24,24 @@ export default function BlogForm({ selected, onSuccess }) {
     image_url: "",
     author: "",
     status: "draft",
+    contactus: false,
   });
+  const [allBlogs, setAllBlogs] = useState([]);
+  const [featuredBlogIds, setFeaturedBlogIds] = useState([]);
+
+  useEffect(() => {
+    const fetchAllBlogs = async () => {
+      const blogs = await blogService.getAll();
+      setAllBlogs(blogs);
+    };
+    fetchAllBlogs();
+  }, []);
+
+  useEffect(() => {
+    if (selected?.FeaturedBlogs) {
+      setFeaturedBlogIds(selected.FeaturedBlogs.map((b) => b.id));
+    }
+  }, [selected]);
 
   const [preview, setPreview] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -66,14 +84,26 @@ export default function BlogForm({ selected, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      let blog;
+
       if (selected) {
-        await blogService.update(selected.id, formData);
+        blog = await blogService.update(selected.id, formData);
       } else {
-        await blogService.create(formData);
+        blog = await blogService.create(formData);
       }
-      onSuccess();
+
+      console.log("Saved Blog:", blog);
+      console.log("Selected featuredBlogIds:", featuredBlogIds);
+
+      // ✅ Save featured blogs if any selected
+      if (featuredBlogIds.length) {
+        await blogService.setFeatured(blog.id || selected.id, featuredBlogIds);
+      }
+
+      toast.success("Blog saved successfully!");
+      // onSuccess();
     } catch (err) {
-      toast("Event has been created.");
+      toast.error("Error saving blog");
       console.error("Error saving blog:", err);
     }
   };
@@ -158,6 +188,46 @@ export default function BlogForm({ selected, onSuccess }) {
             </Button>
           )}
         </div>
+      </div>
+      {/* Contact Us Toggle */}
+      <div className="flex items-center justify-between border p-3 rounded-md">
+        <div>
+          <Label>Show in Contact Us</Label>
+          <p className="text-sm text-gray-500">
+            Enable this if you want contact Us form below this blog.
+          </p>
+        </div>
+        <Switch
+          checked={formData.contactus}
+          onCheckedChange={(checked) =>
+            setFormData((prev) => ({ ...prev, contactus: checked }))
+          }
+        />
+      </div>
+      <div>
+        <Label>Featured Blogs</Label>
+        <select
+          multiple
+          value={featuredBlogIds}
+          onChange={(e) => {
+            const values = Array.from(e.target.selectedOptions, (o) =>
+              Number(o.value)
+            );
+            setFeaturedBlogIds(values);
+          }}
+          className="border rounded-md p-2 w-full h-32"
+        >
+          {allBlogs
+            .filter((b) => b.id !== selected?.id) // don’t feature itself
+            .map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.title}
+              </option>
+            ))}
+        </select>
+        <p className="text-xs text-gray-500">
+          Hold Ctrl/Cmd to select multiple featured blogs
+        </p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">

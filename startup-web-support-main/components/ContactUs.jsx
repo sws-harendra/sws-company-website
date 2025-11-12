@@ -10,6 +10,7 @@ const ContactUs = ({
   primaryColor = "from-blue-600 to-[#0197DD]",
   accentColor = "from-blue-50 to-purple-50",
   page = "/",
+  showTitle = false,
 }) => {
   const [formData, setFormData] = useState({
     fullname: "",
@@ -59,13 +60,16 @@ const ContactUs = ({
       </div> */}
 
       <div className="relative max-w-4xl mx-auto px-6 sm:px-8 lg:px-10">
-        {/* <div className="text-center mb-12">
-          <h2 className="text-4xl font-extrabold text-gray-900 mb-3">
-            {title}
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
-        </div> */}
-
+        {showTitle && (
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-3">
+              {title}
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {subtitle}
+            </p>
+          </div>
+        )}
         <div className="backdrop-blur-lg bg-white/60 border border-white/30 shadow-2xl rounded-2xl p-8 md:p-10 transition hover:shadow-3xl">
           {/* Full Name */}
           <div className="mb-6">

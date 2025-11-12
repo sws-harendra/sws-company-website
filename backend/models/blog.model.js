@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     author: {
       type: DataTypes.STRING,
     },
+    contactus: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
     published_at: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -31,6 +35,16 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: "draft",
     },
   });
+
+  // 🔗 Self-referential many-to-many relation
+  Blog.associate = (models) => {
+    Blog.belongsToMany(models.Blog, {
+      as: "FeaturedBlogs",
+      through: "FeaturedBlogRelations",
+      foreignKey: "blogId",
+      otherKey: "featuredBlogId",
+    });
+  };
 
   return Blog;
 };

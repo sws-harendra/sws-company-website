@@ -311,7 +311,7 @@ exports.downloadInvoicePDF = async (req, res) => {
         company_name: invoice.companyName,
         number: invoice.number,
         address: invoice.address,
-        gst_client: invoice.gst,
+        gst_client: invoice.details?.find((d) => d.gstNumber)?.gstNumber || "",
         description: invoice.services?.map((s) => s.description) || [],
         hsn: invoice.services?.map((s) => s.hsnCode) || [],
         amount: invoice.services?.map((s) => s.amount) || [],
@@ -356,10 +356,10 @@ exports.downloadInvoicePDF = async (req, res) => {
     // });
 
     const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/chromium-browser",
-      headless: "new",
+      // executablePath: "/usr/bin/chromium-browser",
+      // headless: "new",
 
-      // headless: true,
+      headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();

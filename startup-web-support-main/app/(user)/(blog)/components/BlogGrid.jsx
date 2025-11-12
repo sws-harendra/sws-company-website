@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import blogService from "@/services/blog.service"; // ✅ use your existing service
+import { slugify } from "@/lib/sluggify";
 
 export default function BlogGrid() {
   const [posts, setPosts] = useState([]);

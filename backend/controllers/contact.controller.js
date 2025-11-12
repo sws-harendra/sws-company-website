@@ -19,28 +19,41 @@ exports.getAllContacts = async (req, res) => {
       q = "",
       sortBy = "createdAt",
       order = "DESC",
+      startDate,
+      endDate,
     } = req.query;
 
     const offset = (page - 1) * limit;
-
-    // Build search conditions (case-insensitive)
     const { Op } = require("sequelize");
+
+    // Search condition
     const searchCondition = q
       ? {
           [Op.or]: [
             { fullname: { [Op.like]: `%${q}%` } },
             { email: { [Op.like]: `%${q}%` } },
             { phone: { [Op.like]: `%${q}%` } },
-            // { businessName: { [Op.like]: `%${q}%` } },
             { subject: { [Op.like]: `%${q}%` } },
             { pageUsed: { [Op.like]: `%${q}%` } },
           ],
         }
       : {};
 
-    // Fetch paginated + searched contacts
+    // Date filter (if provided)
+    const dateCondition =
+      startDate && endDate
+        ? {
+            createdAt: {
+              [Op.between]: [new Date(startDate), new Date(endDate)],
+            },
+          }
+        : {};
+
+    // Combine filters
+    const where = { ...searchCondition, ...dateCondition };
+
     const { count, rows } = await Contact.findAndCountAll({
-      where: searchCondition,
+      where,
       order: [[sortBy, order.toUpperCase()]],
       limit: parseInt(limit),
       offset: parseInt(offset),

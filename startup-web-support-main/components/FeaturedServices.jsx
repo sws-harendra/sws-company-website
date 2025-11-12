@@ -8,15 +8,26 @@ import {
   headerTextVariants,
   imageVariants,
 } from "./GlobalCss";
-import { Webhook } from "lucide-react";
 import { IoBrowsers } from "react-icons/io5";
 
 const servicesData = [
   {
-    image: "it-solution.png",
-    title: "IT Solutions",
+    image: "website-development.png",
+    title: "Website Development",
     description:
-      "We provide cutting-edge IT solutions tailored to optimize your business operations and enhance productivity.",
+      "We craft responsive, high-performing websites that enhance your brand presence and deliver exceptional user experiences.",
+  },
+  {
+    image: "app-development.png",
+    title: "App Development",
+    description:
+      "We design and develop scalable mobile and web applications tailored to your business needs with modern technologies.",
+  },
+  {
+    image: "ecommerce-website.png",
+    title: "E-Commerce Website",
+    description:
+      "We build secure and user-friendly e-commerce websites that boost your online sales, streamline inventory, and deliver seamless shopping experiences.",
   },
   {
     image: "marketing.png",
@@ -40,11 +51,12 @@ const servicesData = [
 
 const FeaturedServices = () => {
   return (
-    <section className="py-20 bg-white font-sans">
-      <div className="absolute ">
-        <IoBrowsers className="absolute left-8 size-17" />
-      </div>
-      <div className="container mx-auto px-4 max-w-7xl">
+    <section className="relative py-20 bg-white font-sans overflow-hidden">
+      {/* Decorative background circle */}
+      {/* Outer colored gradient circle */}
+      <div className="absolute right-[-19%] top-1/2 -translate-y-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200  opacity-40" />
+      {/* Solid color ring */}
+      <div className="container mx-auto px-4 max-w-7xl relative z-10">
         <div className="text-center mb-16">
           <motion.h2
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
@@ -69,51 +81,47 @@ const FeaturedServices = () => {
         </div>
 
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2   lg:grid-cols-4 gap-8"
           variants={gridContainerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.2 }}
         >
-          {servicesData.map((service, index) => {
-            return (
+          {servicesData.map((service, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 1.1 }}
+              className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col"
+              variants={cardVariants}
+            >
               <motion.div
-                key={index}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 1.1 }}
-                className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col"
-                variants={cardVariants}
+                className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
+                variants={imageVariants}
               >
-                <motion.div
-                  className={`w-16 h-16 rounded-full flex items-center justify-center mb-6`}
-                  variants={imageVariants}
-                >
-                  <motion.img
-                    initial={{ rotate: [0] }}
-                    whileHover={bellShakeAnimation}
-                    whileTap={bellShakeAnimation}
-                    src={service.image}
-                    alt={service.title}
-                    className="w-15 h-15 object-contain"
-                  />
-                </motion.div>
-
-                <motion.div
-                  className="text-left"
-                  variants={cardContentVariants}
-                >
-                  <h3 className="text-2xl font-semibold text-gray-800 mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed text-base">
-                    {service.description}
-                  </p>
-                </motion.div>
+                <motion.img
+                  initial={{ rotate: [0] }}
+                  whileHover={bellShakeAnimation}
+                  whileTap={bellShakeAnimation}
+                  src={service.image}
+                  alt={service.title}
+                  className="w-15 h-15 object-contain"
+                />
               </motion.div>
-            );
-          })}
+
+              <motion.div className="text-left" variants={cardContentVariants}>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed text-base">
+                  {service.description}
+                </p>
+              </motion.div>
+            </motion.div>
+          ))}
         </motion.div>
-      </div>
+      </div>{" "}
+      <div className="absolute left-[0%] top-1/2 -translate-y-3/2 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200  opacity-40" />
     </section>
   );
 };

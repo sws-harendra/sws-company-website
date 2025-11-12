@@ -206,8 +206,8 @@ const PortfolioGrid = () => {
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <span>View Project</span>
-                    <IoArrowForward className="ml-2 transition-transform duration-300 group-hover/link:translate-x-1" />
+                    <span className="text-center">View Project</span>
+                    {/* <IoArrowForward className="ml-2 transition-transform duration-300 group-hover/link:translate-x-1" /> */}
                   </Link>
                 )}
               </div>

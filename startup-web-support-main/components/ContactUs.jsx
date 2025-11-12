@@ -105,6 +105,7 @@ const ContactUs = ({
       {showConfetti && <Confetti width={width} height={height} />}
 
       <div className="relative max-w-4xl mx-auto px-6 sm:px-8 lg:px-10">
+        {" "}
         {showTitle && (
           <motion.div
             className="text-center mb-12"
@@ -120,7 +121,6 @@ const ContactUs = ({
             </p>
           </motion.div>
         )}
-
         <motion.div
           variants={containerVariants}
           initial="hidden"

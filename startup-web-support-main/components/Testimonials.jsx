@@ -114,23 +114,26 @@ const Testimonials = () => {
             >
               {testimonials.map((testimonial, index) => (
                 <SwiperSlide key={index}>
-                  <div className="bg-white rounded-xl shadow-md p-8 h-[350px] flex flex-col justify-between">
+                  <div className="bg-white rounded-xl shadow-md p-8 min-h-[250px] flex flex-col justify-between">
                     <FaQuoteLeft className="text-3xl text-blue-200 mb-4" />
-                    <p className="text-gray-600 italic leading-relaxed mb-6 flex-grow">
+                    <p className="text-gray-600 italic leading-relaxed mb-3">
                       "{testimonial.text || testimonial.quote}"
                     </p>
+
                     <div className="flex items-center mt-auto border-t border-gray-100 pt-5">
-                      <img
-                        src={
-                          testimonial.avatar ||
-                          "https://api.dicebear.com/7.x/initials/svg?seed=" +
-                            encodeURIComponent(
-                              testimonial.client_name || testimonial.name
-                            )
-                        }
-                        alt={testimonial.client_name || testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover mr-4"
-                      />
+                      <div
+                        className="w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold mr-4"
+                        style={{
+                          backgroundColor: testimonial.bgColor || "#3b82f6", // fallback to blue
+                        }}
+                      >
+                        {(testimonial.client_name || testimonial.name || "")
+                          .split(" ")
+                          .map((word) => word[0])
+                          .join("")
+                          .toUpperCase()}
+                      </div>
+
                       <div>
                         <h4 className="font-bold text-gray-800 text-md">
                           {testimonial.client_name || testimonial.name}

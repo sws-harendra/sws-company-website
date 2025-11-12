@@ -9,8 +9,18 @@ const contactService = {
     q = "",
     sortBy = "createdAt",
     order = "DESC",
+    startDate,
+    endDate,
   } = {}) {
-    const params = new URLSearchParams({ page, limit, q, sortBy, order });
+    const params = new URLSearchParams({
+      page,
+      limit,
+      q,
+      sortBy,
+      order,
+      startDate,
+      endDate,
+    });
     const res = await fetch(`${API_URL}/contacts?${params}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },

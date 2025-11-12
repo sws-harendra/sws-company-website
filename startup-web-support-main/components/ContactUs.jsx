@@ -91,7 +91,7 @@ const ContactUs = ({
       });
       // 🎉 Stop confetti after 3 seconds
       setTimeout(() => setShowConfetti(false), 5000);
-      onClose();
+      // onClose();
     } catch (err) {
       setStatus("❌ Failed to send message. Please try again.");
     } finally {

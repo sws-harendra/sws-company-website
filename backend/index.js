@@ -44,6 +44,7 @@ app.use("/api/testimonials", require("./routes/testimonial.route"));
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/roles", require("./routes/role.routes"));
 app.use("/api/permissions", require("./routes/permission.routes"));
+app.use("/api/teams", require("./routes/team.route"));
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {

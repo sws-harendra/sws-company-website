@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 
 export default function ReusableModal({
   title,
-  triggerLabel = "Open Modal",
+  triggerLabel = "",
   children,
   open: controlledOpen,
   onOpenChange,

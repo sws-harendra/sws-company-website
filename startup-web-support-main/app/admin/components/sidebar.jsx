@@ -27,6 +27,8 @@ const sidebarLinks = [
   { label: "Roles", href: "/admin/role", icon: <FaCriticalRole /> },
   // { label: "Permissions", href: "/admin/permission", icon: <MdCallToAction /> },
   { label: "Contacts", href: "/admin/contacted", icon: <MdCallToAction /> },
+  { label: "Our Teams", href: "/admin/ourteam", icon: <MdCallToAction /> },
+
   { label: "Testimonial", href: "/admin/testimonial", icon: <MdReviews /> },
   // {
   //   label: "Career Management",

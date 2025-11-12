@@ -118,7 +118,7 @@ export default function HeroSlider() {
               {slide.button1_title && (
                 <Link
                   href={slide.button1_url || "#"}
-                  className="bg-sky-600 hover:bg-sky-700 text-white font-semibold md:py-3 md:px-8 px-3 py-2 rounded-full shadow-lg transition-all duration-300"
+                  className="bg-primary-brand-color hover:bg-sky-700 text-white font-semibold md:py-3 md:px-8 px-3 py-2 rounded-full shadow-lg transition-all duration-300"
                 >
                   {slide.button1_title}
                 </Link>

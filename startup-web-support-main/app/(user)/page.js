@@ -13,6 +13,7 @@ const page = () => {
   return (
     <div className="overflow-hidden">
       {/* <Hero /> */}
+
       <Call />
       <WhatsAppButton />
       <HeroSlider />

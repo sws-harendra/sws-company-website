@@ -1,7 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import contactService from "@/services/contact.service";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
+import { motion } from "framer-motion";
 
 const ContactUs = ({
   title = "Get Started Today",
@@ -11,6 +14,9 @@ const ContactUs = ({
   accentColor = "from-blue-50 to-purple-50",
   page = "/",
   showTitle = false,
+  background = "bg-white/60",
+  showClose = false, // 🔹 Show close button when true
+  onClose, // 🔹 Close handler
 }) => {
   const [formData, setFormData] = useState({
     fullname: "",
@@ -19,9 +25,49 @@ const ContactUs = ({
     pageUsed: page,
     subject: "",
   });
-
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [showConfetti, setShowConfetti] = useState(false); // 🎉 control confetti
+  const { width, height } = useWindowSize();
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0, x: 100 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, x: 30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,10 +77,11 @@ const ContactUs = ({
   const handleSubmit = async () => {
     setLoading(true);
     setStatus("");
-
+    setShowConfetti(false);
     try {
       await contactService.createContact(formData);
       setStatus("✅ Message sent successfully!");
+      setShowConfetti(true); // 🎉 trigger confetti
       setFormData({
         fullname: "",
         email: "",
@@ -42,6 +89,9 @@ const ContactUs = ({
         pageUsed: page,
         subject: "",
       });
+      // 🎉 Stop confetti after 3 seconds
+      setTimeout(() => setShowConfetti(false), 5000);
+      onClose();
     } catch (err) {
       setStatus("❌ Failed to send message. Please try again.");
     } finally {
@@ -50,29 +100,49 @@ const ContactUs = ({
   };
 
   return (
-    <section
-      id="contact"
-      // className={`py-20 bg-gradient-to-b ${accentColor} relative overflow-hidden`}
-    >
-      {/* <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-tr from-blue-300/20 to-purple-400/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-bl from-purple-300/20 to-blue-400/20 rounded-full blur-3xl animate-pulse" />
-      </div> */}
+    <section id="contact" className="relative">
+      {/* 🎊 Confetti layer */}
+      {showConfetti && <Confetti width={width} height={height} />}
 
       <div className="relative max-w-4xl mx-auto px-6 sm:px-8 lg:px-10">
         {showTitle && (
-          <div className="text-center mb-12">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <h2 className="text-4xl font-extrabold text-gray-900 mb-3">
               {title}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {subtitle}
             </p>
-          </div>
+          </motion.div>
         )}
-        <div className="backdrop-blur-lg bg-white/60 border border-white/30 shadow-2xl rounded-2xl p-8 md:p-10 transition hover:shadow-3xl">
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className={`backdrop-blur-lg ${background} border border-white/30 shadow-2xl rounded-2xl p-8 md:p-10 transition hover:shadow-3xl relative`}
+        >
+          {/* 🔹 Close button only shows when showClose = true */}
+          {showClose && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+              onClick={onClose}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
+              aria-label="Close contact form"
+            >
+              <X className="w-5 h-5" />
+            </motion.button>
+          )}
+
           {/* Full Name */}
-          <div className="mb-6">
+          <motion.div variants={itemVariants} className="mb-6">
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Full Name *
             </label>
@@ -84,7 +154,7 @@ const ContactUs = ({
               className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="John Doe"
             />
-          </div>
+          </motion.div>
 
           {/* Email & Phone */}
           <div className="grid md:grid-cols-2 gap-6 mb-6">
@@ -99,10 +169,14 @@ const ContactUs = ({
                 name: "phone",
                 label: "Phone *",
                 type: "tel",
-                placeholder: "+1 234 567 890",
+                placeholder: "+91 234 567 890",
               },
             ].map((field, i) => (
-              <div key={i}>
+              <motion.div
+                key={i}
+                variants={itemVariants}
+                transition={{ delay: i * 0.1 }}
+              >
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   {field.label}
                 </label>
@@ -114,12 +188,12 @@ const ContactUs = ({
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder={field.placeholder}
                 />
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Subject */}
-          <div className="mb-6">
+          <motion.div variants={itemVariants} className="mb-6">
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Subject
             </label>
@@ -131,10 +205,11 @@ const ContactUs = ({
               className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="How can we help?"
             />
-          </div>
+          </motion.div>
 
-          {/* Button */}
-          <button
+          {/* Submit Button */}
+          <motion.button
+            variants={buttonVariants}
             disabled={loading}
             onClick={handleSubmit}
             className={`w-full py-4 rounded-xl text-white font-semibold text-lg flex items-center justify-center space-x-2 shadow-lg hover:shadow-2xl transition-all bg-gradient-to-r ${primaryColor}`}
@@ -147,14 +222,18 @@ const ContactUs = ({
                 <ArrowRight className="w-5 h-5" />
               </>
             )}
-          </button>
+          </motion.button>
 
           {status && (
-            <p className="text-center mt-4 text-sm font-medium text-gray-700">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center mt-4 text-sm font-medium text-gray-700"
+            >
               {status}
-            </p>
+            </motion.p>
           )}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

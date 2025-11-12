@@ -356,10 +356,10 @@ exports.downloadInvoicePDF = async (req, res) => {
     // });
 
     const browser = await puppeteer.launch({
-      // executablePath: "/usr/bin/chromium-browser",
-      // headless: "new",
+      executablePath: "/usr/bin/chromium-browser",
+      headless: "new",
 
-      headless: true,
+      // headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();

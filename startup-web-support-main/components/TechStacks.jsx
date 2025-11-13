@@ -3,6 +3,11 @@ import React from "react";
 export default function TechStack() {
   const technologies = [
     {
+      name: "Php",
+      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+      color: "from-purple-400 to-purple-500",
+    },
+    {
       name: "React",
       logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
       color: "from-cyan-400 to-blue-500",
@@ -17,11 +22,7 @@ export default function TechStack() {
       logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
       color: "from-green-600 to-teal-600",
     },
-    {
-      name: "TypeScript",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-      color: "from-blue-600 to-blue-700",
-    },
+
     {
       name: "Next.js",
       logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
@@ -44,9 +45,9 @@ export default function TechStack() {
       color: "from-orange-500 to-orange-600",
     },
     {
-      name: "Hostinger",
-      logo: "H",
-      color: "from-orange-500 to-yellow-600",
+      name: "Mysql",
+      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+      color: "from-blue-500 to-blue-600",
     },
   ];
 
@@ -56,7 +57,7 @@ export default function TechStack() {
         {/* Left Side - Text Content */}
         <div className="space-y-6 text-gray-900">
           <div className="inline-block">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-600 text-sm font-semibold tracking-widest uppercase">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-brand-color to-secondary-brand-color sm:text-xl  text-sm font-semibold tracking-widest uppercase">
               Technology Stack
             </span>
             <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-blue-600 mt-2 rounded-full"></div>
@@ -69,7 +70,7 @@ export default function TechStack() {
             </span>
           </h1>
 
-          <p className="text-lg text-gray-600 leading-relaxed">
+          <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
             We leverage cutting-edge technologies to build scalable, performant,
             and maintainable applications. Our tech stack is carefully curated
             to deliver exceptional user experiences and robust backend

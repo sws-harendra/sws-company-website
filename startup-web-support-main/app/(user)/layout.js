@@ -3,6 +3,8 @@ import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactFormModal from "@/components/PopupContactus";
+import Call from "@/components/call";
+import WhatsAppButton from "@/components/whatsapp";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,6 +24,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <div>
+      <Call />
+      <WhatsAppButton />
       <Header />
       <ContactFormModal />
       {children}

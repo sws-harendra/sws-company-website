@@ -136,7 +136,23 @@ const PortfolioGrid = () => {
   }, []);
 
   return (
-    <section className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-24 font-sans">
+    <section className="relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-24 font-sans">
+      <div className="absolute left-[-10%] top-[-1%] flex items-center justify-center w-72 h-72">
+        {/* Glowing outer gradient ring */}
+        <div className="absolute w-96 h-96 opacity-10 rounded-full border-[10px] border-transparent bg-primary-brand-color p-[2px]">
+          {/* <div className="w-full h-full rounded-full bg-white"></div> */}
+        </div>
+
+        {/* Inner circle (white cut-out) */}
+        <div className="absolute w-4 h-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 rounded-full"></div>
+      </div>
+      <div className="absolute right-[-19%] top-2/4 -translate-y-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200  opacity-40" />
+
+      {/* <div className="absolute right-[-10%] top-[-4%] flex items-center justify-center w-72 h-72">
+        <div className="absolute w-72 h-72 opacity-46 rounded-full border-[10px] border-transparent bg-primary-brand-color p-[2px]"></div>
+
+        <div className="absolute w-52 h-52 bg-white rounded-full"></div>
+      </div> */}
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Section Header */}
         <motion.div
@@ -252,7 +268,6 @@ const PortfolioGrid = () => {
           )}
         </div>
       </div>
-
       {/* Image Zoom Modal */}
       <AnimatePresence>
         {selectedProject && (

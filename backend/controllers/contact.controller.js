@@ -1,3 +1,4 @@
+const sendMail = require("../helpers/mailService");
 const db = require("../models");
 const Contact = db.Contact;
 
@@ -5,6 +6,17 @@ const Contact = db.Contact;
 exports.createContact = async (req, res) => {
   try {
     const contact = await Contact.create(req.body);
+    sendMail(
+      process.env.ADMIN_EMAIL,
+      "New Contact Us Submission",
+      "newContact",
+      {
+        name: req.body.fullname,
+        email: req.body.email,
+        // message: req.body.message,
+        // phone: req.body.phone || "N/A",
+      }
+    );
     res.status(201).json(contact);
   } catch (error) {
     res.status(500).json({ message: error.message });

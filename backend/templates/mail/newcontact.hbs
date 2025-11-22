@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>New Contact Submission</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px 20px;
+        min-height: 100vh;
+      }
+      .email-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .alert-badge {
+        background: #ff6b6b;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 50px;
+        display: inline-block;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      .container { 
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px 30px;
+        text-align: center;
+        position: relative;
+      }
+      .header::before {
+        content: '🔔';
+        font-size: 60px;
+        display: block;
+        margin-bottom: 15px;
+        animation: swing 1s ease-in-out infinite;
+      }
+      @keyframes swing {
+        0%, 100% { transform: rotate(-10deg); }
+        50% { transform: rotate(10deg); }
+      }
+      .header h1 {
+        color: #ffffff;
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+      }
+      .content {
+        padding: 40px 30px;
+      }
+      .info-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 20%);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-left: 5px solid #667eea;
+      }
+      .info-row {
+        margin-bottom: 20px;
+      }
+      .info-row:last-child {
+        margin-bottom: 0;
+      }
+      .label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #667eea;
+        font-weight: 700;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .value {
+        font-size: 16px;
+        color: #2c3e50;
+        font-weight: 500;
+      }
+      .message-box {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        border: 2px dashed #667eea;
+        margin-top: 20px;
+      }
+      .message-box .label {
+        color: #764ba2;
+      }
+      .message-text {
+        color: #34495e;
+        line-height: 1.8;
+        font-size: 15px;
+        margin-top: 10px;
+      }
+      .footer {
+        background: #f8f9fa;
+        padding: 25px 30px;
+        text-align: center;
+        color: #7f8c8d;
+        font-size: 13px;
+      }
+      .action-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 14px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: transform 0.2s;
+      }
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+      .timestamp {
+        text-align: right;
+        color: #95a5a6;
+        font-size: 12px;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <div style="text-align: center;">
+        <span class="alert-badge">⚡ New Contact Alert</span>
+      </div>
+      
+      <div class="container">
+        <div class="header">
+          <h1>New Contact Form Submission</h1>
+        </div>
+        
+        <div class="content">
+          <div class="info-card">
+            <div class="info-row">
+              <span class="label">👤 Full Name</span>
+              <div class="value">{{name}}</div>
+            </div>
+            
+            <div class="info-row">
+              <span class="label">📧 Email Address</span>
+              <div class="value">{{email}}</div>
+            </div>
+          </div>
+          
+
+          
+          
+        </div>
+        
+        <div class="footer">
+          This is an automated notification from your contact form system.<br>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

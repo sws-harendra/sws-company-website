@@ -10,6 +10,7 @@ import {
 } from "react-icons/io5";
 import Link from "next/link";
 import portfolioService from "@/services/portfolio.service";
+import Image from "next/image";
 
 const PortfolioGrid = () => {
   const [projects, setProjects] = useState([]);
@@ -183,7 +184,7 @@ const PortfolioGrid = () => {
           viewport={{ once: true, amount: 0.1 }}
         >
           {projects.map((project, index) => (
-            <Link href={project.redirect_url}>
+            <Link href={project.redirect_url} key={project.id}>
               <motion.div
                 key={project.id}
                 className="group cursor-pointer rounded-2xl bg-white shadow-lg border border-gray-200/60 overflow-hidden flex flex-col h-full transition-all duration-500 transform hover:shadow-2xl hover:-translate-y-3"
@@ -199,7 +200,9 @@ const PortfolioGrid = () => {
                 onClick={() => openModal(project)}
               >
                 <div className="aspect-video overflow-hidden relative">
-                  <img
+                  <Image
+                    fill
+                    loading="lazy"
                     src={project.image_url}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

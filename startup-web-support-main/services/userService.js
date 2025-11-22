@@ -34,6 +34,9 @@ export const UserService = {
     return localStorage.getItem("token");
   },
 
+  removeToken() {
+    return localStorage.removeItem("token");
+  },
   getUserDetailLoggedin: async () => {
     const { data } = await api.post("/auth/userdetail");
     return data;

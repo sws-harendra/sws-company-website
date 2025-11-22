@@ -10,6 +10,7 @@ import { IoCreate } from "react-icons/io5";
 import { MdCallToAction, MdReviews } from "react-icons/md";
 import { FaCriticalRole } from "react-icons/fa";
 import { CheckLine, User2 } from "lucide-react";
+import { useAuth } from "../(main)/context/AuthContext";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin/dashboard", icon: <LayoutDashboard /> },
@@ -35,12 +36,12 @@ const sidebarLinks = [
   //   href: "/admin/career-management",
   //   icon: <MdCallToAction />,
   // },
-  {
-    label: "Profile",
-    href: "/admin/profile",
-    icon: <User />,
-    section: "Account Pages",
-  },
+  // {
+  //   label: "Profile",
+  //   href: "/admin/profile",
+  //   icon: <User />,
+  //   section: "Account Pages",
+  // },
   {
     label: "Sign Out",
     href: "#",
@@ -63,8 +64,32 @@ const Sidebar = () => {
     localStorage.removeItem("user");
     router.push("/admin/login");
   };
+  const { user } = useAuth();
+  const userPermissions = user?.permissions || [];
+  // console.log("User Permissions in Sidebar:", userPermissions);
+  const filteredLinks = sidebarLinks.filter((link) => {
+    // Optional: you can map link to required permission
+    const permissionMap = {
+      Blogs: "view_blog",
+      Invoices: "view_invoices",
+      Portfolio: "view_portfolio_item",
+      "Our Clients": "view_clients",
+      "Hero Section": "view_hero_section",
+      "Our Teams": "view_our_team",
+      "Admin Users": "manage_users",
+      Roles: "manage_roles",
 
-  const groupedLinks = sidebarLinks.reduce((acc, link) => {
+      Testimonial: "view_testimonials",
+      Contacts: "view_contact",
+      // Add more mappings here
+    };
+
+    const requiredPermission = permissionMap[link.label];
+    return !requiredPermission || userPermissions.includes(requiredPermission);
+  });
+
+  // Then group filteredLinks instead of sidebarLinks
+  const groupedLinks = filteredLinks.reduce((acc, link) => {
     const section = link.section || "Main";
     if (!acc[section]) acc[section] = [];
     acc[section].push(link);

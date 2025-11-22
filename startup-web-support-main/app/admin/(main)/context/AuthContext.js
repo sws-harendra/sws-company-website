@@ -19,20 +19,22 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
         UserService.logout();
         router.push("/admin/login");
-
         return;
       }
 
       const res = await UserService.getUserDetailLoggedin();
+
       if (res.status === 401) {
-        // Token is invalid, clear it
         UserService.removeToken();
         setUser(null);
-      } else {
-        setUser(res.data?.user || res.data || null);
+        router.push("/admin/login");
+        return;
       }
+
+      // ✅ Correctly set user
+      setUser(res.user || null);
     } catch (error) {
-      console.error("Auth fetch error:", error);
+      // console.error("Auth fetch error:", error);
       UserService.removeToken();
       setUser(null);
     } finally {

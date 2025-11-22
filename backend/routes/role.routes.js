@@ -9,6 +9,12 @@ router.post(
   hasPermission("create_role"),
   controller.createRole
 );
+router.get(
+  "/",
+  authenticated,
+  // hasPermission("create_role"),
+  controller.getAllRoles
+);
 router.post(
   "/assign",
   authenticated,

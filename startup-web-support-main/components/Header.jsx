@@ -211,7 +211,7 @@ const otherLinks = [
     icon: <Briefcase className="h-4 w-4 text-sky-600" />,
   },
   {
-    href: "/contact",
+    href: "/contact-us",
     label: "Contact Us",
     icon: <Phone className="h-4 w-4 text-sky-600" />,
   },

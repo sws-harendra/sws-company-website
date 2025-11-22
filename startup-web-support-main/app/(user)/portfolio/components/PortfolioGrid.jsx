@@ -87,7 +87,7 @@ const PortfolioGrid = () => {
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-      const data = await portfolioService.getAll({ page, limit: 6 });
+      const data = await portfolioService.getAll({ page, limit: 15 });
       if (data?.portfolios?.length) {
         setProjects((prev) => {
           const existingIds = new Set(prev.map((p) => p.id));
@@ -103,7 +103,7 @@ const PortfolioGrid = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, hasMore, loading]);
+  }, [page]);
 
   useEffect(() => {
     fetchPortfolios();
@@ -249,7 +249,7 @@ const PortfolioGrid = () => {
           {!loading && hasMore && (
             <motion.button
               onClick={handleLoadMore}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
+              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

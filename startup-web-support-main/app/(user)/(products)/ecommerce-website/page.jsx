@@ -11,7 +11,6 @@ import {
   Settings,
   ArrowRight,
 } from "lucide-react";
-import Contact from "../../contact/components/Contact";
 import ContactUs from "@/components/ContactUs";
 
 const EcommerceProductPage = ({

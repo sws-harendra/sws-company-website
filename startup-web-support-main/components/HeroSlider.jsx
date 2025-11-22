@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import bannerService from "@/services/banner.service";
+import Image from "next/image";
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -71,15 +72,16 @@ export default function HeroSlider() {
         <motion.div
           key={slide.id}
           className="absolute inset-0 w-full h-full"
-          initial={{ opacity: 0, scale: 1.1 }}
+          initial={{ opacity: 0.8, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.1 }}
+          exit={{ opacity: 0.6, scale: 0.9 }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
         >
-          <img
+          <Image
+            fill
             src={slide.image_url}
             alt={slide.title}
-            className="object-cover w-full h-full brightness-50"
+            className="object-fill w-full h-full brightness-50"
           />
         </motion.div>
       </AnimatePresence>

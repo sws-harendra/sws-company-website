@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
         <div className="px-6 py-3">
           <Sidebar />
         </div>
-        <main className="flex-1 px-1 py-3">{children}</main>
+        <main className="flex-1 px-1 py-3 overflow-x-auto">{children}</main>
       </div>
       {/* </ProtectedRoute> */}
     </AuthProvider>

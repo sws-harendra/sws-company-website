@@ -8,6 +8,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Edit, Trash } from "lucide-react";
 
 export default function BannerCard({ banner, onEdit, onDelete }) {
   return (
@@ -44,14 +45,14 @@ export default function BannerCard({ banner, onEdit, onDelete }) {
         </div>
         <div className="flex gap-2">
           <Button size="sm" variant="outline" onClick={() => onEdit(banner)}>
-            Edit
+            <Edit />
           </Button>
           <Button
             size="sm"
             variant="destructive"
             onClick={() => onDelete(banner.id)}
           >
-            Delete
+            <Trash color="white" />
           </Button>
         </div>
       </CardFooter>

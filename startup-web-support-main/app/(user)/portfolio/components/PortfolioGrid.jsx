@@ -183,35 +183,40 @@ const PortfolioGrid = () => {
           viewport={{ once: true, amount: 0.1 }}
         >
           {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              className="group cursor-pointer rounded-2xl bg-white shadow-lg border border-gray-200/60 overflow-hidden flex flex-col h-full transition-all duration-500 transform hover:shadow-2xl hover:-translate-y-3"
-              // variants={itemVariants}
-              whileHover={{
-                scale: 1.02,
-                transition: { type: "spring", stiffness: 300, damping: 20 },
-              }}
-              onClick={() => openModal(project)}
-            >
-              <div className="aspect-video overflow-hidden relative">
-                <img
-                  src={project.image_url}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
+            <Link href={project.redirect_url}>
+              <motion.div
+                key={project.id}
+                className="group cursor-pointer rounded-2xl bg-white shadow-lg border border-gray-200/60 overflow-hidden flex flex-col h-full transition-all duration-500 transform hover:shadow-2xl hover:-translate-y-3"
+                // variants={itemVariants}
+                whileHover={{
+                  scale: 1.02,
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20,
+                  },
+                }}
+                onClick={() => openModal(project)}
+              >
+                <div className="aspect-video overflow-hidden relative">
+                  <img
+                    src={project.image_url}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
 
-              <div className="z-20 flex flex-col flex-grow px-6 pt-2 bg-white">
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors duration-300">
-                  {project.title}
-                </h3>
-                {project.description && (
-                  <p className="text-gray-600 text-base leading-relaxed flex-grow mb-6 line-clamp-3">
-                    {project.description}
-                  </p>
-                )}
-                {project.redirect_url && (
+                <div className="z-20 flex flex-col flex-grow px-6 pt-2 bg-white">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  {project.description && (
+                    <p className="text-gray-600 text-base leading-relaxed flex-grow mb-6 line-clamp-3">
+                      {project.description}
+                    </p>
+                  )}
+                  {/* {project.redirect_url && (
                   <Link
                     href={project.redirect_url}
                     className="inline-flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 group/link shadow-lg hover:shadow-xl"
@@ -219,11 +224,11 @@ const PortfolioGrid = () => {
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span className="text-center">View Project</span>
-                    {/* <IoArrowForward className="ml-2 transition-transform duration-300 group-hover/link:translate-x-1" /> */}
                   </Link>
-                )}
-              </div>
-            </motion.div>
+                )} */}
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </motion.div>
 

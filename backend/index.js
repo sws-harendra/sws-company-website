@@ -6,7 +6,11 @@ const cors = require("cors");
 // require("./config/db");
 
 const app = express();
-const allowedOrigins = ["http://localhost:3000", process.env.CLIENT_URL];
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URL1,
+];
 
 app.use(
   cors({

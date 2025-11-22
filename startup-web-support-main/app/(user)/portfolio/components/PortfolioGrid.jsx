@@ -136,17 +136,13 @@ const PortfolioGrid = () => {
   }, []);
 
   return (
-    <section className="relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-24 font-sans">
-      <div className="absolute left-[-10%] top-[-1%] flex items-center justify-center w-72 h-72">
-        {/* Glowing outer gradient ring */}
-        <div className="absolute w-96 h-96 opacity-10 rounded-full border-[10px] border-transparent bg-primary-brand-color p-[2px]">
-          {/* <div className="w-full h-full rounded-full bg-white"></div> */}
-        </div>
+    <section className="overflow-x-hidden z-20 relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-24 font-sans">
+      <div className="z-0 absolute left-[-10%] top-[-1%] flex items-center justify-center w-72 h-72">
+        <div className="absolute w-96 h-96 opacity-10 rounded-full border-[10px] border-transparent bg-primary-brand-color p-[2px]"></div>
 
-        {/* Inner circle (white cut-out) */}
         <div className="absolute w-4 h-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 rounded-full"></div>
       </div>
-      <div className="absolute right-[-19%] top-2/4 -translate-y-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200  opacity-40" />
+      <div className="z-0 absolute right-[-19%] top-2/4 -translate-y-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200  opacity-40" />
 
       {/* <div className="absolute right-[-10%] top-[-4%] flex items-center justify-center w-72 h-72">
         <div className="absolute w-72 h-72 opacity-46 rounded-full border-[10px] border-transparent bg-primary-brand-color p-[2px]"></div>
@@ -206,7 +202,7 @@ const PortfolioGrid = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
-              <div className="flex flex-col flex-grow px-6 pt-2 bg-white">
+              <div className="z-20 flex flex-col flex-grow px-6 pt-2 bg-white">
                 <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors duration-300">
                   {project.title}
                 </h3>

@@ -191,12 +191,12 @@ const dropdownLinksConfig = [
 ];
 const otherLinks = [
   {
-    href: "/legal",
+    href: "/tax-return-filling",
     label: "Legal",
     icon: <Scale className="h-4 w-4 text-sky-600" />,
   },
   {
-    href: "/about",
+    href: "/about-us",
     label: "About Us",
     icon: <Users className="h-4 w-4 text-sky-600" />,
   },

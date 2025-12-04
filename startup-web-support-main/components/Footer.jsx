@@ -71,10 +71,10 @@ const Footer = () => {
                         &copy; {currentYear} Startup Web Support. All Rights Reserved.
                     </p>
                     <div className="flex space-x-4">
-                        <Link href="#" className="text-slate-400 hover:text-white transition-colors"><Facebook /></Link>
-                        <Link href="#" className="text-slate-400 hover:text-white transition-colors"><Twitter /></Link>
-                        <Link href="#" className="text-slate-400 hover:text-white transition-colors"><Linkedin /></Link>
-                        <Link href="#" className="text-slate-400 hover:text-white transition-colors"><Instagram /></Link>
+                        <Link href="https://www.facebook.com/startupwebsupport/" className="text-slate-400 hover:text-white transition-colors"><Facebook /></Link>
+                        {/* <Link href="#" className="text-slate-400 hover:text-white transition-colors"><Twitter /></Link> */}
+                        <Link href="https://www.linkedin.com/company/startupwebsupport/" className="text-slate-400 hover:text-white transition-colors"><Linkedin /></Link>
+                        <Link href="https://www.instagram.com/startup_web_support/" className="text-slate-400 hover:text-white transition-colors"><Instagram /></Link>
                     </div>
                 </div>
             </div>

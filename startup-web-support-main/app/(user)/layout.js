@@ -19,6 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Softwere Devlopment Company in Patna | Startup Web Support",
   description: "Softwere Devlopment Company",
+  keywords:"it company in patna, software company in patna, digital marketing agency in patna, web development in patna , website company in patna, India , top 5 company in patna , best company in patna ,top 5 mobile app development company in patna, software development, web development, mobile app development, custom software solutions, e-commerce development, digital marketing, SEO services, IT consulting",
 };
 
 export default function RootLayout({ children }) {

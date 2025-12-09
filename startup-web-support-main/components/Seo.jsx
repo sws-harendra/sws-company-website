@@ -2,7 +2,7 @@ import Head from "next/head";
 
 export default function Seo({ title, description, canonical, image }) {
     return (
-        <Head>
+        <>
             {/* Title */}
             <title>{title}</title>
 
@@ -45,6 +45,6 @@ export default function Seo({ title, description, canonical, image }) {
                 }}
             />
 
-        </Head>
+        </>
     );
 }

@@ -156,25 +156,20 @@ const Footer = () => {
           </p>
           <div className="flex space-x-4">
             <Link
-              href="#"
+              href="https://www.facebook.com/startupwebsupport/"
               className="text-slate-400 hover:text-white transition-colors"
             >
               <Facebook />
             </Link>
+            {/* <Link href="#" className="text-slate-400 hover:text-white transition-colors"><Twitter /></Link> */}
             <Link
-              href="#"
-              className="text-slate-400 hover:text-white transition-colors"
-            >
-              <Twitter />
-            </Link>
-            <Link
-              href="#"
+              href="https://www.linkedin.com/company/startupwebsupport/"
               className="text-slate-400 hover:text-white transition-colors"
             >
               <Linkedin />
             </Link>
             <Link
-              href="#"
+              href="https://www.instagram.com/startup_web_support/"
               className="text-slate-400 hover:text-white transition-colors"
             >
               <Instagram />

@@ -55,11 +55,11 @@ const ClientsScroller = () => {
           variants={headerTextVariants}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-            Few of our clients who trust us
+            Clients who trust us with their digital growth
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            This team not only took the time to explain key concepts to us but
-            acted as true partners through the entire process.
+            Our team does not only explain concepts clearly , but also provides the latest cutting 
+            edge technology throughout the project and proper support after that.
           </p>
         </motion.div>
 

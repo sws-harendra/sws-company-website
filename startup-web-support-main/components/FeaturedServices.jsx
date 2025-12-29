@@ -15,37 +15,37 @@ const servicesData = [
     image: "website-development.png",
     title: "Website Development",
     description:
-      "We craft responsive, high-performing websites that enhance your brand presence and deliver exceptional user experiences.",
+      "As a reliable web development company in Bihar, Startup Web Support provides custom web development services which are quick and responsive. We aim at boosting conversions which helps our clients create a strong digital presence for their business.",
   },
   {
     image: "app-development.png",
     title: "App Development",
     description:
-      "We design and develop scalable mobile and web applications tailored to your business needs with modern technologies.",
+      "We are a mobile app development company in India and a reliable app development agency. We build safe,secure and scalable mobile and web applications tailored to meet client’s business needs.",
   },
   {
     image: "ecommerce-website.png",
     title: "E-Commerce Website",
     description:
-      "We build secure and user-friendly e-commerce websites that boost your online sales, streamline inventory, and deliver seamless shopping experiences.",
+      "Our software development company creates fast e-commerce platforms. We offer secure payment gateway, efficient inventory management, and smooth user experiences.",
   },
   {
     image: "marketing.png",
     title: "Marketing Solutions",
     description:
-      "Our marketing strategies are designed to boost your brand visibility and drive targeted growth.",
+      "As a digital marketing agency in Patna, we help businesses grow through SEO(search engine optimization), paid advertising, and performance marketing strategies.",
   },
   {
     image: "ads.png",
     title: "Premium Advertising",
     description:
-      "Reach your ideal audience with our premium advertising solutions, crafted for maximum impact.",
+      "We have a specialized team which analyse the demand and gives best advertising solutions that helps our clients connect with the right audience and Boost their sales through data- driven campaign ",
   },
   {
     image: "design.png",
     title: "Designing Solutions",
     description:
-      "Transform your ideas into stunning visuals with our innovative and creative design solutions.",
+      "We make effective UI/UX and attractive designs that increases  branding and user engagement across platforms.",
   },
 ];
 
@@ -75,8 +75,9 @@ const FeaturedServices = () => {
             viewport={{ once: false, amount: 0.2 }}
             transition={{ delay: 0.2 }}
           >
-            We provide services that help in expanding your business worldwide,
-            whether you are a start-up or big enterprise.
+            We are an IT company in Patna that delivers strong digital solutions to help people to grow their
+            businesses globally. As one of the best IT companies in Patna, we help startups and larger businesses
+            with technology that can scale, help them with new ideas and new strategies aiming for our client’s growth.
           </motion.p>
         </div>
 

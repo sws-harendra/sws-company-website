@@ -8,17 +8,17 @@ const serviceItems = [
     {
         image: 'marketing.png', // Placeholder image
         title: 'Accounting and Financial Solutions',
-        description: 'We offer robust accounting and financial services to streamline your business operations, ensuring accuracy and compliance with the latest regulations.',
+        description: 'Our safe,dependable and fast accounting software makes financial tasks easier. It also ensures that the calculations are correct and they follow the regulations by governing authorities..',
     },
     {
         image: 'it-solution.png', // Placeholder image
         title: 'Web Solutions',
-        description: 'Our web solutions encompass responsive design, development, and SEO optimization, creating a powerful online presence tailored to your brand\'s needs.',
+        description: 'We focus on custom web development services for each client according to their needs. We create responsive websites, web portals, and high-quality softwares that improve your online presence.',
     },
     {
         image: 'app-dev.png', // Placeholder image
         title: 'App Development',
-        description: 'From concept to launch, we build custom mobile applications that are intuitive, scalable, and designed to enhance user engagement and business growth.',
+        description: 'As a reliable mobile app development company, we create user-friendly and scalable mobile applications that improve user engagement and business performance.',
     },
 ];
 
@@ -56,6 +56,9 @@ const ServiceFeatures = () => {
                         environment. We have the knowledge and experience to optimize your business
                         processes and help you reach your objectives, from automation and data analysis to{' '}
                         <strong className="text-blue-600 font-semibold">web design and marketing</strong>.
+                        As a software development company, we focus on growth and help businesses reach their full 
+                        digital potential. We offer web application development solutions, along with automation, 
+                        analytics, and digital marketing. Our technology improves efficiency and speeds up growth and boosts the ROI.
                     </motion.p>
                 </motion.div>
 

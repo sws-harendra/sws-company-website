@@ -170,8 +170,8 @@ const PortfolioGrid = () => {
             Our Recent Work
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Explore the innovative solutions and stunning designs we've crafted
-            for our clients across various industries.
+            Explore the latest solutions delivered by our web application development company, 
+            developed by our skilled and experienced development team.
           </p>
         </motion.div>
 

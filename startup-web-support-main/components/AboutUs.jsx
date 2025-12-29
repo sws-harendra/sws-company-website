@@ -82,7 +82,11 @@ const AboutUs = () => {
               delivering innovative and customized technology solutions
               that drive your business forward. With us, you can experience
               seamless integration and exceptional support for all your IT
-              needs.
+              needs.We are the best software company in Patna that offers complete IT 
+              solutions, including Website development , cloud services, and security. 
+              Startup Web Support is Known as one of the best IT companies in Patna, our 
+              skilled team provides new, tailored, and flexible technology solutions that 
+              promote everlasting success for our clients business.
             </motion.p>
 
             <motion.div variants={textItemVariants} className="mt-8">

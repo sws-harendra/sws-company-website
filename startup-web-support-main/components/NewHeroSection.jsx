@@ -7,18 +7,22 @@ const texts = [
   {
     title: "We Build Websites That Grow Your Business",
     desc: "Startup Web Support creates fast, modern, and scalable websites designed to convert visitors into customers.",
+    img: "/website_hero.jpg",
   },
   {
     title: "Mobile Apps That Power Your Startup",
     desc: "From idea to launch, we develop high-performance Android apps that users love.",
+    img: "/app_hero.jpg",
   },
   {
     title: "Digital Marketing That Brings Real Leads",
     desc: "SEO, Google Ads, and social media strategies focused on ROI, not just traffic.",
+    img: "/seo_hero.jpg",
   },
   {
     title: "One Partner for Web, App & Marketing",
     desc: "Everything your business needs online — development, branding, and growth support.",
+    img: "/combined_hero.jpg",
   },
 ];
 
@@ -123,7 +127,7 @@ const NewHeroSection = () => {
               transition={{ duration: 0.8 }}
             >
               <img
-                src="/hero_image.jpg"
+                src={texts[index].img}
                 alt="Professional workspace"
                 className="w-full h-auto rounded-xl sm:rounded-2xl shadow-xl"
               />

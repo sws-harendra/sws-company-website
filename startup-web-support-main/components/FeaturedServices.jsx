@@ -8,7 +8,7 @@ import {
   headerTextVariants,
   imageVariants,
 } from "./GlobalCss";
-import { IoBrowsers } from "react-icons/io5";
+import { useState } from "react";
 
 const servicesData = [
   {
@@ -21,7 +21,7 @@ const servicesData = [
     image: "app-development.png",
     title: "App Development",
     description:
-      "We are a mobile app development company in India and a reliable app development agency. We build safe,secure and scalable mobile and web applications tailored to meet client’s business needs.",
+      "We are a mobile app development company in India and a reliable app development agency. We build safe, secure and scalable mobile and web applications tailored to meet client’s business needs.",
   },
   {
     image: "ecommerce-website.png",
@@ -33,96 +33,122 @@ const servicesData = [
     image: "marketing.png",
     title: "Marketing Solutions",
     description:
-      "As a digital marketing agency in Patna, we help businesses grow through SEO(search engine optimization), paid advertising, and performance marketing strategies.",
+      "As a digital marketing agency in Patna, we help businesses grow through SEO (search engine optimization), paid advertising, and performance marketing strategies.",
   },
   {
     image: "ads.png",
     title: "Premium Advertising",
     description:
-      "We have a specialized team which analyse the demand and gives best advertising solutions that helps our clients connect with the right audience and Boost their sales through data- driven campaign ",
+      "We have a specialized team which analyse the demand and gives best advertising solutions that helps our clients connect with the right audience and boost their sales through data-driven campaigns.",
   },
   {
     image: "design.png",
     title: "Designing Solutions",
     description:
-      "We make effective UI/UX and attractive designs that increases  branding and user engagement across platforms.",
+      "We make effective UI/UX and attractive designs that increase branding and user engagement across platforms.",
   },
 ];
 
 const FeaturedServices = () => {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
   return (
-    <section className="relative py-20 bg-white font-sans overflow-hidden">
-      {/* Decorative background circle */}
-      {/* Outer colored gradient circle */}
-      <div className="absolute right-[-19%] top-1/2 -translate-y-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200  opacity-40" />
-      {/* Solid color ring */}
+    <section className="relative py-20 bg-white overflow-hidden">
+      {/* Background Circles */}
+      <div className="absolute right-[-20%] top-1/3 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200 opacity-40" />
+      <div className="absolute left-[-20%] bottom-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200 opacity-40" />
+
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
+        {/* Heading */}
         <div className="text-center mb-16">
           <motion.h2
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
             variants={headerTextVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true }}
           >
             Our Featured Services
           </motion.h2>
+
           <motion.p
-            className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg text-gray-600 max-w-3xl mx-auto"
             variants={headerTextVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            We are an IT company in Patna that delivers strong digital solutions to help people to grow their
-            businesses globally. As one of the best IT companies in Patna, we help startups and larger businesses
-            with technology that can scale, help them with new ideas and new strategies aiming for our client’s growth.
+            We are an IT company in Patna that delivers powerful digital solutions
+            to help businesses grow globally with scalable and innovative
+            technology.
           </motion.p>
         </div>
 
+        {/* Services Grid */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2   lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
           variants={gridContainerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true }}
         >
           {servicesData.map((service, index) => (
             <motion.div
               key={index}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 1.1 }}
-              className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col"
+              layout
+              whileHover={{ scale: 1.03 }}
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col"
               variants={cardVariants}
             >
+              {/* Icon */}
               <motion.div
-                className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
+                className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
                 variants={imageVariants}
               >
                 <motion.img
-                  initial={{ rotate: [0] }}
-                  whileHover={bellShakeAnimation}
-                  whileTap={bellShakeAnimation}
                   src={service.image}
                   alt={service.title}
-                  className="w-15 h-15 object-contain"
+                  className="w-14 h-14 object-contain"
+                  whileHover={bellShakeAnimation}
                 />
               </motion.div>
 
-              <motion.div className="text-left" variants={cardContentVariants}>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+              {/* Content */}
+              <motion.div
+                layout
+                className="flex flex-col flex-grow text-left"
+                variants={cardContentVariants}
+              >
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed text-base">
+
+                <p
+                  className={`text-gray-600 text-sm leading-relaxed transition-all duration-300
+                    ${expandedIndex === index ? "" : "line-clamp-4"}
+                  `}
+                >
                   {service.description}
                 </p>
+
+                {service.description.length > 120 && (
+                  <button
+                    onClick={() =>
+                      setExpandedIndex(
+                        expandedIndex === index ? null : index
+                      )
+                    }
+                    className="mt-3 text-blue-600 font-medium hover:underline self-start"
+                  >
+                    {expandedIndex === index ? "Read Less" : "Read More"}
+                  </button>
+                )}
               </motion.div>
             </motion.div>
           ))}
         </motion.div>
-      </div>{" "}
-      <div className="absolute left-[0%] top-1/2 -translate-y-3/2 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200  opacity-40" />
+      </div>
     </section>
   );
 };

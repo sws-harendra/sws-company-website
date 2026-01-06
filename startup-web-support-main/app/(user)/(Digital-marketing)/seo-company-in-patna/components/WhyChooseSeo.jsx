@@ -1,6 +1,8 @@
 "use client"
 import React from 'react';
 import { motion } from 'framer-motion';
+import SeoInfoCards from './SeoInfoCard';
+import IndustrySeoCard from './IndustryScoCard';
 
 const WhyChooseSeo = () => {
   const containerVariants = {
@@ -28,6 +30,8 @@ const WhyChooseSeo = () => {
 
   return (
     <section className="bg-white py-10 ">
+      <SeoInfoCards/ >
+      <IndustrySeoCard/>
       <div className="container mx-auto px-6 max-w-5xl"> {/* Slightly wider max-width */}
         <motion.div
           className="bg-white p-10 md:p-12 rounded-xl shadow-xl border border-gray-100"

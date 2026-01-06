@@ -74,13 +74,16 @@ const SeoCoreServices = () => {
           className="text-center mb-16"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+          viewport={{ once: true, amount: 0.2 }}>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-50 mb-4">
-            Our Comprehensive SEO Services
+            Comprehensive SEO Services Tailored for Businesses in Patna & Bihar
           </h2>
-          <p className="text-lg text-gray-50 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-gray-50  mx-auto leading-relaxed">
             We offer a full suite of SEO services designed to boost your online visibility, drive organic traffic, and achieve sustainable growth.
+            At Startup Web Support, we believe that good <b> search engine optimization</b> is not only about rankings on Google. It is about helping your 
+            business stay visible for a long time, gain trust from customers, and grow steadily. As a reliable <b>SEO company in Patna</b>, we focus on 
+            providing <b>result-driven SEO solutions</b> that suit businesses working in Patna and other parts of Bihar. We follow a clear and practical 
+            process that includes proper planning, technical improvements, and quality content, so you can see real and measurable outcomes for your business.
           </p>
         </motion.div>
 

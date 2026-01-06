@@ -1,6 +1,7 @@
 "use client"
 import React from 'react';
 import { motion } from 'framer-motion';
+import SeoIntroCard from './ScoIntroCard';
 import { 
   IoRibbonOutline, 
   IoBulbOutline, 
@@ -57,7 +58,10 @@ const WhyBestSeo = () => {
 
   return (
     // Section with a sky background
-    <section className="bg-[#1e88e5] text-white py-24 ">
+    <>
+    
+    <section className="bg-[#1e88e5] text-white py-24 mb-8">
+     
       <div className="container mx-auto px-6 max-w-7xl">
         <motion.div
           className="text-center mb-16"
@@ -106,7 +110,10 @@ const WhyBestSeo = () => {
           })}
         </motion.div>
       </div>
+       
     </section>
+    <SeoIntroCard />
+    </>
   );
 };
 

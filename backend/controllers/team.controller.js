@@ -28,7 +28,7 @@ module.exports = {
   // Get all team members
   async findAll(req, res) {
     try {
-      const teams = await Team.findAll({ order: [["id", "DESC"]] });
+      const teams = await Team.findAll({ order: [["id", "ASC"]] });
       res.json({ success: true, data: teams });
     } catch (err) {
       res.status(500).json({ success: false, message: err.message });

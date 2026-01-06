@@ -11,11 +11,11 @@ import WhatsAppButton from "@/components/whatsapp";
 import TechStack from "@/components/TechStacks";
 import PortfolioGrid from "./portfolio/components/PortfolioGrid";
 import Seo from "@/components/Seo";
+import NewHeroSection from "@/components/NewHeroSection";
 
 const page = () => {
   return (
     <>
-
       <Seo
         title="Softwere Devlopment Company in Patna | Startup Web Support"
         description="We provide website development, digital branding, and SEO services for startups."
@@ -24,10 +24,8 @@ const page = () => {
       />
       <div className="overflow-hidden">
         {/* <Hero /> */}
-
-
-
-        <HeroSlider />
+        <NewHeroSection />
+        {/* <HeroSlider /> */}
         <FeaturedServices />
         <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" />
         <AboutUs />

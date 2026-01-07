@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoChevronDown } from 'react-icons/io5';
+import WebDevelopmentSection from './WebdevelopmentSection';
 
 const webFaqData = [
   {
@@ -77,6 +78,8 @@ const WebDevFaq = () => {
   const [expanded, setExpanded] = useState(0);
 
   return (
+    <>    
+   <WebDevelopmentSection/>
     <section className="bg-white py-24 ">
       <div className="container mx-auto px-6 max-w-4xl">
         <motion.div
@@ -116,6 +119,7 @@ const WebDevFaq = () => {
         </motion.div>
       </div>
     </section>
+     </>
   );
 };
 

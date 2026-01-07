@@ -1,4 +1,4 @@
-const topCards = [
+const TopCard = [
   {
     title: "Mobile App Development Services in Patna",
     desc: `At Startup Web Support, we believe that every good app begins with a clear and honest discussion. As a trusted Mobile App Development Company in Patna, we don’t jump straight into coding. Instead, we first sit with you to understand your idea and see how your business works on a day-to-day basis. This approach allows us to provide practical mobile app development in Patna, which is shaped by real conversations, not by ready-made templates or guesswork.\n
@@ -60,4 +60,6 @@ const topCards = [
   },
 ];
 
-export default topCards;
+
+
+export default TopCard;

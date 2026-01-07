@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
+import SoftwareService from '../../software-development/components/SoftwareService';
 
 const packagesData = [
   {
@@ -73,6 +74,7 @@ const PricingPackages = () => {
   };
 
   return (
+    <>
     <section className="bg-[#1e88e5] text-white py-24 ">
       <div className="container mx-auto px-6 max-w-7xl">
         <motion.div
@@ -145,8 +147,9 @@ const PricingPackages = () => {
             </motion.div>
           ))}
         </motion.div>
-      </div>
+      </div>     
     </section>
+    </>
   );
 };
 

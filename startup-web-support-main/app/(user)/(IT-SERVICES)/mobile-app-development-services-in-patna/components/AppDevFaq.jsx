@@ -115,6 +115,7 @@ const AppDevFaq = () => {
           ))}
         </motion.div>
       </div>
+      
     </section>
   );
 };

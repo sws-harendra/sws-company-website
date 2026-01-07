@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoChevronDown } from 'react-icons/io5';
+import { Domain } from 'domain';
+import DomainHostingSection from './DomainHostingSection';
 
 const domainFaqData = [
   {
@@ -77,6 +79,8 @@ const DomainHostingFaq = () => {
   const [expanded, setExpanded] = useState(0);
 
   return (
+    <>
+    <DomainHostingSection/>   
     <section className="bg-slate-50 py-24 ">
       <div className="container mx-auto px-6 max-w-4xl">
         <motion.div
@@ -116,6 +120,7 @@ const DomainHostingFaq = () => {
         </motion.div>
       </div>
     </section>
+    </>
   );
 };
 

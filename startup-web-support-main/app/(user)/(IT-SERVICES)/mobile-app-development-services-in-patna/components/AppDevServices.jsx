@@ -7,6 +7,7 @@ import {
   Gamepad2,
   FileText,
 } from "lucide-react";
+import TopInfoSection from "@/components/ui/TopInfoSection";
 
 export default function AppDevelopmentServices() {
   const services = [
@@ -154,6 +155,7 @@ export default function AppDevelopmentServices() {
           ))}
         </div>
       </div>
+      <TopInfoSection />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import InfoCard from "./ui/InfoCard";
 import topCards from "./ui/TopCard";
 import Image from 'next/image';
+import TopInfoSection from "./ui/TopInfoSection";
 
 const industriesData = [
   { icon: "realstate.png", name: 'Real estate' },
@@ -44,25 +45,7 @@ const IndustriesSection = () => {
     <section className="bg-[#1e88e5] py-24 font-sans">
       <div className="container mx-auto px-6 max-w-7xl">
 
-  {/* ===== TOP 8 INFO CARDS ===== */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-        >
-          {topCards.map((card, index) => (
-            <InfoCard
-              key={index}
-              title={card.title}
-              desc={card.desc}
-              link={card.link}
-              variants={itemVariants}
-            />
-          ))}
-        </motion.div>
-
-        <motion.div
+          <motion.div
           className="text-center mb-16"
           initial="hidden"
           whileInView="visible"

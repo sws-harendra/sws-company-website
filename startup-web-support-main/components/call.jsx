@@ -9,7 +9,7 @@ const Call = () => {
       className="fixed right-4 bottom-6 bg-green-600 text-white px-4 py-3 rounded-full shadow-lg flex items-center gap-2 hover:bg-green-700 transition-all duration-300 z-50"
     >
       <Phone size={20} />
-      <span className="font-medium">Call</span>
+      <span className="font-bold text-white text-[17px]">Call</span>
     </Link>
   );
 };

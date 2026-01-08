@@ -17,10 +17,11 @@ const page = () => {
   return (
     <>
       <Seo
-        title="Softwere Devlopment Company in Patna | Startup Web Support"
-        description="We provide website development, digital branding, and SEO services for startups."
+        title="Software Devlopment Company in Patna & IT Company in Patna"
+        description="We provide website development, digital branding, and SEO services for startups,helping small businesses build a strong online presence and grow their business."
         canonical="https://startupwebsupport.com/"
         image="sws-logo.png"
+        keywords="We provide website development, digital branding, and SEO services for startups,helping small businesses build a strong online presence and grow their business."
       />
       <div className="overflow-hidden">
         {/* <Hero /> */}

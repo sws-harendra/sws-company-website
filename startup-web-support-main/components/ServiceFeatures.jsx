@@ -57,8 +57,7 @@ const ServiceFeatures = () => {
                         processes and help you reach your objectives, from automation and data analysis to{' '}
                         <strong className="text-blue-600 font-semibold">web design and marketing</strong>.
                         As a software development company, we focus on growth and help businesses reach their full 
-                        digital potential. We offer web application development solutions, along with automation, 
-                        analytics, and digital marketing. Our technology improves efficiency and speeds up growth and boosts the ROI.
+                        digital potential.
                     </motion.p>
                 </motion.div>
 

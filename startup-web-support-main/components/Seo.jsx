@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-export default function Seo({ title, description, canonical, image }) {
+export default function Seo({ title, description, canonical, image, keywords }) {
     return (
         <>
             {/* Title */}
@@ -8,6 +8,9 @@ export default function Seo({ title, description, canonical, image }) {
 
             {/* Description */}
             <meta name="description" content={description} />
+
+            {/* Keywords */}
+            <meta name="keywords" content={keywords} />
 
             {/* Canonical */}
             <link rel="canonical" href={canonical} />
@@ -29,6 +32,10 @@ export default function Seo({ title, description, canonical, image }) {
             <meta name="twitter:title" content={title} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={image} />
+            <meta name="twitter:image:alt" content={title} />
+            <meta name="twitter:site" content="@https://startupwebsupport.com/"></meta>
+            {/* <meta name="twitter:image:alt" content="Software Devlopment Company in Patna & IT Company in Patna"></meta> */}
+            
 
 
             <script

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Softwere Devlopment Company in Patna | Startup Web Support",
+  title: "Software Devlopment Company in Patna & IT Company in Patna",
   description: "Softwere Devlopment Company",
 };
 

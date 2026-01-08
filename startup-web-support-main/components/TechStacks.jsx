@@ -63,12 +63,12 @@ export default function TechStack() {
             <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-blue-600 mt-2 rounded-full"></div>
           </div>
 
-          <h1 className="text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
+          <h3 className="text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
             Powered by
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600">
               Modern Tech
             </span>
-          </h1>
+          </h3>
 
           <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
             We leverage cutting-edge technologies to build scalable, performant,

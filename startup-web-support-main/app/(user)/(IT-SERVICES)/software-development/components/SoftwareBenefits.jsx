@@ -34,6 +34,8 @@ const keyBenefits = [
   },
 ];
 
+
+
 const SoftwareBenefits = () => {
   return (
     <section className="bg-white text-gray-800 py-16 ">
@@ -68,12 +70,12 @@ const SoftwareBenefits = () => {
               Benefits
             </motion.p>
 
-            <motion.h2
+            <motion.h1
               className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6"
               variants={headerTextVariants}
             >
               Software Development Company in Patna
-            </motion.h2>
+            </motion.h1>
 
             <motion.p
               className="text-gray-600 text-lg leading-relaxed mb-8"

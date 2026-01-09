@@ -61,9 +61,9 @@ const Hero = () => {
           className="text-center mb-16"
           whileInView="visible"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">
             Digital Marketing: <span className="text-sky-600">The Future of Advertising</span>
-          </h2>
+          </h1>
           <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
             In the digital era, online visibility is crucial. At **Startup Web Support**, the leading <span className="font-semibold">Advertising & Marketing Company in Patna</span>, we cover the full spectrum – from SEO and PPC to Social Media Management, crafting personalized plans for your success.
           </p>

@@ -14,10 +14,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "Software Devlopment Company in Patna & IT Company in Patna",
-  description: "Softwere Devlopment Company",
-};
+// export const metadata = {
+//   title: "Software Devlopment Company in Patna & IT Company in Patna",
+//   description: "Softwere Devlopment Company",
+// };
 
 export default function RootLayout({ children }) {
   return (

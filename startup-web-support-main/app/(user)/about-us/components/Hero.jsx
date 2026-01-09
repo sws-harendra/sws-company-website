@@ -71,12 +71,12 @@ const WhoAreWeModern = () => {
               ABOUT US
             </motion.p>
 
-            <motion.h2
+            <motion.h1
               className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-8"
               // variants={itemVariants}
             >
               Who are we?
-            </motion.h2>
+            </motion.h1>
 
             <motion.p
               className="text-gray-700 text-lg leading-relaxed mb-6"

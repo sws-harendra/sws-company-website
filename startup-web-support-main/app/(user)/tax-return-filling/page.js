@@ -9,6 +9,11 @@ import Section8CompanySection from "./components/Section8CompanySection"
 import NidhiCompanySection from "./components/NidhiCompanySection"
 import OpcRegistrationSection from "./components/OpcRegistrationSection"
 
+const metadata = {
+  title: "Tax Return Filling | Startup Web Support",
+  description: "Expert tax return filing services ensuring accurate calculations, timely submissions, and maximum deductions for individuals and businesses across India.",
+};
+
 const page = () => {
     return (
         <div>

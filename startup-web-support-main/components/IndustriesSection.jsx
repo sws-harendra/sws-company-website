@@ -91,7 +91,7 @@ const IndustriesSection = () => {
                 <span className="font-semibold text-slate-300 group-hover:text-white transition-colors text-center text-sm">
                   <img
                     src={industry.icon} alt="industry.img" />
-                  <p>{industry.name}</p>
+                  {industry.name}
                 </span>
               </motion.div>
             );

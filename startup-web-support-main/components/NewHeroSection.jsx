@@ -90,23 +90,16 @@ const NewHeroSection = () => {
             transition={{ delay: 0.3 }}
             className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-4 justify-center lg:justify-start"
           >
-            <Link href={"/contact-us"}>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-[#009CDE] text-white font-semibold rounded-lg shadow-sm hover:bg-[#009CDE] transition-colors duration-200"
-              >
+            <Link href={"/contact-us"}                 
+                className="w-full sm:w-auto hover:scale-105 px-6 sm:px-8 py-3 sm:py-4 bg-[#009CDE] text-white font-semibold rounded-lg shadow-sm hover:bg-[#009CDE] transition-colors duration-200"
+             >
+ 
                 Get Started
-              </motion.button>
             </Link>
-            <Link href={"/portfolio"}>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#009CDE] font-semibold rounded-lg border-2 border-[#009CDE] hover:bg-blue-50 transition-colors duration-200"
-              >
+            <Link href={"/portfolio"}                 className="w-full hover:scale-105 sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#009CDE] font-semibold rounded-lg border-2 border-[#009CDE] hover:bg-blue-50 transition-colors duration-200"
+>
+              
                 View Our Work
-              </motion.button>
             </Link>
           </motion.div>
         </motion.div>

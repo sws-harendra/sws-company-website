@@ -8,7 +8,7 @@ import {
 } from "react-icons/io5"; // Relevant icons
 
 // Replace with your actual image path from the public folder
-const aboutUsImageUrl = "/about.jpg"; // Example: public/images/who-are-we-modern.png
+const aboutUsImageUrl = "/about.png"; // Example: public/images/who-are-we-modern.png
 
 const WhoAreWeModern = () => {
   const containerVariants = {

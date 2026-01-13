@@ -54,7 +54,7 @@ const DigitalPrSection = () => {
                         viewport={{ once: true, amount: 0.3 }}
                         variants={iconVariants}
                     >
-                        <img src="/about.jpg" alt="Digital" />
+                        <img src="/about.png" alt="Digital" />
                     </motion.div>
                     {/* Right Column - Content */}
                     <motion.div

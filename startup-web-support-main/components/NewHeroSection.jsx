@@ -125,7 +125,8 @@ const NewHeroSection = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <Image
+              <Image  fetchPriority="high"
+
                 src={texts[index].img}
                 alt="Professional workspace"
                 width={800}

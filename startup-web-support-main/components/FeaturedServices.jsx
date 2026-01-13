@@ -127,7 +127,8 @@ const FeaturedServices = () => {
                 className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
                 variants={imageVariants}
               >
-                <motion.img
+                <motion.img  loading="lazy"
+
                   src={service.image}
                   alt={service.title}
                   className="w-14 h-14 object-contain"

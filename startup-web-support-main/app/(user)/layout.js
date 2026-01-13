@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
       <Call />
       <WhatsAppButton />
       <Header />
-      <ContactFormModal />
+      {/* <ContactFormModal /> */}
       {children}
       <Footer />
     </div>

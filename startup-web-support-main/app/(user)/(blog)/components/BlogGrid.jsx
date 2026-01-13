@@ -80,7 +80,7 @@ export default function BlogGrid() {
                   <Image
                     src={post.image_url || "/placeholder.png"}
                     alt={post.title}
-                    loading="lazy"
+                    fetchpriority={high}
                     width={600}
                     height={400}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"

@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Head from "next/head";
+import Image from "next/image";
 
 const texts = [
   {
@@ -37,6 +39,10 @@ const NewHeroSection = () => {
   }, []);
 
   return (
+  <><Head>
+  <link rel="preload" as="image" href="/website_hero.jpg" />
+</Head>
+
     <div className="relative font-sans min-h-screen bg-white overflow-hidden">
       {/* Subtle Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-white" />
@@ -119,16 +125,18 @@ const NewHeroSection = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <img
+              <Image
                 src={texts[index].img}
                 alt="Professional workspace"
+                width={800}
+                height={600}
                 className="w-full h-auto rounded-xl sm:rounded-2xl shadow-xl"
               />
             </motion.div>
           </AnimatePresence>
         </motion.div>
       </div>
-    </div>
+    </div></>
   );
 };
 

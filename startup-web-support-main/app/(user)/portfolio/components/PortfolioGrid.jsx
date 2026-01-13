@@ -202,7 +202,7 @@ const PortfolioGrid = () => {
                 <div className="aspect-video overflow-hidden relative">
                   <Image
                     fill
-                    fetchpriority={high}
+                    fetchpriority="high"
                     src={project.image_url}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

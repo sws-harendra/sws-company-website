@@ -1,4 +1,5 @@
 'use client'
+import Image from "next/image";
 import React from "react";
 
 export default function TechStack() {
@@ -134,9 +135,11 @@ export default function TechStack() {
                     }}
                   >
                     <div className="text-center p-4">
-                      <img
+                      <Image
                         src={tech.logo}
                         alt={tech.name}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 mx-auto mb-2 group-hover:scale-110 transition-transform duration-300"
                       />
                       <div

@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 
 // Replace with your actual image path or URL
-const section8ImageUrl = "/about.png"; // Example: public/images/section8-registration.png
+const section8ImageUrl = "/about.webp"; // Example: public/images/section8-registration.png
 
 const Section8CompanySection = () => {
   return (

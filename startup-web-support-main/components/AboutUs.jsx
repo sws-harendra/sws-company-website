@@ -45,7 +45,7 @@ const AboutUs = () => {
             viewport={{ once: false, amount: 0.3 }}
           >
             <img
-              src="/about.png"
+              src="/about.webp"
               alt="IT Solutions Illustration"
               className="w-full h-auto object-contain rounded-xl"
             />

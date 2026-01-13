@@ -6,7 +6,7 @@ const Call = () => {
   return (
     <Link
       href="tel:+917479499718"
-      className="fixed right-4 bottom-6 bg-green-600 text-white px-4 py-3 rounded-full shadow-lg flex items-center gap-2 hover:bg-green-700 transition-all duration-300 z-50"
+      className="fixed right-4 bottom-6 bg-green-500 text-white px-4 py-3 rounded-full shadow-lg flex items-center gap-2 hover:bg-green-700 transition-all duration-300 z-50"
     >
       <Phone size={20} />
       <span className="font-bold text-white text-[17px]">Call</span>

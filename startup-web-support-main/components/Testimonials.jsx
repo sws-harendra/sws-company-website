@@ -135,9 +135,9 @@ const Testimonials = () => {
                       </div>
 
                       <div>
-                        <h4 className="font-bold text-gray-800 text-md">
+                        <h3 className="font-bold text-gray-800 text-md">
                           {testimonial.client_name || testimonial.name}
-                        </h4>
+                        </h3>
                         <p className="text-gray-500 text-sm">
                           {testimonial.client_position || testimonial.title}
                         </p>

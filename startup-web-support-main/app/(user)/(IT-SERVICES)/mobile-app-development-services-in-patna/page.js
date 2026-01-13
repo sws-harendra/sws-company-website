@@ -13,10 +13,11 @@ const page = () => {
   return (
     <>
       <Seo
-        title="Mobile App Development Company in Patna | Android & iOS App Development"
-        description="Startup Web Support is a top mobile app development company in Patna offering Android app development, iOS app development, hybrid mobile apps, UI/UX design, and custom mobile app solutions for startups and businesses."
+        title=" Mobile App Development Company in Patna | Android and iOS App Development"
+        description="Expert mobile app development company in Patna delivering high quality Android and iOS apps with scalable, secure, and user friendly solutions."
         canonical="https://startupwebsupport.com/mobile-app-development-services-in-patna"
         image="sws-logo.png"
+        keywords="mobile app development in patna, app developer in patna, mobile app development company in Bihar, Mobile App Development Company in Patna, mobile app developer in patna, app development company in patna, app development company patna, android app developer in patna, app development in Patna, app development, mobile app development, mobile app developer, Mobile App Development Company, app development company, app developer, App Development Company, Android App Development, mobile app developer near me, app designer near me, app developer near me, Flutter app development, Mobile App Development Services, iOS App Development, Cross Platform App Development, app development services, React Native app development, e-commerce app development, custom mobile app development, hybrid app development, app development companies near me, Mobile App Development Process, Native Mobile App Development, app development near me, Custom App Development Company, mobile application development company, Kotlin app development, Cross-Platform Mobile App Development, Swift app development, education mobile apps, App Development Solutions, cost-effective mobile app development, finance app development, enterprise mobile app solutions"
       />
 
       <div>

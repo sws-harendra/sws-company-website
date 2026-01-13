@@ -18,10 +18,11 @@ const page = () => {
   return (
     <>
       <Seo
-        title="Website Development Company in Patna | Professional Web Design Services"
-        description="Startup Web Support is the leading website development company in Patna offering professional web design, custom website development, eCommerce solutions, and responsive web development services for businesses and startups."
+        title="website development company in patna | Startup Web Support"
+        description="Professional website development company in Patna delivering responsive, secure, and scalable websites tailored to startups and growing businesses."
         canonical="https://startupwebsupport.com/web-development-company-in-patna"
         image="website-development.png"
+        keywords="web development company in patna, website development company in patna, web development in patna, Web development company Patna, website development in patna, Best web development company in Patna, web designer in patna, website design in patna, website design company in patna, website developer in patna, web design company in patna, web design company patna, best website development company in patna, website company in patna, web developer in patna, website design services in patna, website company in bihar, website designing company in patna, best website designing company in patna, website designer in patna, website development company in bihar, web development company, website development, web development services, eCommerce Development, ERP Development, development services, CMS Development, web development, website development company, web development agency, website designing company, Best web development services Patna, Patna web design agency, Top web development company Patna, Website design and development Patna, Web development solutions Patna, Best Website Development Company Patna"
       />
 
       <div>

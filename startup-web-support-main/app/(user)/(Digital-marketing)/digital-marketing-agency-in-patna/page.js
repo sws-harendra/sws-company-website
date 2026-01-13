@@ -9,10 +9,11 @@ const page = () => {
   return (
     <>
       <Seo
-        title="Digital Marketing Agency in Patna | SEO, SMM & Lead Generation Services"
-        description="Startup Web Support is a leading digital marketing agency in Patna offering SEO services, social media marketing, Google ads, Facebook ads, and lead generation solutions to help businesses grow online."
+        title="Digital Marketing Company in Patna | digital marketing agency for startup"
+        description="Results driven digital marketing agency in Patna offering SEO, PPC, social media, and startup-focused strategies to boost online growth and visibility."
         canonical="https://startupwebsupport.com/digital-marketing-agency-in-patna"
         image="sws-logo.png"
+        keywords="Digital Marketing Company in Patna, digital marketing in patna, best digital marketing company in patna, digital marketing agency in patna, best digital marketing agency in patna, digital marketing agency in bihar, digital marketing services in patna, Digital Marketing Services Patna, best digital marketing company in bihar, Digital Marketing Agency Patna, best digital marketing services in patna, best digital marketing company in india, best digital marketing company,digital marketing agency for startup,patna digital marketing agency"
       />
 
       <div>

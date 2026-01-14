@@ -2,6 +2,7 @@ import NotificationServices from "./components/NotificationServices";
 import PageDivider from "@/components/PageDivider";
 import LiveNotificationsCta from "./components/LiveNotificationsCta";
 import Faq from "./components/Faq";
+import Seo from "@/components/Seo";
 
 const page = () => {
     return (

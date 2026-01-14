@@ -13,8 +13,10 @@ exports.createContact = async (req, res) => {
       {
         name: req.body.fullname,
         email: req.body.email,
+        contact: req.body.phone || "N/A",
+        // subject: req.body?.subject,
+        // pageUsed: req.body?.pageUsed,
         // message: req.body.message,
-        // phone: req.body.phone || "N/A",
       }
     );
     res.status(201).json(contact);

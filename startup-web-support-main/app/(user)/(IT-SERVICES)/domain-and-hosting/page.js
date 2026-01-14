@@ -8,10 +8,11 @@ const page = () => {
     return (
         <>
             <Seo
-                title="Domain & Hosting Services in Patna | Fast & Secure Web Hosting Solutions"
-                description="Startup Web Support provides domain registration and fast, secure web hosting services in Patna. Get reliable hosting, domain setup, business email, and complete website support at affordable pricing."
+                title="Domain and Hosting Provider Company in Patna | Startup Web Support"
+                description="Reliable domain and hosting provider company in Patna offering secure, fast, and affordable hosting solutions with expert support for startups and businesses."
                 canonical="https://startupwebsupport.com/domain-and-hosting"
                 image="sws-logo.png"
+                keywords="domain hosting Patna, domain registration Patna, domain hosting, domain hosting company India, domain hosting services, domain hosting with email, domain hosting for small business, domain registration & hosting, web hosting & domain, web hosting in patna, web hosting patna, cheap domain hosting India, domain and hosting services"
             />
 
             <div>

@@ -17,11 +17,11 @@ const page = () => {
   return (
     <>
       <Seo
-        title="Software Company in Patna | IT Company in Patna | Startup Web Support "
+        title="Software Company in Patna | IT Company in Patna | Startup Web Support"
         description="Leading IT company in Patna offering expert software development, digital solutions, and startup web support to help your business grow efficiently."
         canonical="https://startupwebsupport.com/"
         image="sws-logo.png"
-        keywords="We provide website development, digital branding, and SEO services for startups,helping small businesses build a strong online presence and grow their business."
+        keywords="it company in patna,software company in patna, digital marketing agency Patna, web development company Bihar, best it company in patna,mobile app development company, software development company, mobile app development company India, app development agency, web application development company, custom web development services, SEO Services in Patna, Digital Marketing in Patna, Website Development Patna, E-commerce Website Development, Best Graphic Designing Services, Best Internet Marketing Services in Patna, Top Software Development in Patna,Top 10 IT Company in Patna, Paid Social Media Marketing in Patna, Social Media Management in Patna,Top Software Company in Patna"
       />
       <div className="overflow-hidden">
         {/* <Hero /> */}

@@ -8,7 +8,7 @@ import SmoSmmFaq from "./components/SmoSmmFaq"
 export const metadata = {
   title: "Social Media Optimization Company in Patna | Startup Web Support",
   description: "Professional social media optimization company in Patna delivering result driven SMO and SMM services to boost brand visibility, engagement, and online growth.",
-  keywords:"social media marketing company in patna,social media marketing strategies"
+  keywords:"social media marketing strategies, social media marketing company in patna, ppc services in patna, content writing in patna, SMO Services in Patna, Best SMO Services in Patna, Social Media Advertising in Patna, social media marketing agency in patna, Social Media Marketing Agencies in Patna, smm in patna"
 };
 
 const page = () => {

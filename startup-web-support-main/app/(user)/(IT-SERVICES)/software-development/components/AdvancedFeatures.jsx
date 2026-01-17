@@ -57,7 +57,7 @@ const AdvancedFeatures = () => {
             Our Custom Software Development Services
           </motion.h2>
           <motion.p variants={textChildVariants} className="text-lg text-sky-100 max-w-4xl mx-auto leading-relaxed">
-            Acknowledging customer needs and providing 100% satisfaction are key aspects of the corporate environment. Our team of skilled designers in Bihar, India, produces top-notch applications with the latest technologies.
+            In real business life, fancy words don’t matter — results do. As a hands-on software development agency, we first understand how your work actually happens, then build software around it. Our focus is on custom software development services that feel natural to use, even for non-technical staff.
           </motion.p>
         </motion.div>
 

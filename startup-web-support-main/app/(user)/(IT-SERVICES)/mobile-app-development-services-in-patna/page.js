@@ -8,6 +8,7 @@ import IndustriesSection from "@/components/IndustriesSection";
 import AppDevFaq from "./components/AppDevFaq";
 import AppDevelopmentServices from "./components/AppDevServices";
 import Seo from "@/components/Seo";
+import TopInfoSection from "@/components/ui/TopInfoSection";
 
 const page = () => {
   return (
@@ -30,6 +31,7 @@ const page = () => {
         <BusinessValue />
         <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
         <AppDevelopmentServices />
+        <TopInfoSection />
         {/* <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" /> */}{" "}
         <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-24" />
         <VerticalTabServices />

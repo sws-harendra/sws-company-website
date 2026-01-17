@@ -27,13 +27,9 @@ export default function SoftwareService() {
             End-to-End Software Development Services in Patna for Growing Businesses
           </h1>
           <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-            At Startup Web Support, we provide software development in Patna that actually helps businesses in their daily work. 
-            We build software in a simple and practical way so that it is easy to use and useful for real business needs. As a trusted 
-            software development company in Patna Bihar, we do not believe in ready-made or one-for-all solutions. We create software that 
-            is safe, reliable, and made according to how your business works.</p>
+            At Startup Web Support, we offer software solutions in Patna for startups, shops, institutions, and growing companies. We don’t sell ready-made systems that force you to adjust. As a best software company in Patna, we shape the software according to your business flow.</p>
             <p className="text-lg text-gray-600 leading-relaxed">We work closely with startups, local businesses, educational institutions, and enterprises across Bihar. 
-              Our goal is to deliver customized software that helps reduce manual work, improve automation, and support 
-              steady business growth.
+              Through reliable software development in Patna, we help businesses reduce manual work, bring clarity in operations, and grow step by step without confusion.
           </p>
         </motion.div>
 
@@ -49,12 +45,8 @@ export default function SoftwareService() {
             A Trusted Software Development Company in Patna, Bihar
           </h2>
           <p className="mt-4 text-gray-600 leading-relaxed">
-            Patna is slowly growing as a digital city, and many businesses now need good IT support. As one of the providers of Best 
-            IT Software Development Services in Patna Bihar, we focus on understanding how a business works and then building the right 
-            technical solution for it. Our team includes experienced software developers in Patna who follow a clear and step-by-step process, 
-            starting from understanding your requirement to final delivery and long-term support.</p>
-            <p className="mt-2 text-gray-600 leading-relaxed">As a full-service software development agency, we take care of everything—from checking your idea, planning simple and user-friendly 
-            designs, to coding, testing, and regular maintenance—so you don’t have to manage multiple vendors.
+            Patna’s business environment is changing fast, and companies now need technology partners they can trust. As one of the Top Software Companies in Patna, we spend more time understanding your process than selling features. Our developers work in a clear order — requirement, planning, development, testing, and support.</p>
+            <p className="mt-2 text-gray-600 leading-relaxed">Being a complete software development company, we manage everything in-house so you don’t have to chase multiple vendors for one project.
 
           </p>
         </motion.div>
@@ -64,22 +56,20 @@ export default function SoftwareService() {
           <h2 className="text-3xl font-semibold text-gray-900">
             Custom Software Development Services
           </h2>
-            <p className="text-lg text-gray-600 leading-relaxed">Every business works in its own way, so ready-made software does not always fit. That is why our custom software 
-              development services are kept flexible and easy to scale as your business grows. Our bespoke software developers build 
-              software according to your daily work process and future plans, so everything feels natural and useful.</p>
+            <p className="text-lg text-gray-600 leading-relaxed">Every business runs differently, so off-the-shelf software often creates more problems than it solves. Our bespoke software developers build flexible systems that grow with you. Whether it’s enterprise software solutions or business automation software, our focus stays on ease of use and long-term value.</p>
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 title: "Enterprise Software",
-                desc: "Manage processes, data, and operations in an organized way.",
+                desc: "Keep operations, data, and teams organised without chaos.",
               },
               {
                 title: "Business Automation",
-                desc: "Reduce manual work and improve team productivity.",
+                desc: "Reduce manual entries and speed up daily work.",
               },
               {
                 title: "SaaS Development",
-                desc: "Cloud-based platforms that are scalable and easy to manage.",
+                desc: "As a SaaS software development company, we build cloud-based platforms that are secure, scalable, and simple to manage.",
               },
             ].map((item, i) => (
               <motion.div
@@ -104,15 +94,13 @@ export default function SoftwareService() {
           <h2 className="text-3xl font-semibold text-gray-900">
             Mobile App Development
           </h2>
-          <p className="text-lg text-gray-600 leading-relaxed">Today, mobile phones are a big part of how businesses work. That is why we 
-            provide Native Android & iOS Development for apps that need strong performance, along with Cross Platform Development for businesses 
-            that want quicker launch and lower cost. We help you choose the right option based on your actual business need.</p>
+          <p className="text-lg text-gray-600 leading-relaxed">We develop Local Business Apps that help you stay connected with customers. Depending on your need, we offer native Android & iOS apps or Cross Platform Development for faster rollout and cost control.</p>
 
           <ul className="grid md:grid-cols-3 gap-4 max-w-5xl mx-auto text-left">
             {[
-              "Customized Android & iOS mobile applications",
-              "Local business apps for booking, delivery & CRM",
-              "Scalable apps integrated with existing systems",
+              "Custom Android & iOS applications",
+              "Booking, delivery & CRM apps for local use",
+              "Scalable apps linked with existing systems",
             ].map((text, i) => (
               <li key={i} className="flex gap-3 text-gray-700">
                 <span className="mt-2 h-2 w-2 bg-blue-600 rounded-full"></span>
@@ -127,14 +115,12 @@ export default function SoftwareService() {
           <h2 className="text-3xl font-semibold text-gray-900">
            Specialized School ERP & Education Software Development
           </h2>
-            <p className="text-lg text-gray-600 leading-relaxed">We are a reliable school management software company that provides complete education software solutions from 
-              start to finish. Our team has hands-on experience as school software developers in Bihar, building systems that make 
-              school work easier, both in the office and in classrooms. </p>
+            <p className="text-lg text-gray-600 leading-relaxed">We work closely with schools and coaching centres as a reliable school management software company. Our systems reduce paperwork and make administration smoother for teachers and staff. </p>
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {[
-              "School ERP for attendance, exams, fees & communication",
-              "Coaching center ERP for students & batches",
-              "Affordable education software for Bihar institutions",
+              "School ERP for attendance, exams & communication",
+              "Coaching institute management software",
+              "Budget-friendly education software for Bihar",
               "Simple dashboards for teachers, admins & parents",
             ].map((text, i) => (
               <div
@@ -158,19 +144,14 @@ export default function SoftwareService() {
           <h2 className="text-3xl font-bold text-gray-900 mb-6">
             Why Choose Startup Web Support?
           </h2>
-          <p className="text-lg text-gray-600 leading-relaxed">We are an experienced software development company in Patna that understands local business needs. We have a skilled and dedicated 
-            development team that works with care and responsibility. We also have industry-specific software expertise, so we know that every 
-            business works differently.<br></br>
-            We provide affordable and scalable solutions that grow with your business. We also offer long-term technical support, 
-            so you are never left alone after the software is delivered.<br></br>
-            When you choose Startup Web Support, you choose a team that builds software to support your business growth—not only today, 
-            but also for the future.
+          <p className="text-lg text-gray-600 leading-relaxed">We are known as a best Software Company in Patna because we don’t make false promises. We first listen to your requirement, then build the software carefully, and most importantly, we stay connected even after the project is delivered. For us, software is not just code, it becomes part of your everyday business routine.<br></br>
+            With us, you get dependable software development services that are affordable, scalable, and supported for the long term.
           </p>
           <ul className="grid md:grid-cols-2 gap-4 text-gray-700 text-left mt-8">
-            <li>✔ Affordable & scalable solutions</li>
-            <li>✔ Clean & secure codebase</li>
-            <li>✔ Industry-specific experience</li>
-            <li>✔ Long-term maintenance & support</li>
+            <li>✔ Practical & scalable solutions</li>
+            <li>✔ Clean, secure development approach</li>
+            <li>✔ Industry-focused experience</li>
+            <li>✔ Ongoing maintenance & support</li>
           </ul>
         </motion.div>
 

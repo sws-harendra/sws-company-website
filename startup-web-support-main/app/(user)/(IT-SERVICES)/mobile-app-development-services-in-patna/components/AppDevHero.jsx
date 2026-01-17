@@ -75,9 +75,7 @@ const AppDevHero = () => {
               className="text-gray-600 leading-relaxed mb-8"
               variants={textChildVariants}
             >
-              If you are looking for Mobile App Development Services in Patna,
-              Bihar then you are now at the correct spot. At Startup Web
-              Support, we offer cost-efficient Mobile App Development services.
+              If you are searching for mobile app development in patna, you don’t need to look further. At Startup Web Support, we help businesses turn their ideas into working mobile applications without making the process complicated or expensive. We focus on practical apps that solve real problems and are easy for users to understand.
             </motion.p>
             <motion.div variants={buttonVariants}>
               <motion.button

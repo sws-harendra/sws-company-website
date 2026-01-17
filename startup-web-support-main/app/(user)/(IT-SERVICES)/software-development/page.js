@@ -2,6 +2,7 @@ import SoftwareBenefits from "./components/SoftwareBenefits"
 import AdvancedFeatures from "./components/AdvancedFeatures";
 import PageDivider from "@/components/PageDivider";
 import SoftwareDevFaq from "./components/SoftwareDevFaq";
+import SoftwareService from "./components/SoftwareService";
 
  export const metadata = {
   title: "Software Development Company in Patna | Software Development Services",
@@ -18,6 +19,8 @@ const page = () => {
     <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" />
     <AdvancedFeatures />
     <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
+    <SoftwareService/>
+
     <SoftwareDevFaq/>
     </div>
     </>

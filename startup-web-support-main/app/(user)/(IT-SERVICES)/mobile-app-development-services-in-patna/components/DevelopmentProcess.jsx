@@ -14,27 +14,27 @@ const processSteps = [
   {
     icon: IoAnalyticsOutline,
     title: 'Requirement & Business Analysis',
-    description: 'We start by discussing your project requirements, conducting market analysis, and signing an NDA to ensure confidentiality.',
+    description: 'Every project starts with a clear discussion. Before development, we understand your idea, business flow, and goals. This step helps us plan the right Mobile App Development Process and decide which features and technologies will work best for you.',
   },
   {
     icon: IoColorPaletteOutline,
     title: 'Designing (UI/UX)',
-    description: 'Our designers create wireframes and mockups. We work with you to ensure the design is intuitive, engaging, and aligned with your brand.',
+    description: 'Our design team focuses on making apps that feel simple and natural to use. Wireframes and layouts are shared with you early so changes can be made easily. The goal is always clarity, not heavy or confusing designs.',
   },
   {
     icon: IoCodeSlashOutline,
     title: 'Development',
-    description: 'Our expert developers bring the approved designs to life using modern technologies to build clean, efficient, and scalable code.',
+    description: 'Our developers handle Android App Development, iOS App Development, and backend systems with clean and reliable coding practices. We focus on performance, stability, and scalability so the app works well today and in the future.',
   },
   {
     icon: IoBugOutline,
     title: 'Testing and Bug Fixing',
-    description: 'We conduct extensive testing on multiple devices to find and fix any bugs, ensuring the final product is stable, secure, and ready for users.',
+    description: 'Before launch, every app goes through proper testing on different devices. This helps remove bugs and performance issues, ensuring the final app feels smooth, secure, and ready for real users.',
   },
   {
     icon: IoRocketOutline,
     title: 'Deployment & Support',
-    description: 'After final approval, we launch your app on the relevant platforms and provide ongoing support to keep it running smoothly.',
+    description: 'Once everything is approved, the app is launched on the required platforms. As a dependable mobile application development company, we don’t stop there. We continue to provide support after launch by handling updates, fixing issues, and making improvements so the app keeps running smoothly over time.',
   }
 ];
 

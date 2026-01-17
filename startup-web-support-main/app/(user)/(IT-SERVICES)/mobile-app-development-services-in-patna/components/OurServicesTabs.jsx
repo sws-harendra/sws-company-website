@@ -20,7 +20,7 @@ const servicesData = [
     tabName: 'Mobile App',
     tabIcon: FaMobileAlt,
     title: 'Mobile App Development Services in Patna',
-    description: 'We offer custom Mobile App Development Services for both Android and iOS platforms. Our team ensures your app is user-friendly, feature-rich, and performs flawlessly to help you reach a wider audience and grow your business.',
+    description: 'As a trusted Mobile App Development Company in Patna, we build mobile applications for Android and iOS platforms based on real business needs. Our apps are designed to be simple, smooth, and reliable so users feel comfortable using them. Whether you are launching a new idea or improving an existing system, we build apps that support growth step by step.',
     mainImage: 'mobile-app.jpg',
     techIcons: [
       { icon: FaAndroid, name: 'Android', style: "text-green-600 text-2xl" },
@@ -32,7 +32,7 @@ const servicesData = [
     tabName: 'Web',
     tabIcon: FaDesktop,
     title: 'Web Development',
-    description: 'A website is a crucial requirement for businesses to build an online application. We use technologies like PHP, Java, and WordPress to deliver custom and scalable web solutions that meet your specific business needs.',
+    description: 'A strong website is often the base for any mobile application or digital system. Along with app development, we also provide app development services that connect smoothly with web platforms. Our team works with modern technologies to build web systems that are stable, scalable, and easy to manage as your business grows.',
     mainImage: 'web.svg',
     techIcons: [
       { icon: FaPhp, name: 'PHP', style: "text-sky-600 text-2xl" },
@@ -45,7 +45,7 @@ const servicesData = [
     tabName: 'E-Commerce',
     tabIcon: FaShoppingCart,
     title: 'E-Commerce Development',
-    description: 'For your e-commerce needs, our services include building robust and secure online stores. We specialize in platforms like Magento and WooCommerce to provide seamless payment integration and inventory management.',
+    description: 'For businesses planning to sell online, we provide e-commerce app development solutions that are simple to use and safe to run. From showing products properly to setting up payments and managing orders, everything is done in a clear and practical way so customers can shop easily, and business owners can handle daily sales work without stress or confusion.',
     mainImage: 'e-com.svg',
     techIcons: [
       { icon: SiMagento, name: 'Magento', style: "text-orange-600 text-2xl" },

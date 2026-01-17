@@ -155,7 +155,7 @@ export default function AppDevelopmentServices() {
           ))}
         </div>
       </div>
-      <TopInfoSection />
+      
     </div>
   );
 }

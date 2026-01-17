@@ -81,10 +81,8 @@ const SoftwareBenefits = () => {
               className="text-gray-600 text-lg leading-relaxed mb-8"
               variants={textChildVariants}
             >
-              Our organization specializes in developing unique solutions that
-              greatly improve corporate performance. Using the newest technology
-              helps us create programs meant to simplify your operations so your
-              staff may concentrate on main business activities.
+             We are a local, dependable software development company in Patna. We work side by side with businesses who want proper solutions, not just something for name’s sake online. Our work is straightforward — we build software that cuts down daily headaches, saves valuable time, and makes your team’s work smoother and more organised.<br></br><br></br>
+            We do use modern technology, but always in a practical way that’s easy to handle, easy to maintain, and actually useful in day-to-day business.
             </motion.p>
 
             <motion.div

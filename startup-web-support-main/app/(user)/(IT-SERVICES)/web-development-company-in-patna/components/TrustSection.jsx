@@ -14,7 +14,7 @@ import { textChildVariants } from '@/components/GlobalCss';
 const advantagesData = [
   {
     icon: FaAward,
-    title: '2000+ Projects Delivered',
+    title: '500+ Projects Delivered',
     description: 'We have successfully completed projects for businesses from different industries, each with its own requirements.',
   },
   {

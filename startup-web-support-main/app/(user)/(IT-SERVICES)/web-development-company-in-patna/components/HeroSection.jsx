@@ -60,7 +60,7 @@ const HeroSection = () => {
               <span className="block text-2xl md:text-3xl text-gray-600">
                 Leading Web Development Company in Patna.
               </span>
-              Web Development Company In Patna, Bihar Trusted by 2000+ Clients
+              Web Development Company In Patna, Bihar Trusted by 500+ Clients
             </motion.h1>
 
             <motion.p

@@ -14,35 +14,35 @@ const featuresData = [
   {
     icon: IoBrushOutline,
     title: 'Custom Website Design',
-    description: 'We are a professional Web Development Company in Patna, we don’t use pre-existing templates, we have a professionally built team of graphic designers who can build custom Websites that suit your companies and increase user engagement. Every project is built differently.',
+    description: ' We design websites according to your type of business, not using ready-made designs. The look and flow are planned so local customers feel comfortable while using it.',
     color: 'text-sky-300',
     span: 'lg:col-span-2', // यह कार्ड दूसरों से दोगुना चौड़ा होगा
   },
   {
     icon: IoCodeSlashOutline,
     title: 'SEO-Friendly Code',
-    description: 'Each project we developed is designed with SEO friendly nature in mind – structured properly, fast-loading, and ready to rank on search engines.',
+    description: 'The website is built properly from inside, so Google can read it easily and show it when people search for services like yours.',
     color: 'text-sky-300',
     span: 'lg:col-span-1',
   },
   {
     icon: IoTvOutline,
     title: 'Responsive web design',
-    description: 'Each Website must adapt to every device’s screen size, today everyone uses different types of devices like mobile, tablet, and pc, so your Website should run seamlessly on each device.',
+    description: ' Whether someone opens your website on a mobile phone, tablet, or computer, it should work properly everywhere without layout issues.',
     color: 'text-sky-300',
     span: 'lg:col-span-1',
   },
   {
     icon: IoBusinessOutline,
     title: 'Business Website Development',
-    description: 'We design professional Websites for one’s business for lead generation and customer engagement that are designed specially and which caters to your target audience.',
+    description: ' We build business websites that actually help you get calls, messages, and enquiries instead of just looking good.',
     color: 'text-sky-300',
     span: 'lg:col-span-1',
   },
   {
     icon: IoShieldCheckmarkOutline,
     title: 'Speed & Security Optimization',
-    description: 'A fast and secure Website is in today’s demand in the digital world. SWS uses the latest tools and has the best team to ensure fast processing and security for one’s Website.',
+    description: 'The website is kept fast and secure so it opens quickly and customer data stays safe.',
     color: 'text-sky-300',
     span: 'lg:col-span-1',
   },
@@ -85,7 +85,7 @@ const CoreFeatures = () => {
             Build a Powerful Online Presence
           </h2>
           <p className="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed">
-            Your Website is more than just a digital presence – it’s your brand’s first impression and one of your most powerful marketing tools. Whether you're a startup, small business, or growing enterprise, we create digital experiences that help you stand out.
+             Your website is not just something you make because everyone else has one. It shows how serious you are about your business. When people visit your site, they should feel confident, understand your work clearly, and know how to contact you without any effort.
           </p>
         </motion.div>
 

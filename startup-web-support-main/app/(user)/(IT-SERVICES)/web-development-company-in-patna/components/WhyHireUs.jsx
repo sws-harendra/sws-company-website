@@ -46,7 +46,7 @@ const strengthsData = [
   },
   {
     icon: FaFileCode,
-    title: 'Highly Efficient Codes & Design',
+    title: 'Highly Efficient Code & Design',
     description: 'We craft smooth, responsive, and SEO-friendly websites with clean, optimized code for superior performance.',
   },
   {
@@ -105,7 +105,7 @@ const CoreStrengths = () => {
             className="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed"
             variants={itemVariants}
           >
-            We are a reliable Web Development Company in Patna, Bihar. Let us show you why we should be the first choice for your business needs.
+            We are a dependable web development company serving businesses across Bihar.
           </motion.p>
         </motion.div>
 

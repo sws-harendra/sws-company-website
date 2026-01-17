@@ -67,11 +67,13 @@ const HeroSection = () => {
               className="mt-6 text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0"
               variants={textChildVariants}
             >
-              Looking for the best Web Development Company in Patna for your
-              venture? Step up and use Startup Web Support - the best Web
-              Development Company in Patna, Bihar for the best Website
-              development, app development, and digital marketing at the best
-              available prices.
+              Trusted by 500+ clients since 2017. We provide custom website design, SEO, and app development
+              services in Patna & Bihar to help local businesses grow.<br></br><br></br>
+              Looking for a reliable web partner in Bihar? We help local businesses build a strong
+              online identity. Startup Web Support helps businesses build strong online identities
+              through professional websites, applications, and digital solutions at practical and
+              affordable pricing.
+
             </motion.p>
 
             <motion.div

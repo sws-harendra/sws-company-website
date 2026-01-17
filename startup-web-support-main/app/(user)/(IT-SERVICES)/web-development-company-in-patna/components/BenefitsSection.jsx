@@ -19,17 +19,17 @@ import {
 
 const benefitsData = [
   { icon: IoRocketOutline, text: 'SEO-Friendly Design' },
-  { icon: IoTvOutline, text: 'Responsive to all devices' },
+  { icon: IoTvOutline, text: 'Responsive across all devices' },
   { icon: IoGiftOutline, text: 'FREE Support' },
-  { icon: IoColorPaletteOutline, text: 'Custom designed graphics' },
-  { icon: IoHeadsetOutline, text: 'Complete support' },
+  { icon: IoColorPaletteOutline, text: 'Custom graphics and visuals' },
+  { icon: IoHeadsetOutline, text: 'Complete technical assistance' },
   { icon: IoLockClosedOutline, text: 'SSL Installation' },
   { icon: IoFlashOutline, text: 'Fast-Loading Pages' },
-  { icon: IoChatbubblesOutline, text: 'Contact Forms, WhatsApp/chatbot integration' },
+  { icon: IoChatbubblesOutline, text: 'Contact Forms, WhatsApp & chatbot integration' },
   { icon: IoImagesOutline, text: 'Licensed images' },
-  { icon: IoKeypadOutline, text: 'Admin Access + Training for easy management' },
+  { icon: IoKeypadOutline, text: ' Admin access with training' },
   { icon: IoServerOutline, text: 'Hosting, Domain and Logo' },
-  { icon: IoDocumentTextOutline, text: 'SEO friendly Content' },
+  { icon: IoDocumentTextOutline, text: ' SEO-friendly content structure' },
 ];
 
 const BenefitsSection = () => {
@@ -65,8 +65,7 @@ const BenefitsSection = () => {
             What are the benefits of using Startup Web Support
           </motion.h2>
           <motion.p variants={textChildVariants} className="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed">
-            At Startup Web Support, we don’t just build a Website – we provide a complete digital solution for your business. Every project has its own design, performance, and complexity. This makes us the best Web Development Company in Patna.
-          </motion.p>
+          At Startup Web Support, we don’t just make websites and hand them over. We focus on giving complete web development services that actually help your business move forward. Every project is handled differently, based on what your business needs, so the website works properly, stays secure, and is easy for you and your customers to use.          </motion.p>
         </motion.div>
 
         <motion.div

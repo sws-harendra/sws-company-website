@@ -15,32 +15,32 @@ const advantagesData = [
   {
     icon: FaAward,
     title: '2000+ Projects Delivered',
-    description: 'We have earned the trust of every client we have dealt with by successfully delivering thousands of projects.',
+    description: 'We have successfully completed projects for businesses from different industries, each with its own requirements.',
   },
   {
     icon: FaCogs,
     title: 'Experienced in All Technologies',
-    description: 'Our team is skilled in Java, Shopify, WordPress, PHP, Laravel, WIX, and more to build exactly what you need.',
+    description: 'Our team works comfortably with Java, PHP, Laravel, CMS platforms, and other tools needed to build practical solutions.',
   },
   {
     icon: FaUsers,
     title: 'Multi-Industry Expertise',
-    description: 'We have served diverse sectors including eCommerce, healthcare, education, real estate, and more.',
+    description: ' We have worked with businesses from eCommerce, healthcare, education, real estate, and service-based sectors, so we understand different needs.',
   },
   {
     icon: FaShieldAlt,
     title: 'Secure & Scalable Websites',
-    description: 'Security and scalability are built into every project, ensuring your website performs reliably under any load.',
+    description: ' Our websites are built in a way that they stay secure and can handle more visitors as your business grows.',
   },
   {
     icon: FaStar,
     title: 'Honest & Transparent Pricing',
-    description: 'We believe in clear communication and providing value with no hidden charges, ensuring a trustworthy partnership.',
+    description: ' We explain everything clearly before starting, so there are no surprises or hidden charges later.',
   },
   {
     icon: FaHeadset,
     title: 'Quick & Trustable Support',
-    description: 'Get fast response times with real human support to resolve your queries and issues promptly.',
+    description: 'You get quick responses and real human support whenever you need help or guidance.',
   },
 ];
 
@@ -90,7 +90,7 @@ const OurAdvantages = () => {
             Why Partner With Us?
           </motion.h2>
           <motion.p variants={textChildVariants} className="text-lg text-slate-300 max-w-3xl mx-auto">
-            We deliver more than just a website; we deliver a complete digital solution designed for performance, reliability, and growth.
+          We don’t just develop websites and move on. We focus on building reliable digital solutions that stay stable over time and help your business grow step by step.
           </motion.p>
         </motion.div>
 

@@ -66,7 +66,7 @@ const EcommerceFeatures = () => {
             E-commerce Website Development in Patna
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
-            Our e-commerce platform offers a complete solution for managing all kinds of online transactions, providing a one-stop shop for your digital company needs.
+             We build online stores that load fast and are easy for customers to use, even on mobile phones. From product display to payment setup, everything is kept simple so your customers can place orders without trouble and you can manage sales comfortably.
           </p>
         </motion.div>
 

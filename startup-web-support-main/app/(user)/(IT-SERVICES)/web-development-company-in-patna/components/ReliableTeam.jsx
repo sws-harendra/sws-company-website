@@ -12,22 +12,22 @@ const teamRoles = [
   {
     icon: FaLaptopCode,
     role: 'Great Developers',
-    description: 'Building a fast, responsive, and robust foundation for your website.',
+    description: ' They make sure the website runs smoothly, opens fast, and works properly on mobile and computer.',
   },
   {
     icon: FaPaintBrush,
     role: 'Graphic Designers',
-    description: 'Creating stunning visuals and a user-friendly interface that captivates your audience.',
+    description: 'They decide how the website looks so it feels clean and comfortable, not heavy or confusing.',
   },
   {
     icon: FaPenNib,
     role: 'Content Writers',
-    description: 'Crafting compelling copy that communicates your message and engages visitors.',
+    description: 'They write in simple language so local customers can easily understand your services.',
   },
   {
     icon: FaSearchDollar,
     role: 'SEO Experts',
-    description: 'Ensuring your website is optimized to rank high on search engines and attract organic traffic.',
+    description: 'They help your website appear on Google when people search for services like yours.',
   },
 ];
 
@@ -93,7 +93,7 @@ const ReliableTeam = () => {
               className="text-gray-600 leading-relaxed"
               variants={itemVariants}
             >
-              SWS creates a user-friendly Website for your business. Our team of great developers, graphic designers, content writers, and SEO experts work together to make your Website user and search-engine-friendly.
+               Your website should help people understand your business quickly. When someone opens your site, they should know what you do, how to contact you, and why they should trust you. If a website confuses people, they simply close it and move on.
             </motion.p>
           </motion.div>
           <motion.div
@@ -128,7 +128,7 @@ const ReliableTeam = () => {
             className="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-12"
             variants={itemVariants}
           >
-            Creating a good Website is not a one-man task, it takes an entire team. With a professional agency, you get all the skills you need for your project for better and faster results.
+            Making a good website is team work. One person cannot handle everything properly. When different people handle different parts, the result is much better and more reliable.
           </motion.p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

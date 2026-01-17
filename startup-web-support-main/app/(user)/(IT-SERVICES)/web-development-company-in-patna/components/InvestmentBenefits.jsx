@@ -7,17 +7,17 @@ const benefitsData = [
   {
     icon: FaTrophy,
     title: 'Beat The Competition',
-    description: "If you don't have a Web presence for your company now, then you are falling behind your competition because more than 70% of your competitors are already using Web presence for marketing and lead generation and growing their business rapidly.",
+    description: "If you don't have a Web presence for your company now, then you are falling behind your competition because more than 70% of your competitors are already using Web presence for marketing and lead generation and growing their business rapidly.Businesses without an online presence miss enquiries and customers every single day. A strong website helps you stay visible, compete better, and grow at a steady pace.",
   },
   {
     icon: FaChartLine,
     title: 'Increase Reach & ROI',
-    description: 'With a Website or an application for your business, you can reach higher numbers of clients for your business and increase your ROI.',
+    description: 'With a Website or an application for your business, you can reach higher numbers of clients for your business and increase your ROI. A professionally built website helps you reach more people beyond your local area and gives better returns on the money you invest.',
   },
   {
     icon: FaStore,
     title: '24/7 Online Presence',
-    description: "Your Website is an online store where your clients can go and check your products or services even if you are somewhere else. This is the ultimate benefit of having an online presence for your business.",
+    description: "Your Website is an online store where your clients can go and check your products or services even if you are somewhere else. This is the ultimate benefit of having an online presence for your business.  Your website works like an online shop or office that stays open all the time, even when you are not available.",
   },
 ];
 

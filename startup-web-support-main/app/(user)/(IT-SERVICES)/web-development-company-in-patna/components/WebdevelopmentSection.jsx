@@ -4,9 +4,9 @@ export default function WebdevelopmentSection() {
       title: "Website & CMS Development",
       points: [
         "Business & corporate websites",
-        "CMS development for easy updates",
-        "Responsive website design",
-        "SEO-friendly website structure",
+        "CMS for easy updates",
+        "Responsive design",
+        "SEO-friendly structure",
       ],
     },
     {
@@ -14,44 +14,42 @@ export default function WebdevelopmentSection() {
       points: [
         "Full-stack web development",
         "Responsive web apps",
-        "Enterprise web applications",
-        "Cloud-based web solutions",
+        "Enterprise solutions",
+        " Cloud-based systems",
       ],
     },
     {
       title: "E-Commerce & Marketplaces",
       points: [
-        "Custom ecommerce websites",
-        "Multi-vendor marketplace",
-        "Secure payment gateway",
-        "Service + product booking portals",
+        "Custom ecommerce platforms",
+        "Multi-vendor systems",
+        "Secure payment integration",
+        "Booking portals",
       ],
     },
     {
       title: "Booking & On-Demand Platforms",
       points: [
-        "Online appointment booking",
-        "Doctor & service booking portals",
-        "Event & scheduling systems",
-        "On-demand service platforms",
+        "appointment booking",
+        "Service portals",
+        "EScheduling systems",
       ],
     },
     {
       title: "Transport & Cab Booking",
       points: [
-        "Cab booking web applications",
+        "Cab booking applications",
         "Driver & trip management",
         "Vehicle rental platforms",
-        "Logistics & transport systems",
       ],
     },
     {
       title: "ERP & Enterprise Systems",
       points: [
-        "ERP & vendor management",
+        "ERP Development",
         "Hotel booking engines",
-        "School bus tracking systems",
-        "Utility & admin dashboards",
+        "School tracking systems",
+        "Admin dashboards",
       ],
     },
   ];
@@ -66,26 +64,21 @@ export default function WebdevelopmentSection() {
             Professional Web Development Services in Patna for Scalable Digital Growth
           </h2>
           <p className="text-lg text-gray-600 leading-relaxed">
-            At <strong>Startup Web Support</strong>, , we build web development in Patna for businesses that want real results, 
-            not just a website just for name’s sake. As a trusted web development company in Patna, we make websites and web applications 
-            that are fast, safe, and easy to use, and that actually help in daily business work.<br></br>
-            <p>Whether you need a simple business website, a custom web application, or a full booking website, our team builds everything 
-            in a clear and practical way. We focus on websites that work properly, load fast, and support your business goals from day one.</p>
-          </p>
+             At Startup Web Support, our work is simple — We provide web development solutions in Patna that make daily business work easier, not complicated. As a trusted website development company, we create websites that are fast, secure, and easy to handle, even if you are not from a technical background.</p>
+            <p>Whether you need a basic business website, a custom application, or a booking platform, we take a clear and practical approach. We focus on what your business actually needs today and make sure the website supports your work as you grow.</p>
+          
+          
         </div>
 
         {/* Intro Text */}
         <div className="max-w-5xl mx-auto text-center mb-20">
           <h3 className="text-2xl font-semibold text-gray-900 mb-4">
-            A Trusted Website Development Company in Patna, Bihar
+           A Trusted Website Development Company in Patna, Bihar
           </h3>
           <p className="text-gray-600 leading-relaxed">
-           As an experienced website development company in Patna Bihar, we focus on making websites that look good and work properly. 
-           Our team has friendly designers and developers who understand how people use a website and also how things work in the backend.
+           As an experienced website development company in bihar, we focus on building websites that look professional and work properly in real use. Our designers and developers pay attention to how people use the website and also make sure everything works smoothly in the backend.
           </p>
-          <p>Many businesses know us as one of the best web development company in Patna because we follow a clear and step-by-step process. 
-            First, we understand what you need. Then we plan simple design (UI/UX), start development, do proper testing, and after the website 
-            goes live, we stay with you for post-launch support. This way, your website stays stable, fast, and reliable for a long time.</p>
+          <p>Many businesses know us as one of the best website development company in patna because we follow a clear process, communicate honestly, and stay available even after the website is live for updates and support.</p>
         </div>
 
         {/* Cards */}
@@ -120,9 +113,7 @@ export default function WebdevelopmentSection() {
       Why Choose Startup Web Support?
     </h3>
     <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
-      As a growing web development company in Patna, our goal is simple —
-      build useful, secure, and scalable digital solutions that help businesses
-      grow without confusion or heavy technical words.
+       As a growing web development company in patna, our aim is straightforward — create digital solutions that are actually useful in day-to-day business. We avoid overcomplicating things and focus on work that helps your business run better and grow steadily.
     </p>
   </div>
 
@@ -137,11 +128,11 @@ export default function WebdevelopmentSection() {
 
       <ul className="space-y-4 text-gray-600">
         {[
-          "Trusted web development company in Patna with strong local business understanding",
-          "Skilled, experienced, and friendly development team",
-          "End-to-end project handling from planning to long-term support",
-          "Custom, secure, and scalable solutions built for growth",
-          "Affordable pricing with reliable post-launch support",
+          " Trusted Patna web design agency that understands local markets and how businesses operate here",
+          " A skilled and friendly development team that is easy to talk to and quick to respond.",
+          " We handle everything from the first discussion to final delivery, so you don’t have to manage multiple people.",
+          "Custom and scalable solutions built around your business needs, not ready-made ideas.",
+          "Affordable pricing with support that doesn’t disappear after the website is live.",
         ].map((item, index) => (
           <li key={index} className="flex gap-3">
             <span className="mt-2 h-2 w-2 bg-blue-600 rounded-full flex-shrink-0"></span>

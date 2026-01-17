@@ -106,7 +106,7 @@ const ServicesAccordion = () => {
                         Our Core Development Platforms
                     </motion.h2>
                     <motion.p variants={textChildVariants} className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        We leverage a wide range of technologies to build the perfect solution for your business, ensuring performance, scalability, and a great user experience.
+                        We use different tools and technologies based on what actually fits your business and budget. The focus is on building something that runs smoothly, stays safe, and is easy for customers and staff to use without confusion.
                     </motion.p>
                 </motion.div>
 

@@ -21,6 +21,24 @@ const BusinessValue = () => {
           >
             "Leading Web Development Company in Patna for Your Business"
           </motion.p>
+          <motion.p
+            className="text-sm md:text-md text-gray-800 mb-8"
+            variants={textChildVariants}
+          >
+            Today, more than 70% of Indian businesses are already online, and customers now
+            expect to find every service on the internet. If your business is not visible
+            digitally, you are likely losing enquiries every day. Working with a reliable
+            web development company in patna helps you build a solid online base that
+            supports real business growth, not just online presence.<br></br><br></br>
+            We use practical tools and the right technologies to create websites that load
+            fast, work smoothly on mobile, and are ready for search engines from day one.
+            As a growing web development agency, we focus on results that matter to local
+            businesses — more calls, more enquiries, and better trust. Many businesses see
+            clear improvement in visibility and leads after getting their website done by a
+            professional website development company in patna, and that is why they continue with us for updates and support.
+
+          </motion.p>
+
           <motion.div
             className="inline-block bg-gradient-to-r from-sky-600 to-sky-900 text-white rounded-lg px-6 py-3 shadow-md mb-8"
             variants={textChildVariants}

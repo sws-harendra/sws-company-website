@@ -18,7 +18,7 @@ const serviceItems = [
     {
         image: 'app-dev.png', // Placeholder image
         title: 'App Development',
-        description: 'As a reliable mobile app development company, we create user-friendly and scalable mobile applications that improve user engagement and business performance.',
+        description: ' As a reliable mobile app development company, we create user-friendly and scalable mobile applications that improve user engagement and business performance.',
     },
 ];
 
@@ -51,13 +51,9 @@ const ServiceFeatures = () => {
                         className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed"
                         variants={textChildVariants}
                     >
-                        Use our digital solutions to realize the full potential of your company. We provide an
-                        extensive range of services to assist you in navigating the always-changing digital
-                        environment. We have the knowledge and experience to optimize your business
-                        processes and help you reach your objectives, from automation and data analysis to{' '}
-                        <strong className="text-blue-600 font-semibold">web design and marketing</strong>.
-                        As a software development company, we focus on growth and help businesses reach their full 
-                        digital potential.
+                         Use our digital solutions to unlock your business’s full potential. From automation to marketing and development, we support businesses through every stage of digital growth. As a {' '}
+                        <strong className="text-blue-600 font-semibold">software company in patna</strong>,
+                       our focus remains on long-term stability and real business progress.
                     </motion.p>
                 </motion.div>
 

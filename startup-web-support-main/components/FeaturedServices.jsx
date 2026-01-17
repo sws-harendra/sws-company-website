@@ -16,57 +16,57 @@ const servicesData = [
     image: "/website-development.png",
     title: "Website Development",
     description:
-      `Startup Web Support is a trusted web development company Bihar that works specially for local businesses. We provide custom web development services in a simple and practical way. Our main focus is clean design, fast loading websites, and layouts that work properly on mobile phones, so your business can grow online without confusion or stress.
-      Our website development Patna services are easy to understand and easy to manage, even for people with very basic English knowledge. These websites are made for real customers, not just for show, so they actually help in getting more enquiries and business.`,
+      `Startup Web Support is a reliable web development company Bihar that works hand in hand with local and regional businesses. We provide custom web development services in a simple and practical way, without overcomplicating things. Our main focus is on clean website layouts, fast loading speed, and smooth mobile performance, so your business can grow online without technical stress or confusion.`,
   },
   {
     image: "/app-development.png",
     title: "App Development",
     description:
-      `As a growing mobile app development company India, we make simple, reliable, and easy-to-use apps for small, medium, and big businesses. We work like a professional app development agency, where every app is built with proper security, smooth performance, and future growth in mind.
-      We are also known as a dependable mobile app development company because we don’t stop after app delivery. We stay with our clients for long-term support, updates, and help, so the app keeps working properly as the business grows.`,
+      `As a reliable mobile app development company, we build easy-to-use and secure applications for startups, small businesses, and enterprises. We work like a professional app development agency, ensuring every app performs smoothly and supports future business growth.`,
   },
   {
     image: "/ecommerce-website.png",
     title: "E-Commerce Website",
     description:
-      `We provide complete e-commerce website development solutions for businesses that want to sell online in a simple and tension-free way. If you are planning to sell your products online, we handle everything properly — from product listing to payment gateway and smooth order management.
-      Our e-commerce website development websites are fast, secure, and very easy for customers to use. Because of this, customers feel comfortable while shopping, and business owners find it easy to manage orders without any confusion.`,
+      `We offer complete E-commerce Website Development solutions for businesses planning to sell products or services online. From product listing to payment setup and order handling, everything is managed properly to keep the process simple for business owners.
+        Our e-commerce platforms are fast, secure, and customer-friendly, helping users shop comfortably while making it easy for owners to manage sales and inventory without stress.`,
   },
   {
     image: "/marketing.png",
     title: "Marketing Solutions",
     description:
-      `Being a local digital marketing agency Patna, we work closely with businesses to help them get more leads and better online visibility. We understand the local market, so our approach is simple, practical, and focused on what actually works.
-        Our services include SEO services in Patna, digital marketing in Patna, and performance-based promotion that brings genuine enquiries. We believe in honest work and clear results, that’s why we focus on real growth and not fake promises.`,
+      `As a local digital marketing agency Patna, we understand how businesses operate in this region. Our marketing approach is practical, transparent, and focused on results that matter.
+        We provide SEO Services in Patna and Digital Marketing in Patna that help businesses gain visibility, attract the right audience, and generate real enquiries instead of empty traffic.
+`,
   },
   {
     image: "/ads.png",
     title: "Premium Advertising",
     description:
-      `Our experts take care of paid social media marketing in Patna in a simple and planned way, so your business reaches the right people at the right time. We do proper planning and regular checking, so your money is spent wisely and results are clear.
-      With this approach, we provide best internet marketing services in Patna that help in increasing brand awareness and bringing more enquiries and sales, without unnecessary confusion or false commitments.`,
+      `Our team handles Paid Social Media Marketing in Patna with proper planning and regular monitoring, so your advertising budget is used carefully and effectively. We design campaigns that reach the right people at the right time, based on how local customers actually behave online.`,
   },
   {
     image: "/design.png",
     title: "Designing Solutions",
     description:
-      `We offer best graphic designing services to create simple and attractive visuals for websites, social media, and complete branding needs. Our designs are made in a way that people can easily understand and connect with your brand.
-      Good design always helps in building trust. That’s why our creative team focuses on clean and professional work, so your brand looks proper and reliable everywhere, whether online or offline.`,
+      `We provide Best Graphic Designing Services for websites, social media creatives, and branding needs. Our designs are clean, clear, and made to connect easily with your audience.
+        Strong visuals help build trust, which is why our design work focuses on clarity and professionalism so your brand looks reliable across all platforms.
+`,
   },
    {
     image: "/marketing.png",
     title: "Accounting & Financial Software",
     description:
-      `As a reliable software development company, we develop accounting and financial software that is simple to use and fully secure. These systems are made keeping real business needs in mind, so daily work like billing, entries, and reports becomes easy and clear.
-      Our software helps businesses manage records properly without confusion and also follows all required government rules and compliance standards, so you can work peacefully without worrying about mistakes or issues later.`,
+      `As a professional software development company, we build accounting and financial systems that are made for everyday business use, not just for namesake. We understand how billing, entries, and reports are handled on a daily basis, so our software keeps these tasks simple, clear, and stress-free.
+      All our solutions follow the required compliance rules, so business owners can work with peace of mind, knowing everything is accurate and properly maintained.
+`,
   },
   {
     image: "/website-development.png",
     title: "Web & Software Solutions",
     description:
-      `Startup Web Support is a professional web application development company that delivers strong and practical digital solutions for real business needs. We focus on building applications that are easy to use and actually helpful in daily business work.
-      Recognized as a trusted software company in Patna, we create business-focused applications that help improve productivity and build a better online presence. Because of our honest work and reliable support, many clients see us as one of the top software development in Patna service providers.
+      ` Startup Web Support is a trusted web application development company delivering practical digital systems that support daily business operations. We focus on applications that are easy to use and genuinely helpful.
+        Recognized among Top Software Development in Patna, we build business-focused solutions that improve efficiency and strengthen online presence through reliable support and honest work.
 `,
   },
 ];

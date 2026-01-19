@@ -1,6 +1,6 @@
-"use client"
-import React from 'react';
-import { motion } from 'framer-motion';
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
 
 // Replace with your actual image paths from the public folder
 const socialMediaImageUrl = "/marketing.svg"; // Example: /images/marketing-social.png
@@ -23,7 +23,7 @@ const MarketingSections = () => {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 10,
       },
@@ -37,7 +37,7 @@ const MarketingSections = () => {
       x: 0,
       scale: 1,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 80,
         duration: 1,
       },
@@ -47,7 +47,6 @@ const MarketingSections = () => {
   return (
     <section className="bg-white py-24 ">
       <div className="container mx-auto px-6 max-w-7xl space-y-24">
-        
         {/* Section 1: Targeted Social Media Marketing */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -57,7 +56,7 @@ const MarketingSections = () => {
             variants={containerVariants}
             className="order-2 lg:order-1"
           >
-            <motion.h2 
+            <motion.h2
               className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-6"
               variants={itemVariants}
             >
@@ -65,14 +64,27 @@ const MarketingSections = () => {
             </motion.h2>
 
             {/* Content directly from the image */}
-            <motion.p 
+            <motion.p
               className="text-gray-700 text-lg leading-relaxed"
               variants={itemVariants}
             >
-              Social media is a great way for businesses to connect with people and get them to love their brand. At Startup Web Support IT Company, we create tailored <span className="text-sky-600 font-semibold">social media marketing</span> strategies that engage your audience and promote your products or services across platforms like Facebook, Instagram, LinkedIn, and Twitter. Our team crafts compelling content, runs targeted ad campaigns, and monitors performance to ensure maximum engagement and return on investment.
+              Social media marketing gives the best results when campaigns are
+              planned properly and guided by real data not guesswork. Just
+              posting content regularly is not enough to achieve business goals.
+              A clear strategy is needed to reach the right audience with the
+              right message at the right time. Startup Web Support works as a
+              reliable Patna digital marketing agency, creating targeted social
+              media strategies that are directly connected to specific business
+              objectives.<br></br>
+              <br></br>
+              We create platform specific campaigns for Facebook, Instagram,
+              LinkedIn and Twitter using each platform in a way that matches its
+              audience and purpose. Our team regularly tracks performance like
+              reach engagement and conversions so campaigns can be improved
+              continuously and deliver better results over time.
             </motion.p>
           </motion.div>
-          
+
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -81,7 +93,7 @@ const MarketingSections = () => {
             className="flex justify-center order-1 lg:order-2"
           >
             <img
-              src={socialMediaImageUrl} 
+              src={socialMediaImageUrl}
               alt="Social Media Marketing"
               className="w-full max-w-md h-auto rounded-lg"
             />
@@ -98,7 +110,7 @@ const MarketingSections = () => {
             className="flex justify-center"
           >
             <img
-              src={contentMarketingImageUrl} 
+              src={contentMarketingImageUrl}
               alt="Content Marketing"
               className="w-full max-w-md h-auto rounded-lg"
             />
@@ -110,7 +122,7 @@ const MarketingSections = () => {
             viewport={{ once: true, amount: 0.2 }}
             variants={containerVariants}
           >
-            <motion.h2 
+            <motion.h2
               className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-6"
               variants={itemVariants}
             >
@@ -118,15 +130,20 @@ const MarketingSections = () => {
             </motion.h2>
 
             {/* Content directly from the image */}
-            <motion.p 
+            <motion.p
               className="text-gray-700 text-lg leading-relaxed"
               variants={itemVariants}
             >
-              Content is king when it comes to digital marketing. Our <span className="text-sky-600 font-semibold">content marketing services</span> focus on creating valuable, relevant, and consistent content that attracts and retains a clearly defined audience. We produce high-quality blog posts, articles, videos, infographics, and more to establish your brand as an authority in your industry. We enhance conversions and reader confidence by providing interesting and informative content.
+              Quality content plays a big role in how people see and trust a
+              brand. When content is informative and presented well it helps
+              answer customer questions, builds credibility and creates long
+              term trust. Instead of pushing sales messages, content marketing
+              focuses on educating and guiding people which naturally builds
+              stronger relationships over time.<br></br>
+              Our content marketing services include blogs, articles, videos and visual creatives that are planned carefully to educate audiences while still supporting clear conversion goals. Every piece of content is created to add real value, improve engagement and show the brand’s knowledge in its field. Whether you are a new business trying to build visibility or a growing brand looking to strengthen authority we work like a strategic digital marketing agency for startups, helping businesses build authority and maintain a consistent and professional voice across all digital platforms.
             </motion.p>
           </motion.div>
         </div>
-
       </div>
     </section>
   );

@@ -65,7 +65,8 @@ const Hero = () => {
             Digital Marketing: <span className="text-sky-600">The Future of Advertising</span>
           </h1>
           <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            In the digital era, online visibility is crucial. At **Startup Web Support**, the leading <span className="font-semibold">Advertising & Marketing Company in Patna</span>, we cover the full spectrum – from SEO and PPC to Social Media Management, crafting personalized plans for your success.
+            In today’s digital world online visibility is no longer optional if a business wants steady growth and long term success. Customers now depend a lot on Google searches, social media platforms and online reviews to research, compare and judge brands before making any buying decision. Whether it is a small local service or a growing business the first impression usually happens online. That is why having a clear, consistent and trustworthy online presence has become a basic need for every business today.<br></br><br></br>
+            At Startup Web Support a trusted Digital Marketing Company in Patna, we help businesses build a strong and reliable digital presence that truly represents their work and values. We focus on practical result driven strategies that match real business goals instead of short term hype. We prefer sitting with business owners understanding their vision and then planning digital solutions that improve visibility, engagement and customer trust over time.
           </p>
         </motion.div>
 

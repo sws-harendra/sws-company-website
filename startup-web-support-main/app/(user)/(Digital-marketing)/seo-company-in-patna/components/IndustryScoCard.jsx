@@ -5,31 +5,31 @@ import { motion } from "framer-motion";
 const industrySeoData = [
   {
     title: "SEO for E-Commerce Websites",
-    desc: "We help online sellers rank their products on Google so customers find them easily and place real orders, not just visit the website."
+    desc: " We improve product visibility so online stores do not just get visitors but real orders as well. This is the kind of practical result businesses expect from a best seo company in India that understands how online selling actually works."
   },
   {
     title: "SEO for Healthcare Providers",
-    desc: "Clinics, hospitals, and diagnostic centers benefit from local SEO when people search for nearby doctors, tests, or treatments."
+    desc: "Clinics and hospitals benefit a lot from strong local SEO. We help patients easily find nearby doctors clinics and hospitals when they search for medical services in their area."
   },
   {
     title: "SEO for Real Estate Companies",
-    desc: "Buyers usually search area-wise before calling. Our SEO helps real estate businesses appear in local property searches."
+    desc: "Property searches are mostly location based. Our SEO work helps real estate businesses appear in the right local searches at the right time so genuine buyers and renters can reach out easily."
   },
   {
     title: "SEO for Educational Institutions",
-    desc: "Schools, colleges, and coaching centers rank better when parents and students search for trusted education options nearby."
+    desc: " Schools colleges and coaching centers get better visibility when parents and students search for trusted local options. We help educational institutions stand out in local search results."
   },
   {
     title: "SEO for Restaurants & Hotels",
-    desc: "We optimize your business for “near me” searches so hungry customers and travelers can easily find you."
+    desc: "We optimize restaurant and hotel listings for local searches so more nearby people discover your business leading to higher footfall and more bookings."
   },
   {
     title: "SEO for Automotive Businesses",
-    desc: "Vehicle dealers and service centers get more calls when people search for quick and nearby automotive help."
+    desc: "Car dealers workshops and service centers receive more calls and enquiries when local automotive searches are properly optimized for their area."
   },
   {
     title: "SEO for Legal & Financial Services",
-    desc: "Clients prefer reliable professionals close to their location. Our SEO builds trust and visibility for lawyers and financial advisors."
+    desc: "In legal and financial services trust and location both matter a lot. Our SEO strategies improve visibility for professionals so nearby clients can easily find reliable services."
   }
 ];
 
@@ -44,8 +44,7 @@ const IndustrySeoCard = () => {
             Industry-Specific SEO Solutions
           </h2>
           <p className="text-gray-600 leading-relaxed">
-            Every business is different, and one SEO strategy does not fit all.
-            We design customized SEO plans based on how your business actually works on the ground.
+            Every industry works differently and needs a different SEO approach. We create customized SEO plans based on real business requirements in Patna and Bihar so the strategy actually supports growth instead of following a one size fits all method.
           </p>
         </div>
 

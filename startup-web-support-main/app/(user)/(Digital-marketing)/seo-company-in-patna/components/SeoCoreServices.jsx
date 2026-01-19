@@ -14,32 +14,32 @@ const seoServicesData = [
   {
     icon: IoLocationOutline,
     title: 'Local SEO Services',
-    description: 'As a local business in Patna or Bihar, ranking high on local search results is critical for success. We specialize in local SEO strategies that ensure your business is visible to potential customers in your geographic area.',
+    description: 'If your business depends on local customers, then local visibility becomes crucial. Our local SEO strategies help your business appear in relevant local searches, allowing you to confidently compete with any top SEO company in Patna.',
   },
   {
     icon: IoCodeWorkingOutline,
     title: 'On-Page SEO Optimization',
-    description: 'Our on-page SEO service includes optimizing your website’s content, structure, and technical elements to improve its visibility on search engines. From meta tags to keyword optimization, we ensure your website follows the latest SEO practices.',
+    description: 'We take care of your website content structure and on page elements so that your site shows up better on Google and reaches the right people. As a provider of best seo services in patna, we make sure your website is easy for search engines to understand and comfortable for your visitors to use without any confusion.',
   },
   {
     icon: IoBuildOutline,
     title: 'Technical SEO Solutions',
-    description: 'Our team ensures your website is fast, mobile-friendly, and error-free. We address technical SEO concerns including structured data implementation to improve search engine visibility, crawl problem rectification, and site speed enhancement.',
+    description: 'Website speed mobile usability and overall technical health matter a lot when it comes to Google rankings. As a professional seo company in bihar, we handle crawl issues improve website performance and make sure your site works smoothly on mobile laptop and desktop without any technical trouble.',
   },
   {
     icon: IoCreateOutline,
     title: 'SEO Content Writing',
-    description: 'In SEO, content is king; our talented content writers produce excellent, keyword-optimized material that generates traffic and interacts with users. We promise that your content, whether it’s for a blog, a service website, or a product description, will rank highly and turn users into buyers.',
+    description: 'Strong content helps build trust and also improves rankings over time. We write content in a natural way keeping real people in mind, not just search engines. This practical approach has helped us grow as a reliable seo company in Patna that local businesses feel confident working with.',
   },
   {
     icon: IoDocumentTextOutline,
     title: 'SEO Audits and Reporting',
-    description: 'Our SEO reports give you a lot of information about how well your website is doing. We give you suggestions you can use to make your website’s SEO better and make sure it ranks higher in search engines.',
+    description: 'We give you clear audits and simple reports so you can actually understand what is improving on your website. With a transparent way of working our seo services patna help you track real progress without any confusion or technical headache.',
   },
   {
     icon: IoLinkOutline,
     title: 'Link-Building Services',
-    description: 'Building high-quality backlinks is essential to SEO success. We offer ethical, white-hat link-building strategies that help increase your website’s authority and ranking.',
+    description: 'Quality backlinks help build authority and support long term rankings on Google. We follow ethical methods that match the working style of a professional seo agency patna, so your website grows steadily without any risk or shortcuts.',
   },
 ];
 
@@ -79,11 +79,9 @@ const SeoCoreServices = () => {
             Comprehensive SEO Services Tailored for Businesses in Patna & Bihar
           </h2>
           <p className="text-lg text-gray-50  mx-auto leading-relaxed">
-            We offer a full suite of SEO services designed to boost your online visibility, drive organic traffic, and achieve sustainable growth.
-            At Startup Web Support, we believe that good <b> search engine optimization</b> is not only about rankings on Google. It is about helping your 
-            business stay visible for a long time, gain trust from customers, and grow steadily. As a reliable <b>SEO company in Patna</b>, we focus on 
-            providing <b>result-driven SEO solutions</b> that suit businesses working in Patna and other parts of Bihar. We follow a clear and practical 
-            process that includes proper planning, technical improvements, and quality content, so you can see real and measurable outcomes for your business.
+            We handle SEO for businesses in Patna and throughout Bihar in a simple and practical way. When it comes to SEO in Patna, we firmly believe that SEO is not just about rankings. The real goal is to build long-term visibility, customer trust, and grow your business gradually but steadily.<br></br>
+            As a hands-on SEO agency in Patna, we don't use any ready-made formulas. We do proper planning, fix website technical issues, and create content that real people want to read. Whether your business is in Patna or any other part of Bihar, our goal is simple — to keep you visible online and competitive in the local market.
+
           </p>
         </motion.div>
 

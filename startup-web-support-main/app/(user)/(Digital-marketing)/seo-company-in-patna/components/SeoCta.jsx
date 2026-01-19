@@ -86,7 +86,7 @@ const SeoCta = () => {
               className="text-gray-700 text-lg leading-relaxed mb-8"
               variants={itemVariants}
             >
-              Ready to grow your business with the <span className="font-semibold text-sky-600">best SEO Company in Patna</span>? Contact us today to discuss your SEO needs, and let's create a strategy that gets your website the visibility it deserves!
+               If you are looking for reliable business growth in Patna or Bihar Startup Web Support is ready to support you. Contact us today and let us build a practical SEO strategy that gives your business the visibility it truly deserves.
             </motion.p>
 
             <motion.div variants={itemVariants}>

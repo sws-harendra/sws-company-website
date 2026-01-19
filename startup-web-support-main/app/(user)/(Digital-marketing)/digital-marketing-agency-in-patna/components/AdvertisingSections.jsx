@@ -68,7 +68,8 @@ const AdvertisingSections = () => {
               className="text-gray-700 text-lg leading-relaxed"
               variants={itemVariants}
             >
-              Our pay-per-click (PPC) advertising services are perfect for businesses that want results right away. We make and run targeted <span className="text-sky-600 font-semibold">pay-per-click (PPC)</span> programs on Google Ads and Bing, focussing on keywords that convert well and smart ad placements. Our team continuously monitors and optimizes your campaigns to maximize return on investment, ensuring every dollar spent contributes to your business growth.
+              Our PPC solutions are built for businesses that want fast leads and quick visibility in competitive markets. From proper keyword research and writing clear ad copies to bid management and regular campaign optimization we handle everything in a simple and practical way. We closely track clicks conversions and costs so the campaigns stay profitable and fully aligned with your business goals.
+              This performance focused working style has helped many clients recognize us as the best digital marketing company in Bihar because we consistently deliver dependable results. In many cases businesses also compare our working standards and outcomes with the best digital marketing company in India, mainly because of our transparent reporting, clear communication and strong focus on consistent performance rather than short term hype.
             </motion.p>
           </motion.div>
           
@@ -122,7 +123,8 @@ const AdvertisingSections = () => {
               className="text-gray-700 text-lg leading-relaxed"
               variants={itemVariants}
             >
-              Although digital marketing is rather important, <span className="text-sky-600 font-semibold">conventional advertising strategies</span> still have great worth. Our print ads, radio spots, and TV commercials—which help you reach a larger audience—particle our advertising offerings. We mix smart placement with artistic design to make sure your message gets to the correct people at the correct moment, therefore improving the visibility and influence of your brand.
+              Even with the fast growth of digital platforms traditional advertising still plays an important role in building mass brand awareness. Many people still connect strongly with offline media which makes traditional channels useful for expanding reach and strengthening brand recall.<br></br><br></br>
+              Our traditional advertising services include print ads, radio promotions and TV commercials that support wider brand exposure. By mixing creative ideas with smart placement we work like a full service best digital marketing company that builds brand presence across both online and offline platforms. This balanced approach helps maintain consistent messaging and clear brand communication across all customer touchpoints.
             </motion.p>
           </motion.div>
         </div>

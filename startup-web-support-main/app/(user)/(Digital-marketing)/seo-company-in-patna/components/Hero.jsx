@@ -64,14 +64,14 @@ const Hero = () => {
               className="text-gray-700 text-lg md:text-xl leading-relaxed mb-6"
               variants={itemVariants}
             >
-              Look no further! **Startup Web Support** delivers specialized, top-tier SEO services across Patna and Bihar. We empower businesses like yours to achieve higher rankings, boost organic traffic, and **generate valuable leads.
+              Are you looking for the right partner to enhance your business's online presence in Patna? At Startup Web Support, we work closely with local businesses, just like you would with a trusted partner. As a trusted SEO company in Patna, our focus is simple — to increase your website's visibility, drive genuine organic traffic, and convert that traffic into real inquiries and leads that truly grow your business.
             </motion.p>
             
             <motion.p 
               className="text-gray-600 text-lg leading-relaxed mb-10"
               variants={itemVariants}
             >
-              As Patna's most trusted SEO partner, we focus on driving your business growth through strategic Digital Marketing.
+              In today's competitive market, simply having a website isn't enough. The real difference is made when people search and can easily find you. Our practical and step-by-step SEO services in Patna help businesses achieve better rankings in local and regional searches. It's this consistent and results-oriented approach that leads many of our long-term clients to confidently call us the Best SEO Company in Patna.
             </motion.p>
             
             <motion.div variants={itemVariants}>

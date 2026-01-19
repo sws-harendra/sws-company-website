@@ -12,22 +12,22 @@ const servicePillars = [
   {
     icon: IoBuildOutline,
     title: 'Modern Technology',
-    description: 'Our strategy revolves around using the newest technology and best practices to create a strong e-commerce platform fit for your particular requirements.',
+    description: 'We work with industry proven platforms like Magento Ecommerce Development, Woocommerce Ecommerce Development, and Opencart Ecommerce Development. These platforms help us build ecommerce solutions that are scalable, customizable and easy to manage based on different business requirements. Choosing the right platform from the start helps reduce future costs and ensures better performance as your business grows over time.',
   },
   {
     icon: IoPeopleOutline,
     title: 'Expert Team',
-    description: 'Some of the top web developers in India make up our team, committed to designing original and interesting ideas that support brand building and customer attraction.',
+    description: 'Our team includes skilled professionals from Bihar and across India including experienced Ecommerce developer Patna specialists. This mix of local market understanding and wider industry experience helps us build ecommerce solutions that match real customer behavior, business needs and regional buying patterns.'
   },
   {
     icon: IoShieldCheckmarkOutline,
     title: 'Holistic Quality',
-    description: 'Every website we create is not only aesthetically pleasing but also security and performance optimally suited to provide a flawless and safe online experience.',
+    description: 'From clean and easy to use interfaces to a strong and reliable backend we maintain quality at every stage of development. Whether it is a simple shopping cart setup or a feature rich ecommerce system we make sure performance security and usability work together smoothly.',
   },
   {
     icon: IoTrendingUpOutline,
     title: 'Business Growth',
-    description: 'By concentrating on these important components, we offer a safe online buying experience that raises customer pleasure and stimulates corporate expansion.',
+    description: 'As an established eCommerce App Development Company in Patna, we understand how important mobile commerce has become for businesses today. Our ecommerce solutions are built to work smoothly on smartphones and tablets so you can easily reach mobile users and keep them engaged.',
   },
 ];
 
@@ -67,8 +67,8 @@ const HowWeServe = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             How do We Serve You?
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            At Startup Web Support, we understand that a well-designed online site is essential for success. Our strategy is built on key components to ensure a flawless, safe, and expansive corporate solution.
+          <p className="text-lg text-gray-600 max-w-7xl mx-auto leading-relaxed">
+            At Startup Web Support we believe a strong online store plays a major role in digital success. As a trusted Ecommerce Website Development Company in India, our development process is focused on long term stability performance and scalability. We’re not a faceless agency. We’re right here in Bihar, which means we’re available for a call or a meeting when things get urgent. We work closely with business owners to understand their goals and then build ecommerce solutions that support real business growth instead of short term results.By combining local insight from our Patna-based developers with global coding standards, we give you a store that feels local but looks international.
           </p>
         </motion.div>
 

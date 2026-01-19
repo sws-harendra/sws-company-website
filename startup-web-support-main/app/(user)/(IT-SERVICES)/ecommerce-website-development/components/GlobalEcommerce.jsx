@@ -57,6 +57,10 @@ const GlobalEcommerce = () => {
           <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white">
             Enter the Global market with E-commerce Technology!
           </h2>
+          <p className="text-lg text-sky-100 max-w-4xl mx-auto mt-4">
+            A professionally built ecommerce platform helps your business go beyond local boundaries. With the right Ecommerce Website Development, you can reach customers across cities, states and even different countries. Selling online allows your business to stay open round the clock, attract a wider audience and compete confidently in the global digital market.<br></br>
+            Our Ecommerce Website Development in Patna solutions are planned with global growth in mind. This makes it easier for businesses to expand into new markets without the need to rebuild their entire system again.
+          </p>
         </motion.div>
 
         <div className="bg-blue-900/20 backdrop-blur-lg border border-white/20 rounded-2xl p-8 md:p-12">
@@ -71,7 +75,12 @@ const GlobalEcommerce = () => {
                 Our Platform Features
                 </motion.h3>
                 <motion.p className="text-blue-100 mb-8" variants={itemVariants}>
-                Our e-commerce platform offers a complete solution for managing all types of online transactions.
+                    Our Ecommerce Website Development platforms are built to handle every part of your online store in a smooth and practical way. Each feature is created to reduce daily workload while supporting growth as your business expands over time.
+                    You can manage products, services subscriptions and sales from one simple and user-friendly system.Let’s face it: 90% of your Patna customers are shopping on their phones. If your site takes more than 3 seconds to load on a budget smartphone, you’ve already lost the sale.<br></br><br></br>
+                    The platform supports modern payment gateways with global and multi currency options
+                    Secure architecture with built in fraud prevention helps protect all transactions
+                    Reliable shopping cart setup ensures a smooth and hassle free checkout experience for customers.We design 'thumb-friendly' navigation, making it easy for users to add products to their cart while on the move.
+
                 </motion.p>
                 <ul className="space-y-5">
                 {platformFeatures.map((feature, index) => {
@@ -96,7 +105,12 @@ const GlobalEcommerce = () => {
                 Your Business Benefits
                 </motion.h3>
                 <motion.p className="text-blue-100 mb-8" variants={itemVariants}>
-                E-commerce gives businesses the tools to show off their goods and services to people all over the world.
+                    With professional Ecommerce Web Development, your business is no longer limited to one city or region. A strong ecommerce presence helps you compete confidently in today’s digital first market and grow faster without unnecessary limitations.
+                    You can showcase your products and services to customers across different locations.<br></br><br></br>
+                    Your brand visibility improves beyond local markets
+                    A professional and secure online store helps build customer trust and credibility
+                    You can expand your customer base and scale operations in a more organized way.
+
                 </motion.p>
                 <ul className="space-y-5">
                 {businessBenefits.map((benefit, index) => {

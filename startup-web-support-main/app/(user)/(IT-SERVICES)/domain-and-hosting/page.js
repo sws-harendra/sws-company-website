@@ -3,6 +3,8 @@ import HighPerformanceHosting from "./components/HighPerformanceHosting";
 import PageDivider from "@/components/PageDivider";
 import DomainHostingFaq from "./components/DomainHostingFaq";
 import Seo from "@/components/Seo";
+import DomainHostingSection from './components/DomainHostingSection';
+import DomainHostingPackageSection from "./components/DomainHostingPackageSection";
 
 const page = () => {
     return (
@@ -20,6 +22,8 @@ const page = () => {
                 <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" />
                 <HighPerformanceHosting />
                 <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
+                <DomainHostingSection/> 
+                <DomainHostingPackageSection />
                 <DomainHostingFaq />
             </div>
         </>

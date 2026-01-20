@@ -100,7 +100,9 @@ const HostingSolutions = () => {
               className="text-gray-600 text-lg leading-relaxed mb-8"
               variants={itemVariants}
             >
-              Designed to fit startups' demands, our domain and hosting services offer dependable, safe solutions to maintain your web presence. Our hosting options are meant for scalability so that your website may grow as your company grows.
+              We have designed our domain and hosting services specially for startups and growing businesses who want a strong and tension free start online. Many Patna based startups like local coaching institutes in Boring Road and new service businesses near Kankarbagh face this exact situation when they first go online. When someone visits your website, that is usually their first interaction with your brand. If the site is slow or goes down, trust is lost immediately. That is why we focus on giving you hosting that keeps your website fast, secure, and available whenever your customers try to reach you.<br></br>
+              Our hosting setup is flexible and grows along with your business. For example a small garment store owner in Patna City may start with a basic website and later add online orders without changing hosting providers. If today you are starting small and tomorrow your business expands, your website will handle it smoothly. You do not need to worry about frequent technical changes or shifting services again and again. Whether you are launching a new startup or already running a growing business, our domain and hosting services adjust easily to your future needs.
+
             </motion.p>
             
             <motion.ul

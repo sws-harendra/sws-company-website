@@ -14,7 +14,6 @@ export default function DomainHostingPackageSection() {
   return (
     <section className="bg-sky-500 py-24 mt-8">
       <div className="max-w-7xl mx-auto px-6 space-y-24 text-center">
-
         {/* HERO */}
         <motion.div
           variants={fadeUp}
@@ -27,12 +26,11 @@ export default function DomainHostingPackageSection() {
             Affordable Web Hosting & Domain Packages
           </h2>
           <p className="mt-6 text-lg text-white leading-relaxed">
-           We provide simple and useful domain registration & hosting packages where everything comes together in one place. 
-           You don’t have to handle many things separately. This makes website work easy and removes technical tension, especially 
-           for business owners who want to focus more on business and less on technical setup.
-            We also give cheap domain hosting India options that work properly and are reliable. Even though pricing is affordable, 
-            quality is not compromised. Our packages include:
-
+            Our combined domain registration & hosting packages keep everything
+            in one place which saves your time, effort and unnecessary costs.
+            Many Patna entrepreneurs prefer this all in one approach. We also
+            provide cheap domain hosting India plans that are budget friendly
+            and still reliable enough for business use.
           </p>
         </motion.div>
 
@@ -41,19 +39,19 @@ export default function DomainHostingPackageSection() {
           {[
             {
               title: "Domain Registration",
-              desc: "Smooth and secure domain registration without confusion.",
+              desc: " We handle the complete process with a smooth and stress free domain registration Patna experience.",
             },
             {
               title: "Optimized Web Hosting",
-              desc: "Fast and reliable hosting for smooth website performance.",
+              desc: "Stable and performance focused hosting with trusted web hosting in patna.",
             },
             {
               title: "SSL & Security",
-              desc: "SSL certificates and protection to keep your website safe.",
+              desc: "Proper protection to keep your website safe secure and trustworthy for visitors.",
             },
             {
               title: "Business Email (Optional)",
-              desc: "Professional email hosting with your own domain name.",
+              desc: " Professional email setup linked directly with your domain if you need it for business communication.",
             },
           ].map((item, i) => (
             <motion.div
@@ -81,12 +79,16 @@ export default function DomainHostingPackageSection() {
           className="max-w-5xl mx-auto"
         >
           <h3 className="text-3xl font-semibold text-white mb-4">
-            Domain Hosting with Email — Professional Communication for Your Business
+            Domain Hosting with Email — Professional Communication for Your
+            Business
           </h3>
           <p className="text-white leading-relaxed mb-8">
-            Using a professional email makes a good impression on customers. With our domain hosting with email services, you can 
-            create business email IDs using your own domain name, like yourname@yourbusiness.com. This looks more serious and trustworthy 
-            than normal free emails.
+            With our domain hosting with email services, you can create
+            professional email addresses that use your own domain name. Many
+            Patna based professionals use this to look more credible while
+            dealing with clients. This makes your business look more genuine and
+            helps build trust when you communicate with customers, partners or
+            vendors.
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
@@ -118,8 +120,19 @@ export default function DomainHostingPackageSection() {
             Tailored Hosting for Small & Growing Businesses
           </h3>
           <p className="text-white leading-relaxed mb-8">
-           For many businesses in Patna and Bihar, price and performance both matter. Our domain hosting for small business plans are 
-           made keeping this in mind. They are simple to use and work smoothly for daily business needs.
+            Our hosting plans are specially made keeping local and growing
+            businesses in mind so you get the right mix of affordability and
+            performance without paying extra for things you do not need. This
+            suits Patna based startups and family run businesses equally well.
+            Easy dashboards that make website management simple even if you are
+            not from a technical background.<br></br>
+            Flexible storage and bandwidth that can adjust as your website
+            traffic increases Backup and malware protection to keep your website
+            data safe and secure One click installation support for popular
+            platforms so your website can go live quickly You focus on growing
+            your business and handling customers. We manage the hosting and
+            domain setup smoothly so you do not have to deal with technical
+            headaches at all.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -136,10 +149,12 @@ export default function DomainHostingPackageSection() {
                 <p className="text-gray-700">{text}</p>
               </div>
             ))}
-          
           </div>
-            <p className="text-center text-white mt-8">We support small business owners from the beginning. You can focus on growing your business, while we take care of the
-                domain and hosting part without giving you technical stress.</p>
+          <p className="text-center text-white mt-8">
+            We support small business owners from the beginning. You can focus
+            on growing your business, while we take care of the domain and
+            hosting part without giving you technical stress.
+          </p>
         </motion.div>
 
         {/* WHY CHOOSE */}
@@ -153,31 +168,34 @@ export default function DomainHostingPackageSection() {
           <h3 className="text-3xl font-bold text-gray-900 mb-8">
             Why Choose Startup Web Support for Domain & Hosting?
           </h3>
-            <p>When you choose the right web hosting & domain service, many problems get solved on their own. It saves money, time, 
-                and daily headache. That is why many business people choose Startup Web Support.</p>
+          <p>
+            Choosing the right web hosting partner provider helps you save time,
+            money and daily stress that usually comes with website issues. Many
+            local Patna business owners say this is the main reason they work
+            with us. That is why many local businesses prefer working with
+            Startup Web Support where they get reliable service and clear
+            support without confusion.
+          </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
             {[
               {
                 title: "Stability & Performance",
-                desc: "We use good hosting systems. Because of that, your website opens fast and usually stays live. Customers don’t face loading problem again and again.",
+                desc: "Your website loads fast and stays online consistently so your customers can access it anytime without interruption.",
               },
               {
                 title: "Expert Technical Assistance",
-                desc: "Our team knows this work well. As a domain hosting company India, we help you from the first day — domain setup, hosting setup, and even small issues later. We explain things in simple words.",
+                desc: "You get proper guidance and support backed by a trusted domain hosting company India so you are never left alone with technical problems.",
               },
               {
                 title: "Affordable yet High-Quality Solutions",
-                desc: "We keep pricing reasonable. Not too costly, not confusing. Whether you are just starting or already doing business, our plans are practical.",
+                desc: "Our pricing is practical transparent and suitable for local businesses without compromising on quality.",
               },
               {
                 title: "All-in-One Service",
-                desc: "With domain registration Patna, email hosting, and web hosting together, you don’t need to run to different people. Everything is managed in one place.",
+                desc: "Domain hosting email and ongoing support are all managed in one place so you do not have to coordinate with multiple vendors.",
               },
             ].map((item, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl p-6 shadow-sm"
-              >
+              <div key={i} className="bg-white rounded-2xl p-6 shadow-sm">
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">
                   {item.title}
                 </h4>
@@ -199,12 +217,9 @@ export default function DomainHostingPackageSection() {
             Get Started with Domain Hosting Services in Patna Today
           </h3>
           <p className="text-white leading-relaxed">
-            If you are planning to register a domain or start your website with proper hosting, you can contact Startup Web Support. 
-            We are your local support for domain hosting Patna, domain registration Patna, and complete web infrastructure services. 
-            You don’t need to manage everything alone, we are here to help.
+            If you are planning to launch a new website or thinking about upgrading your current hosting setup you can connect with Startup Web Support today. Many Patna based startups and small businesses have already taken this step. We offer reliable domain hosting Patna, professional domain registration Patna, and complete domain and hosting solutions that are designed to support your business and help in long term online growth.
           </p>
         </motion.div>
-
       </div>
     </section>
   );

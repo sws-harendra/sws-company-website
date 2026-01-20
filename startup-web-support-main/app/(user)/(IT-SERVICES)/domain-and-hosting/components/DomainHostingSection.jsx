@@ -15,7 +15,6 @@ export default function DomainHostingSection() {
   return (
     <section className="bg-white py-24">
       <div className="max-w-7xl mx-auto px-6 space-y-24 text-center">
-
         {/* HERO */}
         <motion.div
           variants={fadeUp}
@@ -28,12 +27,21 @@ export default function DomainHostingSection() {
             Reliable Domain & Hosting Services in Patna for All Businesses
           </h2>
           <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-            At Startup Web Support, we know one simple thing — a good website starts with the right domain hosting Patna service. 
-            If your domain or hosting is weak, your website will also face problems. Whether you are starting a new website or shifting 
-            an old website, having strong and safe hosting is very important for speed, security, and trust.
-            As a trusted service provider for domain hosting and domain registration Patna, we help individuals, startups, shop owners, offices, 
-            nd companies across Bihar to create and manage their online identity easily. We explain everything in simple words, handle the technical 
-            work for you, and make sure your website stays live, fast, and secure without stress.
+            At Startup Web Support, we strongly believe that a successful
+            website always starts with strong domain hosting Patna support. This
+            is something we have seen with many Patna based shops, startups and
+            professionals. If your hosting or domain setup is weak, it directly
+            affects website performance, security, and reliability. Whether you
+            are planning a new website or shifting an existing one, choosing the
+            right domain registration Patna and hosting solution plays a very
+            important role in long term success.<br></br> As a trusted domain
+            hosting company India, we work closely with startups, shop owners,
+            professionals, and growing businesses across Patna and Bihar
+            including areas like Danapur and Phulwari Sharif. We prefer keeping
+            things simple and transparent. We explain everything in easy
+            language, handle the technical work on our side, and make sure your
+            website stays fast, secure, and properly online without giving you
+            unnecessary stress.
           </p>
         </motion.div>
 
@@ -49,11 +57,17 @@ export default function DomainHostingSection() {
             Why Domain & Hosting Matters for Your Website
           </h3>
           <p className="text-gray-600 leading-relaxed">
-            What is a Domain name? It is just like your address but for your website. It tells visitors where to find you online. 
-            Pairing your Domain with right Hosting makes sure that your website loads fast , stays safe , and delivers a fast experience 
-            on every device.
-            It is Important to choose the best domain hosting company India so that you can trust them to handle both technical parts of 
-            the site and also for long term trustability.
+            A domain name is simply your online address and it also represents
+            your brand identity on the internet. Many local Patna businesses
+            realized this when customers started searching for them online. When
+            your domain is supported with reliable web hosting & domain support,
+            your website opens faster stays secure and runs smoothly on mobile
+            laptop and desktop without any trouble.<br></br> Selecting the right
+            company for domain registration & hosting saves you from future
+            problems like website downtime, slow loading speed and security
+            issues. It also helps in building trust with your customers and even
+            with search engines which is very important for long term growth
+            especially for local service based businesses.
           </p>
         </motion.div>
 
@@ -62,26 +76,32 @@ export default function DomainHostingSection() {
           <h3 className="text-3xl font-semibold text-gray-900">
             Complete Domain Registration Services in Patna
           </h3>
-            <p className="text-gray-600 leading-relaxed">We provide easy and complete domain registration Patna services so you can get your domain name without any tension. 
-                If you want a local domain like .in or an international domain like .com, our team will guide you properly. We help you 
-                choose a domain name that matches your business name and helps your brand grow online.</p>
+          <p className="text-gray-600 leading-relaxed">
+            We provide easy, clear and completely hassle-free domain
+            registration Patna services for small businesses, startups and
+            growing companies. Many Patna based shop owners and consultants
+            choose this service when they want to establish their brand online.
+            Whether you are looking for an Indian domain or an international one
+            our team personally guides you so you choose the right domain that
+            matches your brand name and business plans.
+          </p>
           <div className="grid md:grid-cols-4 gap-6">
             {[
               {
                 title: "Fast Setup",
-                desc: "Fast and secure domain setup, so your website starts without delay and stays safe",
+                desc: " Your domain is activated quickly and securely so you can start your online work without delay just like many first time website owners in Patna.",
               },
               {
                 title: "Right Extension Advice",
-                desc: "Advice on domain extensions that fit your business, we explain clearly which one is better for your work",
+                desc: "We help you select the most suitable domain extension based on your business type and future growth.",
               },
               {
                 title: "Renewal Management",
-                desc: "Renewal management and renewal reminders, so you don’t forget renewal and your domain stays active",
+                desc: "We remind you on time so your domain never expires or causes website interruption which is a common issue for busy local businesses.",
               },
               {
                 title: "DNS & Transfers",
-                desc: "Domain transfers and DNS management, we handle everything, you don’t need to worry. With our domain and hosting services, you don’t just register a name. You create your business identity online, properly and in the correct way, with full support.",
+                desc: " We handle domain transfers smoothly so you do not have to deal with technical confusion or stress.With our domain and hosting services, you’re not just buying a domain name. You’re building a professional online identity backed by reliable support.",
               },
             ].map((item, i) => (
               <motion.div
@@ -106,9 +126,18 @@ export default function DomainHostingSection() {
           <h3 className="text-3xl font-semibold text-gray-900">
             Professional Domain Hosting Services for All Website Sizes
           </h3>
-            <p className="text-gray-600 leading-relaxed">We give simple and reliable domain hosting services for all kinds of websites.
-                If you have a small website or a big website with more visitors, our hosting will work properly. You don’t need to worry 
-                about technical things, we take care of that.</p>
+          <p className="text-gray-600 leading-relaxed">
+            We provide reliable hosting services for small, medium and growing
+            websites. This works well for Patna based startups as well as
+            established local businesses. Whether your website gets very little
+            traffic or thousands of visitors every day our hosting stays stable,
+            smooth and efficient without creating problems. Fast loading pages
+            that give visitors a better browsing experience Strong uptime
+            assurance so your website remains live and accessible at all times
+            Advanced security protection to keep your website safe from cyber
+            threats Easy upgrade options so your hosting can grow along with
+            your business without hassle
+          </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto text-left">
             {[
               "Lightning-fast page load speeds, so your website opens fast",
@@ -138,15 +167,16 @@ export default function DomainHostingSection() {
             Hosting Solutions Built for Small & Local Businesses
           </h3>
           <p className="text-gray-700 leading-relaxed">
-            We specialize in domain hosting for small businesses in Patna and
-            across Bihar. Our services are simple, affordable, and designed to
-            help local businesses come online and compete confidently—without
-            unnecessary technical complexity.
+            We work closely with small business owners in Patna and nearby areas
+            and focus mainly on simple and dependable domain hosting services.
+            This includes local shops, clinics, coaching centres and service
+            providers. Our plans are affordable, easy to handle and made
+            specially for local businesses who want to come online without
+            getting stuck in technical confusion.
           </p>
         </motion.div>
-
       </div>
-      <DomainHostingPackageSection/>
+      
     </section>
   );
 }

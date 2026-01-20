@@ -12,22 +12,22 @@ const trendingStrategies = [
   {
     icon: IoVideocamOutline,
     title: 'Reels and Short Videos',
-    description: 'With platforms like Instagram and TikTok gaining immense popularity, we focus on creating engaging short-form video content that grabs attention.',
+    description: 'Short engaging videos help brands get higher reach and connect quickly with local users.',
   },
   {
     icon: IoPeopleOutline,
     title: 'User-Generated Content',
-    description: 'Encouraging your customers to share their experiences and feature your brand organically helps build trust and credibility.',
+    description: ' Content created by customers helps build trust authenticity and stronger community engagement.',
   },
   {
     icon: IoLocationOutline,
     title: 'Localized Marketing',
-    description: 'Patna businesses benefit from localized social media campaigns that speak directly to the community, helping to build a loyal customer base.',
+    description: ' Location focused campaigns help Patna based businesses connect directly with their local audience.',
   },
   {
     icon: IoCartOutline,
     title: 'Social Commerce',
-    description: 'With the rise of shopping features on platforms like Facebook and Instagram, we integrate social commerce strategies to increase conversions.',
+    description: ' We integrate social shopping features that help turn engagement into direct sales and genuine business inquiries.',
   },
 ];
 
@@ -76,7 +76,7 @@ const TrendingSmoSmmStrategies = () => {
             className="text-lg text-sky-100 max-w-3xl mx-auto leading-relaxed"
             variants={itemVariants}
           >
-            Successful 2025 requires keeping ahead of social media trends. Among the newest trends we are including into our plans are:
+             To stay competitive in 2025 businesses need to move with changing trends. We actively include the following approaches in our social media marketing strategies.
           </motion.p>
         </motion.div>
 

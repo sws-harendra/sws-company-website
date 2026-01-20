@@ -9,10 +9,10 @@ import {
 } from 'react-icons/io5';
 
 const keyFeatures = [
-  { icon: IoChatbubblesOutline, text: 'Real-Time Updates & Alerts' },
-  { icon: IoRocketOutline, text: 'Segmented Marketing Campaigns' },
-  { icon: IoAnalyticsOutline, text: 'Performance Monitoring' },
-  { icon: IoShieldCheckmarkOutline, text: 'Increase Sales & Retention' },
+  { icon: IoChatbubblesOutline, text: 'Real-Time Updates & Alerts help you connect with customers instantly so they always get the right information at the right time.' },
+  { icon: IoRocketOutline, text: 'With Segmented Marketing Campaigns you can send messages based on customer location and behaviour which makes your communication more relevant and effective.' },
+  { icon: IoAnalyticsOutline, text: 'Our Performance Monitoring system lets you track delivery and engagement insights so you clearly know how your messages are performing. ' },
+  { icon: IoShieldCheckmarkOutline, text: 'Using regular and meaningful communication you can Increase Sales & Retention and build stronger long term relationships with your customers.' },
 ];
 
 const LiveNotificationsCta = () => {
@@ -60,7 +60,8 @@ const LiveNotificationsCta = () => {
               className="text-lg text-sky-100 mt-6"
               variants={itemVariants}
             >
-              Our SMS and push notification services help startups connect with their audience and get customers more involved through real-time updates, marketing messages, and critical warnings.
+              Our messaging solutions support startups and growing businesses not only in Patna but also in nearby areas like Hajipur Bihta and Fatuha. As a dependable digital marketing and communication company in Bihar we help businesses share real time updates emergency alerts promotional messages and important notices so customers always stay informed and connected.<br></br>
+              From order confirmations for local ecommerce sellers to service updates for logistics companies working across Bihar our SMS and push notification services make sure communication is instant reliable and reaches customers without delay.
             </motion.p>
             
             <ul className="space-y-5 my-8">

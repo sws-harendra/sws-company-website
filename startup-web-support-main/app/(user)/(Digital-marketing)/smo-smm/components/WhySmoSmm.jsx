@@ -48,7 +48,7 @@ const WhySmoSmm = () => {
             className="text-lg leading-relaxed mb-12 text-center max-w-3xl mx-auto text-sky-100" // Text color adjusted
             variants={itemVariants}
           >
-            In the digital era, having a solid online presence is essential for success. Both SMO and SMM play crucial roles in helping businesses reach their audience effectively.
+             In today’s competitive environment social media is no longer optional for businesses. Companies working with experienced Social Media Marketing Agencies in Patna get better visibility stronger engagement and long term brand recall in the local market.
           </motion.p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -64,7 +64,7 @@ const WhySmoSmm = () => {
                 <h3 className="text-2xl font-semibold text-white">SMO (Social Media Optimization)</h3>
               </div>
               <p className="text-sky-100 leading-relaxed"> {/* Text color adjusted */}
-                This means making changes to your content and social media sites so that your readers like them more. It's all about making your business more visible on the internet and making it easier for people to find.
+                SMO focuses on improving your profiles and content so your brand becomes easier to discover follow and trust. It helps increase organic reach and supports steady and sustainable business growth over time.
               </p>
             </motion.div>
 
@@ -80,7 +80,7 @@ const WhySmoSmm = () => {
                 <h3 className="text-2xl font-semibold text-white">SMM (Social Media Marketing)</h3>
               </div>
               <p className="text-sky-100 leading-relaxed"> {/* Text color adjusted */}
-                SMM, on the other hand, involves using social media platforms like Facebook, Instagram, Twitter, and LinkedIn to promote your business, products, or services. The goal is to increase engagement, generate leads, and convert followers into loyal customers.
+                With smm in patna businesses use platforms like Facebook Instagram and LinkedIn to promote services attract quality leads and turn followers into paying customers through consistent and targeted efforts.
               </p>
             </motion.div>
           </div>

@@ -12,22 +12,22 @@ const reasonsData = [
   {
     icon: IoBulbOutline,
     title: 'Customized Strategies',
-    description: 'Every company is unique, hence we design customised social media plans depending on your particular objectives.',
+    description: 'Every business is different. We create personalised social media plans based on your business goals industry and target audience so the strategy works on the ground.',
   },
   {
     icon: IoRibbonOutline,
     title: 'Proven Track Record',
-    description: 'Our team has a proven track record of delivering results for businesses in Patna across various industries.',
+    description: 'We have handled multiple campaigns across Patna and delivered steady engagement and visible growth for different types of businesses.',
   },
   {
     icon: IoPeopleOutline,
     title: 'Expert Team',
-    description: 'We make sure that your social media efforts get the best results by working with a dedicated team of social media experts, content writers, and marketing experts.',
+    description: 'We have handled multiple campaigns across Patna and delivered steady engagement and visible growth for different types of businesses.',
   },
   {
     icon: IoPricetagsOutline,
     title: 'Affordable Pricing',
-    description: 'We have low prices without lowering the standard of our services, which makes it easier for new and small businesses to get good social media services.',
+    description: ' We provide flexible and budget friendly packages so professional social media marketing remains accessible for startups and small businesses.',
   },
 ];
 
@@ -76,7 +76,7 @@ const WhyChooseSmoSmmDetails = () => {
             className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed"
             variants={itemVariants}
           >
-            Startup Web Support stands out as the leading provider of <span className="font-semibold text-sky-600">SMO and SMM services in Patna</span> for several reasons:
+             <b>Startup Web Support</b> is a trusted <b>social media marketing company in patna</b> because we clearly understand local business challenges and how the Patna audience thinks and responds online.
           </motion.p>
         </motion.div>
 

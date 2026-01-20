@@ -1,65 +1,74 @@
-"use client"
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  IoPersonCircleOutline, 
-  IoPricetagOutline, 
-  IoCreateOutline, 
-  IoAnalyticsOutline, 
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  IoPersonCircleOutline,
+  IoPricetagOutline,
+  IoCreateOutline,
+  IoAnalyticsOutline,
   IoChatboxEllipsesOutline,
   IoMegaphoneOutline, // Added for Social Media Advertising
   IoChatbubblesOutline, // Added for Audience Engagement
   IoStarOutline, // Added for Influencer Marketing
-  IoBarChartOutline // Added for Performance Tracking
-} from 'react-icons/io5';
+  IoBarChartOutline, // Added for Performance Tracking
+} from "react-icons/io5";
 
 const smoServices = [
   // Previous 5 services
   {
     icon: IoPersonCircleOutline,
-    title: 'Profile Optimization',
-    description: 'We ensure your social media profiles are fully optimized with engaging bios, high-quality images, and updated information to attract and retain followers.',
+    title: "Profile Optimization",
+    description:
+      "We optimize your social media profiles with clear messaging professional visuals and locally relevant information. This helps your brand look credible trustworthy and easy to connect with for the Patna audience right from the first interaction.",
   },
   {
     icon: IoPricetagOutline,
-    title: 'Hashtag Strategy',
-    description: 'Our professionals design a thorough hashtag approach to help your brand trend in Patna and beyond and raise the exposure of your postings.',
+    title: "Hashtag Strategy",
+    description:
+      " Our team creates smart location focused hashtag plans that support effective social media marketing strategies. These hashtags help your posts reach the right audience across Patna and nearby local areas.",
   },
   {
     icon: IoCreateOutline,
-    title: 'Content Strategy',
-    description: 'From compelling posts to eye-catching visuals, we create content that resonates with your audience and encourages social sharing.',
+    title: "Content Strategy",
+    description:
+      "From relatable captions to engaging creatives our content planning follows current content writing in patna trends. We use a tone and style that feels natural and connects genuinely with your target audience in the local market.",
   },
   {
     icon: IoAnalyticsOutline,
-    title: 'Regular Monitoring',
-    description: 'We monitor performance indicators and keep refining your social media plan to guarantee highest interaction.',
+    title: "Regular Monitoring",
+    description:
+      " Social media needs daily attention. We regularly track engagement reach and audience behaviour and make timely changes to ensure steady growth and consistent visibility for your business.",
   },
   {
     icon: IoChatboxEllipsesOutline,
-    title: 'Reputation Management',
-    description: 'We manage your online reputation by responding to customer reviews, handling queries, and addressing concerns in real time.',
+    title: "Reputation Management",
+    description:
+      "We handle comments, messages and reviews in a professional manner to protect your brand image. This helps build long term trust and creates a positive reputation for your business in the local market.",
   },
   // Added 4 new services from the image
   {
     icon: IoMegaphoneOutline,
-    title: 'Social Media Advertising',
-    description: 'We design and implement paid ad campaigns on platforms like Facebook, Instagram, and LinkedIn to target specific demographics in Patna and beyond.',
+    title: "Social Media Advertising",
+    description:
+      " Our paid campaigns are planned with proper targeting by combining Social Media Advertising in Patna with performance driven ppc services in patna to bring quality leads and genuine business inquiries.",
   },
   {
     icon: IoChatbubblesOutline,
-    title: 'Audience Engagement',
-    description: 'We don’t just create content; we foster engagement. Our staff interacts with your audience directly via comments, messages, and debates.',
+    title: "Audience Engagement",
+    description:
+      " As a reliable social media marketing agency in patna we actively connect with your audience through comments replies and conversations that feel natural and human instead of automated.",
   },
   {
     icon: IoStarOutline,
-    title: 'Influencer Marketing',
-    description: 'Leverage the power of influencers to build trust and expand your reach. We collaborate with top influencers in your niche to promote your brand effectively.',
+    title: "Influencer Marketing",
+    description:
+      "We work with relevant local influencers and creators to improve brand credibility and increase reach through trusted local voices in Patna.",
   },
   {
     icon: IoBarChartOutline,
-    title: 'Performance Tracking',
-    description: 'We use advanced analytics to track campaign performance and tweak strategies to ensure you’re getting the best results.',
+    title: "Performance Tracking",
+    description:
+      "Every campaign is carefully tracked and analysed. We regularly refine our strategies to deliver clear measurable results and help your business stay ahead of competitors.",
   },
 ];
 
@@ -80,7 +89,7 @@ const SmoServicesDetails = () => {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 12,
       },
@@ -99,8 +108,18 @@ const SmoServicesDetails = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Our SMO Services in Patna
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            At Startup Web Support, we provide a broad spectrum of SMO services meant to increase the awareness of your company on social media channels:
+          <p className="text-lg text-gray-600 max-w-7xl mx-auto leading-relaxed">
+            At Startup Web Support we offer result driven SMO Services in Patna
+            that help local businesses improve their visibility and build real
+            trust on social media platforms. We believe in keeping things
+            practical and realistic by focusing on what actually works for
+            businesses running in Patna and nearby areas instead of chasing
+            fancy numbers<br></br>
+            Our approach is based on real engagement with real people, steady
+            growth over time and social media strategies that bring actual
+            business value. Whether you want to attract more local customers or
+            build a stronger brand presence our SMO Services in Patna are
+            designed to support your business goals at the ground level.
           </p>
         </motion.div>
 
@@ -116,7 +135,7 @@ const SmoServicesDetails = () => {
             return (
               <motion.div
                 key={index}
-                className="bg-slate-50 p-8 rounded-xl border border-slate-100 transition-all duration-300 transform hover:shadow-lg hover:border-sky-200 hover:-translate-y-2" 
+                className="bg-slate-50 p-8 rounded-xl border border-slate-100 transition-all duration-300 transform hover:shadow-lg hover:border-sky-200 hover:-translate-y-2"
                 variants={itemVariants}
               >
                 <div className="flex items-start gap-5">

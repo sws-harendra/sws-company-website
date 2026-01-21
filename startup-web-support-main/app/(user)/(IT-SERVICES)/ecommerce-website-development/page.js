@@ -11,7 +11,7 @@ const page = () => {
   return (
     <>
       <Seo
-        title="eCommerce Web and App Development Company  in Patna"
+        title="eCommerce Web and App Development Company in Patna"
         description="Professional eCommerce web and app development company in Patna delivering secure, scalable, and user-friendly online store solutions for business growth."
         canonical="https://startupwebsupport.com/ecommerce-website-development"
         image="sws-logo.png"

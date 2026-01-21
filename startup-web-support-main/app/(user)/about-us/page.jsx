@@ -2,6 +2,7 @@ import Seo from "@/components/Seo";
 import Hero from "./components/Hero";
 import TeamSection from "./components/Teams";
 import VisionMissionSection from "./components/VisionMissionSection";
+import WhoWeAre from "./components/WhoWeAre.jsx";
 
 const page = () => {
   return (
@@ -16,6 +17,7 @@ const page = () => {
       <div>
         <Hero />
         <VisionMissionSection />
+        <WhoWeAre />
         <TeamSection />
       </div>
     </>

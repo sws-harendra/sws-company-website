@@ -182,14 +182,14 @@ export default function HMSLandingPage() {
       color: "purple",
     },
     {
-      id: "users",
+      id: "role",
       icon: <Lock className="w-6 h-6" />,
       title: "Role Management",
       description:"Role management modules give Hospital owner or administrator power to define responsibilities and permissions for different staff inside the hospital system . Hospitals using hospital ERP systems in Patna ensure smooth workflow by assigning clear system-level authority to each staff.This reduces operational confusion, improves accountability, and increases data security by preventing unauthorized access  and logins.",
       color: "purple",
     },
     {
-      id: "users",
+      id: "operation",
       icon: <Bed className="w-6 h-6" />,
       title: "Integrated Operational Modules",
       description:"All modules inside the Hospital Management System in Patna are tightly integrated to ensure smooth data flow between departments. Hospitals using a cloud-based hospital management software in Patna benefit because information entered once is available wherever required, reducing repetitive work and human errors. This integration solves one of the biggest real-world hospital problems — disconnected departments working in silos — and helps hospitals operate faster, smarter, and more efficiently.",

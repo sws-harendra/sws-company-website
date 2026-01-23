@@ -48,42 +48,42 @@ export default function HMSLandingPage() {
       icon: <Activity className="w-7 h-7" />,
       title: "Complete Healthcare Solution",
       description:
-        "Built on fully integrated modular architecture, ensuring smooth data flow between departments for efficient patient management.",
+        "Our hospital management system in Patna is designed in a way where all hospital departments stay connected and work together without confusion. From OPD to billing, this hospital ERP software in Patna keeps information updated in real time, reduces manual work for staff and helps hospitals provide faster, smoother and more accurate patient care every day.",
       gradient: "from-emerald-500 to-teal-600",
     },
     {
       icon: <Shield className="w-7 h-7" />,
       title: "Secure & Reliable",
       description:
-        "Robust security protocols and strict data privacy policies safeguard patient information with complete confidentiality.",
+        "Data security was one of the top concerns while building our hospital management software in Patna because patient security is must. With advanced security systems and strict control over module access to staff, our HMS software in Patna ensures patient records remain safe, confidential and fully compliant with healthcare data standards set by governing authorities.",
       gradient: "from-blue-500 to-indigo-600",
     },
     {
       icon: <Cloud className="w-7 h-7" />,
       title: "Stable Cloud Solution",
       description:
-        "Over 99.99% uptime with mobile apps for doctors and patients, backed by a decade of reliable service.",
+        "The one of the best hospital management system in Patna runs on a stable cloud setup that delivers more than 99.99 percent uptime for smooth daily operations. Doctors, staff, and management can safely access the system at any time from anywhere using web and mobile platforms without facing interruptions.",
       gradient: "from-violet-500 to-purple-600",
     },
     {
       icon: <Users className="w-7 h-7" />,
       title: "Patient-Centric Design",
       description:
-        "24/7 appointment booking, instant notifications, easy feedback, and telemedicine services for better engagement.",
+        "Designed keeping real hospital working style in mind our clinic and hospital management software in Patna supports round the clock appointment booking instant alerts digital records and telemedicine features. This hospital management system in Patna helps hospitals improve patient engagement while reducing pressure on the front desk staff.",
       gradient: "from-pink-500 to-rose-600",
     },
     {
       icon: <DollarSign className="w-7 h-7" />,
       title: "Affordable Pricing",
       description:
-        "Transparent, modular pricing that supports scalability while keeping upfront investment low.",
+        "Our hospital ERP software in Patna comes with a clear and modular pricing structure so hospitals and clinics can begin with what they need and expand later without difficulty. This hospital management software in Patna remains cost effective while still delivering all the essential features required for smooth hospital operations.",
       gradient: "from-amber-500 to-orange-600",
     },
     {
       icon: <Award className="w-7 h-7" />,
       title: "Established Trust",
       description:
-        "Trusted by leading clinics, hospitals, and multi-chain facilities across India and overseas.",
+        "Trusted by clinics and hospitals across Bihar and all the nearby regions, our software is widely recognized as one of the best hospital management systems in Patna. This reliable HMS software in Patna supports growing healthcare facilities with consistent performance and dependable long-term support.",
       gradient: "from-cyan-500 to-blue-600",
     },
   ];
@@ -93,48 +93,42 @@ export default function HMSLandingPage() {
       id: "dashboard",
       icon: <LayoutDashboard className="w-6 h-6" />,
       title: "Dashboard",
-      description:
-        "Real-time view of all operations with patient records, billing, and appointments in one place for faster decision-making.",
+      description:"The dashboard is the first thing a hospital Owner sees when He logins to One of the fastest growing Hospital management system in patna. Where the owner or the Administrator can monitor the entire functionality in real time . Instead of contacting different departments for their updates they can easily login their HMS designed by Startup Web Support from any device from anywhere.",
       color: "blue",
     },
     {
       id: "billing",
       icon: <FileText className="w-6 h-6" />,
       title: "Billing",
-      description:
-        "Streamlined finances with accurate invoicing, automated receipts, multiple payment options, and real-time expense tracking.",
+      description:"The Billing module is one of the most sensitive and used modules of any Hospital Management system . It automates and stores all the charges and payments and their ledger of each and every patient,be it OPD, IPD, Pathology or Pharmacy. For Hospitals who are looking for Reliable HMS software in Patna, This removes common human errors (such as calculation mistakes, delayed functionality due to billing errors) from the entire Billing system.Digital Billing software increases patient trust and reduces staff’s work load significantly.",
       color: "emerald",
     },
     {
       id: "patient",
       icon: <UserCheck className="w-6 h-6" />,
       title: "Patient Management",
-      description:
-        "Complete digital records including demographics, medical history, treatment details, and billing for personalized care.",
+      description:"Patient Registration Module Creates a single digital identity for every patient who ever visits the Hospital. Instead of reception staff maintaining all the patients data in a hard copy file , all the patient details are stored safely on cloud with a unique ID assigned to their name called UHID. any patient's data can be accessed instantly from anywhere in the entire Hospital Management system software using that unique ID. It ensures seamless patient data coordination between all the modules such as OPD , IPD, Pharmacy and Pathology department.",
       color: "violet",
     },
     {
       id: "opd",
       icon: <Stethoscope className="w-6 h-6" />,
       title: "OPD Module",
-      description:
-        "Manages registrations, queues, billing, consultant prescriptions, and follow-ups for organized outpatient care.",
+      description:"The OPD patient module is mainly designed to handle all the appointments of OPD at a single place, It manages doctors' consultations, patient appointments and service record at one place and can be accessed from anywhere in the Hospital .Hospitals using Hospital management system in Patna have reduced overcrowding ,improved doctor scheduling and ensured patient are attended without any hassle, It has a digital prescription module linked so that patients can easily understand the prescriptions and it also reduces doctors workload.so that doctors can focus only on healing the patients not maintaining their records.",
       color: "cyan",
     },
     {
       id: "ipd",
       icon: <Hospital className="w-6 h-6" />,
       title: "IPD Module",
-      description:
-        "Efficiently manages admissions, transfers, nursing care, discharges, and generates detailed billing and summaries.",
+      description:"The IPD module of Hospital management system by Startup Web Support manages the entire functionality of admitted patients from admission to discharge , It manages from Printing Admission slip to discharge certificate it handles everything, It assigns and track beds , doctor visits and nursing staff visits and notes , investigations ,medicines, charges, payments made to IPD department and also Discharge summaries. It also has a digital prescription module similar to the OPD module linked to reduce manual work of doctors and nursing staff.",
       color: "indigo",
     },
     {
       id: "bed",
       icon: <Bed className="w-6 h-6" />,
       title: "Bed Management",
-      description:
-        "Real-time updates on bed availability, tracking occupied, reserved, and vacant beds for better planning.",
+      description:"Bed management provides real time data of total, available ,occupied and reserved beds across all the wards and rooms .Hospital staff or admin doesn't need to physically check bed availability or depending on phone calls .Hospitals using Hospital ERP software in Patna improves bed addition and reduction , patients admission, avoid overbooking and optimizes bed utilization , which ultimately improves bed management and patient and staff comfort.",
       color: "pink",
     },
     {
@@ -149,24 +143,56 @@ export default function HMSLandingPage() {
       id: "pharmacy",
       icon: <Pill className="w-6 h-6" />,
       title: "Medicine Management",
-      description:
-        "Inventory updates, stock alerts, expiry tracking, and automated billing for efficient medicine distribution.",
+      description:"The medicine management module in HMS by Startup Web Support keeps track of medicine stock availability , sales, purchase inside the Hospital , Hospitals using Hospital management system in patna can prevent stock shortage, dump expired medicine stock and also give real time data of medicine sales, losses and profits and everything at one place . In hospitals this module reduces manual errors of medicine ordering and shortage by ending dependency on manual registers and ensures Hospitals have all the important medicines in stock all the time.",
       color: "amber",
     },
     {
       id: "pathology",
       icon: <FlaskConical className="w-6 h-6" />,
       title: "Pathology",
-      description:
-        "Manages lab tests from booking to reporting with automated sample tracking and online report delivery.",
+      description:"The pathology module in HMS by Startup Web Support manages all types of pathology tests, sample collection, reports and results history. It links the results of the tests directly to patients' unique ID making it easy for doctors, nurses and billing staff. Hospitals using Hospital management Software in Patna have solved all the problems related to the pathology department such as misplaced reports, delayed reports , and repeated tests due to missing data of previous tests while improving accuracy and saving time of Hospital Staff.",
       color: "teal",
+    },
+    {
+      id: "birth",
+      icon: <Lock className="w-6 h-6" />,
+      title: "Birth Certificate",
+      description:"The birth certificate module in Hospital ERP by SWS simplifies the process of generating and managing birth certificates. It fetches official birth records directly from Hospital data. Hospitals using hospital management software in Patna can generate an accurate birth certificate of a kid with their parents name and details verified by HMS in the format approved by proper authorities. This reduces administrative workload and avoids error which can cause legal or documentation issues later.",
+      color: "purple",
+    },
+    {
+      id: "death",
+      icon: <Droplet className="w-6 h-6" />,
+      title: "Death Certificate",
+      description:"The Death Certificate Module ensures proper documentation of death records as per Hospital and administrative requirements Hospitals using Hospital management system in patna can generate Death certificates using patients records which are already present in IPD module , This helps patients' families receive every documentation required while ensuring accuracy and compliancy.",
+      color: "purple",
     },
     {
       id: "users",
       icon: <Lock className="w-6 h-6" />,
       title: "User Management",
-      description:
-        "Role-based access control for doctors, nurses, staff, and administrators ensuring security and accountability.",
+      description:"User management module controls Account and ID, password management for every Hospital staff such as Doctors, nurses, receptionist, pharmacists, lab technicians etc.every staff only see what they are supposed to see according to their work relevance .Hospitals implementing a hospital management system in Patna solves issues like data misuse,accidental changes, and security risks by ensuring proper access control of every staff within the hospital.",
+      color: "purple",
+    },
+    {
+      id: "hospital",
+      icon: <UserCheck className="w-6 h-6" />,
+      title: "Hospital Charge",
+      description:"The Hospital Charge module maintains all the service charges including bed charge, OPD doctor charge , procedures, surgeries, nursing facilities and each and every charge in the hospital.Hospitals using hospital management software in Patna remove confusion caused by inconsistent pricing and manual charge calculation.charges are categorised by Types and added to a unique code to standardise the system.clear pricing system improves patients clarity and transparent billing.",
+      color: "purple",
+    },
+    {
+      id: "users",
+      icon: <Lock className="w-6 h-6" />,
+      title: "Role Management",
+      description:"Role management modules give Hospital owner or administrator power to define responsibilities and permissions for different staff inside the hospital system . Hospitals using hospital ERP systems in Patna ensure smooth workflow by assigning clear system-level authority to each staff.This reduces operational confusion, improves accountability, and increases data security by preventing unauthorized access  and logins.",
+      color: "purple",
+    },
+    {
+      id: "users",
+      icon: <Bed className="w-6 h-6" />,
+      title: "Integrated Operational Modules",
+      description:"All modules inside the Hospital Management System in Patna are tightly integrated to ensure smooth data flow between departments. Hospitals using a cloud-based hospital management software in Patna benefit because information entered once is available wherever required, reducing repetitive work and human errors. This integration solves one of the biggest real-world hospital problems — disconnected departments working in silos — and helps hospitals operate faster, smarter, and more efficiently.",
       color: "purple",
     },
   ];
@@ -204,7 +230,7 @@ export default function HMSLandingPage() {
               >
                 Smart, Secure &{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                  Paperless Healthcare
+                  Paperless Hospital management system in Patna
                 </span>
               </motion.h1>
 
@@ -213,9 +239,10 @@ export default function HMSLandingPage() {
                 variants={fadeUp}
                 transition={{ delay: 0.3 }}
               >
-                Complete Hospital Management System bringing OPD, IPD, Billing,
-                Pharmacy, Lab, Beds management and Inventory together on one
-                secure platform – accessible anytime, anywhere.
+                A Complete Hospital Management System that brings OPD IPD
+                Billing Pharmacy Lab Beds management and Inventory together on
+                one secure platform which can be accessed anytime and from
+                anywhere without difficulty.
               </motion.p>
 
               <motion.div
@@ -363,11 +390,12 @@ export default function HMSLandingPage() {
               <span>Why Choose Us</span>
             </motion.div>
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Built for Modern Healthcare
+              Hospital ERP software Built for Modern Healthcare
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Trusted by leading healthcare providers for comprehensive, secure,
-              and efficient hospital operations
+              This solution is trusted by leading healthcare providers who want
+              smooth secure and efficient hospital operations that work well
+              every day without complications.
             </p>
           </div>
 
@@ -506,8 +534,10 @@ export default function HMSLandingPage() {
               All-in-One Modules for Complete Hospital Automation
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Essential modules covering OPD/IPD management, pathology,
-              pharmacy, billing, and more—designed to streamline workflows
+              Essential modules covering OPD management, IPD management,
+              pathology, pharmacy, billing, and other key hospital operations
+              are designed to simplify daily workflows and help staff work
+              faster with better accuracy.
             </p>
           </motion.div>
 
@@ -536,6 +566,7 @@ export default function HMSLandingPage() {
                   {module.icon}
                 </div>
                 <h3 className="font-semibold mb-2">{module.title}</h3>
+                {/* <p className="mb-2">{module.description}</p> */}
               </motion.div>
             ))}
           </motion.div>

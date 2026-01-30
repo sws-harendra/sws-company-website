@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       >
         <Script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-11559226606"
+          src="https://www.googletagmanager.com/gtag/js?id=GTM-TP28PFB8"
         />
 
         <Script id="google-ads-init" strategy="afterInteractive">
@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'AW-11559226606');
+            gtag('config', 'GTM-TP28PFB8');
           `}
         </Script>
 

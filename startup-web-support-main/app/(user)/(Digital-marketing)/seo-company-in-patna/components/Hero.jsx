@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { IoArrowForward } from 'react-icons/io5';
+import ContactUs from '@/components/ContactUs';
 
 const Hero = () => {
   const containerVariants = {
@@ -84,9 +85,17 @@ const Hero = () => {
               </motion.button>
             </motion.div>
           </motion.div>
+<motion.div
+              className="relative"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <ContactUs page="seo-in-patna" />
 
+              </motion.div>
           {/* Right Column - Image (Takes less space, acts as accent) */}
-          <motion.div
+          {/* <motion.div
             className=" flex justify-center lg:justify-end"
             whileInView="visible"
             viewport={{ once: true, amount: 0.4 }}
@@ -97,7 +106,7 @@ const Hero = () => {
               alt="SEO Company Patna"
               className="w-full h-auto" // Slightly smaller max width
             />
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </section>

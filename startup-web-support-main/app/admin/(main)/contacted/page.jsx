@@ -142,7 +142,7 @@ const ContactedPage = () => {
             </div>
           ) : (
             <>
-              <div className="rounded-md border overflow-x-auto">
+          <div className="rounded-md border overflow-x-auto admin-scrollbar">
                 <Table>
                   <TableHeader>
                     <TableRow>

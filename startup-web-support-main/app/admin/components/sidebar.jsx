@@ -7,48 +7,27 @@ import { BiStats } from "react-icons/bi";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { IoCreate } from "react-icons/io5";
-import { MdCallToAction, MdReviews } from "react-icons/md";
+import { MdOutlineDashboardCustomize, MdReviews } from "react-icons/md";
 import { FaCriticalRole } from "react-icons/fa";
-import { CheckLine, User2 } from "lucide-react";
+import { Check, User2 } from "lucide-react";
 import { useAuth } from "../(main)/context/AuthContext";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin/dashboard", icon: <LayoutDashboard /> },
-  { label: "Hero Section", href: "/admin/banner", icon: <PiFlagBanner /> },
+  { label: "Banner", href: "/admin/banner", icon: <PiFlagBanner /> },
   { label: "Blogs", href: "/admin/blogs", icon: <BiStats /> },
-  { label: "Our Clients", href: "/admin/our-clients", icon: <CheckLine /> },
+  { label: "Our Clients", href: "/admin/our-clients", icon: <Check /> },
   { label: "Invoices", href: "/admin/invoices", icon: <IoCreate /> },
   {
     label: "Portfolio",
     href: "/admin/portfolio",
     icon: <PiComputerTowerFill />,
   },
-  // { label: "Products", href: "/admin/final-cta", icon: <MdCallToAction /> },
   { label: "Admin Users", href: "/admin/users", icon: <User2 /> },
   { label: "Roles", href: "/admin/role", icon: <FaCriticalRole /> },
-  // { label: "Permissions", href: "/admin/permission", icon: <MdCallToAction /> },
-  { label: "Contacts", href: "/admin/contacted", icon: <MdCallToAction /> },
-  { label: "Our Teams", href: "/admin/ourteam", icon: <MdCallToAction /> },
-
+  { label: "Contacts", href: "/admin/contacted", icon: <MdOutlineDashboardCustomize /> },
+  { label: "Our Teams", href: "/admin/ourteam", icon: <MdOutlineDashboardCustomize /> },
   { label: "Testimonial", href: "/admin/testimonial", icon: <MdReviews /> },
-  // {
-  //   label: "Career Management",
-  //   href: "/admin/career-management",
-  //   icon: <MdCallToAction />,
-  // },
-  // {
-  //   label: "Profile",
-  //   href: "/admin/profile",
-  //   icon: <User />,
-  //   section: "Account Pages",
-  // },
-  {
-    label: "Sign Out",
-    href: "#",
-    icon: <LogIn />,
-    section: "Account Pages",
-    isLogout: true, // 👈 add flag
-  },
 ];
 
 const Sidebar = () => {
@@ -58,17 +37,16 @@ const Sidebar = () => {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
-  // ✅ Logout handler
   const handleSignOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     router.push("/admin/login");
   };
+
   const { user } = useAuth();
   const userPermissions = user?.permissions || [];
-  // console.log("User Permissions in Sidebar:", userPermissions);
+
   const filteredLinks = sidebarLinks.filter((link) => {
-    // Optional: you can map link to required permission
     const permissionMap = {
       Blogs: "view_blog",
       Invoices: "view_invoices",
@@ -78,19 +56,16 @@ const Sidebar = () => {
       "Our Teams": "view_our_team",
       "Admin Users": "manage_users",
       Roles: "manage_roles",
-
       Testimonial: "view_testimonials",
       Contacts: "view_contact",
-      // Add more mappings here
     };
 
     const requiredPermission = permissionMap[link.label];
     return !requiredPermission || userPermissions.includes(requiredPermission);
   });
 
-  // Then group filteredLinks instead of sidebarLinks
   const groupedLinks = filteredLinks.reduce((acc, link) => {
-    const section = link.section || "Main";
+    const section = link.section || "Main Menu";
     if (!acc[section]) acc[section] = [];
     acc[section].push(link);
     return acc;
@@ -98,60 +73,63 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Hamburger - Mobile */}
+      {/* Custom CSS Injector to hide scrollbars cleanly */}
+      <style>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+
+      {/* Hamburger - Mobile - Fully Theme Based & Adaptive */}
       <button
         onClick={toggleSidebar}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg shadow-md bg-white"
+        className="lg:hidden fixed bottom-6 right-6 z-50 p-3 rounded-2xl shadow-xl bg-white dark:bg-zinc-900 text-[#1a4468] dark:text-[#029bd2] border border-zinc-200 dark:border-zinc-800 hover:scale-105 hover:bg-zinc-50 dark:hover:bg-zinc-800 active:scale-95 transition-all duration-200 cursor-pointer flex items-center justify-center"
         aria-label="Toggle menu"
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {isOpen ? <X className="w-6 h-6 animate-pulse" /> : <Menu className="w-6 h-6" />}
       </button>
 
       {/* Overlay */}
       {isOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-30 z-30"
+          className="lg:hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-30 transition-all duration-300"
           onClick={toggleSidebar}
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar - Compact and Thin (w-52) */}
       <aside
-        className={`fixed lg:static bg-gray-100 top-0 left-0 h-full w-64 shadow-md flex flex-col justify-between rounded-2xl z-40 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
+        className={`fixed lg:static top-0 left-0 h-full w-52 flex flex-col justify-between z-40 transform transition-all duration-300 ease-in-out bg-white dark:bg-zinc-950 border-r border-zinc-200/50 dark:border-zinc-800/50 ${isOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full lg:translate-x-0"
+          }`}
       >
-        {/* Logo */}
-        <div className="flex items-center space-x-2 p-5">
-          <LayoutDashboard className="w-6 h-6 text-indigo-600" />
-          <span className="text-lg font-semibold">Admin SWS</span>
-        </div>
-        <hr className="border-gray-200 my-2" />
-
-        {/* Navigation */}
-        <nav className="flex-1 overflow-x-hidden overflow-y-auto">
+        {/* Navigation Area with no-scrollbar */}
+        <nav className="no-scrollbar flex-1 overflow-x-hidden overflow-y-auto py-5 px-2.5 space-y-5">
           {Object.entries(groupedLinks).map(([section, links]) => (
-            <div key={section}>
-              {section !== "Main" && (
-                <div className="mt-6 px-5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  {section}
-                </div>
-              )}
-              {links.map(({ label, href, icon, color, isLogout }) => (
-                <SidebarItem
-                  key={label}
-                  icon={icon}
-                  label={label}
-                  href={href}
-                  color={color}
-                  active={pathname === href}
-                  onClick={() => {
-                    setIsOpen(false);
-                    if (isLogout) handleSignOut();
-                  }}
-                  isLogout={isLogout}
-                />
-              ))}
+            <div key={section} className="space-y-1">
+              <div className="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-1.5">
+                {section}
+              </div>
+              <div className="space-y-1">
+                {links.map(({ label, href, icon, color, isLogout }) => (
+                  <SidebarItem
+                    key={label}
+                    icon={icon}
+                    label={label}
+                    href={href}
+                    color={color}
+                    active={pathname === href}
+                    onClick={() => {
+                      setIsOpen(false);
+                      if (isLogout) handleSignOut();
+                    }}
+                    isLogout={isLogout}
+                  />
+                ))}
+              </div>
             </div>
           ))}
         </nav>
@@ -169,20 +147,28 @@ const SidebarItem = ({
   onClick,
   isLogout,
 }) => {
-  const Wrapper = isLogout ? "button" : Link; // 👈 Use button for logout
+  const Wrapper = isLogout ? "button" : Link;
 
   return (
     <Wrapper
       href={isLogout ? undefined : href}
       onClick={onClick}
-      className={`flex items-center space-x-3 px-5 py-2 rounded-xl mx-2 transition-colors cursor-pointer w-full text-left ${
-        active
-          ? "bg-indigo-50 text-indigo-700 font-semibold"
-          : "text-foreground hover:bg-background"
-      }`}
+      className={`group flex items-center space-x-2.5 px-3 py-2 rounded-xl transition-all duration-200 cursor-pointer w-full text-left relative overflow-hidden ${active
+          ? "bg-gradient-to-r from-[#029bd2]/10 to-transparent dark:from-[#1a4468]/20 dark:to-transparent text-[#1a4468] dark:text-sky-300 font-bold border-l-4 border-[#029bd2] pl-3"
+          : isLogout
+            ? "text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 pl-3 border-l-4 border-transparent hover:border-rose-500"
+            : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900/60 hover:text-zinc-900 dark:hover:text-zinc-200 pl-3 border-l-4 border-transparent hover:border-[#029bd2]/50 hover:translate-x-1"
+        }`}
     >
-      <span className={`${color || "text-gray-500"} w-5 h-5`}>{icon}</span>
-      <span className="text-sm">{label}</span>
+      <span className={`w-4 h-4 flex items-center justify-center transition-transform group-hover:scale-105 ${active
+          ? "text-[#029bd2]"
+          : isLogout
+            ? "text-rose-500"
+            : "text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-600 dark:group-hover:text-zinc-300"
+        }`}>
+        {icon}
+      </span>
+      <span className="text-sm font-medium tracking-wide">{label}</span>
     </Wrapper>
   );
 };

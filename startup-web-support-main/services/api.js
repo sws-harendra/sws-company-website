@@ -1,8 +1,13 @@
 import { API_URL } from "@/constants";
 import axios from "axios";
 
+let finalBaseURL = API_URL || "http://localhost:8000/api";
+if (finalBaseURL && !finalBaseURL.endsWith("/api") && !finalBaseURL.endsWith("/api/")) {
+  finalBaseURL = finalBaseURL.replace(/\/+$/, "") + "/api";
+}
+
 const api = axios.create({
-  baseURL: API_URL || "http://localhost:8000",
+  baseURL: finalBaseURL,
   withCredentials: true,
 });
 

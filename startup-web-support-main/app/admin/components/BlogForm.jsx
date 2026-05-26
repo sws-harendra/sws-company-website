@@ -111,7 +111,7 @@ export default function BlogForm({ selected, onSuccess }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 max-h-full overflow-y-auto bg-white w-full p-4 rounded-xl shadow"
+      className="space-y-4 max-h-full overflow-y-auto admin-scrollbar bg-white dark:bg-zinc-900 w-full p-4 rounded-xl shadow"
     >
       <div className="grid grid-cols-2 gap-4">
         <div>

@@ -36,8 +36,8 @@ export default function ReusableModal({
       <DialogContent
         className={`${
           fullScreen
-            ? "!w-screen !h-screen !max-w-none !max-h-none rounded-none p-0 m-0 !inset-0 !translate-x-0 !translate-y-0 overflow-y-auto"
-            : "max-w-lg rounded-2xl shadow-xl"
+            ? "!w-screen !h-screen !max-w-none !max-h-none rounded-none p-0 m-0 !inset-0 !translate-x-0 !translate-y-0 overflow-y-auto admin-scrollbar"
+            : "max-w-lg rounded-xl shadow-xl"
         }`}
       >
         {!fullScreen && (

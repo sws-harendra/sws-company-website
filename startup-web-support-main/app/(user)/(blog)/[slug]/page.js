@@ -71,12 +71,13 @@ export default async function BlogPostPage({ params }) {
 
             {post.image_url && (
               <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
-                <img
+                <Image
                   src={post.image_url}
                   alt={post.title}
                   width={800}
                   height={500}
                   className="w-full h-auto object-cover"
+                  unoptimized
                 />
               </div>
             )}
@@ -110,10 +111,13 @@ export default async function BlogPostPage({ params }) {
                 >
                   <div className="rounded-lg overflow-hidden shadow hover:shadow-md transition bg-gray-50">
                     {f.image_url && (
-                      <img
+                      <Image
                         src={f.image_url}
                         alt={f.title}
+                        width={400}
+                        height={240}
                         className="w-full h-40 object-cover group-hover:scale-105 transition-transform"
+                        unoptimized
                       />
                     )}
                     <div className="p-4">

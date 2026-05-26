@@ -25,7 +25,7 @@ const WithRouteProtection = ({ children }) => {
       // User does not have permission → redirect
       logout();
     }
-  }, [isAuthenticated, pathname]);
+  }, [isAuthenticated, pathname, loading, logout, router, user]);
 
   if (loading) return <div>Loading...</div>;
 

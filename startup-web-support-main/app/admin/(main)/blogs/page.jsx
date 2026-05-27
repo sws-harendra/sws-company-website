@@ -6,10 +6,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import blogService from "@/services/blog.service";
 import ReusableModal from "../../components/ReusableModal";
 import BlogForm from "../../components/BlogForm";
+import ConfirmModal from "../../components/ConfirmModal";
+import { toast } from "sonner";
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState([]);
   const [editData, setEditData] = useState(null); // holds blog being edited
+  const [deleteId, setDeleteId] = useState(null);
 
   const fetchBlogs = async () => {
     const data = await blogService.getAll();
@@ -20,30 +23,32 @@ export default function BlogsPage() {
     fetchBlogs();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this blog?")) return;
-    await blogService.remove(id);
-    fetchBlogs();
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
   };
 
-  const handleSave = async (form, close) => {
-    try {
-      if (editData) {
-        await blogService.update(editData.id, form);
-      } else {
-        await blogService.create(form);
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      try {
+        await blogService.remove(deleteId);
+        toast.success("Blog deleted successfully");
+        setDeleteId(null);
+        fetchBlogs();
+      } catch (err) {
+        toast.error("Failed to delete blog");
+        console.error(err);
       }
-
-      close();
-      setEditData(null);
-      fetchBlogs();
-    } catch (err) {
-      console.error("Save failed:", err);
     }
   };
 
+  const handleSaveSuccess = (close) => {
+    close();
+    setEditData(null);
+    fetchBlogs();
+  };
+
   return (
-    <div className="p-6">
+    <div className="flex-1 flex flex-col transition-colors duration-300">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Blogs</h1>
@@ -52,11 +57,10 @@ export default function BlogsPage() {
         <ReusableModal
           title="Add New Blog"
           triggerLabel="+ New Blog"
-          fullScreen="true"
         >
           {({ close }) => (
             <BlogForm
-              onSave={(form) => handleSave(form, close)}
+              onSave={() => handleSaveSuccess(close)}
               onCancel={close}
             />
           )}
@@ -87,7 +91,7 @@ export default function BlogsPage() {
                 </Button>
                 <Button
                   variant="destructive"
-                  onClick={() => handleDelete(b.id)}
+                  onClick={() => handleDeleteClick(b.id)}
                 >
                   Delete
                 </Button>
@@ -103,7 +107,6 @@ export default function BlogsPage() {
           title="Edit Blog"
           triggerLabel=""
           open={!!editData}
-          fullScreen={true}
           onOpenChange={(isOpen) => {
             if (!isOpen) setEditData(null);
           }}
@@ -111,7 +114,7 @@ export default function BlogsPage() {
           {({ close }) => (
             <BlogForm
               selected={editData}
-              onSave={(form) => handleSave(form, close)}
+              onSave={() => handleSaveSuccess(close)}
               onCancel={() => {
                 close();
                 setEditData(null);
@@ -120,6 +123,14 @@ export default function BlogsPage() {
           )}
         </ReusableModal>
       )}
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Blog"
+        description="Are you sure you want to delete this blog? This action cannot be undone."
+      />
     </div>
   );
 }

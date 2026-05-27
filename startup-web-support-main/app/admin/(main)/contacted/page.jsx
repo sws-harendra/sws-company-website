@@ -16,6 +16,7 @@ import { Loader2, RefreshCcwIcon, Download, Trash } from "lucide-react";
 import contactService from "@/services/contact.service";
 import * as XLSX from "xlsx";
 import { toast } from "sonner";
+import ConfirmModal from "@/app/admin/components/ConfirmModal";
 
 const ContactedPage = () => {
   const [contacts, setContacts] = useState([]);
@@ -25,6 +26,25 @@ const ContactedPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [deleteId, setDeleteId] = useState(null);
+
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      try {
+        await contactService.deleteContact(deleteId);
+        toast.success("Contact deleted successfully");
+        loadContacts();
+      } catch (error) {
+        toast.error("Failed to delete contact");
+      } finally {
+        setDeleteId(null);
+      }
+    }
+  };
 
   const loadContacts = async () => {
     try {
@@ -74,7 +94,7 @@ const ContactedPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="flex-1 flex flex-col transition-colors duration-300 container mx-auto">
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="text-2xl font-semibold">
@@ -168,20 +188,8 @@ const ContactedPage = () => {
                         </TableCell>{" "}
                         <TableCell>
                           <Trash
-                            onClick={async () => {
-                              const confirmed = window.confirm(
-                                "Are you sure you want to delete this contact?"
-                              );
-                              if (!confirmed) return;
-
-                              try {
-                                await contactService.deleteContact(contact.id);
-                                toast.success("Contact deleted successfully");
-                                loadContacts();
-                              } catch (error) {
-                                toast.error("Failed to delete contact");
-                              }
-                            }}
+                            className="cursor-pointer"
+                            onClick={() => handleDeleteClick(contact.id)}
                             color="red"
                           />
                         </TableCell>
@@ -215,6 +223,14 @@ const ContactedPage = () => {
           )}
         </CardContent>
       </Card>
+      
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Contact"
+        description="Are you sure you want to delete this contact? This action cannot be undone."
+      />
     </div>
   );
 };

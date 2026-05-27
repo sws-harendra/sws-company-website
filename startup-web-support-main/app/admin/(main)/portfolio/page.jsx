@@ -16,6 +16,8 @@ import { Pencil, Trash2, ExternalLink } from "lucide-react";
 import portfolioService from "@/services/portfolio.service";
 import ReusableModal from "@/app/admin/components/ReusableModal";
 import PortfolioForm from "@/app/admin/components/PortfolioForm";
+import ConfirmModal from "@/app/admin/components/ConfirmModal";
+import { toast } from "sonner";
 
 export default function PortfolioPage() {
   const [portfolios, setPortfolios] = useState([]);
@@ -23,6 +25,7 @@ export default function PortfolioPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPortfolio, setEditingPortfolio] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -56,15 +59,21 @@ export default function PortfolioPage() {
     fetchPortfolios();
   }, [pagination.page, pagination.limit, searchTerm]);
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this portfolio item?"))
-      return;
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+  };
 
-    try {
-      await portfolioService.remove(id);
-      fetchPortfolios();
-    } catch (error) {
-      console.error("Delete failed:", error);
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      try {
+        await portfolioService.remove(deleteId);
+        toast.success("Portfolio item deleted successfully");
+        setDeleteId(null);
+        fetchPortfolios();
+      } catch (error) {
+        console.error("Delete failed:", error);
+        toast.error("Failed to delete portfolio item");
+      }
     }
   };
 
@@ -101,7 +110,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="flex-1 flex flex-col transition-colors duration-300">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
@@ -248,7 +257,7 @@ export default function PortfolioPage() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => handleDelete(item.id)}
+                            onClick={() => handleDeleteClick(item.id)}
                             className="text-red-600 hover:bg-red-50"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -288,6 +297,14 @@ export default function PortfolioPage() {
       </Card>
 
       {/* Add/Edit Modal */}
+      
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Portfolio Item"
+        description="Are you sure you want to delete this portfolio item? This action cannot be undone."
+      />
     </div>
   );
 }

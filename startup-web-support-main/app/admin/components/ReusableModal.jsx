@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 export default function ReusableModal({
   title,
   triggerLabel = "",
+  triggerClassName = "",
   children,
   open: controlledOpen,
   onOpenChange,
@@ -29,16 +30,15 @@ export default function ReusableModal({
     <Dialog open={open} onOpenChange={setOpen}>
       {triggerLabel && (
         <DialogTrigger asChild>
-          <Button>{triggerLabel}</Button>
+          <Button className={triggerClassName}>{triggerLabel}</Button>
         </DialogTrigger>
       )}
 
       <DialogContent
-        className={`${
-          fullScreen
+        className={`${fullScreen
             ? "!w-screen !h-screen !max-w-none !max-h-none rounded-none p-0 m-0 !inset-0 !translate-x-0 !translate-y-0 overflow-y-auto admin-scrollbar"
             : "max-w-lg rounded-xl shadow-xl"
-        }`}
+          }`}
       >
         {!fullScreen && (
           <DialogHeader>

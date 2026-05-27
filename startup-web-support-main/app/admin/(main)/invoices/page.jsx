@@ -6,11 +6,14 @@ import { Clock, Printer } from "lucide-react";
 import InvoiceForm from "../../components/InvoiceForm";
 import invoiceService from "@/services/invoice.service";
 import ReusableModal from "../../components/ReusableModal";
+import ConfirmModal from "../../components/ConfirmModal";
+import { toast } from "sonner";
 
 export default function InvoicesPage() {
   const [invoices, setInvoices] = useState([]);
   const [editData, setEditData] = useState(null);
   const [historyData, setHistoryData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
   const fetchInvoices = async () => {
     const data = await invoiceService.getAll({ page: 1, limit: 20 });
@@ -21,10 +24,17 @@ export default function InvoicesPage() {
     fetchInvoices();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!confirm("Delete this invoice?")) return;
-    await invoiceService.remove(id);
-    fetchInvoices();
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      await invoiceService.remove(deleteId);
+      toast.success("Invoice deleted successfully");
+      setDeleteId(null);
+      fetchInvoices();
+    }
   };
 
   const handleSave = async (form, close) => {
@@ -47,7 +57,7 @@ export default function InvoicesPage() {
       if (res.histories && res.histories.length > 0) {
         setHistoryData(res);
       } else {
-        alert("No history available for this invoice.");
+        toast.error("No history available for this invoice.");
       }
     } catch (err) {
       console.error("Error fetching history:", err);
@@ -55,7 +65,7 @@ export default function InvoicesPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="flex-1 flex flex-col transition-colors duration-300">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Invoices</h1>
 
@@ -113,7 +123,7 @@ export default function InvoicesPage() {
                 </Button>
                 <Button
                   variant="destructive"
-                  onClick={() => handleDelete(inv.id)}
+                  onClick={() => handleDeleteClick(inv.id)}
                 >
                   Delete
                 </Button>
@@ -200,6 +210,14 @@ export default function InvoicesPage() {
           </div>
         </ReusableModal>
       )}
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Invoice"
+        description="Are you sure you want to delete this invoice? This action cannot be undone."
+      />
     </div>
   );
 }

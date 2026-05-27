@@ -100,7 +100,7 @@
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
+  --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
@@ -128,9 +128,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   html {
     background-color: var(--background);
   }
+
   body {
     background-color: transparent;
     @apply text-foreground;
@@ -149,18 +151,23 @@
   .gallery-item-1 {
     grid-area: a;
   }
+
   .gallery-item-2 {
     grid-area: b;
   }
+
   .gallery-item-3 {
     grid-area: c;
   }
+
   .gallery-item-4 {
     grid-area: d;
   }
+
   .gallery-item-5 {
     grid-area: e;
   }
+
   .gallery-item-6 {
     grid-area: f;
   }
@@ -171,6 +178,7 @@
       opacity: 0;
       transform: translateY(12px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -181,13 +189,15 @@
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
   }
 
   .animate-fade-in-up {
-    opacity: 0; /* starts invisible for smooth entry */
+    opacity: 0;
+    /* starts invisible for smooth entry */
     animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
@@ -197,18 +207,36 @@
   }
 
   /* Stagger delays for sequential metric entry */
-  .delay-75 { animation-delay: 75ms; }
-  .delay-150 { animation-delay: 150ms; }
-  .delay-225 { animation-delay: 225ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-375 { animation-delay: 375ms; }
-  .delay-450 { animation-delay: 450ms; }
+  .delay-75 {
+    animation-delay: 75ms;
+  }
+
+  .delay-150 {
+    animation-delay: 150ms;
+  }
+
+  .delay-225 {
+    animation-delay: 225ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .delay-375 {
+    animation-delay: 375ms;
+  }
+
+  .delay-450 {
+    animation-delay: 450ms;
+  }
 
   /* Smooth slow spin for theme toggles */
   @keyframes spinSlow {
     from {
       transform: rotate(0deg);
     }
+
     to {
       transform: rotate(360deg);
     }
@@ -223,22 +251,30 @@
 
 /* Light mode tokens */
 :root {
-  --scrollbar-track: #f1f5f9;       /* slate-100 */
-  --scrollbar-thumb: #cbd5e1;       /* slate-300 */
-  --scrollbar-thumb-hover: #94a3b8; /* slate-400 */
+  --scrollbar-track: #f1f5f9;
+  /* slate-100 */
+  --scrollbar-thumb: #cbd5e1;
+  /* slate-300 */
+  --scrollbar-thumb-hover: #94a3b8;
+  /* slate-400 */
 }
 
 /* Dark mode tokens — applied when .dark class is on a parent */
 .dark {
-  --scrollbar-track: #18181b;       /* zinc-900 */
-  --scrollbar-thumb: #3f3f46;       /* zinc-700 */
-  --scrollbar-thumb-hover: #029bd2; /* brand accent */
+  --scrollbar-track: #18181b;
+  /* zinc-900 */
+  --scrollbar-thumb: #3f3f46;
+  /* zinc-700 */
+  --scrollbar-thumb-hover: #029bd2;
+  /* brand accent */
 }
 
 /* The reusable class consumed by <CustomScrollbar> */
 .admin-scrollbar {
-  scrollbar-width: thin;                          /* Firefox */
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); /* Firefox */
+  scrollbar-width: thin;
+  /* Firefox */
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  /* Firefox */
 }
 
 /* Webkit browsers (Chrome, Edge, Safari) */
@@ -246,15 +282,18 @@
   width: 4px;
   height: 4px;
 }
+
 .admin-scrollbar::-webkit-scrollbar-track {
   background: var(--scrollbar-track);
   border-radius: 99px;
 }
+
 .admin-scrollbar::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
   border-radius: 99px;
   transition: background 0.2s ease;
 }
+
 .admin-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover);
 }
@@ -264,38 +303,76 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
 /* ─── HUD blueprint & Honeycomb Node Keyframes ─── */
 @keyframes floatNode1 {
-  0% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(60px, -80px) scale(1.08); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  50% {
+    transform: translate(60px, -80px) scale(1.08);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes floatNode2 {
-  0% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(-70px, 50px) scale(0.92); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  50% {
+    transform: translate(-70px, 50px) scale(0.92);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes floatNode3 {
-  0% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(50px, 60px) scale(1.05); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  50% {
+    transform: translate(50px, 60px) scale(1.05);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes floatNode4 {
-  0% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(-40px, -60px) scale(0.95); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  50% {
+    transform: translate(-40px, -60px) scale(0.95);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 @keyframes spinHUD {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .animate-float-node-1 {

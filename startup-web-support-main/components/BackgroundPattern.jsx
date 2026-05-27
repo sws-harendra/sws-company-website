@@ -35,37 +35,7 @@ export default function BackgroundPattern() {
         />
       </svg>
 
-      {/* 2. Concentric Scientific HUD elements (spinning slow in opposing corners) */}
-      {/* HUD 1: Top-Right rotating concentric HUD dials */}
-      <svg 
-        className="absolute top-[5%] right-[-5%] w-[450px] h-[450px] opacity-75 pointer-events-none select-none transition-all duration-300 animate-spin-hud" 
-        style={{ color: 'var(--bg-hud-stroke)' }}
-        viewBox="0 0 400 400" 
-        fill="none"
-      >
-        <circle cx="200" cy="200" r="190" stroke="currentColor" strokeWidth="1.5" strokeDasharray="6 8" />
-        <circle cx="200" cy="200" r="170" stroke="currentColor" strokeWidth="0.75" />
-        <circle cx="200" cy="200" r="150" stroke="currentColor" strokeWidth="2.5" strokeDasharray="30 15" />
-        <circle cx="200" cy="200" r="110" stroke="currentColor" strokeWidth="1.25" strokeDasharray="2 4" />
-        <circle cx="200" cy="200" r="70" stroke="currentColor" strokeWidth="0.75" />
-        <path d="M 200 0 L 200 400 M 0 200 L 400 200" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 6" />
-        {/* Outer tick markings */}
-        <path d="M10,200 L20,200 M380,200 L390,200 M200,10 L200,20 M200,380 L200,390" stroke="currentColor" strokeWidth="2" />
-      </svg>
 
-      {/* HUD 2: Bottom-Left rotating concentric HUD dials */}
-      <svg 
-        className="absolute bottom-[5%] left-[-8%] w-[350px] h-[350px] opacity-70 pointer-events-none select-none transition-all duration-300 animate-spin-hud" 
-        style={{ color: 'var(--bg-hud-stroke)', animationDirection: 'reverse', animationDuration: '60s' }}
-        viewBox="0 0 300 300" 
-        fill="none"
-      >
-        <circle cx="150" cy="150" r="140" stroke="currentColor" strokeWidth="1.25" strokeDasharray="4 6" />
-        <circle cx="150" cy="150" r="120" stroke="currentColor" strokeWidth="2" strokeDasharray="20 40" />
-        <circle cx="150" cy="150" r="90" stroke="currentColor" strokeWidth="0.75" />
-        <circle cx="150" cy="150" r="60" stroke="currentColor" strokeWidth="1.5" strokeDasharray="6 6" />
-        <path d="M 150 0 L 150 300 M 0 150 L 300 150" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 3" />
-      </svg>
 
       {/* 3. Floating Geometric Node Particles (gently floating in deep 3D-like parallax space) */}
       {/* Node 1: Floating circle in top-left */}

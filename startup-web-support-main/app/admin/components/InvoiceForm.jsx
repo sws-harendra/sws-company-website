@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function InvoiceForm({ selected, onSave, onCancel }) {
   const [form, setForm] = useState(
@@ -178,25 +179,28 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
           </div>
           {form.payments.map((p, i) => (
             <div key={i} className="grid grid-cols-3 gap-2">
-              <select
-                className="border border-gray-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              <Select
                 value={p.modeOfPayment}
-                onChange={(e) =>
+                onValueChange={(value) =>
                   handleArrayChange(
                     "payments",
                     i,
                     "modeOfPayment",
-                    e.target.value
+                    value
                   )
                 }
               >
-                <option value="">Select Payment Mode</option>
-                <option value="UPI">UPI</option>
-                <option value="bank_transfer">Bank Transfer</option>
-                <option value="cash">Cash</option>
-                <option value="cheque">Cheque</option>
-                <option value="other">Other</option>
-              </select>
+                <SelectTrigger className="border border-gray-300 rounded-md h-[40px] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-offset-0 bg-transparent">
+                  <SelectValue placeholder="Select Payment Mode" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="UPI">UPI</SelectItem>
+                  <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                  <SelectItem value="cash">Cash</SelectItem>
+                  <SelectItem value="cheque">Cheque</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
 
               <Input
                 placeholder="Received Amount"

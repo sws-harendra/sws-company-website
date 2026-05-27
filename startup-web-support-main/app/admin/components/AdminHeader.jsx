@@ -13,7 +13,7 @@ const AdminHeader = () => {
   const router = useRouter();
   const { user, logout } = useAuth();
   const { isAdminDark, toggleAdminTheme } = useAdminTheme();
-  
+
   const [time, setTime] = useState("");
   const [dateStr, setDateStr] = useState("");
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -68,9 +68,9 @@ const AdminHeader = () => {
       <div className="flex items-center space-x-4 w-full md:w-auto">
         <Link href="/admin/dashboard" className="flex items-center gap-2 group">
           <div className="relative w-10 h-10 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white p-1 transition-transform group-hover:scale-105 shadow-sm">
-            <Image 
-              src="/sws-logo.png" 
-              alt="SWS Logo" 
+            <Image
+              src="/sws-logo.png"
+              alt="SWS Logo"
               fill
               className="object-contain p-1"
             />

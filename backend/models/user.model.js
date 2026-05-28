@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       name: { type: DataTypes.STRING, allowNull: false },
       email: { type: DataTypes.STRING, unique: true, allowNull: false },
       password: { type: DataTypes.STRING, allowNull: false },
+      resetPasswordToken: { type: DataTypes.STRING, allowNull: true },
+      resetPasswordExpires: { type: DataTypes.DATE, allowNull: true },
     },
     {
       tableName: "Users",

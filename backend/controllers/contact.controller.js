@@ -107,3 +107,24 @@ exports.deleteContact = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Bulk delete contacts
+exports.bulkDeleteContacts = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ message: "No IDs provided" });
+    }
+    const { Op } = require("sequelize");
+    const deletedCount = await Contact.destroy({
+      where: {
+        id: {
+          [Op.in]: ids,
+        },
+      },
+    });
+    res.json({ message: `${deletedCount} contacts deleted successfully` });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

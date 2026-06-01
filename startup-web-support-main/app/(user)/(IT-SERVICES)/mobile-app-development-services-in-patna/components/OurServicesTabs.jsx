@@ -9,9 +9,10 @@ import {
   FaAndroid,
   FaWordpress,
   FaPhp,
-  FaJava
+  FaJava,
+  FaMagento
 } from 'react-icons/fa';
-import { SiMagento, SiWoocommerce } from 'react-icons/si';
+import { SiWoocommerce } from 'react-icons/si';
 import Image from 'next/image';
 
 const servicesData = [
@@ -48,7 +49,7 @@ const servicesData = [
     description: 'For businesses planning to sell online, we provide e-commerce app development solutions that are simple to use and safe to run. From showing products properly to setting up payments and managing orders, everything is done in a clear and practical way so customers can shop easily, and business owners can handle daily sales work without stress or confusion.',
     mainImage: 'e-com.svg',
     techIcons: [
-      { icon: SiMagento, name: 'Magento', style: "text-orange-600 text-2xl" },
+      { icon: FaMagento, name: 'Magento', style: "text-orange-600 text-2xl" },
       { icon: SiWoocommerce, name: 'WooCommerce', style: "text-violet-600 text-5xl" },
     ],
   },

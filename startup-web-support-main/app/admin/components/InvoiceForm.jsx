@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ADD_BUTTON_CLASS } from "@/constants";
+import { toast } from "sonner";
 
 export default function InvoiceForm({ selected, onSave, onCancel }) {
   const [form, setForm] = useState(
@@ -57,14 +60,18 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!form.name) {
+      toast.error("Client Name is required to save the invoice");
+      return;
+    }
     onSave(form);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <Card>
-        <CardContent className="p-4 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+        <CardContent className="p-3 md:p-4 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               name="name"
               placeholder="Client Name"
@@ -119,15 +126,15 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
 
       {/* SERVICES */}
       <Card>
-        <CardContent className="p-4 space-y-3">
+        <CardContent className="p-3 md:p-4 space-y-3">
           <div className="flex justify-between">
             <h3 className="font-semibold">Services</h3>
-            <Button type="button" onClick={() => addRow("services")}>
+            <Button type="button" className={ADD_BUTTON_CLASS} onClick={() => addRow("services")}>
               + Add Service
             </Button>
           </div>
           {form?.services.map((s, i) => (
-            <div key={i} className="grid grid-cols-3 gap-2">
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
               <Input
                 placeholder="Description"
                 value={s.description}
@@ -169,34 +176,37 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
 
       {/* PAYMENTS */}
       <Card>
-        <CardContent className="p-4 space-y-3">
+        <CardContent className="p-3 md:p-4 space-y-3">
           <div className="flex justify-between">
             <h3 className="font-semibold">Payments</h3>
-            <Button type="button" onClick={() => addRow("payments")}>
+            <Button type="button" className={ADD_BUTTON_CLASS} onClick={() => addRow("payments")}>
               + Add Payment
             </Button>
           </div>
           {form.payments.map((p, i) => (
-            <div key={i} className="grid grid-cols-3 gap-2">
-              <select
-                className="border border-gray-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
+              <Select
                 value={p.modeOfPayment}
-                onChange={(e) =>
+                onValueChange={(value) =>
                   handleArrayChange(
                     "payments",
                     i,
                     "modeOfPayment",
-                    e.target.value
+                    value
                   )
                 }
               >
-                <option value="">Select Payment Mode</option>
-                <option value="UPI">UPI</option>
-                <option value="bank_transfer">Bank Transfer</option>
-                <option value="cash">Cash</option>
-                <option value="cheque">Cheque</option>
-                <option value="other">Other</option>
-              </select>
+                <SelectTrigger className="border border-gray-300 rounded-md h-[40px] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-offset-0 bg-transparent">
+                  <SelectValue placeholder="Select Payment Mode" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="UPI">UPI</SelectItem>
+                  <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                  <SelectItem value="cash">Cash</SelectItem>
+                  <SelectItem value="cheque">Cheque</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
 
               <Input
                 placeholder="Received Amount"
@@ -222,6 +232,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
                     e.target.value
                   )
                 }
+                className="h-9 px-2 text-xs sm:text-sm"
               />
               <Button
                 type="button"
@@ -237,15 +248,15 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
 
       {/* DETAILS */}
       <Card>
-        <CardContent className="p-4 space-y-3">
+        <CardContent className="p-3 md:p-4 space-y-3">
           <div className="flex justify-between">
             <h3 className="font-semibold">Bank / GST Details</h3>
-            <Button type="button" onClick={() => addRow("details")}>
+            <Button type="button" className={ADD_BUTTON_CLASS} onClick={() => addRow("details")}>
               + Add Detail
             </Button>
           </div>
           {form.details.map((d, i) => (
-            <div key={i} className="grid grid-cols-4 gap-2">
+            <div key={i} className="grid grid-cols-1 md:grid-cols-5 gap-2 items-center">
               <Input
                 placeholder="GST Number"
                 value={d.gstNumber}

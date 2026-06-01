@@ -12,15 +12,17 @@ const contactService = {
     startDate,
     endDate,
   } = {}) {
-    const params = new URLSearchParams({
+    const paramsObj = {
       page,
       limit,
       q,
       sortBy,
       order,
-      startDate,
-      endDate,
-    });
+    };
+    if (startDate) paramsObj.startDate = startDate;
+    if (endDate) paramsObj.endDate = endDate;
+    
+    const params = new URLSearchParams(paramsObj);
     const res = await fetch(`${API_URL}/contacts?${params}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -64,6 +66,20 @@ const contactService = {
 
     if (!res.ok) {
       throw new Error(`Error deleting contact`);
+    }
+    return res.json();
+  },
+
+  // Bulk delete contacts
+  async bulkDelete(ids) {
+    const res = await fetch(`${API_URL}/contacts/bulk-delete`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error bulk deleting contacts`);
     }
     return res.json();
   },

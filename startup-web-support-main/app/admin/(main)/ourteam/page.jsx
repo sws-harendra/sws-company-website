@@ -4,15 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { ADD_BUTTON_CLASS } from "@/constants";
 import ReusableModal from "../../components/ReusableModal";
 import teamService from "@/services/team.service";
 import TeamForm from "../../components/TeamForm";
+import ConfirmModal from "../../components/ConfirmModal";
 
 export default function TeamsPage() {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
   const loadTeams = async () => {
     setLoading(true);
@@ -30,22 +33,29 @@ export default function TeamsPage() {
     loadTeams();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure?")) return;
-    try {
-      await teamService.remove(id);
-      toast.success("Member deleted");
-      loadTeams();
-    } catch (err) {
-      toast.error("Failed to delete");
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      try {
+        await teamService.remove(deleteId);
+        toast.success("Member deleted");
+        setDeleteId(null);
+        loadTeams();
+      } catch (err) {
+        toast.error("Failed to delete");
+      }
     }
   };
 
   return (
-    <div className="space-y-4">
+    <div className="flex-1 flex flex-col space-y-4 transition-colors duration-300">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Team Members</h1>
         <Button
+          className={ADD_BUTTON_CLASS}
           onClick={() => {
             setSelected(null);
             setModalOpen(true);
@@ -86,7 +96,7 @@ export default function TeamsPage() {
                 <Button
                   size="icon"
                   variant="destructive"
-                  onClick={() => handleDelete(t.id)}
+                  onClick={() => handleDeleteClick(t.id)}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
@@ -108,6 +118,14 @@ export default function TeamsPage() {
           onSuccess={loadTeams}
         />
       </ReusableModal>
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Team Member"
+        description="Are you sure you want to delete this team member? This action cannot be undone."
+      />
     </div>
   );
 }

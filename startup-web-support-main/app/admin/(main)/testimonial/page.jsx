@@ -12,10 +12,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Search } from "lucide-react";
 import testimonialService from "@/services/testimonial.service";
 import ReusableModal from "@/app/admin/components/ReusableModal";
 import TestimonialForm from "@/app/admin/components/TestimonialForm";
+import ConfirmModal from "@/app/admin/components/ConfirmModal";
+import { toast } from "sonner";
+import { ADD_BUTTON_CLASS } from "@/constants";
 
 export default function TestimonialAdmin() {
   const [testimonials, setTestimonials] = useState([]);
@@ -24,6 +27,7 @@ export default function TestimonialAdmin() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
   const fetchTestimonials = async () => {
     try {
@@ -41,13 +45,21 @@ export default function TestimonialAdmin() {
     fetchTestimonials();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this testimonial?")) return;
-    try {
-      await testimonialService.remove(id);
-      fetchTestimonials();
-    } catch (error) {
-      console.error("Delete failed:", error);
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      try {
+        await testimonialService.remove(deleteId);
+        toast.success("Testimonial deleted successfully");
+        setDeleteId(null);
+        fetchTestimonials();
+      } catch (error) {
+        console.error("Delete failed:", error);
+        toast.error("Failed to delete testimonial");
+      }
     }
   };
 
@@ -84,7 +96,7 @@ export default function TestimonialAdmin() {
   );
 
   return (
-    <div className="p-6">
+    <div className="flex-1 flex flex-col transition-colors duration-300">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
@@ -94,18 +106,19 @@ export default function TestimonialAdmin() {
           </p>
         </div>
 
-        <Button onClick={openAddModal} className="flex items-center gap-2">
+        <Button onClick={openAddModal} className={`${ADD_BUTTON_CLASS} flex items-center gap-2`}>
           + Add Testimonial
         </Button>
       </div>
 
       {/* Search */}
-      <div className="mb-6">
+      <div className="mb-6 relative max-w-sm">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search testimonials..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
+          className="pl-9"
         />
       </div>
 
@@ -157,7 +170,7 @@ export default function TestimonialAdmin() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => handleDelete(item.id)}
+                          onClick={() => handleDeleteClick(item.id)}
                           className="text-red-600 hover:bg-red-50"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -187,6 +200,14 @@ export default function TestimonialAdmin() {
           )}
         </ReusableModal>
       )}
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Testimonial"
+        description="Are you sure you want to delete this testimonial? This action cannot be undone."
+      />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import Head from "next/head";
 import Script from "next/script";
+import BackgroundPattern from "@/components/BackgroundPattern";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <BackgroundPattern />
+
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=GTM-TP28PFB8"

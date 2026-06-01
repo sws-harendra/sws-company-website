@@ -30,7 +30,7 @@ const templateMap = {
   feedback: "feedback.hbs",
   welcome: "welcome.hbs",
   newContact: "mail/newcontact.hbs",
-
+  forgotPassword: "forgotPassword.hbs",
   // add more mappings as needed
 };
 

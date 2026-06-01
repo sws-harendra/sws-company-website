@@ -2,15 +2,23 @@
 import { useState } from "react";
 import { PermissionService } from "@/services/permissionService";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 export default function PermissionForm() {
   const [form, setForm] = useState({ name: "", description: "" });
 
   const handleSubmit = async () => {
-    if (!form.name) return alert("Permission name required");
-    await PermissionService.create(form);
-    alert("Permission created successfully!");
-    setForm({ name: "", description: "" });
+    if (!form.name) {
+      toast.error("Permission name required");
+      return;
+    }
+    try {
+      await PermissionService.create(form);
+      toast.success("Permission created successfully!");
+      setForm({ name: "", description: "" });
+    } catch (error) {
+      toast.error("Failed to create permission");
+    }
   };
 
   return (

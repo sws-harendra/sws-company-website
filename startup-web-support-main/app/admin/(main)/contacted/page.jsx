@@ -245,7 +245,7 @@ const ContactedPage = () => {
                         <TableCell>{contact.pageUsed}</TableCell>
                         <TableCell>
                           {new Date(contact.createdAt).toLocaleDateString()}
-                        </TableCell>{" "}
+                        </TableCell>
                         <TableCell>
                           <Trash
                             className="cursor-pointer"

@@ -10,14 +10,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+import { ADD_BUTTON_CLASS } from "@/constants";
+
 export default function ReusableModal({
   title,
   triggerLabel = "",
-  triggerClassName = "",
+  triggerClassName = ADD_BUTTON_CLASS,
   children,
   open: controlledOpen,
   onOpenChange,
   fullScreen = false,
+  maxWidth = "max-w-lg",
 }) {
   const [internalOpen, setInternalOpen] = useState(false);
 
@@ -35,9 +38,10 @@ export default function ReusableModal({
       )}
 
       <DialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
         className={`${fullScreen
             ? "!w-screen !h-screen !max-w-none !max-h-none rounded-none p-0 m-0 !inset-0 !translate-x-0 !translate-y-0 overflow-y-auto admin-scrollbar"
-            : "max-w-lg rounded-xl shadow-xl"
+            : `${maxWidth} rounded-xl shadow-xl max-h-[90vh] overflow-y-auto admin-scrollbar`
           }`}
       >
         {!fullScreen && (

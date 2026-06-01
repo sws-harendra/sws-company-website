@@ -72,7 +72,7 @@ export default function InvoicesPage() {
         <ReusableModal
           title="Create Invoice"
           triggerLabel="+ New Invoice"
-          fullScreen="true"
+          maxWidth="max-w-5xl"
         >
           {({ close }) => (
             <InvoiceForm
@@ -139,7 +139,7 @@ export default function InvoicesPage() {
           title={`Edit Invoice ${editData.code}`}
           triggerLabel=""
           open={!!editData}
-          fullScreen={true}
+          maxWidth="max-w-5xl"
           onOpenChange={(isOpen) => {
             if (!isOpen) setEditData(null);
           }}

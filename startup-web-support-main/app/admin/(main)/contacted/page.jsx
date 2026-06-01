@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCcwIcon, Download, Trash } from "lucide-react";
+import { Loader2, RefreshCcwIcon, Download, Trash, Search } from "lucide-react";
 import contactService from "@/services/contact.service";
 import * as XLSX from "xlsx";
 import { toast } from "sonner";
@@ -27,6 +27,8 @@ const ContactedPage = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [deleteId, setDeleteId] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
 
   const handleDeleteClick = (id) => {
     setDeleteId(id);
@@ -43,6 +45,39 @@ const ContactedPage = () => {
       } finally {
         setDeleteId(null);
       }
+    }
+  };
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(contacts.map(c => c.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectOne = (id) => {
+    setSelectedIds(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleBulkDeleteClick = () => {
+    if (selectedIds.length > 0) {
+      setShowBulkDeleteModal(true);
+    }
+  };
+
+  const handleConfirmBulkDelete = async () => {
+    try {
+      await contactService.bulkDelete(selectedIds);
+      toast.success(`${selectedIds.length} contacts deleted successfully`);
+      setSelectedIds([]);
+      loadContacts();
+    } catch (err) {
+      toast.error("Failed to delete contacts");
+    } finally {
+      setShowBulkDeleteModal(false);
     }
   };
 
@@ -108,15 +143,18 @@ const ContactedPage = () => {
         <CardContent>
           {/* 🔍 Filters Row */}
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <Input
-              placeholder="Search by name, email, or subject..."
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
-              className="max-w-sm"
-            />
+            <div className="relative max-w-sm flex-1 min-w-[250px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search by name, email, or subject..."
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                }}
+                className="pl-9 w-full"
+              />
+            </div>
 
             <div className="flex items-center gap-2">
               <Input
@@ -148,6 +186,12 @@ const ContactedPage = () => {
                 <Download className="h-4 w-4" />
                 Export Excel
               </Button>
+              {selectedIds.length > 0 && (
+                <Button variant="destructive" onClick={handleBulkDeleteClick} className="gap-2 bg-red-600 hover:bg-red-700 text-white">
+                  <Trash className="h-4 w-4" />
+                  Delete Selected ({selectedIds.length})
+                </Button>
+              )}
             </div>
           </div>
 
@@ -166,6 +210,14 @@ const ContactedPage = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="w-12">
+                        <input 
+                          type="checkbox" 
+                          className="w-4 h-4 cursor-pointer accent-[#029bd2]" 
+                          checked={selectedIds.length === contacts.length && contacts.length > 0} 
+                          onChange={handleSelectAll} 
+                        />
+                      </TableHead>
                       <TableHead>Full Name</TableHead>
                       <TableHead>Email</TableHead>
                       <TableHead>Phone</TableHead>
@@ -177,7 +229,15 @@ const ContactedPage = () => {
                   </TableHeader>
                   <TableBody>
                     {contacts.map((contact) => (
-                      <TableRow key={contact.id}>
+                      <TableRow key={contact.id} className={selectedIds.includes(contact.id) ? "bg-muted/50" : ""}>
+                        <TableCell>
+                          <input 
+                            type="checkbox" 
+                            className="w-4 h-4 cursor-pointer accent-[#029bd2]" 
+                            checked={selectedIds.includes(contact.id)} 
+                            onChange={() => handleSelectOne(contact.id)} 
+                          />
+                        </TableCell>
                         <TableCell>{contact.fullname}</TableCell>
                         <TableCell>{contact.email}</TableCell>
                         <TableCell>{contact.phone}</TableCell>
@@ -230,6 +290,14 @@ const ContactedPage = () => {
         onConfirm={handleConfirmDelete}
         title="Delete Contact"
         description="Are you sure you want to delete this contact? This action cannot be undone."
+      />
+      
+      <ConfirmModal
+        isOpen={showBulkDeleteModal}
+        onClose={() => setShowBulkDeleteModal(false)}
+        onConfirm={handleConfirmBulkDelete}
+        title="Delete Selected Contacts"
+        description={`Are you sure you want to delete ${selectedIds.length} contacts? This action cannot be undone.`}
       />
     </div>
   );

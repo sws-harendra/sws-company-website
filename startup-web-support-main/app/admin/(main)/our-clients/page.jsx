@@ -12,12 +12,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Search } from "lucide-react";
 import clientService from "@/services/client.service";
 import ReusableModal from "@/app/admin/components/ReusableModal";
 import ClientForm from "@/app/admin/components/ClientForm";
 import ConfirmModal from "@/app/admin/components/ConfirmModal";
 import { toast } from "sonner";
+import { ADD_BUTTON_CLASS } from "@/constants";
 
 export default function OurClientsPage() {
   const [clients, setClients] = useState([]);
@@ -101,18 +102,19 @@ export default function OurClientsPage() {
           </p>
         </div>
 
-        <Button onClick={openAddModal} className="flex items-center gap-2">
+        <Button onClick={openAddModal} className={`${ADD_BUTTON_CLASS} flex items-center gap-2`}>
           + Add Client
         </Button>
       </div>
 
       {/* Search */}
-      <div className="mb-6">
+      <div className="mb-6 relative max-w-sm">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search clients..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
+          className="pl-9"
         />
       </div>
 

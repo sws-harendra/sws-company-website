@@ -62,10 +62,9 @@ export default function BannersPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Banners</h1>
 
-        <ReusableModal 
-          title="Add New Banner" 
+        <ReusableModal
+          title="Add New Banner"
           triggerLabel="+ Add Banner"
-          triggerClassName="bg-gradient-to-r from-[#1a4468] via-[#102d45] to-[#029bd2] hover:opacity-95 text-white font-bold rounded-xl shadow-md transition-all active:scale-95"
         >
           {({ close }) => (
             <BannerForm

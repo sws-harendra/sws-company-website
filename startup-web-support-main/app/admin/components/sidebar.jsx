@@ -1,33 +1,37 @@
 "use client";
 
 import React, { useState } from "react";
-import { LayoutDashboard, User, LogIn, X, Menu } from "lucide-react";
-import { PiComputerTowerFill, PiFlagBanner } from "react-icons/pi";
-import { BiStats } from "react-icons/bi";
+import { 
+  LayoutDashboard, 
+  Image as ImageIcon, 
+  BookOpen, 
+  HeartHandshake, 
+  Receipt, 
+  Palette, 
+  UserCog, 
+  ShieldCheck, 
+  Mail, 
+  Users, 
+  MessageSquareQuote,
+  X, 
+  Menu 
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { IoCreate } from "react-icons/io5";
-import { MdOutlineDashboardCustomize, MdReviews } from "react-icons/md";
-import { FaCriticalRole } from "react-icons/fa";
-import { Check, User2 } from "lucide-react";
 import { useAuth } from "../(main)/context/AuthContext";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin/dashboard", icon: <LayoutDashboard /> },
-  { label: "Banner", href: "/admin/banner", icon: <PiFlagBanner /> },
-  { label: "Blogs", href: "/admin/blogs", icon: <BiStats /> },
-  { label: "Our Clients", href: "/admin/our-clients", icon: <Check /> },
-  { label: "Invoices", href: "/admin/invoices", icon: <IoCreate /> },
-  {
-    label: "Portfolio",
-    href: "/admin/portfolio",
-    icon: <PiComputerTowerFill />,
-  },
-  { label: "Admin Users", href: "/admin/users", icon: <User2 /> },
-  { label: "Roles", href: "/admin/role", icon: <FaCriticalRole /> },
-  { label: "Contacts", href: "/admin/contacted", icon: <MdOutlineDashboardCustomize /> },
-  { label: "Our Teams", href: "/admin/ourteam", icon: <MdOutlineDashboardCustomize /> },
-  { label: "Testimonial", href: "/admin/testimonial", icon: <MdReviews /> },
+  { label: "Banner", href: "/admin/banner", icon: <ImageIcon /> },
+  { label: "Blogs", href: "/admin/blogs", icon: <BookOpen /> },
+  { label: "Our Clients", href: "/admin/our-clients", icon: <HeartHandshake /> },
+  { label: "Invoices", href: "/admin/invoices", icon: <Receipt /> },
+  { label: "Portfolio", href: "/admin/portfolio", icon: <Palette /> },
+  { label: "Admin Users", href: "/admin/users", icon: <UserCog /> },
+  { label: "Roles", href: "/admin/role", icon: <ShieldCheck /> },
+  { label: "Contacts", href: "/admin/contacted", icon: <Mail /> },
+  { label: "Our Teams", href: "/admin/ourteam", icon: <Users /> },
+  { label: "Testimonial", href: "/admin/testimonial", icon: <MessageSquareQuote /> },
 ];
 
 const Sidebar = () => {

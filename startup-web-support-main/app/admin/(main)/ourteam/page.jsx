@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { ADD_BUTTON_CLASS } from "@/constants";
 import ReusableModal from "../../components/ReusableModal";
 import teamService from "@/services/team.service";
 import TeamForm from "../../components/TeamForm";
@@ -54,6 +55,7 @@ export default function TeamsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Team Members</h1>
         <Button
+          className={ADD_BUTTON_CLASS}
           onClick={() => {
             setSelected(null);
             setModalOpen(true);

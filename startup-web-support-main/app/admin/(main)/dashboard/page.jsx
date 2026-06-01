@@ -39,11 +39,15 @@ const Dashboard = () => {
     blogs: 0,
     portfolios: 0
   });
+  const [leadsTrend, setLeadsTrend] = useState({ percentage: 0, isPositive: true });
   const [recentLeads, setRecentLeads] = useState([]);
   const [billingInfo, setBillingInfo] = useState({
     totalAmount: 0,
     paidCount: 0,
     unpaidCount: 0
+  });
+  const [chartData, setChartData] = useState({
+    q1: 130, q2: 130, q3: 130, q4: 130
   });
 
   // Calculate greeting message based on time of day
@@ -59,7 +63,6 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
-        // Parallel fetching of all stats from APIs
         const [
           leadsRes,
           blogsRes,
@@ -67,100 +70,102 @@ const Dashboard = () => {
           invoicesRes,
           portfoliosRes
         ] = await Promise.allSettled([
-          contactService.getAllContacts({ limit: 10 }),
+          contactService.getAllContacts({ limit: 100 }),
           blogService.getAll(),
           clientService.getAll(),
           invoiceService.getAll({ limit: 100 }),
           portfolioService.getAll({ limit: 100 })
         ]);
 
-        // Process Leads
         let leadsCount = 0;
         let recentLeadsList = [];
+        let trend = { percentage: 0, isPositive: true };
+        let qData = { q1: 0, q2: 0, q3: 0, q4: 0 };
+        
         if (leadsRes.status === "fulfilled") {
           const lData = leadsRes.value;
-          const lList = Array.isArray(lData) 
-            ? lData 
-            : (lData?.data && Array.isArray(lData.data)) 
-            ? lData.data 
-            : [];
-          leadsCount = lData?.total || lList.length || 0;
-          recentLeadsList = lList.slice(0, 5); // Take top 5
+          const lList = Array.isArray(lData) ? lData : lData?.contacts || [];
+          leadsCount = lData?.totalItems || lList.length || 0;
+          recentLeadsList = lList.slice(0, 6);
+          
+          const now = new Date();
+          const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
+          
+          const thisWeekLeads = lList.filter(l => new Date(l.createdAt) >= oneWeekAgo).length;
+          const lastWeekLeads = lList.filter(l => new Date(l.createdAt) >= twoWeeksAgo && new Date(l.createdAt) < oneWeekAgo).length;
+          
+          if (lastWeekLeads === 0) {
+            trend = { percentage: thisWeekLeads > 0 ? 100 : 0, isPositive: true };
+          } else {
+            const diff = thisWeekLeads - lastWeekLeads;
+            trend = { percentage: Math.round(Math.abs((diff / lastWeekLeads) * 100)), isPositive: diff >= 0 };
+          }
+          
+          const currentYear = now.getFullYear();
+          lList.forEach(l => {
+             const d = new Date(l.createdAt);
+             if (d.getFullYear() === currentYear) {
+                const month = d.getMonth();
+                if (month < 3) qData.q1++;
+                else if (month < 6) qData.q2++;
+                else if (month < 9) qData.q3++;
+                else qData.q4++;
+             }
+          });
         }
 
-        // Process Blogs
+        const maxQ = Math.max(qData.q1, qData.q2, qData.q3, qData.q4, 1);
+        const mapY = (val) => 130 - (val / maxQ) * 100;
+        setChartData({
+          q1: mapY(qData.q1),
+          q2: mapY(qData.q2),
+          q3: mapY(qData.q3),
+          q4: mapY(qData.q4)
+        });
+        setLeadsTrend(trend);
+
         let blogsCount = 0;
         if (blogsRes.status === "fulfilled") {
           const bData = blogsRes.value;
-          const bList = Array.isArray(bData) 
-            ? bData 
-            : (bData?.data && Array.isArray(bData.data)) 
-            ? bData.data 
-            : [];
-          blogsCount = bData?.total || bList.length || 0;
+          const bList = Array.isArray(bData) ? bData : bData?.blogs || [];
+          blogsCount = bData?.totalItems || bList.length || 0;
         }
 
-        // Process Clients
         let clientsCount = 0;
         if (clientsRes.status === "fulfilled") {
           const cData = clientsRes.value;
-          const cList = Array.isArray(cData) 
-            ? cData 
-            : (cData?.data && Array.isArray(cData.data)) 
-            ? cData.data 
-            : [];
-          clientsCount = cData?.total || cList.length || 0;
+          const cList = Array.isArray(cData) ? cData : cData?.clients || [];
+          clientsCount = cData?.totalItems || cList.length || 0;
         }
 
-        // Process Portfolios
         let portfoliosCount = 0;
         if (portfoliosRes.status === "fulfilled") {
           const pData = portfoliosRes.value;
-          const pList = Array.isArray(pData) 
-            ? pData 
-            : (pData?.data && Array.isArray(pData.data)) 
-            ? pData.data 
-            : [];
-          portfoliosCount = pData?.total || pList.length || 0;
+          const pList = Array.isArray(pData) ? pData : pData?.portfolios || [];
+          portfoliosCount = pData?.totalItems || pList.length || 0;
         }
 
-        // Process Invoices & Billing
         let invoicesCount = 0;
         let totalBill = 0;
         let paid = 0;
         let unpaid = 0;
         if (invoicesRes.status === "fulfilled") {
           const iData = invoicesRes.value;
-          const iList = Array.isArray(iData) 
-            ? iData 
-            : (iData?.data && Array.isArray(iData.data)) 
-            ? iData.data 
-            : [];
-          invoicesCount = iData?.total || iList.length || 0;
+          const iList = Array.isArray(iData) ? iData : iData?.invoices || [];
+          invoicesCount = iData?.totalItems || iList.length || 0;
 
           iList.forEach(inv => {
-            const amt = parseFloat(inv.amount || 0);
+            const amt = parseFloat(inv.totalAmount || inv.amount || 0);
             totalBill += amt;
             if (inv.status?.toLowerCase() === "paid") paid++;
             else unpaid++;
           });
         }
 
-        setStats({
-          leads: leadsCount,
-          blogs: blogsCount,
-          clients: clientsCount,
-          invoices: invoicesCount,
-          portfolios: portfoliosCount
-        });
-
+        setStats({ leads: leadsCount, blogs: blogsCount, clients: clientsCount, invoices: invoicesCount, portfolios: portfoliosCount });
         setRecentLeads(recentLeadsList);
-
-        setBillingInfo({
-          totalAmount: totalBill,
-          paidCount: paid,
-          unpaidCount: unpaid
-        });
+        setBillingInfo({ totalAmount: totalBill, paidCount: paid, unpaidCount: unpaid });
 
       } catch (err) {
         console.error("Dashboard parallel fetch error:", err);
@@ -248,11 +253,11 @@ const Dashboard = () => {
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-2">
               <Mail className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500"/>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Leads</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Enquiries</p>
             </div>
             <p className="text-2xl font-black text-zinc-900 dark:text-white">{stats.leads}</p>
             <p className="text-[10px] text-zinc-400 mt-1 flex items-center gap-0.5 font-semibold">
-              <TrendingUp className="w-3 h-3 text-emerald-400"/> +12% this week
+              <TrendingUp className={`w-3 h-3 ${leadsTrend.isPositive ? 'text-emerald-400' : 'text-rose-400'}`}/> {leadsTrend.isPositive ? '+' : '-'}{leadsTrend.percentage}% this week
             </p>
           </div>
         </div>
@@ -341,7 +346,7 @@ const Dashboard = () => {
             </div>
             <div className="flex items-center gap-2">
               <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#029bd2]" />
-              <span className="text-[10px] font-bold tracking-wide uppercase text-zinc-500">Lead Flow</span>
+              <span className="text-[10px] font-bold tracking-wide uppercase text-zinc-500">Enquiry Flow</span>
             </div>
           </div>
 
@@ -361,13 +366,13 @@ const Dashboard = () => {
 
               {/* Area Spline Path */}
               <path 
-                d="M 0 120 C 50 110, 100 60, 150 70 C 200 80, 250 110, 300 50 C 350 -10, 400 60, 500 30 L 500 135 L 0 135 Z" 
+                d={`M 0 130 C 50 130, 100 ${chartData.q1}, 150 ${chartData.q1} C 200 ${chartData.q1}, 250 ${chartData.q2}, 300 ${chartData.q2} C 350 ${chartData.q3}, 400 ${chartData.q4}, 500 ${chartData.q4} L 500 135 L 0 135 Z`} 
                 fill="url(#areaGrad)" 
               />
 
               {/* Line Spline Path */}
               <path 
-                d="M 0 120 C 50 110, 100 60, 150 70 C 200 80, 250 110, 300 50 C 350 -10, 400 60, 500 30" 
+                d={`M 0 130 C 50 130, 100 ${chartData.q1}, 150 ${chartData.q1} C 200 ${chartData.q1}, 250 ${chartData.q2}, 300 ${chartData.q2} C 350 ${chartData.q3}, 400 ${chartData.q4}, 500 ${chartData.q4}`} 
                 fill="none" 
                 stroke="#029bd2" 
                 strokeWidth="3.5" 
@@ -375,9 +380,9 @@ const Dashboard = () => {
               />
 
               {/* Nodes / Dots */}
-              <circle cx="150" cy="70" r="4.5" className="fill-white dark:fill-zinc-900 stroke-[#029bd2] transition-transform duration-300 hover:scale-125 cursor-pointer" strokeWidth="3" />
-              <circle cx="300" cy="50" r="4.5" className="fill-white dark:fill-zinc-900 stroke-[#029bd2] transition-transform duration-300 hover:scale-125 cursor-pointer" strokeWidth="3" />
-              <circle cx="500" cy="30" r="4.5" className="fill-white dark:fill-zinc-900 stroke-[#1a4468] dark:stroke-sky-400 transition-transform duration-300 hover:scale-125 cursor-pointer" strokeWidth="3" />
+              <circle cx="150" cy={chartData.q1} r="4.5" className="fill-white dark:fill-zinc-900 stroke-[#029bd2] transition-transform duration-300 hover:scale-125 cursor-pointer" strokeWidth="3" />
+              <circle cx="300" cy={chartData.q2} r="4.5" className="fill-white dark:fill-zinc-900 stroke-[#029bd2] transition-transform duration-300 hover:scale-125 cursor-pointer" strokeWidth="3" />
+              <circle cx="500" cy={chartData.q4} r="4.5" className="fill-white dark:fill-zinc-900 stroke-[#1a4468] dark:stroke-sky-400 transition-transform duration-300 hover:scale-125 cursor-pointer" strokeWidth="3" />
             </svg>
           </div>
           
@@ -446,12 +451,12 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Recent Leads Table - Fade In Up */}
+      {/* Recent Enquiries Table - Fade In Up */}
       <div className="animate-fade-in-up delay-450 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-lg shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden">
         <div className="px-6 py-4 border-b border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between bg-zinc-50/20 dark:bg-zinc-900/20">
           <div>
             <h2 className="text-base font-bold text-zinc-900 dark:text-white flex items-center gap-1.5">
-              <Zap className="w-4.5 h-4.5 text-[#029bd2] animate-pulse" /> Active Customer Inquiries
+              <Zap className="w-4.5 h-4.5 text-[#029bd2] animate-pulse" /> Recent Enquiry
             </h2>
             <p className="text-xs text-zinc-400 dark:text-zinc-500">Real-time leads submitted via SWS contact forms</p>
           </div>

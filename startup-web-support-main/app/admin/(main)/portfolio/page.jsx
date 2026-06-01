@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Pencil, Trash2, ExternalLink } from "lucide-react";
+import { Pencil, Trash2, ExternalLink, Search } from "lucide-react";
 import portfolioService from "@/services/portfolio.service";
 import ReusableModal from "@/app/admin/components/ReusableModal";
 import PortfolioForm from "@/app/admin/components/PortfolioForm";
@@ -134,12 +134,13 @@ export default function PortfolioPage() {
       </div>
 
       {/* Search */}
-      <div className="mb-6">
+      <div className="mb-6 relative max-w-sm">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search portfolios..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
+          className="pl-9"
         />
       </div>
 

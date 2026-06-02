@@ -39,7 +39,14 @@ app.use(express.json());
 app.use(morgan("dev")); // Shows :method :url :status :response-time ms
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// Serve uploaded files with explicit CORS headers so the browser canvas can
+// load them with crossOrigin="anonymous" (required for PDF/canvas export).
+app.use("/uploads", (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  next();
+}, express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   res.json("hello from backend");
@@ -58,6 +65,7 @@ app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/roles", require("./routes/role.routes"));
 app.use("/api/permissions", require("./routes/permission.routes"));
 app.use("/api/teams", require("./routes/team.route"));
+app.use("/api/certificates", require("./routes/certificate.routes"));
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {

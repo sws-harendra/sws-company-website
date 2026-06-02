@@ -17,8 +17,8 @@ const WhatsAppButton = () => {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp" // <-- important for screen readers
-      className="fixed right-4 bottom-20 bg-green-500 text-white p-4 rounded-full shadow-lg
-                 hover:bg-green-600 transition-all duration-300 z-50 flex items-center justify-center
+      className="bg-green-500 text-white p-4 rounded-full shadow-lg
+                 hover:bg-green-600 transition-all duration-300 flex items-center justify-center
                  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
     >
       <BsWhatsapp size={24} aria-hidden="true" /> {/* hide icon from screen readers */}

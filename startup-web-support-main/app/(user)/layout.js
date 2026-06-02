@@ -25,8 +25,10 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
   return (
     <div>
-      <Call />
-      <WhatsAppButton />
+      <div className="fixed right-4 bottom-20 z-50 flex flex-col items-end gap-4">
+        <Call />
+        <WhatsAppButton />
+      </div>
       <Header />
       {/* <ContactFormModal /> */}
       {children}

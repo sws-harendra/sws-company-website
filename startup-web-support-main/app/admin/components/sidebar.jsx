@@ -13,6 +13,7 @@ import {
   Mail, 
   Users, 
   MessageSquareQuote,
+  Award,
   X, 
   Menu 
 } from "lucide-react";
@@ -32,6 +33,7 @@ const sidebarLinks = [
   { label: "Contacts", href: "/admin/contacted", icon: <Mail /> },
   { label: "Our Teams", href: "/admin/ourteam", icon: <Users /> },
   { label: "Testimonial", href: "/admin/testimonial", icon: <MessageSquareQuote /> },
+  { label: "Certificates", href: "/admin/certificates", icon: <Award /> },
 ];
 
 const Sidebar = () => {

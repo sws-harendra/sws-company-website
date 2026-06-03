@@ -68,23 +68,28 @@ module.exports = {
     const [role] = await queryInterface.sequelize.query(
       `SELECT id FROM Roles WHERE name='Super Admin'`
     );
-    const superAdminRoleId = role[0].id;
+    
+    if (role && role.length > 0) {
+      const superAdminRoleId = role[0].id;
 
-    const [permissions] = await queryInterface.sequelize.query(
-      `SELECT id FROM Permissions WHERE name IN ('${newPermissions.join(
-        "','"
-      )}')`
-    );
+      const [permissions] = await queryInterface.sequelize.query(
+        `SELECT id FROM Permissions WHERE name IN ('${newPermissions.join(
+          "','"
+        )}')`
+      );
 
-    await queryInterface.bulkInsert(
-      "RolePermissions",
-      permissions.map((p) => ({
-        roleId: superAdminRoleId,
-        permissionId: p.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }))
-    );
+      if (permissions && permissions.length > 0) {
+        await queryInterface.bulkInsert(
+          "RolePermissions",
+          permissions.map((p) => ({
+            roleId: superAdminRoleId,
+            permissionId: p.id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }))
+        );
+      }
+    }
   },
 
   async down(queryInterface, Sequelize) {

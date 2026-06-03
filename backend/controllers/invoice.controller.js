@@ -352,15 +352,17 @@ exports.downloadInvoicePDF = async (req, res) => {
     const html = compiledTemplate(data);
 
     // 5️⃣ Generate PDF with Puppeteer
+    const browser = await puppeteer.launch({
+      executablePath: "/usr/bin/chromium-browser",
+      headless: "new",
+
+      // headless: true,
+    });
+    // for development
     // const browser = await puppeteer.launch({
     //   headless: true,
     //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
     // });
-
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "load" });
 

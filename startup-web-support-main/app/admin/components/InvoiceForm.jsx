@@ -71,6 +71,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
     <form onSubmit={handleSubmit} className="space-y-6">
       <Card>
         <CardContent className="p-3 md:p-4 space-y-4">
+          <h3 className="font-semibold">Client Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               name="name"

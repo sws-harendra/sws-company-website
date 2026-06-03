@@ -10,7 +10,7 @@ import {
 import { toast } from "sonner";
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+const API_URL = process.env.NEXT_PUBLIC_serverurl || "http://localhost:8000/api";
 
 const defaultFormData = () => ({
   name: "", role: "",
@@ -20,32 +20,32 @@ const defaultFormData = () => ({
 });
 
 const defaultConfig = {
-  name:      { x: 500, y: 370, size: 42, color: "#1a1a1a", font: "Arial", align: "center", style: "bold" },
-  role:      { x: 500, y: 450, size: 28, color: "#444444", font: "Arial", align: "center", style: "bold" },
-  duration:  { x: 500, y: 530, size: 22, color: "#555555", font: "Arial", align: "center", style: "normal" },
-  serialNo:  { x: 80,  y: 60,  size: 18, color: "#cc0000", font: "Arial", align: "left", style: "bold"   },
-  issueDate: { x: 780, y: 60,  size: 18, color: "#333333", font: "Arial", align: "left", style: "bold"   },
+  name: { x: 500, y: 370, size: 42, color: "#1a1a1a", font: "Arial", align: "center", style: "bold" },
+  role: { x: 500, y: 450, size: 28, color: "#444444", font: "Arial", align: "center", style: "bold" },
+  duration: { x: 500, y: 530, size: 22, color: "#555555", font: "Arial", align: "center", style: "normal" },
+  serialNo: { x: 80, y: 60, size: 18, color: "#cc0000", font: "Arial", align: "left", style: "bold" },
+  issueDate: { x: 780, y: 60, size: 18, color: "#333333", font: "Arial", align: "left", style: "bold" },
 };
 
 export default function CertificatePage() {
   const fileInputRef = useRef(null);
 
   // ── Template state (persists via backend) ──
-  const [templateUrl, setTemplateUrl]             = useState("");
-  const [templateFileType, setTemplateFileType]   = useState("");
+  const [templateUrl, setTemplateUrl] = useState("");
+  const [templateFileType, setTemplateFileType] = useState("");
   const [isUploadingTemplate, setIsUploadingTemplate] = useState(false);
-  const [templateLoading, setTemplateLoading]     = useState(true); // true while fetching from DB
+  const [templateLoading, setTemplateLoading] = useState(true); // true while fetching from DB
 
   // ── Form & UI ──
-  const [formData, setFormData]   = useState(defaultFormData());
-  const [config, setConfig]       = useState(defaultConfig);
-  const [isSaving, setIsSaving]   = useState(false);
+  const [formData, setFormData] = useState(defaultFormData());
+  const [config, setConfig] = useState(defaultConfig);
+  const [isSaving, setIsSaving] = useState(false);
   const [isSavingConfig, setIsSavingConfig] = useState(false);
-  const [view, setView]           = useState("generate"); // "generate" | "history"
+  const [view, setView] = useState("generate"); // "generate" | "history"
   const [showSettings, setShowSettings] = useState(false);
   const [showPreviewSheet, setShowPreviewSheet] = useState(false);
 
-  const [pastCerts, setPastCerts]       = useState([]);
+  const [pastCerts, setPastCerts] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [redownloadingId, setRedownloadingId] = useState(null);
   const [deleteModalId, setDeleteModalId] = useState(null);
@@ -67,7 +67,7 @@ export default function CertificatePage() {
             if (typeof dbConfig === "string") {
               try { dbConfig = JSON.parse(dbConfig); } catch (e) { dbConfig = {}; }
             }
-            
+
             // Deep merge only the keys that currently exist in defaultConfig
             const merged = { ...defaultConfig };
             for (const key of Object.keys(defaultConfig)) {

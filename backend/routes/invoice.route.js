@@ -7,5 +7,6 @@ router.put("/:id", controller.updateInvoice);
 router.get("/", controller.getAllInvoices);
 router.get("/:id", controller.getInvoiceById);
 router.get("/invoice-pdf/:id", controller.downloadInvoicePDF);
+router.delete("/:id", controller.deleteInvoice);
 
 module.exports = router;

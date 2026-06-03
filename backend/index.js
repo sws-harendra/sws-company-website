@@ -20,14 +20,14 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
-      
+
       // Allow any localhost or 127.0.0.1 on any port
       const isLocalhost = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
-      
+
       if (isLocalhost || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-      
+
       console.error("CORS Error: Origin", origin, "is not allowed");
       return callback(new Error("Not allowed by CORS"));
     },

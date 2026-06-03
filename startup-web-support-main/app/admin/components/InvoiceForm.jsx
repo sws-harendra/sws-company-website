@@ -21,7 +21,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
       services: [{ description: "", amount: "", hsnCode: "" }],
       payments: [{ modeOfPayment: "", receivedAmount: "", paymentDate: "" }],
       details: [
-        { gstNumber: "", accountNumber: "", ifsc: "", accountName: "" },
+        { accountNumber: "", ifsc: "", accountName: "" },
       ],
     }
   );
@@ -46,7 +46,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
     const defaults = {
       services: { description: "", amount: "", hsnCode: "" },
       payments: { modeOfPayment: "", receivedAmount: "", paymentDate: "" },
-      details: { gstNumber: "", accountNumber: "", ifsc: "", accountName: "" },
+      details: { accountNumber: "", ifsc: "", accountName: "" },
     };
     setForm({ ...form, [type]: [...form[type], defaults[type]] });
   };
@@ -250,20 +250,13 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
       <Card>
         <CardContent className="p-3 md:p-4 space-y-3">
           <div className="flex justify-between">
-            <h3 className="font-semibold">Bank / GST Details</h3>
+            <h3 className="font-semibold">Bank Details</h3>
             <Button type="button" className={ADD_BUTTON_CLASS} onClick={() => addRow("details")}>
               + Add Detail
             </Button>
           </div>
           {form.details.map((d, i) => (
-            <div key={i} className="grid grid-cols-1 md:grid-cols-5 gap-2 items-center">
-              <Input
-                placeholder="GST Number"
-                value={d.gstNumber}
-                onChange={(e) =>
-                  handleArrayChange("details", i, "gstNumber", e.target.value)
-                }
-              />
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
               <Input
                 placeholder="Account Number"
                 value={d.accountNumber}

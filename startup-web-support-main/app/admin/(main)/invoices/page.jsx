@@ -8,6 +8,7 @@ import invoiceService from "@/services/invoice.service";
 import ReusableModal from "../../components/ReusableModal";
 import ConfirmModal from "../../components/ConfirmModal";
 import { toast } from "sonner";
+import InvoiceSettingsModal from "./components/InvoiceSettingsModal";
 
 export default function InvoicesPage() {
   const [invoices, setInvoices] = useState([]);
@@ -69,34 +70,37 @@ export default function InvoicesPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Invoices</h1>
 
-        <ReusableModal
-          title="Create Invoice"
-          triggerLabel="+ New Invoice"
-          maxWidth="max-w-5xl"
-        >
-          {({ close }) => (
-            <InvoiceForm
-              onSave={(form) => handleSave(form, close)}
-              onCancel={close}
-            />
-          )}
-        </ReusableModal>
+        <div className="flex gap-4">
+          <InvoiceSettingsModal />
+          <ReusableModal
+            title="Create Invoice"
+            triggerLabel="+ New Invoice"
+            maxWidth="max-w-5xl"
+          >
+            {({ close }) => (
+              <InvoiceForm
+                onSave={(form) => handleSave(form, close)}
+                onCancel={close}
+              />
+            )}
+          </ReusableModal>
+        </div>
       </div>
 
       <div className="grid gap-4">
         {invoices.length === 0 && (
-          <p className="text-gray-500 text-sm">No invoices found yet.</p>
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm">No invoices found yet.</p>
         )}
 
         {invoices.map((inv) => (
           <Card key={inv.id}>
             <CardContent className="p-4 flex justify-between items-center">
               <div>
-                <h2 className="font-semibold">{inv.code}</h2>
-                <p className="text-sm text-gray-600">
+                <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">{inv.code}</h2>
+                <p className="text-sm text-zinc-600 dark:text-zinc-300">
                   {inv.name} — {inv.companyName}
                 </p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
                   Total ₹{inv.totalAmount} | Received ₹{inv.totalReceived} | Due
                   ₹{inv.dueAmount}
                 </p>
@@ -174,7 +178,7 @@ export default function InvoicesPage() {
               return (
                 <div
                   key={i}
-                  className="border rounded-lg p-3 bg-gray-50 text-sm"
+                  className="border border-zinc-200 dark:border-zinc-800 rounded-lg p-3 bg-zinc-50 dark:bg-zinc-900/50 text-sm text-zinc-900 dark:text-zinc-100"
                 >
                   <p>
                     <strong>Date:</strong>{" "}
@@ -188,15 +192,15 @@ export default function InvoicesPage() {
                     <strong>Received:</strong> ₹{snap.totalReceived} |{" "}
                     <strong>Due:</strong> ₹{snap.dueAmount}
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-zinc-600 dark:text-zinc-400 mt-1">
                     <strong>Customer:</strong> {snap.name} ({snap.companyName})
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-zinc-600 dark:text-zinc-400">
                     <strong>GST:</strong> {snap.gstNumber || "—"}
                   </p>
                   <div className="mt-2">
                     <strong>Services:</strong>
-                    <ul className="list-disc pl-5 text-gray-700">
+                    <ul className="list-disc pl-5 text-zinc-700 dark:text-zinc-300">
                       {snap.services?.map((s, idx) => (
                         <li key={idx}>
                           {s.description} — ₹{s.amount}

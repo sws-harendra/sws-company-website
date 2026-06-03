@@ -4,6 +4,7 @@ const {
   InvoicePayment,
   InvoiceDetail,
   InvoiceHistory,
+  InvoiceSetting,
 } = require("../models");
 const { Op } = require("sequelize");
 const fs = require("fs");
@@ -35,6 +36,20 @@ exports.createInvoice = async (req, res) => {
       payments,
       details,
     } = req.body;
+
+    let finalDetails = details || [];
+    if (finalDetails.length === 0) {
+      const globalSettings = await InvoiceSetting.findOne();
+
+      // Always create a snapshot, even if global settings are empty.
+      // This guarantees the invoice captures the exact state of the settings at creation time.
+      finalDetails = [{
+        gstNumber: globalSettings ? (globalSettings.gstNumber || "") : "",
+        accountNumber: globalSettings ? (globalSettings.accountNumber || "") : "",
+        ifsc: globalSettings ? (globalSettings.ifsc || "") : "",
+        accountName: globalSettings ? (globalSettings.accountName || "") : "",
+      }];
+    }
 
     const code = await generateInvoiceCode();
     const totalAmount =
@@ -76,9 +91,9 @@ exports.createInvoice = async (req, res) => {
         { transaction: t }
       );
 
-    if (details?.length)
+    if (finalDetails?.length)
       await InvoiceDetail.bulkCreate(
-        details.map((d) => ({ ...d, invoiceId: invoice.id })),
+        finalDetails.map((d) => ({ ...d, invoiceId: invoice.id })),
         { transaction: t }
       );
 
@@ -87,6 +102,7 @@ exports.createInvoice = async (req, res) => {
   } catch (err) {
     await t.rollback();
     console.error(err);
+    require('fs').writeFileSync('d:\\sws-company-website\\backend\\backend-error.log', err.stack || err.message);
     res.status(500).json({ message: err.message });
   }
 };
@@ -109,6 +125,16 @@ exports.updateInvoice = async (req, res) => {
     });
 
     const { services, payments, details, discount, gst } = req.body;
+
+    let finalDetails = details;
+    if (!finalDetails) {
+      finalDetails = invoice.details ? invoice.details.map(d => ({
+        gstNumber: d.gstNumber,
+        accountNumber: d.accountNumber,
+        ifsc: d.ifsc,
+        accountName: d.accountName,
+      })) : [];
+    }
     const totalAmount =
       services.reduce((sum, s) => sum + parseFloat(s.amount || 0), 0) -
       parseFloat(discount || 0);
@@ -145,7 +171,7 @@ exports.updateInvoice = async (req, res) => {
       { transaction: t }
     );
     await InvoiceDetail.bulkCreate(
-      details.map((d) => ({ ...d, invoiceId: id })),
+      finalDetails.map((d) => ({ ...d, invoiceId: id })),
       { transaction: t }
     );
 
@@ -252,6 +278,8 @@ exports.downloadInvoicePDF = async (req, res) => {
         .json({ success: false, message: "Invoice not found" });
     }
 
+    const settings = await InvoiceSetting.findOne();
+
     // 2️⃣ Load the HBS template
     const templatePath = path.join(
       __dirname,
@@ -263,7 +291,6 @@ exports.downloadInvoicePDF = async (req, res) => {
     const htmlTemplate = fs.readFileSync(templatePath, "utf8");
     const compiledTemplate = handlebars.compile(htmlTemplate);
 
-    // 3️⃣ Prepare Data for Template
     // 3️⃣ Prepare Data for Template
     // Read logo and embed as base64 so Puppeteer can render without external requests
     const logoPath = path.join(__dirname, "..", "public", "sws-logo.png");
@@ -313,7 +340,10 @@ exports.downloadInvoicePDF = async (req, res) => {
         company_name: invoice.companyName,
         number: invoice.number,
         address: invoice.address,
-        gst_client: invoice.details?.find((d) => d.gstNumber)?.gstNumber || "",
+        // STRICT SNAPSHOT ISOLATION
+        // If this invoice has a snapshot in the DB, strictly use it (even if it's empty).
+        // It should NEVER fallback to current global settings for an old invoice!
+        gst_client: invoice.details?.length > 0 ? (invoice.details[0].gstNumber || "") : (settings?.gstNumber || ""),
         description: invoice.services?.map((s) => s.description) || [],
         hsn: invoice.services?.map((s) => s.hsnCode) || [],
         amount: invoice.services?.map((s) => s.amount) || [],
@@ -323,11 +353,9 @@ exports.downloadInvoicePDF = async (req, res) => {
             new Date(p.paymentDate).toLocaleDateString()
           ) || [],
         receive_amount: invoice.payments?.map((p) => p.receivedAmount) || [],
-        account_name:
-          invoice.details?.find((d) => d.accountName)?.accountName || "",
-        accoun_number:
-          invoice.details?.find((d) => d.accountNumber)?.accountNumber || "",
-        ifsc_code: invoice.details?.find((d) => d.ifsc)?.ifsc || "",
+        account_name: invoice.details?.length > 0 ? (invoice.details[0].accountName || "") : (settings?.accountName || ""),
+        accoun_number: invoice.details?.length > 0 ? (invoice.details[0].accountNumber || "") : (settings?.accountNumber || ""),
+        ifsc_code: invoice.details?.length > 0 ? (invoice.details[0].ifsc || "") : (settings?.ifsc || ""),
         gst: gstPercent,
         discount: parseFloat(invoice.discount) || 0,
         logoSrc,

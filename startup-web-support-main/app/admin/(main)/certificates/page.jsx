@@ -676,6 +676,7 @@ export default function CertificatePage() {
                             <option value="normal">Normal</option>
                             <option value="bold">Bold</option>
                             <option value="italic">Italic</option>
+                            <option value="bold italic">Bold + Italic</option>
                           </select>
                         </div>
                         <div className="col-span-1">
@@ -684,6 +685,24 @@ export default function CertificatePage() {
                             onChange={(e) => handleConfigChange(field, "color", e.target.value)}
                             className="w-full h-8 p-0 border-0 rounded-lg cursor-pointer"
                           />
+                        </div>
+                        <div className="col-span-3">
+                          <label className="text-xs text-gray-400">Font Family</label>
+                          <select value={config[field].font || "Arial"}
+                            onChange={(e) => handleConfigChange(field, "font", e.target.value)}
+                            className="w-full px-2 py-1.5 border rounded-lg text-xs dark:bg-zinc-800 dark:border-zinc-700"
+                          >
+                            <option value="Arial">Arial</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Bell MT">Bell MT</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Helvetica">Helvetica</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Trebuchet MS">Trebuchet MS</option>
+                            <option value="Impact">Impact</option>
+                          </select>
                         </div>
                       </div>
                     </div>

@@ -20,9 +20,6 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
       discount: "",
       services: [{ description: "", amount: "", hsnCode: "" }],
       payments: [{ modeOfPayment: "", receivedAmount: "", paymentDate: "" }],
-      details: [
-        { accountNumber: "", ifsc: "", accountName: "" },
-      ],
     }
   );
   useEffect(() => {
@@ -46,7 +43,6 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
     const defaults = {
       services: { description: "", amount: "", hsnCode: "" },
       payments: { modeOfPayment: "", receivedAmount: "", paymentDate: "" },
-      details: { accountNumber: "", ifsc: "", accountName: "" },
     };
     setForm({ ...form, [type]: [...form[type], defaults[type]] });
   };
@@ -247,54 +243,6 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
         </CardContent>
       </Card>
 
-      {/* DETAILS */}
-      <Card>
-        <CardContent className="p-3 md:p-4 space-y-3">
-          <div className="flex justify-between">
-            <h3 className="font-semibold">Bank Details</h3>
-            <Button type="button" className={ADD_BUTTON_CLASS} onClick={() => addRow("details")}>
-              + Add Detail
-            </Button>
-          </div>
-          {form.details.map((d, i) => (
-            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
-              <Input
-                placeholder="Account Number"
-                value={d.accountNumber}
-                onChange={(e) =>
-                  handleArrayChange(
-                    "details",
-                    i,
-                    "accountNumber",
-                    e.target.value
-                  )
-                }
-              />
-              <Input
-                placeholder="IFSC"
-                value={d.ifsc}
-                onChange={(e) =>
-                  handleArrayChange("details", i, "ifsc", e.target.value)
-                }
-              />
-              <Input
-                placeholder="Account Name"
-                value={d.accountName}
-                onChange={(e) =>
-                  handleArrayChange("details", i, "accountName", e.target.value)
-                }
-              />
-              <Button
-                type="button"
-                variant="destructive"
-                onClick={() => removeRow("details", i)}
-              >
-                Delete
-              </Button>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
 
       <div className="flex justify-end gap-4">
         <Button type="button" variant="outline" onClick={onCancel}>

@@ -34,31 +34,25 @@ exports.createInvoice = async (req, res) => {
       services,
       gst,
       payments,
-      details,
     } = req.body;
 
-    let finalDetails = details || [];
-    if (finalDetails.length === 0) {
-      const globalSettings = await InvoiceSetting.findOne();
-
-      // Always create a snapshot, even if global settings are empty.
-      // This guarantees the invoice captures the exact state of the settings at creation time.
-      finalDetails = [{
-        gstNumber: globalSettings ? (globalSettings.gstNumber || "") : "",
-        accountNumber: globalSettings ? (globalSettings.accountNumber || "") : "",
-        ifsc: globalSettings ? (globalSettings.ifsc || "") : "",
-        accountName: globalSettings ? (globalSettings.accountName || "") : "",
-      }];
-    }
+    const globalSettings = await InvoiceSetting.findOne();
+    const finalDetails = [{
+      gstNumber: globalSettings ? (globalSettings.gstNumber || "") : "",
+      accountNumber: globalSettings ? (globalSettings.accountNumber || "") : "",
+      ifsc: globalSettings ? (globalSettings.ifsc || "") : "",
+      accountName: globalSettings ? (globalSettings.accountName || "") : "",
+    }];
 
     const code = await generateInvoiceCode();
     const totalAmount =
-      services.reduce((sum, s) => sum + parseFloat(s.amount || 0), 0) -
-      parseFloat(discount || 0);
-    const totalReceived = payments.reduce(
-      (sum, p) => sum + parseFloat(p.receivedAmount || 0),
-      0
-    );
+      (services?.reduce((sum, s) => sum + (parseFloat(s.amount) || 0), 0) || 0) -
+      (parseFloat(discount) || 0);
+    const totalReceived =
+      payments?.reduce(
+        (sum, p) => sum + (parseFloat(p.receivedAmount) || 0),
+        0
+      ) || 0;
     const dueAmount = totalAmount - totalReceived;
 
     const invoice = await Invoice.create(
@@ -70,8 +64,8 @@ exports.createInvoice = async (req, res) => {
         gstNumber,
         email,
         address,
-        discount: discount || 0,
-        gst: gst || 18,
+        discount: parseFloat(discount) || 0,
+        gst: parseFloat(gst) || 18,
         totalAmount,
         totalReceived,
         dueAmount,
@@ -81,13 +75,21 @@ exports.createInvoice = async (req, res) => {
 
     if (services?.length)
       await InvoiceService.bulkCreate(
-        services.map((s) => ({ ...s, invoiceId: invoice.id })),
+        services.map((s) => ({
+          ...s,
+          amount: parseFloat(s.amount) || 0,
+          invoiceId: invoice.id,
+        })),
         { transaction: t }
       );
 
     if (payments?.length)
       await InvoicePayment.bulkCreate(
-        payments.map((p) => ({ ...p, invoiceId: invoice.id })),
+        payments.map((p) => ({
+          ...p,
+          receivedAmount: parseFloat(p.receivedAmount) || 0,
+          invoiceId: invoice.id,
+        })),
         { transaction: t }
       );
 
@@ -124,17 +126,15 @@ exports.updateInvoice = async (req, res) => {
       version: invoice.version,
     });
 
-    const { services, payments, details, discount, gst } = req.body;
+    const { services, payments, discount, gst } = req.body;
 
-    let finalDetails = details;
-    if (!finalDetails) {
-      finalDetails = invoice.details ? invoice.details.map(d => ({
-        gstNumber: d.gstNumber,
-        accountNumber: d.accountNumber,
-        ifsc: d.ifsc,
-        accountName: d.accountName,
-      })) : [];
-    }
+    // Preserve exact existing bank details, ignoring any frontend updates
+    const finalDetails = invoice.details ? invoice.details.map(d => ({
+      gstNumber: d.gstNumber || "",
+      accountNumber: d.accountNumber || "",
+      ifsc: d.ifsc || "",
+      accountName: d.accountName || "",
+    })) : [];
     const totalAmount =
       services.reduce((sum, s) => sum + parseFloat(s.amount || 0), 0) -
       parseFloat(discount || 0);
@@ -147,8 +147,8 @@ exports.updateInvoice = async (req, res) => {
     await invoice.update(
       {
         ...req.body,
-        discount: discount || 0,
-        gst: gst || 18,
+        discount: parseFloat(discount) || 0,
+        gst: parseFloat(gst) || 18,
         totalAmount,
         totalReceived,
         dueAmount,
@@ -163,11 +163,19 @@ exports.updateInvoice = async (req, res) => {
     await InvoiceDetail.destroy({ where: { invoiceId: id }, transaction: t });
 
     await InvoiceService.bulkCreate(
-      services.map((s) => ({ ...s, invoiceId: id })),
+      services.map((s) => ({
+        ...s,
+        amount: parseFloat(s.amount) || 0,
+        invoiceId: id,
+      })),
       { transaction: t }
     );
     await InvoicePayment.bulkCreate(
-      payments.map((p) => ({ ...p, invoiceId: id })),
+      payments.map((p) => ({
+        ...p,
+        receivedAmount: parseFloat(p.receivedAmount) || 0,
+        invoiceId: id,
+      })),
       { transaction: t }
     );
     await InvoiceDetail.bulkCreate(
@@ -181,6 +189,35 @@ exports.updateInvoice = async (req, res) => {
     await t.rollback();
     console.error(err);
     res.status(500).json({ message: err.message });
+  }
+};
+
+// 🗑️ DELETE INVOICE
+exports.deleteInvoice = async (req, res) => {
+  const t = await Invoice.sequelize.transaction();
+  try {
+    const { id } = req.params;
+    const invoice = await Invoice.findByPk(id, { transaction: t });
+
+    if (!invoice) {
+      await t.rollback();
+      return res.status(404).json({ message: "Invoice not found" });
+    }
+
+    // Delete associated records first (cascade manual)
+    await InvoiceService.destroy({ where: { invoiceId: id }, transaction: t });
+    await InvoicePayment.destroy({ where: { invoiceId: id }, transaction: t });
+    await InvoiceDetail.destroy({ where: { invoiceId: id }, transaction: t });
+    await InvoiceHistory.destroy({ where: { invoiceId: id }, transaction: t });
+
+    await invoice.destroy({ transaction: t });
+    
+    await t.commit();
+    res.json({ message: "Invoice deleted successfully" });
+  } catch (error) {
+    await t.rollback();
+    console.error("Error deleting invoice:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -381,17 +418,10 @@ exports.downloadInvoicePDF = async (req, res) => {
 
     // 5️⃣ Generate PDF with Puppeteer
     const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/chromium-browser",
+      executablePath: process.env.NODE_ENV === "production" ? "/usr/bin/chromium-browser" : undefined,
       headless: "new",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-
-      // headless: true,
     });
-    // for development
-    // const browser = await puppeteer.launch({
-    //   headless: true,
-    //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    // });
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "load" });
 

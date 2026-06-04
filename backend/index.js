@@ -67,6 +67,7 @@ app.use("/api/roles", require("./routes/role.routes"));
 app.use("/api/permissions", require("./routes/permission.routes"));
 app.use("/api/teams", require("./routes/team.route"));
 app.use("/api/certificates", require("./routes/certificate.routes"));
+app.use("/api/id-cards", require("./routes/idCard.routes"));
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {

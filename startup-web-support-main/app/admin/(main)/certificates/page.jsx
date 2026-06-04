@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import CertificateCanvas from "./components/CertificateCanvas";
+import DocxLivePreview from "./components/DocxLivePreview";
 import { generateCertificatePDF } from "./utils/generateCertificate";
+import { generateDocxCertificate } from "./utils/generateDocx";
 import {
   Upload, Settings, Download, RefreshCw, FileImage,
   History, ChevronLeft, Loader2, Award, X, Eye, Trash2, AlertTriangle,
@@ -17,6 +19,7 @@ const defaultFormData = () => ({
   startDate: "", endDate: "",
   serialNo: "",
   issueDate: new Date().toISOString().split("T")[0],
+  skills: "", desc: "", signDate: new Date().toISOString().split("T")[0]
 });
 
 const defaultConfig = {
@@ -44,20 +47,36 @@ export default function CertificatePage() {
   const [view, setView] = useState("generate"); // "generate" | "history"
   const [showSettings, setShowSettings] = useState(false);
   const [showPreviewSheet, setShowPreviewSheet] = useState(false);
+  const [documentType, setDocumentType] = useState("Internship Offer Letter");
+
+  const documentTypes = [
+    "Internship Offer Letter",
+    "Internship Certificate",
+    "Job Offer Letter",
+    "Letter of Experience",
+    "Letter of Appreciation"
+  ];
 
   const [pastCerts, setPastCerts] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [redownloadingId, setRedownloadingId] = useState(null);
   const [deleteModalId, setDeleteModalId] = useState(null);
 
+  const isDocx = templateFileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || 
+                 templateFileType === "application/msword" ||
+                 (templateUrl && typeof templateUrl === "string" && templateUrl.toLowerCase().endsWith(".docx"));
+
   const getToken = () => typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   // ── On mount: load saved template from backend ──
   useEffect(() => {
+    setFormData(defaultFormData()); // clear form on tab switch
+    setShowSettings(false); // close settings panel on tab switch
+
     const loadSettings = async () => {
       setTemplateLoading(true);
       try {
-        const res = await axios.get(`${API_URL}/certificates/settings`, {
+        const res = await axios.get(`${API_URL}/certificates/settings?type=${encodeURIComponent(documentType)}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         if (res.data.success && res.data.setting) {
@@ -76,6 +95,8 @@ export default function CertificatePage() {
               }
             }
             setConfig(merged);
+          } else {
+            setConfig(defaultConfig);
           }
 
           if (setting.templateUrl) {
@@ -85,36 +106,57 @@ export default function CertificatePage() {
               setTemplateUrl(url);
               setTemplateFileType(res.data.setting.templateFileType || "image/png");
             } else {
+              setTemplateUrl("");
+              setTemplateFileType("");
               console.warn("Stored template URL is invalid (was BACKEND_URL missing?):", url);
             }
+          } else {
+            setTemplateUrl("");
+            setTemplateFileType("");
           }
+        } else {
+          // No settings found for this tab, clear everything
+          setConfig(defaultConfig);
+          setTemplateUrl("");
+          setTemplateFileType("");
         }
       } catch (e) {
         console.error("Could not load certificate settings", e);
+        setConfig(defaultConfig);
+        setTemplateUrl("");
+        setTemplateFileType("");
       } finally {
         setTemplateLoading(false);
       }
     };
     loadSettings();
     fetchNextSerial();
-  }, []);
+  }, [documentType]);
 
-  const fetchNextSerial = async () => {
+  useEffect(() => {
+    if (view === "history") {
+      loadHistory();
+    }
+  }, [documentType, view]);
+
+  const fetchNextSerial = async (typeOverride) => {
     try {
-      const res = await axios.get(`${API_URL}/certificates/next-serial`, {
+      const typeToFetch = typeOverride || documentType;
+      const res = await axios.get(`${API_URL}/certificates/next-serial?type=${encodeURIComponent(typeToFetch)}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      if (res.data.success)
-        setFormData((p) => ({ ...p, serialNo: res.data.nextSerialNo }));
-    } catch {
-      toast.error("Could not fetch serial number");
+      if (res.data.success) {
+        setFormData((prev) => ({ ...prev, serialNo: res.data.nextSerialNo }));
+      }
+    } catch (e) {
+      console.error("Failed to fetch next serial", e);
     }
   };
 
   const loadHistory = async () => {
     setLoadingHistory(true);
     try {
-      const res = await axios.get(`${API_URL}/certificates`, {
+      const res = await axios.get(`${API_URL}/certificates?type=${encodeURIComponent(documentType)}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (res.data.success) setPastCerts(res.data.certificates);
@@ -139,6 +181,7 @@ export default function CertificatePage() {
     try {
       const fd = new FormData();
       fd.append("template", file);
+      fd.append("type", documentType);
       const res = await axios.post(`${API_URL}/certificates/settings/template`, fd, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -167,13 +210,21 @@ export default function CertificatePage() {
     return `${fmt(formData.startDate)} – ${fmt(formData.endDate)}`;
   }, [formData.startDate, formData.endDate]);
 
-  // ── Generate current certificate ──
   const handleGenerate = async () => {
-    const { name, role, startDate, endDate, serialNo } = formData;
-    if (!name || !role || !startDate || !endDate || !serialNo) {
-      toast.error("Please fill all required fields");
-      return;
+    const { name, role, startDate, endDate, serialNo, skills, desc, signDate } = formData;
+    
+    if (documentType === "Internship Offer Letter") {
+      if (!name || !role || !startDate || !skills || !desc || !signDate) {
+        toast.error("Please fill all required fields for Offer Letter");
+        return;
+      }
+    } else {
+      if (!name || !role || !startDate || !endDate || !serialNo) {
+        toast.error("Please fill all required fields");
+        return;
+      }
     }
+
     if (!templateUrl) {
       toast.error("Please upload a certificate template first");
       return;
@@ -184,25 +235,50 @@ export default function CertificatePage() {
       // 1. Save record to DB including the CURRENT template configuration
       await axios.post(
         `${API_URL}/certificates`,
-        { ...formData, templateUrl, templateFileType, config },
+        { ...formData, templateUrl, templateFileType, config, type: documentType },
         { headers: { Authorization: `Bearer ${getToken()}` } }
       );
 
       // Automatically persist the current coordinates as the new defaults
       axios.put(
         `${API_URL}/certificates/settings/config`,
-        { config },
+        { config, type: documentType },
         { headers: { Authorization: `Bearer ${getToken()}` } }
       ).catch(e => console.error("Auto-save config failed:", e));
 
-      // 2. Generate and download PDF using standalone utility
-      await generateCertificatePDF({
-        templateUrl,
-        fileType: templateFileType,
-        data: { ...formData, duration: getDurationString() },
-        config,
-        fileName: `Certificate_${name.replace(/\s+/g, "_")}_${serialNo}.pdf`,
-      });
+      // 2. Generate and download
+      const isDocx = templateFileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || 
+                     templateFileType === "application/msword" ||
+                     (templateUrl && typeof templateUrl === "string" && templateUrl.toLowerCase().endsWith(".docx"));
+
+      if (isDocx) {
+        const ordinalFormat = (d) => {
+          if (!d) return "";
+          const date = new Date(d);
+          const day = date.getDate();
+          const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3) ? 0 : (day % 100 - day % 10 != 10) * day % 10];
+          return `${day}${suffix} ${date.toLocaleString('en-US', { month: 'long' })} ${date.getFullYear()}`;
+        };
+
+        await generateDocxCertificate({
+          templateUrl,
+          data: { 
+            ...formData, 
+            duration: getDurationString(),
+            startdate: ordinalFormat(formData.startDate),
+            signdate: ordinalFormat(formData.signDate)
+          },
+          fileName: `${documentType.replace(/\s+/g, "_")}_${name.replace(/\s+/g, "_")}${serialNo ? `_${serialNo}` : ""}.docx`,
+        });
+      } else {
+        await generateCertificatePDF({
+          templateUrl,
+          fileType: templateFileType,
+          data: { ...formData, duration: getDurationString() },
+          config,
+          fileName: `Certificate_${name.replace(/\s+/g, "_")}_${serialNo}.pdf`,
+        });
+      }
 
       toast.success("Certificate generated and downloaded!");
       setFormData(defaultFormData());
@@ -245,20 +321,46 @@ export default function CertificatePage() {
       const finalTemplateUrl = cert.templateUrl || templateUrl;
       const finalTemplateFileType = cert.templateFileType || templateFileType;
       const finalConfig = parsedCertConfig || config;
+      const isDocx = finalTemplateFileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || 
+                     finalTemplateFileType === "application/msword" ||
+                     (finalTemplateUrl && typeof finalTemplateUrl === "string" && finalTemplateUrl.toLowerCase().endsWith(".docx"));
 
-      await generateCertificatePDF({
-        templateUrl: finalTemplateUrl,
-        fileType: finalTemplateFileType,
-        data: {
-          name: cert.name,
-          role: cert.role,
-          duration: durationStr,
-          serialNo: cert.serialNo,
-          issueDate: cert.issueDate,
-        },
-        config: finalConfig,
-        fileName: `Certificate_${cert.name.replace(/\s+/g, "_")}_${cert.serialNo}.pdf`,
-      });
+      const certDuration = cert.startDate && cert.endDate ? `${fmt(cert.startDate)} – ${fmt(cert.endDate)}` : "";
+
+      if (isDocx) {
+        const ordinalFormat = (d) => {
+          if (!d) return "";
+          const date = new Date(d);
+          const day = date.getDate();
+          const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3) ? 0 : (day % 100 - day % 10 != 10) * day % 10];
+          return `${day}${suffix} ${date.toLocaleString('en-US', { month: 'long' })} ${date.getFullYear()}`;
+        };
+
+        await generateDocxCertificate({
+          templateUrl: finalTemplateUrl,
+          data: {
+            ...cert,
+            duration: certDuration,
+            startdate: ordinalFormat(cert.startDate),
+            signdate: ordinalFormat(cert.signDate)
+          },
+          fileName: `${cert.type?.replace(/\s+/g, "_") || "Document"}_${cert.name.replace(/\s+/g, "_")}${cert.serialNo ? `_${cert.serialNo}` : ""}.docx`,
+        });
+      } else {
+        await generateCertificatePDF({
+          templateUrl: finalTemplateUrl,
+          fileType: finalTemplateFileType,
+          data: {
+            name: cert.name,
+            role: cert.role,
+            serialNo: cert.serialNo,
+            issueDate: cert.issueDate,
+            duration: certDuration,
+          },
+          config: finalConfig,
+          fileName: `Certificate_${cert.name.replace(/\s+/g, "_")}_${cert.serialNo}.pdf`,
+        });
+      }
 
       toast.success("Certificate downloaded!");
     } catch (e) {
@@ -326,7 +428,7 @@ export default function CertificatePage() {
   const handleSaveConfig = async () => {
     setIsSavingConfig(true);
     try {
-      const res = await axios.put(`${API_URL}/certificates/settings/config`, { config }, {
+      const res = await axios.put(`${API_URL}/certificates/settings/config`, { config, type: documentType }, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (res.data.success) {
@@ -341,12 +443,40 @@ export default function CertificatePage() {
   };
 
   // ────────────────────────────────────────────────────
+  // TABS HEADER
+  // ────────────────────────────────────────────────────
+  const TabsHeader = (
+    <div className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-4 sm:px-6 py-3 overflow-x-auto no-scrollbar">
+      <div className="flex gap-2 min-w-max max-w-7xl mx-auto">
+        {documentTypes.map(type => (
+          <button
+            key={type}
+            onClick={() => {
+              setDocumentType(type);
+              fetchNextSerial(type); // Fetch new serial for the selected document type
+            }}
+            className={`whitespace-nowrap px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              documentType === type 
+              ? 'bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400 shadow-sm' 
+              : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-zinc-800'
+            }`}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
+  // ────────────────────────────────────────────────────
   // HISTORY VIEW
   // ────────────────────────────────────────────────────
   if (view === "history") {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 p-4 sm:p-6">
-        <div className="max-w-3xl mx-auto space-y-5">
+      <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 flex flex-col">
+        {TabsHeader}
+        <div className="p-4 sm:p-6 flex-1">
+          <div className="max-w-3xl mx-auto space-y-5">
           {/* Header */}
           <div className="flex items-center gap-3">
             <button
@@ -405,7 +535,7 @@ export default function CertificatePage() {
                         </span>
                       </div>
                       <p className="font-bold text-gray-800 dark:text-white truncate">{cert.name}</p>
-                      <p className="text-sm text-gray-500 truncate">{cert.role}</p>
+                      <p className="text-sm text-gray-500 truncate">{cert.role} <span className="text-xs text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded-md ml-2">{cert.type || "Internship Certificate"}</span></p>
                       <p className="text-xs text-indigo-500 dark:text-indigo-400">
                         📅 {new Date(cert.startDate).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })} – {new Date(cert.endDate).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
                       </p>
@@ -469,6 +599,7 @@ export default function CertificatePage() {
             </div>
           )}
         </div>
+        </div>
       </div>
     );
   }
@@ -477,7 +608,8 @@ export default function CertificatePage() {
   // GENERATE VIEW
   // ────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950">
+    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 flex flex-col">
+      {TabsHeader}
       {/* Sticky Top Bar */}
       <div className="sticky top-0 z-20 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
         <h1 className="text-base sm:text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
@@ -510,7 +642,7 @@ export default function CertificatePage() {
         </div>
       </div>
 
-      <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
           {/* ── Left: Form ── */}
@@ -550,14 +682,14 @@ export default function CertificatePage() {
                 </div>
               )}
               <input ref={fileInputRef} id="template-file" type="file"
-                className="hidden" accept="image/*,application/pdf"
+                className="hidden" accept="image/*,application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 onChange={handleTemplateUpload}
               />
             </div>
 
             {/* Details Form */}
             <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 shadow-sm">
-              <h2 className="text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-4">Certificate Details</h2>
+              <h2 className="text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-4">Document Details</h2>
               <div className="space-y-3">
                 <div>
                   <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">
@@ -577,52 +709,109 @@ export default function CertificatePage() {
                     placeholder="FRONTEND DEVELOPER INTERN"
                   />
                 </div>
-                <div>
-                  <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">
-                    Duration <span className="text-red-400">*</span>
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <p className="text-xs text-gray-400 mb-1">From</p>
-                      <input type="date" name="startDate" value={formData.startDate} onChange={handleInput}
-                        className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
-                      />
+                {documentType === "Internship Offer Letter" ? (
+                  <>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">
+                          Start Date <span className="text-red-400">*</span>
+                        </label>
+                        <input type="date" name="startDate" value={formData.startDate} onChange={handleInput}
+                          className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">
+                          Sign Date <span className="text-red-400">*</span>
+                        </label>
+                        <input type="date" name="signDate" value={formData.signDate} onChange={handleInput}
+                          className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
+                        />
+                      </div>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400 mb-1">To</p>
-                      <input type="date" name="endDate" value={formData.endDate} onChange={handleInput}
+                      <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">
+                        Skills <span className="text-red-400">*</span>
+                      </label>
+                      <input type="text" name="skills" value={formData.skills} onChange={handleInput}
+                        className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700 uppercase tracking-wide"
+                        placeholder="E.G. FRONTEND TECHNOLOGIES"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">Serial No.</label>
+                      <div className="flex gap-1.5">
+                        <input type="text" name="serialNo" value={formData.serialNo} onChange={handleInput}
+                          className="w-full px-3 py-2.5 border rounded-xl text-xs font-mono focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
+                        />
+                        <button onClick={() => fetchNextSerial(documentType)}
+                          className="p-2.5 bg-gray-100 dark:bg-zinc-700 rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-600 transition shrink-0"
+                          title="Refresh serial"
+                        >
+                          <RefreshCw size={13} />
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">
+                        Description <span className="text-red-400">*</span>
+                      </label>
+                      <textarea name="desc" value={formData.desc} onChange={handleInput} rows={3}
                         className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
+                        placeholder="Enter description here..."
                       />
                     </div>
-                  </div>
-                  {getDurationString() && (
-                    <div className="mt-2 flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-900/20 px-3 py-1.5 rounded-lg">
-                      <span className="text-xs text-indigo-500 dark:text-indigo-400">📅 {getDurationString()}</span>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">
+                        Duration <span className="text-red-400">*</span>
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <p className="text-xs text-gray-400 mb-1">From</p>
+                          <input type="date" name="startDate" value={formData.startDate} onChange={handleInput}
+                            className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
+                          />
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-400 mb-1">To</p>
+                          <input type="date" name="endDate" value={formData.endDate} onChange={handleInput}
+                            className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
+                          />
+                        </div>
+                      </div>
+                      {getDurationString() && (
+                        <div className="mt-2 flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-900/20 px-3 py-1.5 rounded-lg">
+                          <span className="text-xs text-indigo-500 dark:text-indigo-400">📅 {getDurationString()}</span>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">Serial No.</label>
-                    <div className="flex gap-1.5">
-                      <input type="text" name="serialNo" value={formData.serialNo} onChange={handleInput}
-                        className="w-full px-3 py-2.5 border rounded-xl text-xs font-mono focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
-                      />
-                      <button onClick={fetchNextSerial}
-                        className="p-2.5 bg-gray-100 dark:bg-zinc-700 rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-600 transition shrink-0"
-                        title="Refresh serial"
-                      >
-                        <RefreshCw size={13} />
-                      </button>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">Serial No.</label>
+                        <div className="flex gap-1.5">
+                          <input type="text" name="serialNo" value={formData.serialNo} onChange={handleInput}
+                            className="w-full px-3 py-2.5 border rounded-xl text-xs font-mono focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
+                          />
+                          <button onClick={fetchNextSerial}
+                            className="p-2.5 bg-gray-100 dark:bg-zinc-700 rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-600 transition shrink-0"
+                            title="Refresh serial"
+                          >
+                            <RefreshCw size={13} />
+                          </button>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">Issue Date</label>
+                        <input type="date" name="issueDate" value={formData.issueDate} onChange={handleInput}
+                          className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">Issue Date</label>
-                    <input type="date" name="issueDate" value={formData.issueDate} onChange={handleInput}
-                      className="w-full px-3 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:bg-zinc-800 dark:border-zinc-700"
-                    />
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
 
               <button
@@ -638,7 +827,7 @@ export default function CertificatePage() {
             </div>
 
             {/* Coordinate Settings */}
-            {showSettings && (
+            {showSettings && !isDocx && (
               <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-orange-200 dark:border-orange-900 p-4 shadow-sm">
                 <h2 className="text-xs font-bold text-orange-500 uppercase tracking-wider mb-3">🎯 Text Positions</h2>
                 <p className="text-xs text-gray-400 mb-4">Adjust X, Y and font size for each field on your template.</p>
@@ -724,12 +913,34 @@ export default function CertificatePage() {
             <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm sticky top-20">
               <h2 className="text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-4">Live Preview</h2>
               {templateUrl ? (
-                <CertificateCanvas
-                  templateUrl={templateUrl}
-                  fileType={templateFileType}
-                  data={{ ...formData, duration: getDurationString() }}
-                  config={config}
-                />
+                isDocx ? (
+                  <DocxLivePreview 
+                    templateUrl={templateUrl} 
+                    data={{
+                      ...formData,
+                      duration: getDurationString(),
+                      startdate: formData.startDate ? (() => {
+                        const d = new Date(formData.startDate);
+                        const day = d.getDate();
+                        const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3) ? 0 : (day % 100 - day % 10 != 10) * day % 10];
+                        return `${day}${suffix} ${d.toLocaleString('en-US', { month: 'long' })} ${d.getFullYear()}`;
+                      })() : "",
+                      signdate: formData.signDate ? (() => {
+                        const d = new Date(formData.signDate);
+                        const day = d.getDate();
+                        const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3) ? 0 : (day % 100 - day % 10 != 10) * day % 10];
+                        return `${day}${suffix} ${d.toLocaleString('en-US', { month: 'long' })} ${d.getFullYear()}`;
+                      })() : ""
+                    }} 
+                  />
+                ) : (
+                  <CertificateCanvas
+                    templateUrl={templateUrl}
+                    fileType={templateFileType}
+                    data={{ ...formData, duration: getDurationString() }}
+                    config={config}
+                  />
+                )
               ) : templateLoading ? (
                 <div className="w-full aspect-[1.414/1] flex items-center justify-center bg-gray-50 dark:bg-zinc-800 rounded-xl">
                   <Loader2 className="animate-spin text-gray-400" size={28} />
@@ -758,12 +969,34 @@ export default function CertificatePage() {
             </button>
           </div>
           <div className="flex-1 overflow-auto p-4">
-            <CertificateCanvas
-              templateUrl={templateUrl}
-              fileType={templateFileType}
-              data={{ ...formData, duration: getDurationString() }}
-              config={config}
-            />
+            {isDocx ? (
+              <DocxLivePreview 
+                templateUrl={templateUrl} 
+                data={{
+                  ...formData,
+                  duration: getDurationString(),
+                  startdate: formData.startDate ? (() => {
+                    const d = new Date(formData.startDate);
+                    const day = d.getDate();
+                    const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3) ? 0 : (day % 100 - day % 10 != 10) * day % 10];
+                    return `${day}${suffix} ${d.toLocaleString('en-US', { month: 'long' })} ${d.getFullYear()}`;
+                  })() : "",
+                  signdate: formData.signDate ? (() => {
+                    const d = new Date(formData.signDate);
+                    const day = d.getDate();
+                    const suffix = ["th", "st", "nd", "rd"][(day % 10 > 3) ? 0 : (day % 100 - day % 10 != 10) * day % 10];
+                    return `${day}${suffix} ${d.toLocaleString('en-US', { month: 'long' })} ${d.getFullYear()}`;
+                  })() : ""
+                }} 
+              />
+            ) : (
+              <CertificateCanvas
+                templateUrl={templateUrl}
+                fileType={templateFileType}
+                data={{ ...formData, duration: getDurationString() }}
+                config={config}
+              />
+            )}
           </div>
           <div className="p-4 border-t border-zinc-200 dark:border-zinc-800 shrink-0">
             <button

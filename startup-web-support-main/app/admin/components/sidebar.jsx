@@ -33,7 +33,8 @@ const sidebarLinks = [
   { label: "Contacts", href: "/admin/contacted", icon: <Mail /> },
   { label: "Our Teams", href: "/admin/ourteam", icon: <Users /> },
   { label: "Testimonial", href: "/admin/testimonial", icon: <MessageSquareQuote /> },
-  { label: "Certificates", href: "/admin/certificates", icon: <Award /> },
+  { label: "Docs & Certificates", href: "/admin/certificates", icon: <Award /> },
+  { label: "ID Cards", href: "/admin/id-cards", icon: <Award /> },
 ];
 
 const Sidebar = () => {

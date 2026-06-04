@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
-  const CertificateSetting = sequelize.define("CertificateSetting", {
+  const IdCardSetting = sequelize.define("IdCardSetting", {
     templateUrl: {
-      type: Sequelize.STRING(1000),
+      type: Sequelize.STRING,
       allowNull: true,
     },
     templateFileType: {
@@ -12,12 +12,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.JSON,
       allowNull: true,
     },
-    type: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      defaultValue: 'Internship Certificate'
-    },
   });
 
-  return CertificateSetting;
+  return IdCardSetting;
 };

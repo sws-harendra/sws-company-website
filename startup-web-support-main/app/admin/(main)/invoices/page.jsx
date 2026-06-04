@@ -96,7 +96,7 @@ export default function InvoicesPage() {
           <Card key={inv.id}>
             <CardContent className="p-4 flex justify-between items-center">
               <div>
-                <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">{inv.code}</h2>
+                <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">{inv.invoiceId}</h2>
                 <p className="text-sm text-zinc-600 dark:text-zinc-300">
                   {inv.name} — {inv.companyName}
                 </p>
@@ -140,7 +140,7 @@ export default function InvoicesPage() {
       {/* Edit Modal */}
       {editData && (
         <ReusableModal
-          title={`Edit Invoice ${editData.code}`}
+          title={`Edit Invoice ${editData.invoiceId}`}
           triggerLabel=""
           open={!!editData}
           maxWidth="max-w-5xl"
@@ -165,7 +165,7 @@ export default function InvoicesPage() {
       {/* History Modal */}
       {historyData && (
         <ReusableModal
-          title={`Invoice History: ${historyData.code}`}
+          title={`Invoice History: ${historyData.invoiceId}`}
           triggerLabel=""
           open={!!historyData}
           onOpenChange={(isOpen) => {

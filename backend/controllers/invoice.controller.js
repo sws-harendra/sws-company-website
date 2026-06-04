@@ -238,7 +238,7 @@ exports.getAllInvoices = async (req, res) => {
       where[Op.or] = [
         { name: { [Op.like]: `%${q}%` } },
         { companyName: { [Op.like]: `%${q}%` } },
-        { code: { [Op.like]: `%${q}%` } },
+        { invoiceId: { [Op.like]: `%${q}%` } },
         { email: { [Op.like]: `%${q}%` } },
       ];
     }
@@ -418,7 +418,7 @@ exports.downloadInvoicePDF = async (req, res) => {
 
     // 5️⃣ Generate PDF with Puppeteer
     const browser = await puppeteer.launch({
-      executablePath: process.env.NODE_ENV === "production" ? "/usr/bin/chromium-browser" : undefined,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || (process.env.NODE_ENV === "production" ? "/usr/bin/chromium-browser" : undefined),
       headless: "new",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });

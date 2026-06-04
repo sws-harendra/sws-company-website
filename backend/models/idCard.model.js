@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Certificate = sequelize.define("Certificate", {
+  const IdCard = sequelize.define("IdCard", {
     name: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -8,22 +8,30 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    startDate: {
-      type: Sequelize.DATEONLY,
-      allowNull: false,
-    },
-    endDate: {
-      type: Sequelize.DATEONLY,
-      allowNull: false,
-    },
-    serialNo: {
+    idNumber: {
       type: Sequelize.STRING,
       allowNull: false,
       unique: true,
     },
+    bloodGroup: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    phone: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     issueDate: {
       type: Sequelize.DATEONLY,
       allowNull: false,
+    },
+    photoUrl: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
     templateUrl: {
       type: Sequelize.STRING,
@@ -37,12 +45,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.JSON,
       allowNull: true,
     },
-    type: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      defaultValue: 'Internship Certificate'
-    },
   });
 
-  return Certificate;
+  return IdCard;
 };

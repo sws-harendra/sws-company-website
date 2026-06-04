@@ -7,13 +7,12 @@ const BACKEND_URL = (process.env.BACKEND_URL || `http://localhost:${process.env.
 
 exports.getSettings = async (req, res) => {
   try {
-    let setting = await CertificateSetting.findOne();
+    const type = req.query.type || 'Internship Certificate';
+    let setting = await CertificateSetting.findOne({ where: { type } });
     if (!setting) {
-      setting = await CertificateSetting.create({ templateUrl: null, templateFileType: null });
+      setting = await CertificateSetting.create({ templateUrl: null, templateFileType: null, type });
     }
 
-    // Auto-heal: if the stored URL is corrupt (saved when BACKEND_URL was missing),
-    // clear it so the frontend doesn't try to load "undefined/uploads/..." paths
     const url = setting.templateUrl;
     if (url && !url.startsWith("http://") && !url.startsWith("https://")) {
       console.warn("Clearing corrupt template URL from DB:", url);
@@ -38,10 +37,11 @@ exports.uploadTemplate = [
 
       const templateUrl = `${BACKEND_URL}/uploads/${req.file.filename}`;
       const templateFileType = req.file.mimetype;
+      const type = req.body.type || 'Internship Certificate';
 
-      let setting = await CertificateSetting.findOne();
+      let setting = await CertificateSetting.findOne({ where: { type } });
       if (!setting) {
-        setting = await CertificateSetting.create({ templateUrl, templateFileType });
+        setting = await CertificateSetting.create({ templateUrl, templateFileType, type });
       } else {
         await setting.update({ templateUrl, templateFileType });
       }
@@ -56,12 +56,12 @@ exports.uploadTemplate = [
 
 exports.updateConfig = async (req, res) => {
   try {
-    const { config } = req.body;
+    const { config, type = 'Internship Certificate' } = req.body;
     if (!config) return res.status(400).json({ success: false, message: "Config is required" });
 
-    let setting = await CertificateSetting.findOne();
+    let setting = await CertificateSetting.findOne({ where: { type } });
     if (!setting) {
-      setting = await CertificateSetting.create({ config });
+      setting = await CertificateSetting.create({ config, type });
     } else {
       await setting.update({ config });
     }
@@ -79,9 +79,12 @@ exports.getNextSerial = async (req, res) => {
     const currentYear = new Date().getFullYear();
     const prefix = `SWS${currentYear}-`;
 
-    // Use literal to query the serialNo column directly (handles Sequelize naming)
     const lastCertificate = await Certificate.findOne({
-      where: literal(`serialNo LIKE '${prefix}%'`),
+      where: {
+        serialNo: {
+          [Op.like]: `${prefix}%`
+        }
+      },
       order: [["createdAt", "DESC"]],
     });
 
@@ -97,8 +100,10 @@ exports.getNextSerial = async (req, res) => {
     const formattedNumber = nextNumber.toString().padStart(2, "0");
     const nextSerialNo = `${prefix}${formattedNumber}`;
 
+    require('fs').writeFileSync('debug-serial.json', JSON.stringify({ success: true, nextSerialNo }));
     res.status(200).json({ success: true, nextSerialNo });
   } catch (error) {
+    require('fs').writeFileSync('debug-serial.json', JSON.stringify({ success: false, error: error.message, stack: error.stack }));
     console.error("Error getting next serial no:", error);
     res.status(500).json({ success: false, message: "Internal server error", error: error.message });
   }
@@ -106,7 +111,7 @@ exports.getNextSerial = async (req, res) => {
 
 exports.createCertificate = async (req, res) => {
   try {
-    const { name, role, startDate, endDate, serialNo, issueDate, templateUrl, templateFileType, config } = req.body;
+    const { name, role, startDate, endDate, serialNo, issueDate, templateUrl, templateFileType, config, type = 'Internship Certificate' } = req.body;
 
     if (!name || !role || !serialNo || !startDate || !endDate) {
       return res.status(400).json({
@@ -135,6 +140,7 @@ exports.createCertificate = async (req, res) => {
       templateUrl,
       templateFileType,
       config,
+      type,
     });
 
     res.status(201).json({ success: true, certificate, message: "Certificate saved successfully" });
@@ -150,7 +156,10 @@ exports.createCertificate = async (req, res) => {
 
 exports.getAllCertificates = async (req, res) => {
   try {
+    const { type } = req.query;
+    const where = type ? { type } : {};
     const certificates = await Certificate.findAll({
+      where,
       order: [["createdAt", "DESC"]],
     });
     res.status(200).json({ success: true, certificates });
@@ -163,7 +172,7 @@ exports.deleteCertificate = async (req, res) => {
   try {
     const { id } = req.params;
     const certificate = await Certificate.findByPk(id);
-    
+
     if (!certificate) {
       return res.status(404).json({ success: false, message: "Certificate not found" });
     }

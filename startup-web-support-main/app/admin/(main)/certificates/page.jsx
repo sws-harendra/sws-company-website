@@ -44,6 +44,15 @@ export default function CertificatePage() {
   const [view, setView] = useState("generate"); // "generate" | "history"
   const [showSettings, setShowSettings] = useState(false);
   const [showPreviewSheet, setShowPreviewSheet] = useState(false);
+  const [documentType, setDocumentType] = useState("Internship Offer Letter");
+
+  const documentTypes = [
+    "Internship Offer Letter",
+    "Internship Certificate",
+    "Job Offer Letter",
+    "Letter of Experience",
+    "Letter of Appreciation"
+  ];
 
   const [pastCerts, setPastCerts] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
@@ -57,7 +66,7 @@ export default function CertificatePage() {
     const loadSettings = async () => {
       setTemplateLoading(true);
       try {
-        const res = await axios.get(`${API_URL}/certificates/settings`, {
+        const res = await axios.get(`${API_URL}/certificates/settings?type=${encodeURIComponent(documentType)}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         if (res.data.success && res.data.setting) {
@@ -85,8 +94,13 @@ export default function CertificatePage() {
               setTemplateUrl(url);
               setTemplateFileType(res.data.setting.templateFileType || "image/png");
             } else {
+              setTemplateUrl("");
+              setTemplateFileType("");
               console.warn("Stored template URL is invalid (was BACKEND_URL missing?):", url);
             }
+          } else {
+            setTemplateUrl("");
+            setTemplateFileType("");
           }
         }
       } catch (e) {
@@ -97,7 +111,13 @@ export default function CertificatePage() {
     };
     loadSettings();
     fetchNextSerial();
-  }, []);
+  }, [documentType]);
+
+  useEffect(() => {
+    if (view === "history") {
+      loadHistory();
+    }
+  }, [documentType, view]);
 
   const fetchNextSerial = async () => {
     try {
@@ -114,7 +134,7 @@ export default function CertificatePage() {
   const loadHistory = async () => {
     setLoadingHistory(true);
     try {
-      const res = await axios.get(`${API_URL}/certificates`, {
+      const res = await axios.get(`${API_URL}/certificates?type=${encodeURIComponent(documentType)}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (res.data.success) setPastCerts(res.data.certificates);
@@ -139,6 +159,7 @@ export default function CertificatePage() {
     try {
       const fd = new FormData();
       fd.append("template", file);
+      fd.append("type", documentType);
       const res = await axios.post(`${API_URL}/certificates/settings/template`, fd, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -184,14 +205,14 @@ export default function CertificatePage() {
       // 1. Save record to DB including the CURRENT template configuration
       await axios.post(
         `${API_URL}/certificates`,
-        { ...formData, templateUrl, templateFileType, config },
+        { ...formData, templateUrl, templateFileType, config, type: documentType },
         { headers: { Authorization: `Bearer ${getToken()}` } }
       );
 
       // Automatically persist the current coordinates as the new defaults
       axios.put(
         `${API_URL}/certificates/settings/config`,
-        { config },
+        { config, type: documentType },
         { headers: { Authorization: `Bearer ${getToken()}` } }
       ).catch(e => console.error("Auto-save config failed:", e));
 
@@ -326,7 +347,7 @@ export default function CertificatePage() {
   const handleSaveConfig = async () => {
     setIsSavingConfig(true);
     try {
-      const res = await axios.put(`${API_URL}/certificates/settings/config`, { config }, {
+      const res = await axios.put(`${API_URL}/certificates/settings/config`, { config, type: documentType }, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (res.data.success) {
@@ -341,12 +362,37 @@ export default function CertificatePage() {
   };
 
   // ────────────────────────────────────────────────────
+  // TABS HEADER
+  // ────────────────────────────────────────────────────
+  const TabsHeader = (
+    <div className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-4 sm:px-6 py-3 overflow-x-auto no-scrollbar">
+      <div className="flex gap-2 min-w-max max-w-7xl mx-auto">
+        {documentTypes.map(type => (
+          <button
+            key={type}
+            onClick={() => setDocumentType(type)}
+            className={`whitespace-nowrap px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              documentType === type 
+              ? 'bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400 shadow-sm' 
+              : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-zinc-800'
+            }`}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
+  // ────────────────────────────────────────────────────
   // HISTORY VIEW
   // ────────────────────────────────────────────────────
   if (view === "history") {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 p-4 sm:p-6">
-        <div className="max-w-3xl mx-auto space-y-5">
+      <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 flex flex-col">
+        {TabsHeader}
+        <div className="p-4 sm:p-6 flex-1">
+          <div className="max-w-3xl mx-auto space-y-5">
           {/* Header */}
           <div className="flex items-center gap-3">
             <button
@@ -405,7 +451,7 @@ export default function CertificatePage() {
                         </span>
                       </div>
                       <p className="font-bold text-gray-800 dark:text-white truncate">{cert.name}</p>
-                      <p className="text-sm text-gray-500 truncate">{cert.role}</p>
+                      <p className="text-sm text-gray-500 truncate">{cert.role} <span className="text-xs text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded-md ml-2">{cert.type || "Internship Certificate"}</span></p>
                       <p className="text-xs text-indigo-500 dark:text-indigo-400">
                         📅 {new Date(cert.startDate).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })} – {new Date(cert.endDate).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
                       </p>
@@ -469,6 +515,7 @@ export default function CertificatePage() {
             </div>
           )}
         </div>
+        </div>
       </div>
     );
   }
@@ -477,7 +524,8 @@ export default function CertificatePage() {
   // GENERATE VIEW
   // ────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950">
+    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 flex flex-col">
+      {TabsHeader}
       {/* Sticky Top Bar */}
       <div className="sticky top-0 z-20 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
         <h1 className="text-base sm:text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
@@ -510,7 +558,7 @@ export default function CertificatePage() {
         </div>
       </div>
 
-      <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
           {/* ── Left: Form ── */}
@@ -557,7 +605,7 @@ export default function CertificatePage() {
 
             {/* Details Form */}
             <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 shadow-sm">
-              <h2 className="text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-4">Certificate Details</h2>
+              <h2 className="text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-4">Document Details</h2>
               <div className="space-y-3">
                 <div>
                   <label className="text-xs font-medium text-gray-600 dark:text-zinc-400 block mb-1">

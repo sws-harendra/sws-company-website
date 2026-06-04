@@ -76,6 +76,18 @@ exports.updateConfig = async (req, res) => {
 
 exports.getNextSerial = async (req, res) => {
   try {
+    const { type } = req.query;
+
+    if (type === 'Internship Offer Letter') {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let randomStr = '';
+      for (let i = 0; i < 6; i++) {
+        randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      const nextSerialNo = `SWS-${randomStr}`;
+      return res.status(200).json({ success: true, nextSerialNo });
+    }
+
     const currentYear = new Date().getFullYear();
     const prefix = `SWS${currentYear}-`;
 
@@ -100,7 +112,6 @@ exports.getNextSerial = async (req, res) => {
     const formattedNumber = nextNumber.toString().padStart(2, "0");
     const nextSerialNo = `${prefix}${formattedNumber}`;
 
-    require('fs').writeFileSync('debug-serial.json', JSON.stringify({ success: true, nextSerialNo }));
     res.status(200).json({ success: true, nextSerialNo });
   } catch (error) {
     require('fs').writeFileSync('debug-serial.json', JSON.stringify({ success: false, error: error.message, stack: error.stack }));
@@ -111,32 +122,46 @@ exports.getNextSerial = async (req, res) => {
 
 exports.createCertificate = async (req, res) => {
   try {
-    const { name, role, startDate, endDate, serialNo, issueDate, templateUrl, templateFileType, config, type = 'Internship Certificate' } = req.body;
+    const { name, role, startDate, endDate, serialNo, issueDate, skills, desc, signDate, templateUrl, templateFileType, config, type = 'Internship Certificate' } = req.body;
 
-    if (!name || !role || !serialNo || !startDate || !endDate) {
-      return res.status(400).json({
-        success: false,
-        message: "Missing required fields",
-        received: { name: !!name, role: !!role, serialNo: !!serialNo, startDate: !!startDate, endDate: !!endDate },
-      });
+    if (type === 'Internship Offer Letter') {
+      if (!name || !role || !startDate || !skills || !desc || !signDate) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing required fields for Offer Letter",
+        });
+      }
+    } else {
+      if (!name || !role || !serialNo || !startDate || !endDate) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing required fields for Certificate",
+          received: { name: !!name, role: !!role, serialNo: !!serialNo, startDate: !!startDate, endDate: !!endDate },
+        });
+      }
     }
 
     // Check for duplicate serial number first to give a friendly error
-    const exists = await Certificate.findOne({ where: { serialNo } });
-    if (exists) {
-      return res.status(409).json({
-        success: false,
-        message: `Serial number ${serialNo} already exists. Please refresh and try again.`,
-      });
+    if (serialNo) {
+      const exists = await Certificate.findOne({ where: { serialNo } });
+      if (exists) {
+        return res.status(409).json({
+          success: false,
+          message: `Serial number ${serialNo} already exists. Please refresh and try again.`,
+        });
+      }
     }
 
     const certificate = await Certificate.create({
       name: name.toUpperCase(),
       role: role.toUpperCase(),
-      startDate,
-      endDate,
-      serialNo,
-      issueDate,
+      startDate: startDate || null,
+      endDate: endDate || null,
+      serialNo: serialNo || null,
+      issueDate: issueDate || null,
+      skills: skills || null,
+      desc: desc || null,
+      signDate: signDate || null,
       templateUrl,
       templateFileType,
       config,

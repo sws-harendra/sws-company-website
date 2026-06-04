@@ -10,20 +10,32 @@ module.exports = (sequelize, Sequelize) => {
     },
     startDate: {
       type: Sequelize.DATEONLY,
-      allowNull: false,
+      allowNull: true,
     },
     endDate: {
       type: Sequelize.DATEONLY,
-      allowNull: false,
+      allowNull: true,
     },
     serialNo: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
     issueDate: {
       type: Sequelize.DATEONLY,
-      allowNull: false,
+      allowNull: true,
+    },
+    skills: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    desc: {
+      type: Sequelize.TEXT,
+      allowNull: true,
+    },
+    signDate: {
+      type: Sequelize.DATEONLY,
+      allowNull: true,
     },
     templateUrl: {
       type: Sequelize.STRING,

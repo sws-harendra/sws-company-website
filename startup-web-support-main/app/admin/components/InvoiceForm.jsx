@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ADD_BUTTON_CLASS } from "@/constants";
 import { toast } from "sonner";
 
@@ -20,7 +26,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
       discount: "",
       services: [{ description: "", amount: "", hsnCode: "" }],
       payments: [{ modeOfPayment: "", receivedAmount: "", paymentDate: "" }],
-    }
+    },
   );
   useEffect(() => {
     console.log(selected);
@@ -34,7 +40,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
 
   const handleArrayChange = (type, index, key, value) => {
     const updated = form[type].map((item, i) =>
-      i === index ? { ...item, [key]: value } : item
+      i === index ? { ...item, [key]: value } : item,
     );
     setForm({ ...form, [type]: updated });
   };
@@ -62,6 +68,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
     }
     onSave(form);
   };
+  const INPUT_CLASS = "h-12 px-4 text-base";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -73,6 +80,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
               name="name"
               placeholder="Client Name"
               value={form.name}
+              className={INPUT_CLASS}
               onChange={handleChange}
             />
             <Input
@@ -80,42 +88,49 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
               placeholder="Company Name"
               value={form.companyName}
               onChange={handleChange}
+              className={INPUT_CLASS}
             />
             <Input
               name="number"
               placeholder="Phone Number"
               value={form.number}
               onChange={handleChange}
+              className={INPUT_CLASS}
             />
             <Input
               name="gstNumber"
               placeholder="GST Number"
               value={form.gstNumber}
               onChange={handleChange}
+              className={INPUT_CLASS}
             />
             <Input
               name="gst"
               placeholder="GST percentage"
               value={form.gst}
               onChange={handleChange}
+              className={INPUT_CLASS}
             />
             <Input
               name="email"
               placeholder="Email"
               value={form.email}
               onChange={handleChange}
+              className={INPUT_CLASS}
             />
             <Input
               name="address"
               placeholder="Address"
               value={form.address}
               onChange={handleChange}
+              className={INPUT_CLASS}
             />{" "}
             <Input
               name="discount"
               placeholder="Discount"
               value={form.discount}
               onChange={handleChange}
+              className={INPUT_CLASS}
             />
           </div>
         </CardContent>
@@ -126,27 +141,36 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
         <CardContent className="p-3 md:p-4 space-y-3">
           <div className="flex justify-between">
             <h3 className="font-semibold">Services</h3>
-            <Button type="button" className={ADD_BUTTON_CLASS} onClick={() => addRow("services")}>
+            <Button
+              type="button"
+              className={ADD_BUTTON_CLASS}
+              onClick={() => addRow("services")}
+            >
               + Add Service
             </Button>
           </div>
           {form?.services.map((s, i) => (
-            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
+            <div
+              key={i}
+              className="grid grid-cols-1 md:grid-cols-4 gap-2 items-center"
+            >
               <Input
                 placeholder="Description"
                 value={s.description}
+                className={INPUT_CLASS}
                 onChange={(e) =>
                   handleArrayChange(
                     "services",
                     i,
                     "description",
-                    e.target.value
+                    e.target.value,
                   )
                 }
               />
               <Input
                 placeholder="Amount"
                 type="number"
+                className={INPUT_CLASS}
                 value={s.amount}
                 onChange={(e) =>
                   handleArrayChange("services", i, "amount", e.target.value)
@@ -155,6 +179,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
               <Input
                 placeholder="HSN Code"
                 value={s.hsnCode}
+                className={INPUT_CLASS}
                 onChange={(e) =>
                   handleArrayChange("services", i, "hsnCode", e.target.value)
                 }
@@ -176,21 +201,23 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
         <CardContent className="p-3 md:p-4 space-y-3">
           <div className="flex justify-between">
             <h3 className="font-semibold">Payments</h3>
-            <Button type="button" className={ADD_BUTTON_CLASS} onClick={() => addRow("payments")}>
+            <Button
+              type="button"
+              className={ADD_BUTTON_CLASS}
+              onClick={() => addRow("payments")}
+            >
               + Add Payment
             </Button>
           </div>
           {form.payments.map((p, i) => (
-            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
+            <div
+              key={i}
+              className="grid grid-cols-1 md:grid-cols-4 gap-2 items-center"
+            >
               <Select
                 value={p.modeOfPayment}
                 onValueChange={(value) =>
-                  handleArrayChange(
-                    "payments",
-                    i,
-                    "modeOfPayment",
-                    value
-                  )
+                  handleArrayChange("payments", i, "modeOfPayment", value)
                 }
               >
                 <SelectTrigger className="border border-gray-300 rounded-md h-[40px] px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-offset-0 bg-transparent">
@@ -208,13 +235,14 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
               <Input
                 placeholder="Received Amount"
                 type="number"
+                className={INPUT_CLASS}
                 value={p.receivedAmount}
                 onChange={(e) =>
                   handleArrayChange(
                     "payments",
                     i,
                     "receivedAmount",
-                    e.target.value
+                    e.target.value,
                   )
                 }
               />
@@ -226,7 +254,7 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
                     "payments",
                     i,
                     "paymentDate",
-                    e.target.value
+                    e.target.value,
                   )
                 }
                 className="h-9 px-2 text-xs sm:text-sm"
@@ -242,7 +270,6 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
           ))}
         </CardContent>
       </Card>
-
 
       <div className="flex justify-end gap-4">
         <Button type="button" variant="outline" onClick={onCancel}>

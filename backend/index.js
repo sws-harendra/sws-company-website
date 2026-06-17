@@ -21,8 +21,8 @@ app.use(
       // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
 
-      // Allow any localhost or 127.0.0.1 on any port
-      const isLocalhost = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+      // Allow any localhost, 127.0.0.1, or local network IP on any port
+      const isLocalhost = /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+)(:\d+)?$/.test(origin);
 
       if (isLocalhost || allowedOrigins.includes(origin)) {
         return callback(null, true);

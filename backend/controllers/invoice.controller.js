@@ -416,12 +416,18 @@ exports.downloadInvoicePDF = async (req, res) => {
     // 4️⃣ Render HTML
     const html = compiledTemplate(data);
 
-    // 5️⃣ Generate PDF with Puppeteer
     const browser = await puppeteer.launch({
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || (process.env.NODE_ENV === "production" ? "/usr/bin/chromium-browser" : undefined),
+      executablePath: "/usr/bin/chromium-browser",
       headless: "new",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+
+      // headless: true,
     });
+    // for development
+    // const browser = await puppeteer.launch({
+    //   headless: true,
+    //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    // });
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "load" });
 

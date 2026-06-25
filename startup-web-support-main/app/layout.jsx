@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import Head from "next/head";
 import Script from "next/script";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import SecurityInterceptor from "@/components/SecurityInterceptor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SecurityInterceptor />
         <BackgroundPattern />
 
         <Script

@@ -15,10 +15,6 @@ module.exports = {
         allowNull: true,
         unique: true,
       },
-      countryCode: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
       reason: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -93,22 +89,6 @@ module.exports = {
         },
         onUpdate: "CASCADE",
         onDelete: "SET NULL",
-      },
-      country: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      countryCode: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      region: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      city: {
-        type: Sequelize.STRING,
-        allowNull: true,
       },
       isBlocked: {
         type: Sequelize.BOOLEAN,

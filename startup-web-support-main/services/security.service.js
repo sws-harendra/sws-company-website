@@ -5,11 +5,6 @@ export const getSecurityLogs = async (params) => {
   return response.data;
 };
 
-export const lookupLogLocation = async (id) => {
-  const response = await api.post(`/security/logs/${id}/lookup`);
-  return response.data;
-};
-
 export const getSecurityStats = async () => {
   const response = await api.get("/security/stats");
   return response.data;

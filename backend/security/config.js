@@ -17,12 +17,6 @@ module.exports = {
   authBruteForceBlockDurationMs: 24 * 60 * 60 * 1000, // 24 hours for authentication abuse
   maxRateLimitViolationsBeforeBlock: 3, // Block IP after 3 limit breaches
 
-  // GeoIP Lookup settings
-  geoLookupEnabled: true,
-  geoLookupUrl: "http://ip-api.com/json/", // Free endpoint fallback
-  useLocalGeodb: true, // Use local MaxMind MMDB if available
-  localGeodbPath: require("path").join(__dirname, "GeoLite2-City.mmdb"),
-
   // Database Logging settings
   dbLoggingEnabled: true,
 

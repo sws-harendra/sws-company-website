@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       duration: { type: DataTypes.INTEGER, allowNull: true },
       userAgent: { type: DataTypes.STRING, allowNull: true },
       userId: { type: DataTypes.INTEGER, allowNull: true },
-      country: { type: DataTypes.STRING, allowNull: true },
-      countryCode: { type: DataTypes.STRING, allowNull: true },
-      region: { type: DataTypes.STRING, allowNull: true },
-      city: { type: DataTypes.STRING, allowNull: true },
       isBlocked: { type: DataTypes.BOOLEAN, defaultValue: false },
     },
     {

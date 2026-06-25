@@ -8,7 +8,6 @@ router.use(authenticated);
 router.use(hasPermission("manage_security"));
 
 router.get("/logs", controller.getLogs);
-router.post("/logs/:id/lookup", controller.lookupLogLocation);
 router.get("/stats", controller.getSecurityStats);
 
 router.get("/blocks", controller.getBlockedRules);

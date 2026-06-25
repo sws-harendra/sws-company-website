@@ -3,8 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     "BlockedIp",
     {
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-      ipAddress: { type: DataTypes.STRING, allowNull: true, unique: true },
-      countryCode: { type: DataTypes.STRING, allowNull: true }, // e.g. "CN" or "RU"
+      ipAddress: { type: DataTypes.STRING, allowNull: false, unique: true },
       reason: { type: DataTypes.STRING, allowNull: true },
       blockedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
       expiresAt: { type: DataTypes.DATE, allowNull: true }, // Null means permanent

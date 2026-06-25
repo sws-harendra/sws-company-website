@@ -20,13 +20,11 @@ exports.getLogs = async (req, res) => {
       where.status = parseInt(req.query.status);
     }
     
-    // Global search across IP, path, country, and city
+    // Global search across IP and path
     if (req.query.search) {
       where[Op.or] = [
         { ipAddress: { [Op.like]: `%${req.query.search}%` } },
         { path: { [Op.like]: `%${req.query.search}%` } },
-        { country: { [Op.like]: `%${req.query.search}%` } },
-        { city: { [Op.like]: `%${req.query.search}%` } },
       ];
     }
 
@@ -88,21 +86,20 @@ exports.getBlockedRules = async (req, res) => {
   }
 };
 
-// Create a new block rule (either IP address or Country code)
+// Create a new block rule (IP address)
 exports.createBlockRule = async (req, res) => {
   try {
-    const { ipAddress, countryCode, reason, durationMs } = req.body;
+    const { ipAddress, reason, durationMs } = req.body;
 
-    if (!ipAddress && !countryCode) {
+    if (!ipAddress) {
       return res.status(400).json({
         success: false,
-        message: "You must specify either an IP address or a country code.",
+        message: "You must specify a valid IP address.",
       });
     }
 
     const rule = await blocker.addBlock({
-      ipAddress: ipAddress || null,
-      countryCode: countryCode || null,
+      ipAddress,
       reason: reason || "Manual Admin Block",
       durationMs: durationMs ? parseInt(durationMs) : null,
     });
@@ -118,7 +115,7 @@ exports.createBlockRule = async (req, res) => {
   }
 };
 
-// Delete/unblock an IP or Country
+// Delete/unblock an IP
 exports.deleteBlockRule = async (req, res) => {
   try {
     const { id } = req.params;
@@ -135,7 +132,7 @@ exports.deleteBlockRule = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Block rule deleted. IP/Country unblocked.",
+      message: "Block rule deleted. IP unblocked.",
     });
   } catch (error) {
     console.error("Error deleting block rule:", error);
@@ -158,15 +155,6 @@ exports.getSecurityStats = async (req, res) => {
       limit: 5,
     });
 
-    // Top 5 requesting countries
-    const topCountries = await SystemLog.findAll({
-      attributes: ["country", "countryCode", [SystemLog.sequelize.fn("COUNT", "country"), "count"]],
-      where: { country: { [Op.ne]: null } },
-      group: ["country", "countryCode"],
-      order: [[SystemLog.sequelize.literal("count"), "DESC"]],
-      limit: 5,
-    });
-
     // 4xx/5xx error logs rate
     const errorCount = await SystemLog.count({
       where: {
@@ -183,59 +171,10 @@ exports.getSecurityStats = async (req, res) => {
         errorRate: totalRequests ? ((errorCount / totalRequests) * 100).toFixed(2) : 0,
         blockedRate: totalRequests ? ((blockedRequests / totalRequests) * 100).toFixed(2) : 0,
         topBlockedIps,
-        topCountries,
       },
     });
   } catch (error) {
     console.error("Error generating security stats:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
-
-// On-demand location lookup for specific SystemLog IP
-exports.lookupLogLocation = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const log = await SystemLog.findByPk(id);
-    
-    if (!log) {
-      return res.status(404).json({ success: false, message: "Log entry not found." });
-    }
-
-    // Return stored location directly if already resolved
-    if (log.country || log.countryCode) {
-      return res.json({
-        success: true,
-        data: {
-          country: log.country,
-          countryCode: log.countryCode,
-          region: log.region,
-          city: log.city,
-        },
-      });
-    }
-
-    if (!log.ipAddress) {
-      return res.status(400).json({ success: false, message: "No IP address linked to this log." });
-    }
-
-    // Trigger on-demand lookup
-    const ipLookup = require("../security/ipLookup");
-    const geoData = await ipLookup.lookupIp(log.ipAddress);
-
-    // Save lookup data directly into database SystemLogs row
-    log.country = geoData.country;
-    log.countryCode = geoData.countryCode;
-    log.region = geoData.region;
-    log.city = geoData.city;
-    await log.save();
-
-    res.json({
-      success: true,
-      data: geoData,
-    });
-  } catch (error) {
-    console.error("Error performing on-demand IP lookup:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

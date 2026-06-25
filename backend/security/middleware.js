@@ -2,6 +2,7 @@ const { SystemLog } = require("../models");
 const config = require("./config");
 const blocker = require("./blocker");
 const limiter = require("./limiter");
+const { parseUserAgent } = require("./uaParser");
 
 // Helper to extract client real IP address
 function getClientIp(req) {
@@ -37,6 +38,9 @@ async function securityMiddleware(req, res, next) {
   const userAgent = req.headers["user-agent"] || null;
   const path = req.baseUrl + req.path;
 
+  // Parse User Agent to extract OS, Browser, and Device metadata
+  const uaMeta = parseUserAgent(userAgent);
+
   // 1. Check IP block list (High-speed in-memory check, no database or network calls)
   if (blocker.isBlocked(ipAddress)) {
     // Log blocked request immediately
@@ -51,10 +55,9 @@ async function securityMiddleware(req, res, next) {
         duration: 0,
         userAgent,
         userId: req.user?.id || null,
-        country: null,
-        countryCode: null,
-        region: null,
-        city: null,
+        os: uaMeta.os,
+        browser: uaMeta.browser,
+        device: uaMeta.device,
         isBlocked: true,
       }).catch((err) => console.error("Error creating block system log:", err.message));
     }
@@ -84,7 +87,7 @@ async function securityMiddleware(req, res, next) {
     if (path.startsWith("/uploads/") || path.includes("/static/")) return;
 
     try {
-      // Create system log entry with location columns as null (resolved on-demand by admin)
+      // Create system log entry with client OS/browser/device details
       await SystemLog.create({
         ipAddress,
         method: req.method,
@@ -95,10 +98,9 @@ async function securityMiddleware(req, res, next) {
         duration,
         userAgent,
         userId: req.user?.id || null,
-        country: null,
-        countryCode: null,
-        region: null,
-        city: null,
+        os: uaMeta.os,
+        browser: uaMeta.browser,
+        device: uaMeta.device,
         isBlocked: false,
       });
     } catch (logErr) {

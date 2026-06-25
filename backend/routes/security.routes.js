@@ -13,5 +13,6 @@ router.get("/stats", controller.getSecurityStats);
 router.get("/blocks", controller.getBlockedRules);
 router.post("/blocks", controller.createBlockRule);
 router.delete("/blocks/:id", controller.deleteBlockRule);
+router.delete("/blocks/ip/:ip", controller.deleteBlockRuleByIp);
 
 module.exports = router;

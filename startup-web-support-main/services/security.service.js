@@ -24,3 +24,8 @@ export const deleteBlockRule = async (id) => {
   const response = await api.delete(`/security/blocks/${id}`);
   return response.data;
 };
+
+export const deleteBlockRuleByIp = async (ip) => {
+  const response = await api.delete(`/security/blocks/ip/${ip}`);
+  return response.data;
+};

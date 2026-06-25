@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       duration: { type: DataTypes.INTEGER, allowNull: true },
       userAgent: { type: DataTypes.STRING, allowNull: true },
       userId: { type: DataTypes.INTEGER, allowNull: true },
+      os: { type: DataTypes.STRING, allowNull: true },
+      browser: { type: DataTypes.STRING, allowNull: true },
+      device: { type: DataTypes.STRING, allowNull: true },
       isBlocked: { type: DataTypes.BOOLEAN, defaultValue: false },
     },
     {

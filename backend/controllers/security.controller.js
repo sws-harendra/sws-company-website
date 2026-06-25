@@ -41,9 +41,15 @@ exports.getLogs = async (req, res) => {
       ],
     });
 
+    const logsData = logs.map((log) => {
+      const item = log.toJSON();
+      item.isCurrentlyBlocked = blocker.isBlocked(log.ipAddress);
+      return item;
+    });
+
     res.json({
       success: true,
-      data: logs,
+      data: logsData,
       pagination: {
         totalItems: count,
         totalPages: Math.ceil(count / limit),
@@ -175,6 +181,31 @@ exports.getSecurityStats = async (req, res) => {
     });
   } catch (error) {
     console.error("Error generating security stats:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+// Delete/unblock a blocked rule by IP Address directly (useful from logs list)
+exports.deleteBlockRuleByIp = async (req, res) => {
+  try {
+    const { ip } = req.params;
+
+    const rule = await BlockedIp.findOne({ where: { ipAddress: ip } });
+    if (!rule) {
+      return res.status(404).json({
+        success: false,
+        message: "No active block rules found for this IP.",
+      });
+    }
+
+    await blocker.removeBlockById(rule.id);
+
+    res.json({
+      success: true,
+      message: `IP address ${ip} successfully unblocked.`,
+    });
+  } catch (error) {
+    console.error("Error deleting block rule by IP:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

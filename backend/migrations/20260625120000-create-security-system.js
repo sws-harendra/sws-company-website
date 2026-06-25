@@ -90,6 +90,18 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "SET NULL",
       },
+      os: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      browser: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      device: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       isBlocked: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

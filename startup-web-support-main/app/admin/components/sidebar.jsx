@@ -10,6 +10,7 @@ import {
   Palette, 
   UserCog, 
   ShieldCheck, 
+  ShieldAlert,
   Mail, 
   Users, 
   MessageSquareQuote,
@@ -35,6 +36,7 @@ const sidebarLinks = [
   { label: "Testimonial", href: "/admin/testimonial", icon: <MessageSquareQuote /> },
   { label: "Docs & Certificates", href: "/admin/certificates", icon: <Award /> },
   { label: "ID Cards", href: "/admin/id-cards", icon: <Award /> },
+  { label: "Security & Logs", href: "/admin/security", icon: <ShieldAlert /> },
 ];
 
 const Sidebar = () => {
@@ -65,6 +67,7 @@ const Sidebar = () => {
       Roles: "manage_roles",
       Testimonial: "view_testimonials",
       Contacts: "view_contact",
+      "Security & Logs": "manage_security",
     };
 
     const requiredPermission = permissionMap[link.label];

@@ -10,5 +10,6 @@ export const routePermissions = {
   "/admin/testimonial": "view_testimonials",
   "/admin/users": "edit_users", // example
   "/admin/role": "create_role",
+  "/admin/security": "manage_security",
   // Add all admin routes here
 };

@@ -5,6 +5,10 @@ const express = require("express");
 const cors = require("cors");
 // require("./config/db");
 
+// Initialize Security Blocker Cache
+const { initBlocker } = require("./security/blocker");
+initBlocker();
+
 const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
@@ -35,6 +39,10 @@ app.use(
   })
 );
 app.use(express.json());
+
+// Reusable Production-Level Security Middleware (Blocker, Limiter, Logger)
+const { securityMiddleware } = require("./security/middleware");
+app.use(securityMiddleware);
 
 app.use(morgan("dev")); // Shows :method :url :status :response-time ms
 app.use(express.static(path.join(__dirname, "public")));
@@ -68,6 +76,7 @@ app.use("/api/permissions", require("./routes/permission.routes"));
 app.use("/api/teams", require("./routes/team.route"));
 app.use("/api/certificates", require("./routes/certificate.routes"));
 app.use("/api/id-cards", require("./routes/idCard.routes"));
+app.use("/api/security", require("./routes/security.routes"));
 
 let port = process.env.PORT || 8000;
 app.listen(port, () => {
@@ -75,3 +84,4 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+

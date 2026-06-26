@@ -57,6 +57,7 @@ export default function BlogsPage() {
         <ReusableModal
           title="Add New Blog"
           triggerLabel="+ New Blog"
+          maxWidth="max-w-full"
         >
           {({ close }) => (
             <BlogForm

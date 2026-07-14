@@ -317,11 +317,17 @@ const Contact = () => {
                 <motion.button
                   type="submit"
                   disabled={loading}
-                  className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                  className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-8 py-3 font-semibold text-white shadow-md transition-all duration-300 hover:bg-sky-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {loading ? "Sending..." : <>Send Message <IoSendOutline className="text-xl" /></>}
+                  {loading ? (
+                    "Sending..."
+                  ) : (
+                    <>
+                      Send Message <IoSendOutline className="text-xl" />
+                    </>
+                  )}
                 </motion.button>
               </motion.div>
             </motion.form>

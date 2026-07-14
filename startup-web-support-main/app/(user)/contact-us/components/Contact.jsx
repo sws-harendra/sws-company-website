@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { IoSendOutline } from "react-icons/io5";
+import { AnimatePresence, motion } from "framer-motion";
+import { IoSendOutline, IoCloseOutline } from "react-icons/io5";
 import contactService from "@/services/contact.service";
 import { toast } from "sonner";
 
@@ -14,7 +14,11 @@ const Contact = () => {
     phone: "",
     pageUsed: "/contact-us",
     subject: "",
+    message: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -72,35 +76,85 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setLoading(true);
-    // setStatus("");
-    // setShowConfetti(false);
+    setLoading(true);
+    setSubmitError("");
     try {
       await contactService.createContact(formData);
-      setStatus("✅ Message sent successfully!");
-      setShowConfetti(true); // 🎉 trigger confetti
+      setShowSuccessModal(true);
       setFormData({
         fullname: "",
         email: "",
         phone: "",
         pageUsed: "/contact-us",
         subject: "",
+        message: "",
       });
       toast.success("Message sent successfully!");
-      // 🎉 Stop confetti after 3 seconds
-      // setTimeout(() => setShowConfetti(false), 5000);
-      // onClose();
     } catch (err) {
-      // setStatus("❌ Failed to send message. Please try again.");
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Failed to send message. Please try again.";
+      setSubmitError(message);
+      toast.error("Failed to send message. Please try again.");
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <section className="bg-white py-16  overflow-hidden">
-      {" "}
-      {/* Added overflow-hidden */}
+    <section className="bg-white py-16 overflow-hidden">
+      <AnimatePresence>
+        {showSuccessModal && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl"
+              initial={{ scale: 0.92, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.96, y: 12, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-wider text-emerald-600">
+                    Success
+                  </p>
+                  <h3 className="mt-2 text-2xl font-bold text-gray-900">
+                    Message sent
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowSuccessModal(false)}
+                  className="rounded-full p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-800"
+                  aria-label="Close success dialog"
+                >
+                  <IoCloseOutline className="text-2xl" />
+                </button>
+              </div>
+
+              <p className="mt-4 text-gray-600">
+                Thanks for reaching out. We’ve received your message and will
+                get back to you soon.
+              </p>
+
+              <button
+                type="button"
+                onClick={() => setShowSuccessModal(false)}
+                className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-sky-600 px-5 py-3 font-semibold text-white transition hover:bg-sky-700"
+              >
+                Great, thanks
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Video */}
@@ -245,18 +299,29 @@ const Contact = () => {
                   id="message"
                   name="message"
                   rows="2"
+                  value={formData.message}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 transition duration-150"
                   placeholder="Your message..."
                 ></textarea>
               </motion.div>
+              {submitError && (
+                <motion.p
+                  variants={itemVariants}
+                  className="text-sm font-medium text-red-600"
+                >
+                  {submitError}
+                </motion.p>
+              )}
               <motion.div variants={itemVariants}>
                 <motion.button
                   type="submit"
+                  disabled={loading}
                   className="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Send Message <IoSendOutline className="text-xl" />
+                  {loading ? "Sending..." : <>Send Message <IoSendOutline className="text-xl" /></>}
                 </motion.button>
               </motion.div>
             </motion.form>

@@ -1,52 +1,29 @@
 const { BlockedIp } = require("../models");
 const { Op } = require("sequelize");
 
-// High-speed caches for blocked IPs and countries
-const blockedIps = new Set();
-const blockedCountries = new Set();
-
-/**
- * Initializes and synchronizes the blocked lists cache from the database.
- */
-async function initBlocker() {
-  try {
-    const now = new Date();
-    // Fetch all active block rules (permanent rules or rules with expiresAt > now)
-    const activeBlocks = await BlockedIp.findAll({
-      where: {
-        [Op.or]: [
-          { expiresAt: null },
-          { expiresAt: { [Op.gt]: now } }
-        ]
-      }
-    });
-
-    // Clear and reload sets
-    blockedIps.clear();
-    blockedCountries.clear();
-
-    activeBlocks.forEach((rule) => {
-      if (rule.ipAddress) {
-        blockedIps.add(rule.ipAddress);
-      }
-      if (rule.countryCode) {
-        blockedCountries.add(rule.countryCode.toUpperCase());
-      }
-    });
-
-    console.log(`[Security System] Loaded ${blockedIps.size} blocked IPs and ${blockedCountries.size} blocked countries.`);
-  } catch (error) {
-    console.error("[Security System] Failed to load blocked rules from database:", error.message);
-  }
+function normalizeIp(ip) {
+  return typeof ip === "string" ? ip.trim().toLowerCase() : ip;
 }
 
 /**
  * Checks if a specific IP is currently blocked.
  * @param {string} ip Client IP address
- * @returns {boolean} True if blocked
+ * @returns {Promise<boolean>} True if blocked
  */
-function isBlocked(ip) {
-  return ip && blockedIps.has(ip);
+async function isBlocked(ip) {
+  if (!ip) return false;
+
+  const normalizedIp = normalizeIp(ip);
+  const now = new Date();
+
+  const rule = await BlockedIp.findOne({
+    where: {
+      ipAddress: normalizedIp,
+      [Op.or]: [{ expiresAt: null }, { expiresAt: { [Op.gt]: now } }],
+    },
+  });
+
+  return Boolean(rule);
 }
 
 /**
@@ -60,18 +37,15 @@ function isBlocked(ip) {
  */
 async function addBlock({ ipAddress, countryCode, reason, durationMs }) {
   const expiresAt = durationMs ? new Date(Date.now() + durationMs) : null;
+  const normalizedIp = normalizeIp(ipAddress);
 
   // Insert or update DB
   const [rule] = await BlockedIp.upsert({
-    ipAddress: ipAddress || null,
+    ipAddress: normalizedIp || null,
     countryCode: countryCode ? countryCode.toUpperCase() : null,
     reason: reason || "Administrative Block",
     expiresAt,
   });
-
-  // Update high-speed memory cache
-  if (ipAddress) blockedIps.add(ipAddress);
-  if (countryCode) blockedCountries.add(countryCode.toUpperCase());
 
   return rule;
 }
@@ -83,14 +57,11 @@ async function addBlock({ ipAddress, countryCode, reason, durationMs }) {
 async function removeBlockById(id) {
   const rule = await BlockedIp.findByPk(id);
   if (rule) {
-    if (rule.ipAddress) blockedIps.delete(rule.ipAddress);
-    if (rule.countryCode) blockedCountries.delete(rule.countryCode.toUpperCase());
     await rule.destroy();
   }
 }
 
 module.exports = {
-  initBlocker,
   isBlocked,
   addBlock,
   removeBlockById,

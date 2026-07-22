@@ -8,8 +8,12 @@ export default function SecurityInterceptor() {
       (response) => response,
       (error) => {
         if (error.response && error.response.status === 403) {
-          const msg = error.response.data?.message;
-          if (msg && msg.toLowerCase().includes("blocked")) {
+          const message = error.response.data?.message?.toLowerCase();
+          const isSecurityBlock =
+            error.response.data?.error === "Forbidden" &&
+            message === "access denied. your ip address has been blocked.";
+
+          if (isSecurityBlock) {
             if (typeof window !== "undefined" && window.location.pathname !== "/blocked") {
               window.location.href = "/blocked";
             }

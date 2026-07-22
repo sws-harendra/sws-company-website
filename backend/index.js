@@ -5,10 +5,6 @@ const express = require("express");
 const cors = require("cors");
 // require("./config/db");
 
-// Initialize Security Blocker Cache
-const { initBlocker } = require("./security/blocker");
-initBlocker();
-
 const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
@@ -84,4 +80,3 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-

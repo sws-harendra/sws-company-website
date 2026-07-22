@@ -41,11 +41,11 @@ exports.getLogs = async (req, res) => {
       ],
     });
 
-    const logsData = logs.map((log) => {
+    const logsData = await Promise.all(logs.map(async (log) => {
       const item = log.toJSON();
-      item.isCurrentlyBlocked = blocker.isBlocked(log.ipAddress);
+      item.isCurrentlyBlocked = await blocker.isBlocked(log.ipAddress);
       return item;
-    });
+    }));
 
     res.json({
       success: true,
@@ -209,4 +209,3 @@ exports.deleteBlockRuleByIp = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-

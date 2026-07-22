@@ -42,7 +42,7 @@ async function securityMiddleware(req, res, next) {
   const uaMeta = parseUserAgent(userAgent);
 
   // 1. Check IP block list (High-speed in-memory check, no database or network calls)
-  if (blocker.isBlocked(ipAddress)) {
+  if (await blocker.isBlocked(ipAddress)) {
     // Log blocked request immediately
     if (config.dbLoggingEnabled) {
       SystemLog.create({

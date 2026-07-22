@@ -3,8 +3,11 @@ import Link from "next/link";
 import blogService from "@/services/blog.service";
 import ContactUs from "@/components/ContactUs";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function BlogPostPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   let post = null;
   try {
@@ -56,7 +59,7 @@ export default async function BlogPostPage({ params }) {
               <span>&bull;</span>
               <span>
                 {new Date(
-                  post.createdAt || post.published_at
+                  post.createdAt || post.published_at,
                 ).toLocaleDateString()}
               </span>
               {post.status && (
@@ -140,7 +143,7 @@ export default async function BlogPostPage({ params }) {
 }
 
 export async function generateMetadata({ params }) {
-  const slug = await params.slug;
+  const { slug } = await params;
   let post = null;
   try {
     post = await blogService.getBySlug(slug);

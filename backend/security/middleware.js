@@ -69,7 +69,7 @@ async function securityMiddleware(req, res, next) {
   }
 
   // 2. Check Rate Limit
-  const rateLimitResult = await limiter.checkRateLimit(ipAddress, path);
+  const rateLimitResult = await limiter.checkRateLimit(ipAddress, path, req.method);
   if (!rateLimitResult.allowed) {
     return res.status(429).json({
       error: "Too Many Requests",

@@ -89,9 +89,11 @@ const ContactUs = ({
         pageUsed: page,
         subject: "",
       });
-      // 🎉 Stop confetti after 3 seconds
-      setTimeout(() => setShowConfetti(false), 5000);
-      // onClose();
+      // 🎉 Stop confetti and close popup after 3 seconds
+      setTimeout(() => {
+        setShowConfetti(false);
+        if (onClose) onClose();
+      }, 3000);
     } catch (err) {
       setStatus("❌ Failed to send message. Please try again.");
     } finally {

@@ -197,14 +197,21 @@ const ContactUs = ({
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Subject
             </label>
-            <input
-              type="text"
+            <select
               name="subject"
               value={formData.subject}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="How can we help?"
-            />
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white"
+            >
+              <option value="" disabled>Select a subject</option>
+              <option value="Website development">Website development</option>
+              <option value="app development">app development</option>
+              <option value="google ads">google ads</option>
+              <option value="facebook ads">facebook ads</option>
+              <option value="seo">seo</option>
+              <option value="social media management">social media management</option>
+              <option value="company registration">company registration</option>
+            </select>
           </motion.div>
 
           {/* Submit Button */}

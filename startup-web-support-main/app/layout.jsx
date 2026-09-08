@@ -5,6 +5,7 @@ import Head from "next/head";
 import Script from "next/script";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import SecurityInterceptor from "@/components/SecurityInterceptor";
+import ContactFormModal from "@/components/PopupContactus";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,7 @@ export default function RootLayout({ children }) {
         </Script>
 
         {children}
+        <ContactFormModal />
         <Toaster />
       </body>
     </html>

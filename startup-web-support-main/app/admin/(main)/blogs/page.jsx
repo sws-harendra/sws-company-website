@@ -107,6 +107,7 @@ export default function BlogsPage() {
         <ReusableModal
           title="Edit Blog"
           triggerLabel=""
+          maxWidth="min-w-5/6"
           open={!!editData}
           onOpenChange={(isOpen) => {
             if (!isOpen) setEditData(null);

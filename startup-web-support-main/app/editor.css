@@ -96,3 +96,83 @@
 .tiptap s {
   text-decoration: line-through;
 }
+
+/* Tables / Two-column Layouts */
+.tiptap table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.tiptap table td,
+.tiptap table th {
+  min-width: 1em;
+  border: 1px dashed #d1d5db;
+  padding: 12px 14px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tiptap table th {
+  font-weight: 600;
+  text-align: left;
+  background-color: rgba(243, 244, 246, 0.7);
+}
+
+.dark .tiptap table td,
+.dark .tiptap table th {
+  border-color: #374151;
+}
+
+.dark .tiptap table th {
+  background-color: rgba(31, 41, 55, 0.6);
+}
+
+/* Seamless Layout Columns (borderless table variant) */
+.tiptap table[data-layout="columns"],
+.tiptap table.layout-table {
+  border: none !important;
+}
+
+.tiptap table[data-layout="columns"] td,
+.tiptap table.layout-table td {
+  border: 1px dashed rgba(156, 163, 175, 0.4) !important;
+}
+
+/* Highlight styling */
+.tiptap mark {
+  background-color: #fef08a;
+  padding: 0.1em 0.3em;
+  border-radius: 0.25rem;
+}
+
+/* Alignments */
+.tiptap [style*="text-align: left"],
+.tiptap [data-text-align="left"] {
+  text-align: left;
+}
+
+.tiptap [style*="text-align: center"],
+.tiptap [data-text-align="center"] {
+  text-align: center;
+}
+
+.tiptap [style*="text-align: right"],
+.tiptap [data-text-align="right"] {
+  text-align: right;
+}
+
+.tiptap [style*="text-align: justify"],
+.tiptap [data-text-align="justify"] {
+  text-align: justify;
+}
+
+/* Links */
+.tiptap a {
+  color: #0284c7;
+  text-decoration: underline;
+  cursor: pointer;
+}

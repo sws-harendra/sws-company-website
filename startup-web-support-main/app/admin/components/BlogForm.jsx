@@ -207,7 +207,7 @@ export default function BlogForm({ selected, onSave, onCancel }) {
           <Label className="text-zinc-600 dark:text-zinc-400">
             Main Content
           </Label>
-          <div className="bg-white dark:bg-zinc-900 rounded-md border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+          <div className="bg-white dark:bg-zinc-900 rounded-xl overflow-hidden">
             <RichTextEditor
               value={formData.content}
               onChange={handleContentChange}

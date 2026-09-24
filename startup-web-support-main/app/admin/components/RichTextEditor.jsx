@@ -76,9 +76,32 @@ export default function RichTextEditor({ value, onChange }) {
           class: "text-sky-600 underline cursor-pointer",
         },
       }),
-      Image.configure({
+      Image.extend({
+        addAttributes() {
+          return {
+            ...this.parent?.(),
+            "data-align": {
+              default: "center",
+              parseHTML: (element) => element.getAttribute("data-align") || "center",
+              renderHTML: (attributes) => {
+                if (!attributes["data-align"]) return {};
+                return {
+                  "data-align": attributes["data-align"],
+                  class: `align-${attributes["data-align"]}`,
+                };
+              },
+            },
+          };
+        },
+      }).configure({
         inline: false,
         allowBase64: true,
+        resize: {
+          enabled: true,
+          alwaysPreserveAspectRatio: true,
+          minWidth: 50,
+          minHeight: 50,
+        },
       }),
       Table.configure({
         resizable: true,
@@ -150,6 +173,15 @@ export default function RichTextEditor({ value, onChange }) {
       .chain()
       .focus()
       .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+      .run();
+  };
+
+  // Image float alignment helper (Left, Center, Right)
+  const setImageAlignment = (align) => {
+    editor
+      .chain()
+      .focus()
+      .updateAttributes("image", { "data-align": align })
       .run();
   };
 
@@ -528,6 +560,60 @@ export default function RichTextEditor({ value, onChange }) {
             <TableIcon className="w-4 h-4" />
           </button>
         </div>
+
+        {/* Image Controls (Shown when an image is selected) */}
+        {editor.isActive("image") && (
+          <div className="flex items-center gap-1 bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 rounded-md p-1 ml-auto text-xs">
+            <span className="text-[11px] font-semibold text-sky-800 dark:text-sky-300 mr-1 flex items-center gap-1">
+              <ImageIcon className="w-3.5 h-3.5" /> Image:
+            </span>
+            <button
+              type="button"
+              onClick={() => setImageAlignment("left")}
+              className={`px-1.5 py-0.5 rounded border text-[11px] font-medium transition ${
+                editor.getAttributes("image")["data-align"] === "left"
+                  ? "bg-primary-brand-color text-white border-primary-brand-color"
+                  : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100"
+              }`}
+              title="Float Left (Text flows around right side)"
+            >
+              Left (Wrap Text)
+            </button>
+            <button
+              type="button"
+              onClick={() => setImageAlignment("center")}
+              className={`px-1.5 py-0.5 rounded border text-[11px] font-medium transition ${
+                editor.getAttributes("image")["data-align"] === "center" ||
+                !editor.getAttributes("image")["data-align"]
+                  ? "bg-primary-brand-color text-white border-primary-brand-color"
+                  : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100"
+              }`}
+              title="Center (Block)"
+            >
+              Center
+            </button>
+            <button
+              type="button"
+              onClick={() => setImageAlignment("right")}
+              className={`px-1.5 py-0.5 rounded border text-[11px] font-medium transition ${
+                editor.getAttributes("image")["data-align"] === "right"
+                  ? "bg-primary-brand-color text-white border-primary-brand-color"
+                  : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100"
+              }`}
+              title="Float Right (Text flows around left side)"
+            >
+              Right (Wrap Text)
+            </button>
+            <button
+              type="button"
+              onClick={() => editor.chain().focus().deleteSelection().run()}
+              className="p-1 text-red-600 hover:bg-red-50 rounded ml-1"
+              title="Remove image"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
 
         {/* Table Controls (Shown when cursor is inside a table) */}
         {editor.isActive("table") && (

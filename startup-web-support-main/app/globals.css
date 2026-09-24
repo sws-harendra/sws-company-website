@@ -591,3 +591,47 @@
   padding: 0.1em 0.3em;
   border-radius: 0.2rem;
 }
+
+/* User-facing Blog Content: Resized Image & Floating support */
+.prose img {
+  border-radius: 0.5rem;
+  max-width: 100%;
+  height: auto;
+}
+
+.prose img[width] {
+  width: auto;
+  max-width: 100%;
+}
+
+.prose img[data-align="left"],
+.prose img.align-left {
+  float: left;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.prose img[data-align="right"],
+.prose img.align-right {
+  float: right;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.prose img[data-align="center"],
+.prose img.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Clearfix for paragraphs after floated images */
+.prose::after {
+  content: "";
+  display: table;
+  clear: both;
+}

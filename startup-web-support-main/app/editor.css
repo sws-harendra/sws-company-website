@@ -176,3 +176,135 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+/* Image Resizing & ResizableNodeView Styles */
+.tiptap [data-resize-container] {
+  position: relative;
+  display: block;
+  margin: 1rem 0;
+  max-width: 100%;
+}
+
+.tiptap [data-resize-wrapper] {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.tiptap [data-resize-wrapper] img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 0;
+}
+
+/* Show resize outline when hovering or selected */
+.tiptap [data-resize-wrapper]:hover,
+.tiptap [data-resize-container][data-resize-state="true"] [data-resize-wrapper],
+.tiptap .ProseMirror-selectednode [data-resize-wrapper] {
+  outline: 2px solid #0284c7;
+  outline-offset: 2px;
+}
+
+/* Resize Handles */
+.tiptap [data-resize-handle] {
+  position: absolute;
+  background-color: #0284c7;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+  box-sizing: border-box;
+}
+
+/* Corner handles */
+.tiptap [data-resize-handle="top-left"],
+.tiptap [data-resize-handle="top-right"],
+.tiptap [data-resize-handle="bottom-left"],
+.tiptap [data-resize-handle="bottom-right"] {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.tiptap [data-resize-handle="top-left"] {
+  top: -5px !important;
+  left: -5px !important;
+  cursor: nwse-resize;
+}
+
+.tiptap [data-resize-handle="top-right"] {
+  top: -5px !important;
+  right: -5px !important;
+  cursor: nesw-resize;
+}
+
+.tiptap [data-resize-handle="bottom-left"] {
+  bottom: -5px !important;
+  left: -5px !important;
+  cursor: nesw-resize;
+}
+
+.tiptap [data-resize-handle="bottom-right"] {
+  bottom: -5px !important;
+  right: -5px !important;
+  cursor: nwse-resize;
+}
+
+/* Edge handles */
+.tiptap [data-resize-handle="top"] {
+  height: 6px;
+  top: -3px !important;
+  cursor: ns-resize;
+  opacity: 0;
+}
+
+.tiptap [data-resize-handle="bottom"] {
+  height: 6px;
+  bottom: -3px !important;
+  cursor: ns-resize;
+  opacity: 0;
+}
+
+.tiptap [data-resize-handle="left"] {
+  width: 6px;
+  left: -3px !important;
+  cursor: ew-resize;
+  opacity: 0;
+}
+
+.tiptap [data-resize-handle="right"] {
+  width: 6px;
+  right: -3px !important;
+  cursor: ew-resize;
+  opacity: 0;
+}
+
+/* Show edge handles on hover */
+.tiptap [data-resize-wrapper]:hover [data-resize-handle] {
+  opacity: 1;
+}
+
+/* Image float and alignment */
+.tiptap img[data-align="left"],
+.tiptap [data-resize-container][data-align="left"] {
+  float: left;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tiptap img[data-align="right"],
+.tiptap [data-resize-container][data-align="right"] {
+  float: right;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tiptap img[data-align="center"],
+.tiptap [data-resize-container][data-align="center"] {
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+

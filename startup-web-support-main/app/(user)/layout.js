@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
         <WhatsAppButton />
       </div>
       <Header />
-      {/* <ContactFormModal /> */}
+      <ContactFormModal />
       {children}
       <Footer />
     </div>

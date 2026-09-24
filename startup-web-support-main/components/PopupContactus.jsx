@@ -8,11 +8,12 @@ export default function ContactFormModal() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // 🧭 Show popup on each page navigation
+  // 🧭 Show popup once per page load (shows again if user refreshes the page)
   useEffect(() => {
+    if (pathname?.startsWith("/admin")) return;
     const timer = setTimeout(() => setOpen(true), 5000);
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, []);
 
   if (!open) return null;
 

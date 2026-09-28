@@ -1,626 +1,961 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Activity,
   Shield,
+  ShieldCheck,
   Cloud,
   Users,
-  DollarSign,
-  Award,
+  Coins,
+  Headphones,
   LayoutDashboard,
   FileText,
   UserCheck,
   Stethoscope,
   Bed,
   Hospital,
+  Building2,
   Droplet,
   Pill,
   FlaskConical,
-  Lock,
+  Award,
   ArrowRight,
   CheckCircle2,
-  Phone,
-  Mail,
-  MapPin,
+  Play,
+  Calendar,
+  Search,
+  Bell,
+  Monitor,
+  Smartphone,
+  BarChart3,
+  Layers,
+  Settings,
+  User,
+  HeartHandshake,
+  FileCheck,
+  ClipboardList,
+  Sparkles,
 } from "lucide-react";
 import ContactUs from "@/components/ContactUs";
-import Gallery from "@/components/gallery";
 
 export default function HMSLandingPage() {
   const [activeModule, setActiveModule] = useState("dashboard");
 
-  const images = [
-    { src: "/hms/dashboard-web.png", caption: "Dashboard Management" },
-    { src: "/hms/bed-dashboard.png", caption: "Bed Management" },
-    { src: "/hms/dashboard.png", caption: "Dashboard" },
-    { src: "/hms/opd-management.png", caption: "OPD" },
-    { src: "/hms/patient.png", caption: "Patient Management" },
-    { src: "/hms/bed-management.png", caption: "Bed Management" },
-  ];
   const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
   const features = [
     {
-      icon: <Activity className="w-7 h-7" />,
+      icon: <Activity className="w-6 h-6 text-white" />,
+      bgIcon: "bg-emerald-500",
       title: "Complete Healthcare Solution",
       description:
-        "Our hospital management system in Patna is designed in a way where all hospital departments stay connected and work together without confusion. From OPD to billing, this hospital ERP software in Patna keeps information updated in real time, reduces manual work for staff and helps hospitals provide faster, smoother and more accurate patient care every day.",
-      gradient: "from-emerald-500 to-teal-600",
+        "Our hospital management system in Patna is designed in a way where all hospital departments stay connected and work together without confusion.",
     },
     {
-      icon: <Shield className="w-7 h-7" />,
+      icon: <Shield className="w-6 h-6 text-white" />,
+      bgIcon: "bg-blue-600",
       title: "Secure & Reliable",
       description:
-        "Data security was one of the top concerns while building our hospital management software in Patna because patient security is must. With advanced security systems and strict control over module access to staff, our HMS software in Patna ensures patient records remain safe, confidential and fully compliant with healthcare data standards set by governing authorities.",
-      gradient: "from-blue-500 to-indigo-600",
+        "Data security was one of the top concerns while building our hospital management software in Patna because patient security is must.",
     },
     {
-      icon: <Cloud className="w-7 h-7" />,
+      icon: <Cloud className="w-6 h-6 text-white" />,
+      bgIcon: "bg-purple-600",
       title: "Stable Cloud Solution",
       description:
-        "The one of the best hospital management system in Patna runs on a stable cloud setup that delivers more than 99.99 percent uptime for smooth daily operations. Doctors, staff, and management can safely access the system at any time from anywhere using web and mobile platforms without facing interruptions.",
-      gradient: "from-violet-500 to-purple-600",
+        "The one of the best hospital management system in Patna runs on a stable cloud setup that delivers more than 99.99 percent uptime.",
     },
     {
-      icon: <Users className="w-7 h-7" />,
-      title: "Patient-Centric Design",
+      icon: <Users className="w-6 h-6 text-white" />,
+      bgIcon: "bg-pink-500",
+      title: "User Friendly Interface",
       description:
-        "Designed keeping real hospital working style in mind our clinic and hospital management software in Patna supports round the clock appointment booking instant alerts digital records and telemedicine features. This hospital management system in Patna helps hospitals improve patient engagement while reducing pressure on the front desk staff.",
-      gradient: "from-pink-500 to-rose-600",
+        "Simple and clean interface makes it easy for staff, doctors and administrators to work efficiently without any technical hassle.",
     },
     {
-      icon: <DollarSign className="w-7 h-7" />,
-      title: "Affordable Pricing",
+      icon: <Coins className="w-6 h-6 text-white" />,
+      bgIcon: "bg-amber-500",
+      title: "Cost Effective",
       description:
-        "Our hospital ERP software in Patna comes with a clear and modular pricing structure so hospitals and clinics can begin with what they need and expand later without difficulty. This hospital management software in Patna remains cost effective while still delivering all the essential features required for smooth hospital operations.",
-      gradient: "from-amber-500 to-orange-600",
+        "Get maximum value with our feature-rich system at an affordable price, designed for hospitals of all sizes.",
     },
     {
-      icon: <Award className="w-7 h-7" />,
-      title: "Established Trust",
+      icon: <Headphones className="w-6 h-6 text-white" />,
+      bgIcon: "bg-cyan-500",
+      title: "Dedicated Support",
       description:
-        "Trusted by clinics and hospitals across Bihar and all the nearby regions, our software is widely recognized as one of the best hospital management systems in Patna. This reliable HMS software in Patna supports growing healthcare facilities with consistent performance and dependable long-term support.",
-      gradient: "from-cyan-500 to-blue-600",
+        "Our team is always ready to help you with quick support and training whenever you need it.",
     },
   ];
 
   const modules = [
     {
       id: "dashboard",
-      icon: <LayoutDashboard className="w-6 h-6" />,
+      icon: <LayoutDashboard className="w-5 h-5" />,
       title: "Dashboard",
-      description:"The dashboard is the first thing a hospital Owner sees when He logins to One of the fastest growing Hospital management system in patna. Where the owner or the Administrator can monitor the entire functionality in real time . Instead of contacting different departments for their updates they can easily login their HMS designed by Startup Web Support from any device from anywhere.",
-      color: "blue",
+      iconColor: "text-blue-600 bg-blue-50",
+      description:
+        "The dashboard is the first thing a hospital Owner sees when they login to our Hospital Management System. The owner or Administrator can monitor the entire facility functionality in real time. Instead of contacting different departments for updates, they can easily access real-time statistics from any device, anywhere.",
+      highlights: [
+        "Real-time OPD & IPD counts",
+        "Financial & revenue collection summary",
+        "Instant department status alerts",
+        "Multi-device synchronized access",
+      ],
     },
     {
       id: "billing",
-      icon: <FileText className="w-6 h-6" />,
+      icon: <FileText className="w-5 h-5" />,
       title: "Billing",
-      description:"The Billing module is one of the most sensitive and used modules of any Hospital Management system . It automates and stores all the charges and payments and their ledger of each and every patient,be it OPD, IPD, Pathology or Pharmacy. For Hospitals who are looking for Reliable HMS software in Patna, This removes common human errors (such as calculation mistakes, delayed functionality due to billing errors) from the entire Billing system.Digital Billing software increases patient trust and reduces staff’s work load significantly.",
-      color: "emerald",
+      iconColor: "text-emerald-600 bg-emerald-50",
+      description:
+        "The Billing module automates and stores all charges, payments, and ledgers for every patient across OPD, IPD, Pathology, and Pharmacy. It eliminates human calculation errors, prevents billing delays, ensures 100% financial transparency, and enhances patient trust.",
+      highlights: [
+        "Automated GST & discount calculations",
+        "Itemized OPD & IPD final billing",
+        "Integrated payment gateways & cash registers",
+        "Advance deposit & refund tracking",
+      ],
     },
     {
       id: "patient",
-      icon: <UserCheck className="w-6 h-6" />,
+      icon: <Users className="w-5 h-5" />,
       title: "Patient Management",
-      description:"Patient Registration Module Creates a single digital identity for every patient who ever visits the Hospital. Instead of reception staff maintaining all the patients data in a hard copy file , all the patient details are stored safely on cloud with a unique ID assigned to their name called UHID. any patient's data can be accessed instantly from anywhere in the entire Hospital Management system software using that unique ID. It ensures seamless patient data coordination between all the modules such as OPD , IPD, Pharmacy and Pathology department.",
-      color: "violet",
+      iconColor: "text-sky-600 bg-sky-50",
+      description:
+        "Creates a single digital identity for every patient who visits the hospital. Instead of paper registers, patient records are stored safely on the cloud with a unique UHID (Unique Hospital Identification). Any patient's medical history can be accessed in seconds across all departments.",
+      highlights: [
+        "Unique UHID generation",
+        "Complete digital patient history",
+        "Quick demographic & emergency contact lookup",
+        "Centralized document & ID attachment",
+      ],
     },
     {
       id: "opd",
-      icon: <Stethoscope className="w-6 h-6" />,
+      icon: <Stethoscope className="w-5 h-5" />,
       title: "OPD Module",
-      description:"The OPD patient module is mainly designed to handle all the appointments of OPD at a single place, It manages doctors' consultations, patient appointments and service record at one place and can be accessed from anywhere in the Hospital .Hospitals using Hospital management system in Patna have reduced overcrowding ,improved doctor scheduling and ensured patient are attended without any hassle, It has a digital prescription module linked so that patients can easily understand the prescriptions and it also reduces doctors workload.so that doctors can focus only on healing the patients not maintaining their records.",
-      color: "cyan",
+      iconColor: "text-purple-600 bg-purple-50",
+      description:
+        "Handles all OPD doctor consultations, queue tracking, and service records in one synchronized window. Reduces overcrowding at reception, streamlines doctor scheduling, and includes digital prescription generation so patients receive legible prescriptions instantly.",
+      highlights: [
+        "Doctor token & queue management",
+        "Digital prescription builder with drug dosage",
+        "Follow-up scheduling & automated SMS reminders",
+        "Doctor consultation fee tracking",
+      ],
     },
     {
       id: "ipd",
-      icon: <Hospital className="w-6 h-6" />,
+      icon: <Hospital className="w-5 h-5" />,
       title: "IPD Module",
-      description:"The IPD module of Hospital management system by Startup Web Support manages the entire functionality of admitted patients from admission to discharge , It manages from Printing Admission slip to discharge certificate it handles everything, It assigns and track beds , doctor visits and nursing staff visits and notes , investigations ,medicines, charges, payments made to IPD department and also Discharge summaries. It also has a digital prescription module similar to the OPD module linked to reduce manual work of doctors and nursing staff.",
-      color: "indigo",
+      iconColor: "text-pink-600 bg-pink-50",
+      description:
+        "Manages admitted patients from entry to discharge. Handles admission slips, bed allocation, doctor rounds, nurse vital charts, lab orders, medication administration, and printable discharge summaries with zero manual paperwork.",
+      highlights: [
+        "Admission slip & room/bed allocation",
+        "Daily doctor round & nursing note records",
+        "Medication chart & treatment scheduling",
+        "One-click comprehensive discharge summary",
+      ],
     },
     {
       id: "bed",
-      icon: <Bed className="w-6 h-6" />,
+      icon: <Bed className="w-5 h-5" />,
       title: "Bed Management",
-      description:"Bed management provides real time data of total, available ,occupied and reserved beds across all the wards and rooms .Hospital staff or admin doesn't need to physically check bed availability or depending on phone calls .Hospitals using Hospital ERP software in Patna improves bed addition and reduction , patients admission, avoid overbooking and optimizes bed utilization , which ultimately improves bed management and patient and staff comfort.",
-      color: "pink",
+      iconColor: "text-cyan-600 bg-cyan-50",
+      description:
+        "Provides real-time interactive mapping of total, available, occupied, and reserved beds across all wards, ICU, and private rooms. Ward administrators can allocate, transfer, and discharge beds instantly without phone calls.",
+      highlights: [
+        "Visual color-coded ward & floor maps",
+        "Instant bed status (Available, Occupied, Cleaning)",
+        "Automated bed charges calculation per hour/day",
+        "Rapid patient room transfer with history",
+      ],
     },
     {
       id: "blood",
-      icon: <Droplet className="w-6 h-6" />,
+      icon: <Droplet className="w-5 h-5" />,
       title: "Blood Bank",
+      iconColor: "text-rose-600 bg-rose-50",
       description:
-        "Manages donors, tracks blood stock, handles cross-matching, and monitors transfusions for safe blood supply.",
-      color: "rose",
+        "Tracks blood component inventory, blood group stocks, donor profiles, cross-matching records, and expiry alerts. Ensures complete compliance with healthcare safety standards and prevents critical shortages.",
+      highlights: [
+        "Real-time blood group stock levels",
+        "Donor registration & screening history",
+        "Cross-match & requisition workflow",
+        "Automated expiry date notifications",
+      ],
     },
     {
       id: "pharmacy",
-      icon: <Pill className="w-6 h-6" />,
+      icon: <Pill className="w-5 h-5" />,
       title: "Medicine Management",
-      description:"The medicine management module in HMS by Startup Web Support keeps track of medicine stock availability , sales, purchase inside the Hospital , Hospitals using Hospital management system in patna can prevent stock shortage, dump expired medicine stock and also give real time data of medicine sales, losses and profits and everything at one place . In hospitals this module reduces manual errors of medicine ordering and shortage by ending dependency on manual registers and ensures Hospitals have all the important medicines in stock all the time.",
-      color: "amber",
+      iconColor: "text-amber-600 bg-amber-50",
+      description:
+        "Complete pharmacy and inventory automation. Keeps live track of medicine stock, expiry dates, batch numbers, supplier purchases, and hospital pharmacy sales. Replaces manual registers and prevents stockouts of vital medicines.",
+      highlights: [
+        "Batch-wise inventory & expiry tracking",
+        "Low-stock alerts & purchase order generation",
+        "Direct prescription-to-pharmacy dispensing",
+        "Sales, profit, and dump inventory analytics",
+      ],
     },
     {
       id: "pathology",
-      icon: <FlaskConical className="w-6 h-6" />,
+      icon: <FlaskConical className="w-5 h-5" />,
       title: "Pathology",
-      description:"The pathology module in HMS by Startup Web Support manages all types of pathology tests, sample collection, reports and results history. It links the results of the tests directly to patients' unique ID making it easy for doctors, nurses and billing staff. Hospitals using Hospital management Software in Patna have solved all the problems related to the pathology department such as misplaced reports, delayed reports , and repeated tests due to missing data of previous tests while improving accuracy and saving time of Hospital Staff.",
-      color: "teal",
+      iconColor: "text-violet-600 bg-violet-50",
+      description:
+        "Manages diagnostic tests, sample barcodes, lab results, and patient report histories. Directly links test results to the patient's UHID, allowing doctors and patients to access verified lab reports online immediately.",
+      highlights: [
+        "Customizable test templates & normal ranges",
+        "Barcode sample tracking",
+        "Digital pathologist signatures on PDF reports",
+        "Instant WhatsApp & email report delivery",
+      ],
     },
     {
       id: "birth",
-      icon: <Lock className="w-6 h-6" />,
+      icon: <Award className="w-5 h-5" />,
       title: "Birth Certificate",
-      description:"The birth certificate module in Hospital ERP by SWS simplifies the process of generating and managing birth certificates. It fetches official birth records directly from Hospital data. Hospitals using hospital management software in Patna can generate an accurate birth certificate of a kid with their parents name and details verified by HMS in the format approved by proper authorities. This reduces administrative workload and avoids error which can cause legal or documentation issues later.",
-      color: "purple",
+      iconColor: "text-teal-600 bg-teal-50",
+      description:
+        "Simplifies generating and storing official birth records directly from hospital delivery data. Generates government-approved formatted certificates with parents' details, child birth weight, time, and doctor sign-off.",
+      highlights: [
+        "Pre-filled delivery room data sync",
+        "Approved government-compliant layout",
+        "Secure digital archiving & reprinting",
+        "Parent identity & address verification",
+      ],
     },
     {
       id: "death",
-      icon: <Droplet className="w-6 h-6" />,
+      icon: <ClipboardList className="w-5 h-5" />,
       title: "Death Certificate",
-      description:"The Death Certificate Module ensures proper documentation of death records as per Hospital and administrative requirements Hospitals using Hospital management system in patna can generate Death certificates using patients records which are already present in IPD module , This helps patients' families receive every documentation required while ensuring accuracy and compliancy.",
-      color: "purple",
+      iconColor: "text-slate-600 bg-slate-100",
+      description:
+        "Ensures lawful and sensitive documentation of death records. Seamlessly pulls patient IPD treatment history, cause of death certified by attending physicians, and generates authorized certificates instantly.",
+      highlights: [
+        "Standardized medical cause of death formatting",
+        "Attending doctor digital sign-off",
+        "Direct synchronization with IPD final bill closure",
+        "Secure audit-compliant archival",
+      ],
     },
     {
       id: "users",
-      icon: <Lock className="w-6 h-6" />,
+      icon: <UserCheck className="w-5 h-5" />,
       title: "User Management",
-      description:"User management module controls Account and ID, password management for every Hospital staff such as Doctors, nurses, receptionist, pharmacists, lab technicians etc.every staff only see what they are supposed to see according to their work relevance .Hospitals implementing a hospital management system in Patna solves issues like data misuse,accidental changes, and security risks by ensuring proper access control of every staff within the hospital.",
-      color: "purple",
+      iconColor: "text-indigo-600 bg-indigo-50",
+      description:
+        "Controls user logins, secure credentials, and profile records for doctors, nurses, receptionists, pharmacists, and accountants. Ensures staff members only view data relevant to their role.",
+      highlights: [
+        "Multi-user credential management",
+        "Department-level profile assignment",
+        "Session monitoring & login history logs",
+        "Two-factor authentication support",
+      ],
     },
     {
       id: "hospital",
-      icon: <UserCheck className="w-6 h-6" />,
+      icon: <Coins className="w-5 h-5" />,
       title: "Hospital Charge",
-      description:"The Hospital Charge module maintains all the service charges including bed charge, OPD doctor charge , procedures, surgeries, nursing facilities and each and every charge in the hospital.Hospitals using hospital management software in Patna remove confusion caused by inconsistent pricing and manual charge calculation.charges are categorised by Types and added to a unique code to standardise the system.clear pricing system improves patients clarity and transparent billing.",
-      color: "purple",
+      iconColor: "text-emerald-600 bg-emerald-50",
+      description:
+        "Maintains standard pricing schedules for bed types, doctor consultations, operations, nursing care, equipment usage, and diagnostic investigations. Eliminates billing confusion with standardized hospital rate cards.",
+      highlights: [
+        "Categorized master service charge list",
+        "Standardized procedure code mappings",
+        "Emergency, TPA & corporate tariff tiers",
+        "Transparent price updates with audit logs",
+      ],
     },
     {
       id: "role",
-      icon: <Lock className="w-6 h-6" />,
+      icon: <ShieldCheck className="w-5 h-5" />,
       title: "Role Management",
-      description:"Role management modules give Hospital owner or administrator power to define responsibilities and permissions for different staff inside the hospital system . Hospitals using hospital ERP systems in Patna ensure smooth workflow by assigning clear system-level authority to each staff.This reduces operational confusion, improves accountability, and increases data security by preventing unauthorized access  and logins.",
-      color: "purple",
+      iconColor: "text-purple-600 bg-purple-50",
+      description:
+        "Empowers administrators to configure fine-grained permissions for every role. Define exactly who can create, edit, approve, view, or delete records across all hospital modules to protect sensitive medical data.",
+      highlights: [
+        "Granular permission matrix (View, Edit, Delete, Export)",
+        "Customizable roles (Receptionist, Doctor, Nurse, Admin)",
+        "Tamper-proof audit logs for sensitive changes",
+        "Quick access revocation for departed staff",
+      ],
     },
     {
       id: "operation",
-      icon: <Bed className="w-6 h-6" />,
+      icon: <Layers className="w-5 h-5" />,
       title: "Integrated Operational Modules",
-      description:"All modules inside the Hospital Management System in Patna are tightly integrated to ensure smooth data flow between departments. Hospitals using a cloud-based hospital management software in Patna benefit because information entered once is available wherever required, reducing repetitive work and human errors. This integration solves one of the biggest real-world hospital problems — disconnected departments working in silos — and helps hospitals operate faster, smarter, and more efficiently.",
-      color: "purple",
+      iconColor: "text-blue-600 bg-blue-50",
+      description:
+        "All modules are tightly connected into a cohesive ecosystem. Data entered at the reception flows seamlessly to doctor cabins, nursing stations, pharmacy counters, and billing desks—eliminating silos and double entry.",
+      highlights: [
+        "Zero duplicate data entry across departments",
+        "Instant inter-departmental notifications",
+        "Cloud-based real-time database synchronization",
+        "Optimized for high-volume hospitals & clinics",
+      ],
     },
   ];
 
+  const currentModuleData = modules.find((m) => m.id === activeModule) || modules[0];
+
+  const scrollToContact = () => {
+    const el = document.getElementById("contact");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const scrollToFeatures = () => {
+    const el = document.getElementById("why-choose-us");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Hero Section */}
-      <motion.section
-        className="relative overflow-hidden"
-        initial="hidden"
-        whileInView="visible"
-        variants={fadeUp}
-        transition={{ duration: 0.6 }}
-      >
-        {/* Decorative Elements */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+    <div className="min-h-screen bg-[#f8fafc] text-slate-800 antialiased overflow-x-hidden">
+      {/* ============================================================== */}
+      {/* HERO SECTION                                                  */}
+      {/* ============================================================== */}
+      <section className="relative pt-12 pb-20 lg:pt-16 lg:pb-28 overflow-hidden bg-gradient-to-b from-sky-50/70 via-blue-50/40 to-white">
+        {/* Subtle decorative glow circles */}
+        <div className="absolute top-12 left-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl pointer-events-none -translate-x-1/2" />
+        <div className="absolute top-32 right-10 w-96 h-96 bg-indigo-300/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <motion.div
-                className="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-6"
-                variants={fadeUp}
-                transition={{ delay: 0.1 }}
-              >
-                <CheckCircle2 className="w-4 h-4" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            {/* Left Column: Hero Content */}
+            <motion.div
+              className="lg:col-span-5 text-left"
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+            >
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100/70 border border-blue-200/60 shadow-xs mb-6">
+                <ShieldCheck className="w-4 h-4 text-blue-600" />
                 <span>Trusted by Healthcare Facilities</span>
-              </motion.div>
+              </div>
 
-              <motion.h1
-                className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
-                variants={fadeUp}
-                transition={{ delay: 0.2 }}
-              >
-                Smart, Secure &{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                  Paperless Hospital management system in Patna
+              {/* Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-[44px] xl:text-[50px] font-extrabold text-slate-900 tracking-tight leading-[1.18] mb-6">
+                Smart, Secure &amp;{" "}
+                <span className="text-blue-600 block mt-1">
+                  Paperless Hospital Management System
                 </span>
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                className="text-xl text-gray-600 mb-8 leading-relaxed"
-                variants={fadeUp}
-                transition={{ delay: 0.3 }}
-              >
-                A Complete Hospital Management System that brings OPD IPD
-                Billing Pharmacy Lab Beds management and Inventory together on
-                one secure platform which can be accessed anytime and from
-                anywhere without difficulty.
-              </motion.p>
+              {/* Subtitle */}
+              <p className="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed max-w-xl">
+                A Complete Hospital Management System that brings OPD IPD Billing
+                Pharmacy Lab Beds management and Inventory together on one secure
+                platform which can be accessed anytime and from anywhere without
+                difficulty.
+              </p>
 
-              <motion.div
-                className="flex flex-col sm:flex-row gap-4 mb-8"
-                variants={fadeUp}
-                transition={{ delay: 0.4 }}
-              >
-                <button className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 flex items-center justify-center space-x-2 font-semibold">
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-4 mb-9">
+                <button
+                  onClick={scrollToContact}
+                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3.5 rounded-full shadow-lg shadow-blue-600/25 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                >
                   <span>Book Free Demo</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
-                <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 font-semibold">
-                  Learn More
-                </button>
-              </motion.div>
 
-              {/* Trust Badges */}
-              <motion.div
-                className="flex flex-wrap items-center gap-6 text-sm text-gray-600"
-                variants={fadeUp}
-                transition={{ delay: 0.5 }}
-              >
-                <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-5 h-5 text-green-500" />
+                <button
+                  onClick={scrollToFeatures}
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-blue-600 border border-blue-200 font-semibold px-7 py-3.5 rounded-full shadow-xs transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                >
+                  <span>Learn More</span>
+                  <Play className="w-4 h-4 fill-blue-600 text-blue-600" />
+                </button>
+              </div>
+
+              {/* Highlights row */}
+              <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm font-medium text-slate-700">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   <span>99.99% Uptime</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-5 h-5 text-green-500" />
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   <span>10+ Years Experience</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-5 h-5 text-green-500" />
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   <span>24/7 Support</span>
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
 
-            {/* Contact Card */}
+            {/* Right Column: Hero Visual with Bed, Dashboard UI, Badge & Doctor */}
             <motion.div
-              className="relative"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              className="lg:col-span-7 relative flex items-center justify-center"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <ContactUs page="hms" />
-              {/* <div className="bg-white rounded-3xl shadow-2xl p-8 backdrop-blur-sm border border-gray-100">
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    Get Started Today
-                  </h3>
-                  <p className="text-gray-600">
-                    Contact us for a personalized demo
-                  </p>
+              <div className="relative w-full max-w-[700px] h-[480px] sm:h-[520px] lg:h-[540px] flex items-center">
+                {/* 1. Hospital Bed in Background (Right) */}
+                <div className="absolute right-0 top-6 sm:top-2 w-[280px] sm:w-[340px] lg:w-[380px] opacity-75 pointer-events-none select-none z-0">
+                  <Image
+                    src="/hms/bed.png"
+                    alt="Hospital Bed Care Unit"
+                    width={500}
+                    height={400}
+                    className="object-contain"
+                    priority
+                  />
                 </div>
 
-                <form className="space-y-5">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
-                      placeholder="John Doe"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
-                      placeholder="john@hospital.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
-                      placeholder="+91 98765 43210"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Hospital/Clinic Name
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
-                      placeholder="Healthcare Facility"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl font-semibold hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300"
-                  >
-                    Request Demo
-                  </button>
-                </form>
-
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <p className="text-sm text-gray-500 text-center mb-4">
-                    Or contact us directly
-                  </p>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-center space-x-2 text-sm text-gray-600">
-                      <Phone className="w-4 h-4 text-blue-600" />
-                      <span>+91 98765 43210</span>
+                {/* 2. Floating Modern Web Dashboard Mockup (Center/Left) */}
+                <div className="relative z-10 w-[92%] sm:w-[86%] lg:w-[82%] bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden backdrop-blur-sm">
+                  {/* Dashboard Top bar */}
+                  <div className="bg-white border-b border-slate-100 px-4 py-2.5 flex items-center justify-between">
+                    <div className="flex items-center gap-2 flex-1 max-w-[260px]">
+                      <div className="flex items-center gap-2 bg-slate-50 border border-slate-200/70 rounded-lg px-2.5 py-1 text-xs text-slate-500 w-full">
+                        <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <span className="truncate">Search patient, ID, or visit...</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-center space-x-2 text-sm text-gray-600">
-                      <Mail className="w-4 h-4 text-blue-600" />
-                      <span>info@hms.com</span>
+
+                    <div className="flex items-center gap-3">
+                      <div className="relative cursor-pointer p-1 text-slate-500 hover:text-slate-800">
+                        <Bell className="w-4 h-4" />
+                        <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-blue-600 rounded-full" />
+                      </div>
+                      <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+                        <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-xs">
+                          DS
+                        </div>
+                        <div className="hidden sm:block text-left text-[11px] leading-tight">
+                          <p className="font-semibold text-slate-800">Dr. Sharma</p>
+                          <p className="text-slate-500 text-[10px]">Admin</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Dashboard Inner Grid */}
+                  <div className="grid grid-cols-12 min-h-[310px]">
+                    {/* Dark Sidebar */}
+                    <div className="col-span-3 sm:col-span-3 bg-[#0a1f44] text-white p-3 flex flex-col justify-between">
+                      <div>
+                        {/* Logo */}
+                        <div className="flex items-center gap-1.5 mb-4 px-1">
+                          <div className="font-extrabold text-sm tracking-wider text-sky-400">
+                            SWS <span className="text-white text-[11px] font-normal">HMS</span>
+                          </div>
+                        </div>
+
+                        {/* Nav Items */}
+                        <div className="space-y-1 text-[11px]">
+                          <div className="flex items-center gap-2 bg-blue-600 text-white px-2 py-1.5 rounded-md font-medium shadow-xs">
+                            <LayoutDashboard className="w-3.5 h-3.5" />
+                            <span className="truncate">Dashboard</span>
+                          </div>
+                          {[
+                            { name: "OPD", icon: Stethoscope },
+                            { name: "IPD", icon: Hospital },
+                            { name: "Billing", icon: FileText },
+                            { name: "Pharmacy", icon: Pill },
+                            { name: "Lab", icon: FlaskConical },
+                            { name: "Inventory", icon: Layers },
+                            { name: "Reports", icon: BarChart3 },
+                            { name: "Settings", icon: Settings },
+                          ].map((item, idx) => {
+                            const ItemIcon = item.icon;
+                            return (
+                              <div
+                                key={idx}
+                                className="flex items-center gap-2 text-slate-300 hover:text-white px-2 py-1 rounded transition-colors"
+                              >
+                                <ItemIcon className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                <span className="truncate">{item.name}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Main Content Area */}
+                    <div className="col-span-9 sm:col-span-9 bg-[#f8fafc] p-3.5 flex flex-col justify-between">
+                      {/* Metric Stat Cards */}
+                      <div className="grid grid-cols-3 gap-2 mb-3">
+                        <div className="bg-white border border-slate-100 rounded-xl p-2.5 shadow-xs flex items-center gap-2">
+                          <div className="w-7 h-7 rounded-lg bg-blue-500 text-white flex items-center justify-center shrink-0">
+                            <User className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-[10px] text-slate-500 truncate">OPD Today</p>
+                            <p className="text-xs sm:text-sm font-bold text-slate-900">128</p>
+                          </div>
+                        </div>
+
+                        <div className="bg-white border border-slate-100 rounded-xl p-2.5 shadow-xs flex items-center gap-2">
+                          <div className="w-7 h-7 rounded-lg bg-teal-500 text-white flex items-center justify-center shrink-0">
+                            <Bed className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-[10px] text-slate-500 truncate">IPD Today</p>
+                            <p className="text-xs sm:text-sm font-bold text-slate-900">24</p>
+                          </div>
+                        </div>
+
+                        <div className="bg-white border border-slate-100 rounded-xl p-2.5 shadow-xs flex items-center gap-2">
+                          <div className="w-7 h-7 rounded-lg bg-purple-600 text-white flex items-center justify-center shrink-0">
+                            <Coins className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-[10px] text-slate-500 truncate">Total Revenue</p>
+                            <p className="text-[11px] sm:text-xs font-bold text-slate-900 truncate">
+                              ₹ 2,48,500
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Lower Dashboard Section: Recent Appointments & Badge Card */}
+                      <div className="grid grid-cols-12 gap-2.5 items-stretch">
+                        {/* Recent Appointments Table */}
+                        <div className="col-span-7 bg-white border border-slate-100 rounded-xl p-2.5 shadow-xs">
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-[11px] font-bold text-slate-800">
+                              Recent Appointments
+                            </p>
+                            <span className="text-[9px] text-blue-600 font-medium">View All</span>
+                          </div>
+
+                          <div className="space-y-1.5 text-[9px] sm:text-[10px]">
+                            {[
+                              {
+                                name: "Rahul Verma",
+                                type: "OPD",
+                                time: "10:30 AM",
+                                status: "Checked In",
+                                statusBg: "bg-emerald-50 text-emerald-700 border-emerald-200",
+                              },
+                              {
+                                name: "Priya Sharma",
+                                type: "OPD",
+                                time: "11:00 AM",
+                                status: "Waiting",
+                                statusBg: "bg-amber-50 text-amber-700 border-amber-200",
+                              },
+                              {
+                                name: "Amit Singh",
+                                type: "IPD",
+                                time: "11:30 AM",
+                                status: "Admitted",
+                                statusBg: "bg-blue-50 text-blue-700 border-blue-200",
+                              },
+                              {
+                                name: "Neha Gupta",
+                                type: "OPD",
+                                time: "12:15 PM",
+                                status: "Scheduled",
+                                statusBg: "bg-purple-50 text-purple-700 border-purple-200",
+                              },
+                            ].map((row, i) => (
+                              <div
+                                key={i}
+                                className="flex items-center justify-between py-0.5 border-b border-slate-50 last:border-0"
+                              >
+                                <span className="font-semibold text-slate-700 truncate max-w-[70px]">
+                                  {row.name}
+                                </span>
+                                <span className="text-slate-400">{row.type}</span>
+                                <span className="text-slate-400">{row.time}</span>
+                                <span
+                                  className={`px-1.5 py-0.5 rounded text-[8px] font-medium border ${row.statusBg}`}
+                                >
+                                  {row.status}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Better Care Badge Card (using public/hms/badge.png) */}
+                        <div className="col-span-5 bg-white border border-slate-100 rounded-xl p-1.5 shadow-xs flex items-center justify-center overflow-hidden">
+                          <Image
+                            src="/hms/badge.png"
+                            alt="Better Care Smarter Management Healthier Tomorrow"
+                            width={220}
+                            height={140}
+                            className="object-contain w-full h-auto drop-shadow-xs"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div> */}
+
+                {/* 3. Doctor in Foreground Overlapping on the Right (using public/hms/doctor.png) */}
+                <div className="absolute -right-3 sm:-right-6 bottom-0 w-[240px] sm:w-[280px] lg:w-[320px] pointer-events-none z-20">
+                  <Image
+                    src="/hms/doctor.png"
+                    alt="Healthcare Professional with Digital Tablet"
+                    width={400}
+                    height={520}
+                    className="object-contain drop-shadow-xl"
+                    priority
+                  />
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-24 bg-white">
-        <motion.div
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-          initial="hidden"
-          whileInView="visible"
-          variants={fadeUp}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="text-center mb-16">
-            <motion.div
-              className="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4"
-              variants={fadeUp}
-            >
-              <Award className="w-4 h-4" />
+      {/* ============================================================== */}
+      {/* SECTION 2: WHY CHOOSE US                                       */}
+      {/* ============================================================== */}
+      <section id="why-choose-us" className="py-20 lg:py-24 bg-white relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
+              <UserCheck className="w-3.5 h-3.5 text-blue-600" />
               <span>Why Choose Us</span>
-            </motion.div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-slate-900 tracking-tight mb-4">
               Hospital ERP software Built for Modern Healthcare
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
               This solution is trusted by leading healthcare providers who want
-              smooth secure and efficient hospital operations that work well
-              every day without complications.
+              smooth secure and efficient hospital operations that work well every
+              day without complications.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
+          {/* 6 Feature Cards Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {features.map((feature, idx) => (
               <motion.div
-                key={index}
+                key={idx}
                 variants={fadeUp}
-                transition={{ delay: index * 0.1 }}
-                whileInView="visible"
                 initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
-                whileHover={{ y: -8 }}
-                className="group relative bg-white p-8 rounded-2xl border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                className="bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all duration-300 flex items-start gap-4 group"
               >
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
-                ></div>
-
-                <div
-                  className={`relative bg-gradient-to-br ${feature.gradient} text-white w-14 h-14 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
+                  className={`w-12 h-12 rounded-xl ${feature.bgIcon} flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform duration-200`}
                 >
                   {feature.icon}
                 </div>
-
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {feature.description}
-                </p>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* Modules Section */}
-      {/* <section
-        id="modules"
-        className="py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50"
-      >
+      {/* ============================================================== */}
+      {/* SECTION 3: ALL-IN-ONE MODULES                                  */}
+      {/* ============================================================== */}
+      <section id="modules" className="py-20 lg:py-24 bg-[#f8fafc] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-          >
-            <motion.div
-              className="inline-flex items-center space-x-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-semibold mb-4"
-              variants={fadeUp}
-            >
-              <LayoutDashboard className="w-4 h-4" />
-              <span>Complete Solution</span>
-            </motion.div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              All-in-One Hospital Automation
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Essential modules covering every aspect of hospital
-              management—designed to streamline workflows and enhance patient
-              care
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-12"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-          >
-            {modules.map((module) => (
-              <motion.div
-                key={module.id}
-                onClick={() => setActiveModule(module.id)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 ${
-                  activeModule === module.id
-                    ? `bg-gradient-to-br from-${module.color}-500 to-${module.color}-600 text-white shadow-xl shadow-${module.color}-500/30`
-                    : "bg-white text-gray-700 hover:shadow-lg border border-gray-200"
-                }`}
-              >
-                <div className="mb-3">{module.icon}</div>
-                <h3 className="font-semibold text-sm leading-tight">
-                  {module.title}
-                </h3>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12 border border-gray-100"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            key={activeModule}
-          >
-            <div className="flex flex-col lg:flex-row items-start lg:items-center space-y-6 lg:space-y-0 lg:space-x-8">
-              <div
-                className={`bg-gradient-to-br from-${
-                  modules.find((m) => m.id === activeModule)?.color
-                }-500 to-${
-                  modules.find((m) => m.id === activeModule)?.color
-                }-600 text-white p-6 rounded-2xl shadow-lg`}
-              >
-                {modules.find((m) => m.id === activeModule)?.icon}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                  {modules.find((m) => m.id === activeModule)?.title}
-                </h3>
-                <p className="text-gray-600 text-lg leading-relaxed">
-                  {modules.find((m) => m.id === activeModule)?.description}
-                </p>
-              </div>
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
+              <LayoutDashboard className="w-3.5 h-3.5 text-blue-600" />
+              <span>Our Modules</span>
             </div>
-          </motion.div>
-        </div>
-      </section> */}
-
-      {/* Stats Section */}
-      <section
-        id="modules"
-        className="py-20 bg-gradient-to-b from-blue-50 to-white"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-slate-900 tracking-tight mb-4">
               All-in-One Modules for Complete Hospital Automation
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Essential modules covering OPD management, IPD management,
-              pathology, pharmacy, billing, and other key hospital operations
-              are designed to simplify daily workflows and help staff work
-              faster with better accuracy.
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+              Essential modules covering OPD management, IPD management, pathology,
+              pharmacy, billing, and other key hospital operations are designed to
+              simplify daily workflows and help staff work faster with better
+              accuracy.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-          >
-            {modules.map((module) => (
-              <motion.div
-                key={module.id}
-                onClick={() => setActiveModule(module.id)}
-                whileHover={{ scale: 1.05 }}
-                className={`p-6 rounded-xl cursor-pointer transition duration-300 ${
-                  activeModule === module.id
-                    ? "bg-blue-600 text-white shadow-xl transform scale-105"
-                    : "bg-white text-gray-900 hover:shadow-lg hover:border-blue-300 border border-gray-200"
-                }`}
-              >
-                <div
-                  className={`mb-4 ${
-                    activeModule === module.id ? "text-white" : "text-blue-600"
+          {/* 15 Modules Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-10">
+            {modules.map((mod) => {
+              const isSelected = activeModule === mod.id;
+              return (
+                <button
+                  key={mod.id}
+                  onClick={() => setActiveModule(mod.id)}
+                  className={`text-left p-3.5 sm:p-4 rounded-xl border transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                    isSelected
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-transparent shadow-lg shadow-blue-500/25 scale-[1.02]"
+                      : "bg-white text-slate-700 border-slate-200/80 hover:border-blue-300 hover:shadow-sm"
                   }`}
                 >
-                  {module.icon}
-                </div>
-                <h3 className="font-semibold mb-2">{module.title}</h3>
-                {/* <p className="mb-2">{module.description}</p> */}
-              </motion.div>
-            ))}
-          </motion.div>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div
+                      className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
+                        isSelected ? "bg-white/20 text-white" : mod.iconColor
+                      }`}
+                    >
+                      {mod.icon}
+                    </div>
+                    <span className="font-semibold text-xs sm:text-sm truncate">
+                      {mod.title}
+                    </span>
+                  </div>
+                  {isSelected && (
+                    <ArrowRight className="w-4 h-4 text-white shrink-0 ml-1" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
 
+          {/* Active Module Details Interactive Card */}
           <motion.div
-            className="mt-12 bg-white rounded-2xl shadow-xl p-8"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
+            key={currentModuleData.id}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 shadow-xl"
           >
-            <div className="flex items-start space-x-4">
-              <div className="bg-blue-100 text-blue-600 p-4 rounded-lg">
-                {modules.find((m) => m.id === activeModule)?.icon}
+            <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-10">
+              <div
+                className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 text-white bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md shadow-blue-500/25`}
+              >
+                {React.cloneElement(currentModuleData.icon, {
+                  className: "w-8 h-8",
+                })}
               </div>
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  {modules.find((m) => m.id === activeModule)?.title}
-                </h3>
-                <p className="text-gray-600 text-lg">
-                  {modules.find((m) => m.id === activeModule)?.description}
+
+              <div className="flex-1">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
+                    {currentModuleData.title}
+                  </h3>
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+                    Included in SWS HMS Suite
+                  </span>
+                </div>
+
+                <p className="text-base text-slate-600 leading-relaxed mb-6">
+                  {currentModuleData.description}
                 </p>
+
+                {/* Module Highlight Bullets */}
+                <div className="grid sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
+                  {currentModuleData.highlights.map((point, i) => (
+                    <div key={i} className="flex items-center gap-2.5 text-sm text-slate-700">
+                      <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                      <span>{point}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Trust Section */}
-      <motion.section
-        className="bg-gradient-to-r from-blue-600 to-[#0698D8] py-16"
-        initial="hidden"
-        whileInView="visible"
-        variants={fadeUp}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 text-center text-white">
-            {[
-              { label: "System Uptime", value: "99.99%" },
-              { label: "Years Experience", value: "10+" },
-              { label: "Healthcare Facilities", value: "500+" },
-              { label: "Support Available", value: "24/7" },
-            ].map((item, i) => (
-              <motion.div key={i} whileHover={{ scale: 1.05 }}>
-                <p className="text-4xl font-bold mb-2">{item.value}</p>
-                <p className="text-blue-100">{item.label}</p>
-              </motion.div>
-            ))}
+      {/* ============================================================== */}
+      {/* SECTION 4: BLUE STATS BANNER                                   */}
+      {/* ============================================================== */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-blue-700 via-blue-600 to-sky-500 py-14 lg:py-16 text-white shadow-inner">
+        {/* Soft decorative background glows */}
+        <div className="absolute -left-12 -top-12 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+        <div className="absolute -right-12 -bottom-12 w-64 h-64 rounded-full bg-sky-300/20 blur-2xl pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 text-center">
+            {/* Stat 1: Uptime */}
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full border border-white/30 bg-white/10 backdrop-blur-xs flex items-center justify-center mb-3.5 shadow-sm">
+                <ShieldCheck className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
+                99.99%
+              </p>
+              <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
+                System Uptime
+              </p>
+            </div>
+
+            {/* Stat 2: Experience */}
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full border border-white/30 bg-white/10 backdrop-blur-xs flex items-center justify-center mb-3.5 shadow-sm">
+                <Calendar className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
+                10+
+              </p>
+              <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
+                Years Experience
+              </p>
+            </div>
+
+            {/* Stat 3: Facilities */}
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full border border-white/30 bg-white/10 backdrop-blur-xs flex items-center justify-center mb-3.5 shadow-sm">
+                <Building2 className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
+                500+
+              </p>
+              <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
+                Healthcare Facilities
+              </p>
+            </div>
+
+            {/* Stat 4: Support */}
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-full border border-white/30 bg-white/10 backdrop-blur-xs flex items-center justify-center mb-3.5 shadow-sm">
+                <Headphones className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
+                24/7
+              </p>
+              <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
+                Support Available
+              </p>
+            </div>
           </div>
         </div>
-      </motion.section>
-      <div className="m-auto w-4/5">
-        {/* <h3>Gallery</h3> */}
-        <Gallery images={images} heading={true} />
-      </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* SECTION 5: PRODUCT GALLERY                                     */}
+      {/* ============================================================== */}
+      <section id="gallery" className="py-20 lg:py-24 bg-white relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
+              <Monitor className="w-3.5 h-3.5 text-blue-600" />
+              <span>Product Gallery</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-slate-900 tracking-tight mb-4">
+              See Your Hospital at a Glance
+            </h2>
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+              Manage your hospital operations seamlessly from web and mobile,
+              anytime, anywhere.
+            </p>
+          </div>
+
+          {/* 3 Device Showcase Cards */}
+          <div className="grid md:grid-cols-3 gap-8 items-stretch">
+            {/* Card 1: Desktop Web Dashboard */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+              <div className="relative w-full h-[320px] sm:h-[350px] flex items-center justify-center p-2">
+                <div className="relative w-full h-full flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300">
+                  <Image
+                    src="/hms/dashboard-web.png"
+                    alt="Powerful Web Dashboard"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <div className="pt-6 border-t border-slate-100 flex items-center justify-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <Monitor className="w-4 h-4" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-base">
+                  Powerful Web Dashboard
+                </h3>
+              </div>
+            </div>
+
+            {/* Card 2: Bed Dashboard Mobile */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+              <div className="relative w-full h-[320px] sm:h-[350px] flex items-center justify-center p-2">
+                <div className="relative w-full h-full flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300">
+                  <Image
+                    src="/hms/bed-dashboard.png"
+                    alt="Hospital Management on the Go"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <div className="pt-6 border-t border-slate-100 flex items-center justify-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <Smartphone className="w-4 h-4" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-base">
+                  Hospital Management on the Go
+                </h3>
+              </div>
+            </div>
+
+            {/* Card 3: Reports & Collections Mobile */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+              <div className="relative w-full h-[320px] sm:h-[350px] flex items-center justify-center p-2">
+                <div className="relative w-full h-full flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300">
+                  <Image
+                    src="/hms/dashboard.png"
+                    alt="Real-time Reports & Collections"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <div className="pt-6 border-t border-slate-100 flex items-center justify-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <BarChart3 className="w-4 h-4" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-base">
+                  Real-time Reports &amp; Collections
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* SECTION 6: CONTACT & DEMO REQUEST FORM                         */}
+      {/* ============================================================== */}
+      <section id="contact" className="py-20 bg-[#f8fafc] border-t border-slate-200/60">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              <span>Get in Touch</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+              Book a Free Live Demo of SWS HMS
+            </h2>
+            <p className="text-base text-slate-600">
+              Speak with our healthcare automation specialists to schedule a
+              personalized walkthrough tailored to your hospital or clinic.
+            </p>
+          </div>
+
+          <ContactUs
+            page="hms"
+            title="Book Free Demo"
+            subtitle="Get in touch with our team for a personalized walkthrough."
+            showTitle={false}
+          />
+        </div>
+      </section>
     </div>
   );
 }

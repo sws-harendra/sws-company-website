@@ -53,6 +53,7 @@ import {
   Briefcase,
   Phone,
   NewspaperIcon,
+  FlaskConical,
 } from "lucide-react";
 import Image from "next/image";
 import { FaProductHunt, FaWhatsapp } from "react-icons/fa";
@@ -163,16 +164,22 @@ const dropdownLinksConfig = [
         title: "Hospital Management System",
         icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       },
-      {
-        href: "/ecommerce-website",
-        title: "Ecommerce",
-        icon: <Megaphone className="h-4 w-4 text-sky-600" />,
-      },
+
       // {
       //   href: "/products/sathi-cab",
       //   title: "Food Delievery App",
       //   icon: <Megaphone className="h-4 w-4 text-sky-600" />,
       // },
+      {
+        href: "/pathology-management-system",
+        title: "Pathology Management System",
+        icon: <FlaskConical className="h-4 w-4 text-sky-600" />,
+      },
+      {
+        href: "/ecommerce-website",
+        title: "Ecommerce",
+        icon: <Megaphone className="h-4 w-4 text-sky-600" />,
+      },
       {
         href: "/cab-booking-app",
         title: "Ride Booking Application",

@@ -14,7 +14,7 @@ import {
 import ContactUs from "@/components/ContactUs";
 
 const EcommerceProductPage = ({
-  name = "ShopMaster",
+  name = "eCommerce Website",
   tagline = "Launch your online store with zero hassle — from setup to sales.",
   heroImage = "/images/ecommerce-hero.png",
   ctaText = "Get a Free Demo",

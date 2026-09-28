@@ -135,13 +135,21 @@
 
 /* Seamless Layout Columns (borderless table variant) */
 .tiptap table[data-layout="columns"],
-.tiptap table.layout-table {
+.tiptap table.layout-table,
+.tiptap table[data-layout="columns"] tr,
+.tiptap table.layout-table tr,
+.tiptap table[data-layout="columns"] td,
+.tiptap table.layout-table td,
+.tiptap table[data-layout="columns"] th,
+.tiptap table.layout-table th {
   border: none !important;
+  outline: none !important;
 }
 
-.tiptap table[data-layout="columns"] td,
-.tiptap table.layout-table td {
-  border: 1px dashed rgba(156, 163, 175, 0.4) !important;
+.tiptap table[data-layout="columns"]:hover td,
+.tiptap table.layout-table:hover td {
+  outline: 1px dashed rgba(2, 155, 210, 0.25) !important;
+  outline-offset: -1px;
 }
 
 /* Highlight styling */
@@ -182,22 +190,22 @@
 /* Custom Image NodeView & Resizing Styles */
 .tiptap-image-container {
   max-width: 100%;
+  box-sizing: border-box;
   clear: both;
-  transition: all 0.2s ease;
 }
 
 .tiptap-image-container.align-left {
   float: left !important;
   margin: 0.5rem 1.5rem 1rem 0 !important;
   clear: none !important;
-  display: inline-block;
+  display: block !important;
 }
 
 .tiptap-image-container.align-right {
   float: right !important;
   margin: 0.5rem 0 1rem 1.5rem !important;
   clear: none !important;
-  display: inline-block;
+  display: block !important;
 }
 
 .tiptap-image-container.align-center {
@@ -205,6 +213,7 @@
   margin: 1.5rem auto !important;
   text-align: center !important;
   clear: both !important;
+  float: none !important;
 }
 
 .tiptap-image-container.align-full {
@@ -212,6 +221,7 @@
   width: 100% !important;
   margin: 1.5rem auto !important;
   clear: both !important;
+  float: none !important;
 }
 
 .tiptap-image-wrapper {

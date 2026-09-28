@@ -153,22 +153,58 @@ const CustomImage = Image.extend({
   addNodeView() {
     return ({ node, getPos, editor }) => {
       const container = document.createElement("div");
-      const align = node.attrs["data-align"] || "center";
-      container.className = `tiptap-image-container align-${align}`;
-
       const wrapper = document.createElement("div");
       wrapper.className = "tiptap-image-wrapper";
-      wrapper.style.width = node.attrs.width || "50%";
+      wrapper.style.width = "100%";
+      wrapper.style.position = "relative";
+      wrapper.style.display = "block";
+
+      const align = node.attrs["data-align"] || "center";
+      const initialWidth = node.attrs.width || "50%";
+
+      const applyContainerStyles = (currAlign, currWidth) => {
+        const isFull = currAlign === "full";
+        const w = isFull ? "100%" : (currWidth || "50%");
+
+        container.className = `tiptap-image-container align-${currAlign}`;
+        container.style.width = w;
+        container.style.maxWidth = "100%";
+        container.style.boxSizing = "border-box";
+
+        if (currAlign === "left") {
+          container.style.float = "left";
+          container.style.margin = "0.5rem 1.5rem 1rem 0";
+          container.style.clear = "none";
+          container.style.display = "block";
+        } else if (currAlign === "right") {
+          container.style.float = "right";
+          container.style.margin = "0.5rem 0 1rem 1.5rem";
+          container.style.clear = "none";
+          container.style.display = "block";
+        } else {
+          // center or full
+          container.style.float = "none";
+          container.style.margin = "1.5rem auto";
+          container.style.clear = "both";
+          container.style.display = "block";
+        }
+      };
+
+      applyContainerStyles(align, initialWidth);
 
       const img = document.createElement("img");
       img.src = node.attrs.src;
       img.alt = node.attrs.alt || "";
       img.draggable = false;
+      img.style.width = "100%";
+      img.style.height = "auto";
+      img.style.display = "block";
+      img.style.borderRadius = "0.5rem";
       img.addEventListener("dragstart", (e) => e.preventDefault());
 
       const sizeBadge = document.createElement("span");
       sizeBadge.className = "image-size-badge";
-      sizeBadge.textContent = node.attrs.width || "50%";
+      sizeBadge.textContent = initialWidth;
 
       const handleBR = document.createElement("div");
       handleBR.className = "image-resize-handle handle-br";
@@ -285,7 +321,7 @@ const CustomImage = Image.extend({
         quickBar.appendChild(btnDel);
       };
 
-      updateQuickBar(align, node.attrs.width || "50%");
+      updateQuickBar(align, initialWidth);
 
       const initResize = (handle, dir) => {
         handle.addEventListener("mousedown", (e) => {
@@ -293,18 +329,18 @@ const CustomImage = Image.extend({
           e.stopPropagation();
 
           const startX = e.clientX;
-          const startWidth = wrapper.offsetWidth;
+          const startWidth = container.offsetWidth;
           const editorEl = container.closest(".tiptap") || document.body;
           const editorWidth = editorEl.offsetWidth || 800;
 
-          let finalPercent = wrapper.style.width || "50%";
+          let finalPercent = container.style.width || "50%";
 
           const onMouseMove = (moveEvent) => {
             const deltaX = dir === "br" ? (moveEvent.clientX - startX) : (startX - moveEvent.clientX);
             const newPx = Math.max(80, Math.min(editorWidth, startWidth + deltaX));
             const pct = Math.min(100, Math.max(15, Math.round((newPx / editorWidth) * 100)));
             finalPercent = `${pct}%`;
-            wrapper.style.width = finalPercent;
+            container.style.width = finalPercent;
             sizeBadge.textContent = finalPercent;
           };
 
@@ -349,9 +385,8 @@ const CustomImage = Image.extend({
           img.alt = updatedNode.attrs.alt || "";
           const newWidth = updatedNode.attrs.width || "50%";
           const newAlign = updatedNode.attrs["data-align"] || "center";
-          wrapper.style.width = newWidth;
+          applyContainerStyles(newAlign, newWidth);
           sizeBadge.textContent = newWidth;
-          container.className = `tiptap-image-container align-${newAlign}`;
           updateQuickBar(newAlign, newWidth);
           return true;
         },
@@ -366,6 +401,51 @@ const CustomImage = Image.extend({
         },
         destroy: () => {},
       };
+    };
+  },
+});
+
+const CustomTable = Table.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      class: {
+        default: "layout-table",
+        parseHTML: (element) => element.getAttribute("class") || "layout-table",
+        renderHTML: (attributes) => ({
+          class: attributes.class || "layout-table",
+        }),
+      },
+      "data-layout": {
+        default: "columns",
+        parseHTML: (element) => element.getAttribute("data-layout") || "columns",
+        renderHTML: (attributes) => ({
+          "data-layout": attributes["data-layout"] || "columns",
+        }),
+      },
+      style: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("style"),
+        renderHTML: (attributes) => (attributes.style ? { style: attributes.style } : {}),
+      },
+    };
+  },
+});
+
+const CustomTableCell = TableCell.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      class: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("class"),
+        renderHTML: (attributes) => (attributes.class ? { class: attributes.class } : {}),
+      },
+      style: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("style"),
+        renderHTML: (attributes) => (attributes.style ? { style: attributes.style } : {}),
+      },
     };
   },
 });
@@ -402,12 +482,12 @@ export default function RichTextEditor({ value, onChange }) {
         },
       }),
       CustomImage,
-      Table.configure({
+      CustomTable.configure({
         resizable: true,
       }),
       TableRow,
       TableHeader,
-      TableCell,
+      CustomTableCell,
     ],
     content: value || "<p>Start writing your blog content here...</p>",
     immediatelyRender: false,
@@ -462,10 +542,10 @@ export default function RichTextEditor({ value, onChange }) {
       .chain()
       .focus()
       .insertContent(`
-        <table class="layout-table layout-text-image" data-layout="columns" style="width: 100%; border-collapse: collapse; margin: 1.75rem 0;">
+        <table class="layout-table layout-text-image" data-layout="columns" style="border: none !important; border-collapse: collapse; width: 100%; margin: 1.75rem 0;">
           <tbody>
-            <tr>
-              <td style="width: 55%; vertical-align: middle; padding: 12px 20px 12px 0;">
+            <tr style="border: none !important;">
+              <td style="border: none !important; outline: none !important; width: 55%; vertical-align: middle; padding: 12px 20px 12px 0;">
                 <h3 style="margin-top: 0;">Heading / Feature Title</h3>
                 <p>Write your detailed text, insights, or story here. Readers can easily absorb the key details on this side alongside the visual.</p>
                 <ul>
@@ -473,7 +553,7 @@ export default function RichTextEditor({ value, onChange }) {
                   <li>Key highlight or point two</li>
                 </ul>
               </td>
-              <td style="width: 45%; vertical-align: middle; padding: 12px 0 12px 20px; text-align: center;">
+              <td style="border: none !important; outline: none !important; width: 45%; vertical-align: middle; padding: 12px 0 12px 20px; text-align: center;">
                 <p><strong>Right Side (Image)</strong></p>
                 <p><em>Click the image icon to upload or place your picture here...</em></p>
               </td>
@@ -491,14 +571,14 @@ export default function RichTextEditor({ value, onChange }) {
       .chain()
       .focus()
       .insertContent(`
-        <table class="layout-table layout-image-text" data-layout="columns" style="width: 100%; border-collapse: collapse; margin: 1.75rem 0;">
+        <table class="layout-table layout-image-text" data-layout="columns" style="border: none !important; border-collapse: collapse; width: 100%; margin: 1.75rem 0;">
           <tbody>
-            <tr>
-              <td style="width: 45%; vertical-align: middle; padding: 12px 20px 12px 0; text-align: center;">
+            <tr style="border: none !important;">
+              <td style="border: none !important; outline: none !important; width: 45%; vertical-align: middle; padding: 12px 20px 12px 0; text-align: center;">
                 <p><strong>Left Side (Image)</strong></p>
                 <p><em>Click the image icon to upload or place your picture here...</em></p>
               </td>
-              <td style="width: 55%; vertical-align: middle; padding: 12px 0 12px 20px;">
+              <td style="border: none !important; outline: none !important; width: 55%; vertical-align: middle; padding: 12px 0 12px 20px;">
                 <h3 style="margin-top: 0;">Heading / Feature Title</h3>
                 <p>Describe your image, product screenshot, or design details right here. This gives a beautiful balanced presentation.</p>
                 <p>Continue with supporting paragraphs and points.</p>
@@ -517,14 +597,14 @@ export default function RichTextEditor({ value, onChange }) {
       .chain()
       .focus()
       .insertContent(`
-        <table class="layout-table" data-layout="columns" style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+        <table class="layout-table" data-layout="columns" style="border: none !important; border-collapse: collapse; width: 100%; margin: 1.5rem 0;">
           <tbody>
-            <tr>
-              <td style="width: 50%; vertical-align: top; padding: 10px;">
+            <tr style="border: none !important;">
+              <td style="border: none !important; outline: none !important; width: 50%; vertical-align: top; padding: 10px;">
                 <p><strong>Left Column</strong></p>
                 <p>Write your left column content, points, or comparisons here...</p>
               </td>
-              <td style="width: 50%; vertical-align: top; padding: 10px;">
+              <td style="border: none !important; outline: none !important; width: 50%; vertical-align: top; padding: 10px;">
                 <p><strong>Right Column</strong></p>
                 <p>Write your right column content, points, or comparisons here...</p>
               </td>

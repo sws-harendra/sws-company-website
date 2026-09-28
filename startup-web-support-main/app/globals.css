@@ -563,8 +563,17 @@
 
 /* Seamless two-column layouts inside blog posts */
 .prose table[data-layout="columns"],
-.prose table.layout-table {
+.prose table.layout-table,
+.prose table[data-layout="columns"] tr,
+.prose table.layout-table tr,
+.prose table[data-layout="columns"] td,
+.prose table.layout-table td,
+.prose table[data-layout="columns"] th,
+.prose table.layout-table th {
   border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
 }
 
 .prose table[data-layout="columns"] td,

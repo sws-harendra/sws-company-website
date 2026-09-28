@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Dancing+Script:wght@500;700&family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
 /* Add to your global.css or create a tiptap.css file */
 .tiptap {
   outline: none;
@@ -177,134 +179,181 @@
   cursor: pointer;
 }
 
-/* Image Resizing & ResizableNodeView Styles */
-.tiptap [data-resize-container] {
-  position: relative;
-  display: block;
-  margin: 1rem 0;
+/* Custom Image NodeView & Resizing Styles */
+.tiptap-image-container {
   max-width: 100%;
+  clear: both;
+  transition: all 0.2s ease;
 }
 
-.tiptap [data-resize-wrapper] {
+.tiptap-image-container.align-left {
+  float: left !important;
+  margin: 0.5rem 1.5rem 1rem 0 !important;
+  clear: none !important;
+  display: inline-block;
+}
+
+.tiptap-image-container.align-right {
+  float: right !important;
+  margin: 0.5rem 0 1rem 1.5rem !important;
+  clear: none !important;
+  display: inline-block;
+}
+
+.tiptap-image-container.align-center {
+  display: block !important;
+  margin: 1.5rem auto !important;
+  text-align: center !important;
+  clear: both !important;
+}
+
+.tiptap-image-container.align-full {
+  display: block !important;
+  width: 100% !important;
+  margin: 1.5rem auto !important;
+  clear: both !important;
+}
+
+.tiptap-image-wrapper {
   position: relative;
   display: inline-block;
   max-width: 100%;
+  transition: outline 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
 }
 
-.tiptap [data-resize-wrapper] img {
+.tiptap-image-wrapper img {
   display: block;
-  max-width: 100%;
+  width: 100%;
   height: auto;
   border-radius: 0.5rem;
-  margin: 0;
+  margin: 0 !important;
+  pointer-events: auto;
 }
 
-/* Show resize outline when hovering or selected */
-.tiptap [data-resize-wrapper]:hover,
-.tiptap [data-resize-container][data-resize-state="true"] [data-resize-wrapper],
-.tiptap .ProseMirror-selectednode [data-resize-wrapper] {
-  outline: 2px solid #0284c7;
+/* Hover & Selected state */
+.tiptap-image-wrapper:hover {
+  outline: 2px dashed rgba(2, 155, 210, 0.4);
   outline-offset: 2px;
 }
 
+.tiptap-image-wrapper.is-selected {
+  outline: 2px solid #029bd2 !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(2, 155, 210, 0.15);
+}
+
 /* Resize Handles */
-.tiptap [data-resize-handle] {
+.tiptap-image-wrapper .image-resize-handle {
   position: absolute;
-  background-color: #0284c7;
-  border: 1.5px solid #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  z-index: 20;
-  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  background-color: #029bd2;
+  border: 2px solid #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+  z-index: 30;
+  display: none;
 }
 
-/* Corner handles */
-.tiptap [data-resize-handle="top-left"],
-.tiptap [data-resize-handle="top-right"],
-.tiptap [data-resize-handle="bottom-left"],
-.tiptap [data-resize-handle="bottom-right"] {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
+.tiptap-image-wrapper.is-selected .image-resize-handle,
+.tiptap-image-wrapper:hover .image-resize-handle {
+  display: block;
 }
 
-.tiptap [data-resize-handle="top-left"] {
-  top: -5px !important;
-  left: -5px !important;
+.tiptap-image-wrapper .handle-br {
+  right: -7px;
+  bottom: -7px;
   cursor: nwse-resize;
 }
 
-.tiptap [data-resize-handle="top-right"] {
-  top: -5px !important;
-  right: -5px !important;
+.tiptap-image-wrapper .handle-bl {
+  left: -7px;
+  bottom: -7px;
   cursor: nesw-resize;
 }
 
-.tiptap [data-resize-handle="bottom-left"] {
-  bottom: -5px !important;
-  left: -5px !important;
-  cursor: nesw-resize;
-}
-
-.tiptap [data-resize-handle="bottom-right"] {
-  bottom: -5px !important;
-  right: -5px !important;
-  cursor: nwse-resize;
-}
-
-/* Edge handles */
-.tiptap [data-resize-handle="top"] {
-  height: 6px;
-  top: -3px !important;
-  cursor: ns-resize;
+/* Floating Quick Actions Bar */
+.tiptap-image-wrapper .image-quick-bar {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(8px);
+  color: white;
+  border-radius: 9999px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  z-index: 40;
   opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
 }
 
-.tiptap [data-resize-handle="bottom"] {
-  height: 6px;
-  bottom: -3px !important;
-  cursor: ns-resize;
+.tiptap-image-wrapper.is-selected .image-quick-bar,
+.tiptap-image-wrapper:hover .image-quick-bar {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tiptap-image-wrapper .image-quick-bar button {
+  background: rgba(255, 255, 255, 0.16);
+  border: none;
+  color: white;
+  padding: 3px 7px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.tiptap-image-wrapper .image-quick-bar button:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.tiptap-image-wrapper .image-quick-bar button.is-active {
+  background: #029bd2 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+/* Size Badge */
+.tiptap-image-wrapper .image-size-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #38bdf8;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  pointer-events: none;
   opacity: 0;
+  transition: opacity 0.15s;
+  letter-spacing: 0.02em;
 }
 
-.tiptap [data-resize-handle="left"] {
-  width: 6px;
-  left: -3px !important;
-  cursor: ew-resize;
-  opacity: 0;
-}
-
-.tiptap [data-resize-handle="right"] {
-  width: 6px;
-  right: -3px !important;
-  cursor: ew-resize;
-  opacity: 0;
-}
-
-/* Show edge handles on hover */
-.tiptap [data-resize-wrapper]:hover [data-resize-handle] {
+.tiptap-image-wrapper.is-selected .image-size-badge,
+.tiptap-image-wrapper:hover .image-size-badge {
   opacity: 1;
 }
 
-/* Image float and alignment */
-.tiptap img[data-align="left"],
-.tiptap [data-resize-container][data-align="left"] {
-  float: left;
-  margin-right: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.tiptap img[data-align="right"],
-.tiptap [data-resize-container][data-align="right"] {
-  float: right;
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.tiptap img[data-align="center"],
-.tiptap [data-resize-container][data-align="center"] {
-  display: flex;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+/* Clearfix for blog text around floated images */
+.tiptap::after,
+.tiptap p::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 

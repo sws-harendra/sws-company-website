@@ -599,11 +599,6 @@
   height: auto;
 }
 
-.prose img[width] {
-  width: auto;
-  max-width: 100%;
-}
-
 .prose img[data-align="left"],
 .prose img.align-left {
   float: left;
@@ -627,11 +622,40 @@
   margin-right: auto;
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
+  clear: both;
+}
+
+.prose img[data-align="full"],
+.prose img.align-full {
+  display: block;
+  width: 100% !important;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  clear: both;
 }
 
 /* Clearfix for paragraphs after floated images */
-.prose::after {
+.prose::after,
+.prose p::after,
+.prose div::after {
   content: "";
   display: table;
   clear: both;
+}
+
+@media (max-width: 640px) {
+  .prose img.align-left,
+  .prose img[data-align="left"],
+  .prose img.align-right,
+  .prose img[data-align="right"] {
+    float: none !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 1.5rem !important;
+  }
 }

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import blogService from "@/services/blog.service";
 import ContactUs from "@/components/ContactUs";
+import "@/app/editor.css";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

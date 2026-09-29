@@ -41,6 +41,9 @@ import {
   ExternalLink,
   ZoomIn,
   X,
+  QrCode,
+  Printer,
+  Download,
 } from "lucide-react";
 import ContactUs from "@/components/ContactUs";
 
@@ -103,6 +106,106 @@ export default function PathologyLandingPage() {
         "Delta Check Alerts",
         "QR Code Verification",
       ],
+    },
+    {
+      id: "report-1",
+      title:
+        "Automated CBC Diagnostic Report — Format 1 (QR & Barcode Verified)",
+      shortTitle: "Report 1",
+      image: "/pathology/1.jpg.jpeg",
+      tag: "Smart Report 1",
+      description:
+        "Royal Navy & Gold Complete Blood Count (CBC) report automatically generated with reference ranges, abnormal flags, dynamic QR code verification, barcode sample ID, and digital doctor signature.",
+      badges: [
+        "Tamper-Proof QR Code",
+        "Specimen Barcode ID",
+        "Abnormal Delta Flags",
+        "Doctor E-Signature",
+      ],
+    },
+    {
+      id: "report-2",
+      title: "ISO 9001 Certified Clinical CBC Report — Format 2",
+      shortTitle: "Report 2",
+      image: "/pathology/2.jpg.jpeg",
+      tag: "Smart Report 2",
+      description:
+        "Emerald Green accredited clinical report template equipped with ISO 9001 certified footer stamp, 24/7 emergency lab contact info, home sample collection marker, and authorized consultant signature.",
+      badges: [
+        "ISO 9001 Accredited",
+        "24/7 Lab Helpline",
+        "Home Collection Tag",
+        "Standard Reference Intervals",
+      ],
+    },
+    {
+      id: "report-3",
+      title: "Digital & WhatsApp Fast Release CBC Report — Format 3",
+      shortTitle: "Report 3",
+      image: "/pathology/6.jpg.jpeg",
+      tag: "Smart Report 3",
+      description:
+        "Modern Teal layout optimized for instant WhatsApp dispatch, displaying patient UHID, sample collection timestamp, turnaround speed, and 1-tap download link.",
+      badges: [
+        "1-Click WhatsApp PDF",
+        "Barcode Accession ID",
+        "Collection Timestamp",
+        "Custom Header Branding",
+      ],
+    },
+  ];
+
+  const reportTemplates = [
+    {
+      id: "navy-gold",
+      title: "Navy Blue & Gold Standard CBC Report",
+      badge: "Flagship Format",
+      badgeColor: "bg-blue-100 text-blue-800 border-blue-200",
+      image: "/pathology/1.jpg.jpeg",
+      tag: "Haematology CBC",
+      accent: "from-blue-600 to-indigo-600",
+      features: [
+        "Dynamic QR Code for Patient Online Verification",
+        "Specimen Barcode Accession ID (INV-2604-0001)",
+        "Automated Abnormal Result Flagging",
+        "Consultant Pathologist Digital E-Signature",
+      ],
+      description:
+        "The gold-standard high-trust diagnostic report layout featuring clear tabular haematology results, automated abnormal flags, reference ranges, specimen barcode tracking, and verified QR code for instant smartphone scanning.",
+    },
+    {
+      id: "emerald-clinical",
+      title: "Emerald Green ISO 9001 Certified Report",
+      badge: "ISO 9001 Accredited",
+      badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+      image: "/pathology/2.jpg.jpeg",
+      tag: "Clinical Pathology",
+      accent: "from-emerald-600 to-teal-700",
+      features: [
+        "Official ISO 9001 Certified Quality Stamp in footer",
+        "24/7 Helpline, Online Booking & Home Sample Collection markers",
+        "Standard Reference Range Interval Matrix",
+        "Digital signature with authorized medical consultant credentials",
+      ],
+      description:
+        "Engineered for accredited diagnostic laboratories and hospital pathology departments. Features customizable accreditation badges, full emergency contact bar, home collection markers, and tamper-resistant digital sign-off.",
+    },
+    {
+      id: "modern-teal",
+      title: "Modern Teal Digital & WhatsApp Report",
+      badge: "WhatsApp Ready",
+      badgeColor: "bg-teal-100 text-teal-800 border-teal-200",
+      image: "/pathology/6.jpg.jpeg",
+      tag: "Digital Release",
+      accent: "from-teal-600 to-cyan-700",
+      features: [
+        "Instant WhatsApp PDF delivery formatting with ultra-sharp vector text",
+        "High-density Barcode (INV-2604-0002) for specimen accessioning",
+        "Precise sample collection and report authorization timestamps",
+        "Custom laboratory header branding, logo slot & corporate tagline",
+      ],
+      description:
+        "Optimized for smartphone viewing and instant WhatsApp dispatch. Features clean modern typography, custom lab logo space, instant online booking links, and exact sample collection and report timestamps.",
     },
   ];
 
@@ -411,12 +514,23 @@ export default function PathologyLandingPage() {
                 <span className="font-semibold text-sm sm:text-base">
                   {previewImage.title}
                 </span>
-                <button
-                  onClick={() => setPreviewImage(null)}
-                  className="p-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={previewImage.src}
+                    download
+                    className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer inline-flex items-center gap-1.5 text-xs font-medium"
+                    title="Download Report Image"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span className="hidden sm:inline">Download</span>
+                  </a>
+                  <button
+                    onClick={() => setPreviewImage(null)}
+                    className="p-1 rounded-lg hover:bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
               <div className="relative w-full h-[65vh] sm:h-[75vh] bg-slate-950 flex items-center justify-center p-2">
                 <Image
@@ -596,15 +710,14 @@ export default function PathologyLandingPage() {
                     priority
                   />
                 </div>
+
+                {/* 4. Floating Diagnostic Report Preview Badge */}
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ============================================================== */}
-      {/* SECTION 2: WHY CHOOSE US                                       */}
-      {/* ============================================================== */}
       <section id="why-choose-us" className="py-20 lg:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
@@ -787,7 +900,7 @@ export default function PathologyLandingPage() {
                 <FileCheck className="w-6 h-6 text-white" />
               </div>
               <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-                5M+
+                10k+
               </p>
               <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
                 Lab Reports Generated
@@ -800,7 +913,7 @@ export default function PathologyLandingPage() {
                 <Building2 className="w-6 h-6 text-white" />
               </div>
               <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-                500+
+                20+
               </p>
               <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
                 Labs &amp; Clinics Powered
@@ -923,7 +1036,7 @@ export default function PathologyLandingPage() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                  Interactive Software Preview
+                  Software Preview
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500">
                   Switch between core interfaces of SWS Pathology Management

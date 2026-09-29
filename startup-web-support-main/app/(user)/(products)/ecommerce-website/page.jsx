@@ -470,12 +470,6 @@ export default function EcommerceProductPage() {
               animate="visible"
               variants={fadeUp}
             >
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100/70 border border-blue-200/60 shadow-xs mb-6">
-                <ShoppingBag className="w-4 h-4 text-blue-600" />
-                <span>Trusted by 1,000+ Brands &amp; D2C Stores</span>
-              </div>
-
               {/* Headline */}
               <h1 className="text-4xl sm:text-5xl lg:text-[44px] xl:text-[50px] font-extrabold text-slate-900 tracking-tight leading-[1.18] mb-6">
                 Scalable, Fast &amp;{" "}

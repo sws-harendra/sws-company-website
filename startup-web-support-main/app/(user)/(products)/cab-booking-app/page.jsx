@@ -52,48 +52,93 @@ export default function CabAppFullProductPage() {
 
   const productDemos = [
     {
-      id: "dispatch",
-      title: "Live Dispatch Dashboard & Fleet Map",
-      shortTitle: "Live Dispatch",
-      image: "/cab/product-demo.png",
-      tag: "Dispatch Control",
-      description:
-        "Real-time map of every cab and trip with live bookings, driver availability, cancellations, revenue and city-wise demand in one screen.",
-      badges: [
-        "Live Fleet Tracking",
-        "Auto Driver Assignment",
-        "Surge Zones",
-        "City Filter",
-      ],
-    },
-    {
       id: "booking",
-      title: "Booking Engine & Fare Calculator",
-      shortTitle: "Booking & Fares",
-      image: "/cab/product-demo1.png",
-      tag: "Booking Engine",
+      title: "Instant Ride Booking Engine (One Way, Round Trip & Outstation)",
+      shortTitle: "Ride Booking",
+      image: "/cab-booking/homepage.jpeg",
+      tag: "Customer App",
       description:
-        "Book local, outstation, airport and rental rides in seconds with automatic fare estimates, tolls, waiting charges and GST invoices.",
+        "Intuitive rider home screen to book one-way, round-trip, and outstation cabs. Includes quick service switcher for cabs, technicians, and parking assist with calendar date & time selection.",
       badges: [
+        "One-Way & Outstation",
         "Instant Fare Estimate",
-        "Outstation & Rentals",
-        "Toll & Tax Calculation",
-        "Auto GST Invoice",
+        "Pickup & Drop Autocomplete",
+        "Live Calendar Picker",
       ],
     },
     {
-      id: "driver",
-      title: "Driver App, Trip Tracking & Payouts",
-      shortTitle: "Driver & Payouts",
-      image: "/cab/product-demo2.png",
-      tag: "Driver Management",
+      id: "tracking",
+      title: "Live Trip Tracking, Ride OTP & Driver Dispatch",
+      shortTitle: "Live Tracking",
+      image: "/cab-booking/mybooking.jpeg",
+      tag: "Live Ride Status",
       description:
-        "Drivers accept trips, navigate by GPS and share live location with riders. Commission, incentives and weekly payouts are calculated automatically.",
+        "Comprehensive trip manager showing active vehicle details (Toyota Innova Crysta), start ride OTP (4829), real-time driver GPS tracking, route directions, and digital UPI payment receipts.",
       badges: [
-        "One-Tap Trip Accept",
-        "Live ETA Sharing",
-        "Commission Rules",
-        "Weekly Payouts",
+        "Start Ride OTP (4829)",
+        "Live GPS Radar",
+        "Instant Fare Breakdown",
+        "UPI & Google Pay",
+      ],
+    },
+    {
+      id: "parking",
+      title: "Smart Parking Assist, Live Map Radar & Valet Reservation",
+      shortTitle: "Parking Assist",
+      image: "/cab-booking/parking-assit.jpeg",
+      tag: "Smart Parking",
+      description:
+        "Integrated parking finder allowing users to reserve guaranteed slots on Google Maps, find nearest hubs, and book valet services or EV charging points with instant confirmations.",
+      badges: [
+        "Live Map Radar",
+        "Guaranteed Slots",
+        "Valet Service Ready",
+        "EV Charging Station Filter",
+      ],
+    },
+    {
+      id: "technician",
+      title: "On-Demand Roadside Assistance & Mobile Mechanics",
+      shortTitle: "Technician 24/7",
+      image: "/cab-booking/technician.jpeg",
+      tag: "Roadside Rescue",
+      description:
+        "Instant emergency service booking for roadside battery jumpstart, flat tire replacement, and computerized OBD-II vehicle diagnostic scans with 10-15 minute arrival guarantee.",
+      badges: [
+        "~10 Min Arrival",
+        "Battery Jumpstart (₹299)",
+        "Flat Tire Fix (₹249)",
+        "OBD-II Computer Scan",
+      ],
+    },
+    {
+      id: "coupons",
+      title: "Dynamic Promo Codes, Festive Discounts & Offers Engine",
+      shortTitle: "Offers & Deals",
+      image: "/cab-booking/coupon.jpeg",
+      tag: "Growth Engine",
+      description:
+        "Boost customer retention with flat discounts, first-ride promo codes (FIRST50, CABSAVE100), automated cashback, and category-specific city & airport ride offers.",
+      badges: [
+        "Instant Promo Codes",
+        "Flat ₹100 / 50% Discounts",
+        "Category Rules",
+        "100% Verified Deals",
+      ],
+    },
+    {
+      id: "profile",
+      title: "User Profile, In-App Wallet & Professional Partner Hub",
+      shortTitle: "Profile & Wallet",
+      image: "/cab-booking/profile.jpeg",
+      tag: "Account & Wallet",
+      description:
+        "Complete rider account center with in-app wallet balance, saved places, emergency SOS 24x7, and an integrated portal for drivers and technicians to onboard and earn.",
+      badges: [
+        "In-App Digital Wallet",
+        "24/7 Emergency SOS",
+        "Driver & Partner Onboarding",
+        "Garage & Vehicle Manager",
       ],
     },
   ];
@@ -477,54 +522,60 @@ export default function CabAppFullProductPage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="relative w-full max-w-[700px] h-[480px] sm:h-[520px] lg:h-[540px] flex items-center">
+              <div className="relative w-full max-w-[620px] h-[520px] sm:h-[560px] flex items-center justify-center">
+                {/* Decorative soft glowing background circle */}
+                <div className="absolute w-80 h-80 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
+
+                {/* Primary Screen: Booking Homepage inside sleek Mobile Frame */}
                 <div
                   onClick={() =>
                     setPreviewImage({
-                      src: "/cab/product-demo.png",
-                      title: "Live Dispatch Dashboard — Cab Booking Software",
+                      src: "/cab-booking/homepage.jpeg",
+                      title: "SWS Cab Booking App — Ride Booking Interface",
                     })
                   }
-                  className="relative z-10 w-[92%] sm:w-[86%] lg:w-[82%] bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden backdrop-blur-sm cursor-pointer group transition-all duration-300 hover:shadow-blue-500/20"
+                  className="relative z-10 w-[240px] sm:w-[270px] h-[460px] sm:h-[500px] bg-slate-900 rounded-[38px] p-2.5 shadow-2xl border-4 border-slate-800 cursor-pointer group hover:scale-[1.02] transition-transform duration-300"
                 >
-                  <div className="bg-slate-100 border-b border-slate-200 px-3.5 py-2.5 flex items-center justify-between select-none">
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-3 h-3 rounded-full bg-red-400 inline-block" />
-                      <span className="w-3 h-3 rounded-full bg-amber-400 inline-block" />
-                      <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
-                    </div>
-                    <div className="bg-white border border-slate-200/80 rounded-md px-3 py-0.5 text-[11px] text-slate-500 flex items-center gap-1.5 max-w-[260px] truncate shadow-2xs">
-                      <Lock className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
-                      <span className="truncate">
-                        sws-cab.app/dashboard/dispatch
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 flex items-center gap-1">
-                      <ZoomIn className="w-3 h-3" /> Click to zoom
-                    </span>
-                  </div>
-
-                  <div className="relative w-full h-[290px] sm:h-[340px] bg-slate-50 overflow-hidden">
+                  <div className="relative w-full h-full rounded-[30px] overflow-hidden bg-white">
                     <Image
-                      src="/cab/product-demo.png"
-                      alt="SWS Cab Booking Software Live Dispatch Dashboard"
+                      src="/cab-booking/homepage.jpeg"
+                      alt="SWS Cab Booking App Ride Booking"
                       fill
-                      className="object-cover object-top group-hover:scale-[1.015] transition-transform duration-300"
+                      className="object-cover object-top"
                       priority
                     />
+                    <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/20 transition-colors flex items-center justify-center">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/95 text-blue-700 px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 shadow-lg">
+                        <ZoomIn className="w-3.5 h-3.5" /> Tap to Zoom
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Driver / rider image in foreground — replace with your own asset */}
-                <div className="absolute -right-3 sm:-right-6 bottom-0 w-[240px] sm:w-[280px] lg:w-[320px] pointer-events-none z-20">
-                  <Image
-                    src="/cab/driver.png"
-                    alt="Cab driver with booking app"
-                    width={400}
-                    height={520}
-                    className="object-contain drop-shadow-xl"
-                    priority
-                  />
+                {/* Secondary Overlapping Screen: Live Ride Tracking / My Bookings */}
+                <div
+                  onClick={() =>
+                    setPreviewImage({
+                      src: "/cab-booking/mybooking.jpeg",
+                      title: "SWS Cab Booking App — Live Ride Tracking & OTP",
+                    })
+                  }
+                  className="absolute right-0 sm:right-4 bottom-2 sm:bottom-4 z-20 w-[190px] sm:w-[220px] h-[380px] sm:h-[420px] bg-slate-900 rounded-[34px] p-2 shadow-2xl border-4 border-slate-800/90 cursor-pointer group hover:scale-105 transition-transform duration-300 hidden xs:block"
+                >
+                  <div className="relative w-full h-full rounded-[26px] overflow-hidden bg-white">
+                    <Image
+                      src="/cab-booking/mybooking.jpeg"
+                      alt="SWS Cab Booking Live Ride Tracking"
+                      fill
+                      className="object-cover object-top"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/20 transition-colors flex items-center justify-center">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/95 text-blue-700 px-2.5 py-1 rounded-full font-semibold text-[11px] flex items-center gap-1 shadow-lg">
+                        <ZoomIn className="w-3 h-3" /> Zoom
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -680,7 +731,7 @@ export default function CabAppFullProductPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 text-center">
             {[
               { icon: ShieldCheck, value: "99.99%", label: "System Uptime" },
-              { icon: Route, value: "10M+", label: "Trips Booked" },
+              { icon: Route, value: "10k+", label: "Trips Booked" },
               { icon: Users, value: "300+", label: "Fleet Operators Powered" },
               { icon: Headphones, value: "24/7", label: "Support Available" },
             ].map(({ icon: Icon, value, label }) => (
@@ -717,20 +768,21 @@ export default function CabAppFullProductPage() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8 items-stretch mb-12">
+          {/* 6 Real Product Demo Cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-14">
             {productDemos.map((demo) => (
               <div
                 key={demo.id}
                 className="bg-white rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
                 <div>
-                  <div className="bg-slate-100 border-b border-slate-200 px-3.5 py-2.5 flex items-center justify-between">
+                  <div className="bg-slate-100 border-b border-slate-200 px-4 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
                       <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                       <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
                     </div>
-                    <span className="text-[11px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200/70">
+                    <span className="text-[11px] font-semibold text-slate-700 bg-white px-2.5 py-0.5 rounded-full border border-slate-200">
                       {demo.tag}
                     </span>
                   </div>
@@ -738,14 +790,16 @@ export default function CabAppFullProductPage() {
                     onClick={() =>
                       setPreviewImage({ src: demo.image, title: demo.title })
                     }
-                    className="relative w-full h-[230px] sm:h-[260px] bg-slate-50 cursor-pointer overflow-hidden"
+                    className="relative w-full h-[320px] sm:h-[360px] bg-slate-100 cursor-pointer overflow-hidden p-3 flex items-center justify-center"
                   >
-                    <Image
-                      src={demo.image}
-                      alt={demo.title}
-                      fill
-                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                    />
+                    <div className="relative w-[180px] sm:w-[200px] h-full rounded-2xl overflow-hidden shadow-md border-2 border-slate-700/80 bg-white">
+                      <Image
+                        src={demo.image}
+                        alt={demo.title}
+                        fill
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/30 transition-colors flex items-center justify-center">
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/95 text-blue-700 px-3.5 py-2 rounded-full font-semibold text-xs flex items-center gap-1.5 shadow-lg">
                         <ZoomIn className="w-4 h-4" /> Click to Zoom
@@ -782,10 +836,11 @@ export default function CabAppFullProductPage() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                  Interactive Software Preview
+                  Interactive Mobile App Walkthrough
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500">
-                  Switch between core screens of SWS Cab Booking System
+                  Switch between live screens of SWS Cab Booking &amp; Mobility
+                  Suite
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -793,7 +848,7 @@ export default function CabAppFullProductPage() {
                   <button
                     key={demo.id}
                     onClick={() => setActiveDemoTab(idx)}
-                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                       activeDemoTab === idx
                         ? "bg-blue-600 text-white shadow-md shadow-blue-500/25"
                         : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
@@ -812,14 +867,16 @@ export default function CabAppFullProductPage() {
                   title: productDemos[activeDemoTab].title,
                 })
               }
-              className="relative w-full h-[320px] sm:h-[450px] lg:h-[540px] bg-white rounded-2xl border border-slate-200/80 shadow-md overflow-hidden cursor-pointer group"
+              className="relative w-full h-[380px] sm:h-[500px] lg:h-[580px] bg-gradient-to-b from-slate-100 to-slate-200/70 rounded-2xl border border-slate-200/80 shadow-inner overflow-hidden cursor-pointer group flex items-center justify-center p-4 sm:p-6"
             >
-              <Image
-                src={productDemos[activeDemoTab].image}
-                alt={productDemos[activeDemoTab].title}
-                fill
-                className="object-contain object-top group-hover:scale-[1.01] transition-transform duration-300"
-              />
+              <div className="relative w-[220px] sm:w-[280px] h-[350px] sm:h-[460px] lg:h-[520px] rounded-[36px] overflow-hidden shadow-2xl border-4 border-slate-900 bg-white">
+                <Image
+                  src={productDemos[activeDemoTab].image}
+                  alt={productDemos[activeDemoTab].title}
+                  fill
+                  className="object-cover object-top group-hover:scale-[1.01] transition-transform duration-300"
+                />
+              </div>
               <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-sm text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 shadow-lg">
                 <ZoomIn className="w-4 h-4 text-blue-400" /> Click to View
                 Fullscreen

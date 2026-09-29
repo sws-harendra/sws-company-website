@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Activity,
   Shield,
@@ -44,8 +44,33 @@ export default function HMSLandingPage() {
   const [activeModule, setActiveModule] = useState("dashboard");
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 25 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+    hidden: { opacity: 0, y: 22 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.05,
+      },
+    },
+  };
+
+  const cardVariant = {
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+    },
   };
 
   const features = [
@@ -306,7 +331,8 @@ export default function HMSLandingPage() {
     },
   ];
 
-  const currentModuleData = modules.find((m) => m.id === activeModule) || modules[0];
+  const currentModuleData =
+    modules.find((m) => m.id === activeModule) || modules[0];
 
   const scrollToContact = () => {
     const el = document.getElementById("contact");
@@ -337,53 +363,72 @@ export default function HMSLandingPage() {
             {/* Left Column: Hero Content */}
             <motion.div
               className="lg:col-span-5 text-left"
+              variants={staggerContainer}
               initial="hidden"
               animate="visible"
-              variants={fadeUp}
             >
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100/70 border border-blue-200/60 shadow-xs mb-6">
+              <motion.div
+                variants={fadeUp}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100/70 border border-blue-200/60 shadow-xs mb-6"
+              >
                 <ShieldCheck className="w-4 h-4 text-blue-600" />
                 <span>Trusted by Healthcare Facilities</span>
-              </div>
+              </motion.div>
 
               {/* Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[44px] xl:text-[50px] font-extrabold text-slate-900 tracking-tight leading-[1.18] mb-6">
+              <motion.h1
+                variants={fadeUp}
+                className="text-4xl sm:text-5xl lg:text-[44px] xl:text-[50px] font-extrabold text-slate-900 tracking-tight leading-[1.18] mb-6"
+              >
                 Smart, Secure &amp;{" "}
                 <span className="text-blue-600 block mt-1">
                   Paperless Hospital Management System
                 </span>
-              </h1>
+              </motion.h1>
 
               {/* Subtitle */}
-              <p className="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed max-w-xl">
-                A Complete Hospital Management System that brings OPD IPD Billing
-                Pharmacy Lab Beds management and Inventory together on one secure
-                platform which can be accessed anytime and from anywhere without
-                difficulty.
-              </p>
+              <motion.p
+                variants={fadeUp}
+                className="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed max-w-xl"
+              >
+                A Complete Hospital Management System that brings OPD IPD
+                Billing Pharmacy Lab Beds management and Inventory together on
+                one secure platform which can be accessed anytime and from
+                anywhere without difficulty.
+              </motion.p>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 mb-9">
-                <button
+              <motion.div
+                variants={fadeUp}
+                className="flex flex-wrap items-center gap-4 mb-9"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={scrollToContact}
-                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3.5 rounded-full shadow-lg shadow-blue-600/25 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3.5 rounded-full shadow-lg shadow-blue-600/25 transition-all duration-200 cursor-pointer"
                 >
                   <span>Book Free Demo</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </motion.button>
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={scrollToFeatures}
-                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-blue-600 border border-blue-200 font-semibold px-7 py-3.5 rounded-full shadow-xs transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-blue-600 border border-blue-200 font-semibold px-7 py-3.5 rounded-full shadow-xs transition-all duration-200 cursor-pointer"
                 >
                   <span>Learn More</span>
                   <Play className="w-4 h-4 fill-blue-600 text-blue-600" />
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
 
               {/* Highlights row */}
-              <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm font-medium text-slate-700">
+              <motion.div
+                variants={fadeUp}
+                className="flex flex-wrap items-center gap-6 text-xs sm:text-sm font-medium text-slate-700"
+              >
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   <span>99.99% Uptime</span>
@@ -396,7 +441,7 @@ export default function HMSLandingPage() {
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   <span>24/7 Support</span>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
 
             {/* Right Column: Hero Visual with Bed, Dashboard UI, Badge & Doctor */}
@@ -407,8 +452,16 @@ export default function HMSLandingPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="relative w-full max-w-[700px] h-[480px] sm:h-[520px] lg:h-[540px] flex items-center">
-                {/* 1. Hospital Bed in Background (Right) */}
-                <div className="absolute right-0 top-6 sm:top-2 w-[280px] sm:w-[340px] lg:w-[380px] opacity-75 pointer-events-none select-none z-0">
+                {/* 1. Hospital Bed in Background (Right) with subtle floating motion */}
+                <motion.div
+                  animate={{ y: [-4, 4, -4] }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute right-0 top-6 sm:top-2 w-[280px] sm:w-[340px] lg:w-[380px] opacity-75 pointer-events-none select-none z-0"
+                >
                   <Image
                     src="/hms/bed.png"
                     alt="Hospital Bed Care Unit"
@@ -417,7 +470,7 @@ export default function HMSLandingPage() {
                     className="object-contain"
                     priority
                   />
-                </div>
+                </motion.div>
 
                 {/* 2. Floating Modern Web Dashboard Mockup (Center/Left) */}
                 <div className="relative z-10 w-[92%] sm:w-[86%] lg:w-[82%] bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden backdrop-blur-sm">
@@ -426,7 +479,9 @@ export default function HMSLandingPage() {
                     <div className="flex items-center gap-2 flex-1 max-w-[260px]">
                       <div className="flex items-center gap-2 bg-slate-50 border border-slate-200/70 rounded-lg px-2.5 py-1 text-xs text-slate-500 w-full">
                         <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="truncate">Search patient, ID, or visit...</span>
+                        <span className="truncate">
+                          Search patient, ID, or visit...
+                        </span>
                       </div>
                     </div>
 
@@ -440,7 +495,9 @@ export default function HMSLandingPage() {
                           DS
                         </div>
                         <div className="hidden sm:block text-left text-[11px] leading-tight">
-                          <p className="font-semibold text-slate-800">Dr. Sharma</p>
+                          <p className="font-semibold text-slate-800">
+                            Dr. Sharma
+                          </p>
                           <p className="text-slate-500 text-[10px]">Admin</p>
                         </div>
                       </div>
@@ -455,7 +512,10 @@ export default function HMSLandingPage() {
                         {/* Logo */}
                         <div className="flex items-center gap-1.5 mb-4 px-1">
                           <div className="font-extrabold text-sm tracking-wider text-sky-400">
-                            SWS <span className="text-white text-[11px] font-normal">HMS</span>
+                            SWS{" "}
+                            <span className="text-white text-[11px] font-normal">
+                              HMS
+                            </span>
                           </div>
                         </div>
 
@@ -499,8 +559,12 @@ export default function HMSLandingPage() {
                             <User className="w-3.5 h-3.5" />
                           </div>
                           <div className="min-w-0">
-                            <p className="text-[10px] text-slate-500 truncate">OPD Today</p>
-                            <p className="text-xs sm:text-sm font-bold text-slate-900">128</p>
+                            <p className="text-[10px] text-slate-500 truncate">
+                              OPD Today
+                            </p>
+                            <p className="text-xs sm:text-sm font-bold text-slate-900">
+                              128
+                            </p>
                           </div>
                         </div>
 
@@ -509,8 +573,12 @@ export default function HMSLandingPage() {
                             <Bed className="w-3.5 h-3.5" />
                           </div>
                           <div className="min-w-0">
-                            <p className="text-[10px] text-slate-500 truncate">IPD Today</p>
-                            <p className="text-xs sm:text-sm font-bold text-slate-900">24</p>
+                            <p className="text-[10px] text-slate-500 truncate">
+                              IPD Today
+                            </p>
+                            <p className="text-xs sm:text-sm font-bold text-slate-900">
+                              24
+                            </p>
                           </div>
                         </div>
 
@@ -519,7 +587,9 @@ export default function HMSLandingPage() {
                             <Coins className="w-3.5 h-3.5" />
                           </div>
                           <div className="min-w-0">
-                            <p className="text-[10px] text-slate-500 truncate">Total Revenue</p>
+                            <p className="text-[10px] text-slate-500 truncate">
+                              Total Revenue
+                            </p>
                             <p className="text-[11px] sm:text-xs font-bold text-slate-900 truncate">
                               ₹ 2,48,500
                             </p>
@@ -535,7 +605,9 @@ export default function HMSLandingPage() {
                             <p className="text-[11px] font-bold text-slate-800">
                               Recent Appointments
                             </p>
-                            <span className="text-[9px] text-blue-600 font-medium">View All</span>
+                            <span className="text-[9px] text-blue-600 font-medium">
+                              View All
+                            </span>
                           </div>
 
                           <div className="space-y-1.5 text-[9px] sm:text-[10px]">
@@ -545,28 +617,32 @@ export default function HMSLandingPage() {
                                 type: "OPD",
                                 time: "10:30 AM",
                                 status: "Checked In",
-                                statusBg: "bg-emerald-50 text-emerald-700 border-emerald-200",
+                                statusBg:
+                                  "bg-emerald-50 text-emerald-700 border-emerald-200",
                               },
                               {
                                 name: "Priya Sharma",
                                 type: "OPD",
                                 time: "11:00 AM",
                                 status: "Waiting",
-                                statusBg: "bg-amber-50 text-amber-700 border-amber-200",
+                                statusBg:
+                                  "bg-amber-50 text-amber-700 border-amber-200",
                               },
                               {
                                 name: "Amit Singh",
                                 type: "IPD",
                                 time: "11:30 AM",
                                 status: "Admitted",
-                                statusBg: "bg-blue-50 text-blue-700 border-blue-200",
+                                statusBg:
+                                  "bg-blue-50 text-blue-700 border-blue-200",
                               },
                               {
                                 name: "Neha Gupta",
                                 type: "OPD",
                                 time: "12:15 PM",
                                 status: "Scheduled",
-                                statusBg: "bg-purple-50 text-purple-700 border-purple-200",
+                                statusBg:
+                                  "bg-purple-50 text-purple-700 border-purple-200",
                               },
                             ].map((row, i) => (
                               <div
@@ -576,8 +652,12 @@ export default function HMSLandingPage() {
                                 <span className="font-semibold text-slate-700 truncate max-w-[70px]">
                                   {row.name}
                                 </span>
-                                <span className="text-slate-400">{row.type}</span>
-                                <span className="text-slate-400">{row.time}</span>
+                                <span className="text-slate-400">
+                                  {row.type}
+                                </span>
+                                <span className="text-slate-400">
+                                  {row.time}
+                                </span>
                                 <span
                                   className={`px-1.5 py-0.5 rounded text-[8px] font-medium border ${row.statusBg}`}
                                 >
@@ -626,7 +706,13 @@ export default function HMSLandingPage() {
       <section id="why-choose-us" className="py-20 lg:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
               <UserCheck className="w-3.5 h-3.5 text-blue-600" />
               <span>Why Choose Us</span>
@@ -636,20 +722,24 @@ export default function HMSLandingPage() {
             </h2>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
               This solution is trusted by leading healthcare providers who want
-              smooth secure and efficient hospital operations that work well every
-              day without complications.
+              smooth secure and efficient hospital operations that work well
+              every day without complications.
             </p>
-          </div>
+          </motion.div>
 
           {/* 6 Feature Cards Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          >
             {features.map((feature, idx) => (
               <motion.div
                 key={idx}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
+                variants={cardVariant}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 className="bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all duration-300 flex items-start gap-4 group"
               >
                 <div
@@ -667,7 +757,7 @@ export default function HMSLandingPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -677,7 +767,13 @@ export default function HMSLandingPage() {
       <section id="modules" className="py-20 lg:py-24 bg-[#f8fafc] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-3xl mx-auto mb-14"
+          >
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
               <LayoutDashboard className="w-3.5 h-3.5 text-blue-600" />
               <span>Our Modules</span>
@@ -686,24 +782,33 @@ export default function HMSLandingPage() {
               All-in-One Modules for Complete Hospital Automation
             </h2>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              Essential modules covering OPD management, IPD management, pathology,
-              pharmacy, billing, and other key hospital operations are designed to
-              simplify daily workflows and help staff work faster with better
-              accuracy.
+              Essential modules covering OPD management, IPD management,
+              pathology, pharmacy, billing, and other key hospital operations
+              are designed to simplify daily workflows and help staff work
+              faster with better accuracy.
             </p>
-          </div>
+          </motion.div>
 
           {/* 15 Modules Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-10">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-10"
+          >
             {modules.map((mod) => {
               const isSelected = activeModule === mod.id;
               return (
-                <button
+                <motion.button
                   key={mod.id}
+                  variants={cardVariant}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => setActiveModule(mod.id)}
                   className={`text-left p-3.5 sm:p-4 rounded-xl border transition-all duration-200 flex items-center justify-between cursor-pointer ${
                     isSelected
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-transparent shadow-lg shadow-blue-500/25 scale-[1.02]"
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-transparent shadow-lg shadow-blue-500/25"
                       : "bg-white text-slate-700 border-slate-200/80 hover:border-blue-300 hover:shadow-sm"
                   }`}
                 >
@@ -722,54 +827,60 @@ export default function HMSLandingPage() {
                   {isSelected && (
                     <ArrowRight className="w-4 h-4 text-white shrink-0 ml-1" />
                   )}
-                </button>
+                </motion.button>
               );
             })}
-          </div>
+          </motion.div>
 
           {/* Active Module Details Interactive Card */}
-          <motion.div
-            key={currentModuleData.id}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 shadow-xl"
-          >
-            <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-10">
-              <div
-                className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 text-white bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md shadow-blue-500/25`}
-              >
-                {React.cloneElement(currentModuleData.icon, {
-                  className: "w-8 h-8",
-                })}
-              </div>
-
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
-                    {currentModuleData.title}
-                  </h3>
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
-                    Included in SWS HMS Suite
-                  </span>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentModuleData.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 shadow-xl"
+            >
+              <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-10">
+                <div
+                  className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 text-white bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md shadow-blue-500/25`}
+                >
+                  {React.cloneElement(currentModuleData.icon, {
+                    className: "w-8 h-8",
+                  })}
                 </div>
 
-                <p className="text-base text-slate-600 leading-relaxed mb-6">
-                  {currentModuleData.description}
-                </p>
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
+                      {currentModuleData.title}
+                    </h3>
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+                      Included in SWS HMS Suite
+                    </span>
+                  </div>
 
-                {/* Module Highlight Bullets */}
-                <div className="grid sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
-                  {currentModuleData.highlights.map((point, i) => (
-                    <div key={i} className="flex items-center gap-2.5 text-sm text-slate-700">
-                      <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
-                      <span>{point}</span>
-                    </div>
-                  ))}
+                  <p className="text-base text-slate-600 leading-relaxed mb-6">
+                    {currentModuleData.description}
+                  </p>
+
+                  {/* Module Highlight Bullets */}
+                  <div className="grid sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
+                    {currentModuleData.highlights.map((point, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-2.5 text-sm text-slate-700"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                        <span>{point}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
@@ -802,7 +913,7 @@ export default function HMSLandingPage() {
                 <Calendar className="w-6 h-6 text-white" />
               </div>
               <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-                10+
+                2+
               </p>
               <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
                 Years Experience
@@ -815,7 +926,7 @@ export default function HMSLandingPage() {
                 <Building2 className="w-6 h-6 text-white" />
               </div>
               <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-                500+
+                30+
               </p>
               <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
                 Healthcare Facilities
@@ -932,7 +1043,10 @@ export default function HMSLandingPage() {
       {/* ============================================================== */}
       {/* SECTION 6: CONTACT & DEMO REQUEST FORM                         */}
       {/* ============================================================== */}
-      <section id="contact" className="py-20 bg-[#f8fafc] border-t border-slate-200/60">
+      <section
+        id="contact"
+        className="py-20 bg-[#f8fafc] border-t border-slate-200/60"
+      >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">

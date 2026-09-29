@@ -42,11 +42,32 @@ export default function CabAppFullProductPage() {
   const [previewImage, setPreviewImage] = useState(null);
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 25 },
+    hidden: { opacity: 0, y: 22 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.05,
+      },
+    },
+  };
+
+  const cardVariant = {
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
     },
   };
 
@@ -464,45 +485,64 @@ export default function CabAppFullProductPage() {
               className="lg:col-span-5 text-left"
               initial="hidden"
               animate="visible"
-              variants={fadeUp}
+              variants={staggerContainer}
             >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100/70 border border-blue-200/60 shadow-xs mb-6">
+              <motion.div
+                variants={fadeUp}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100/70 border border-blue-200/60 shadow-xs mb-6"
+              >
                 <Car className="w-4 h-4 text-blue-600" />
                 <span>Trusted by Taxi Operators &amp; Cab Fleets</span>
-              </div>
+              </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-[44px] xl:text-[50px] font-extrabold text-slate-900 tracking-tight leading-[1.18] mb-6">
+              <motion.h1
+                variants={fadeUp}
+                className="text-4xl sm:text-5xl lg:text-[44px] xl:text-[50px] font-extrabold text-slate-900 tracking-tight leading-[1.18] mb-6"
+              >
                 Smart, Fast &amp;{" "}
                 <span className="text-blue-600 block mt-1">
                   Complete Cab Booking Software
                 </span>
-              </h1>
+              </motion.h1>
 
-              <p className="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed max-w-xl">
+              <motion.p
+                variants={fadeUp}
+                className="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed max-w-xl"
+              >
                 A complete taxi and ride-hailing management system that brings
                 booking, smart dispatch, live GPS tracking, driver app, payments
                 and instant WhatsApp confirmations together on one secure
                 platform.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-wrap items-center gap-4 mb-9">
-                <button
+              <motion.div
+                variants={fadeUp}
+                className="flex flex-wrap items-center gap-4 mb-9"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => scrollTo("contact")}
-                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3.5 rounded-full shadow-lg shadow-blue-600/25 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3.5 rounded-full shadow-lg shadow-blue-600/25 transition-all duration-200 cursor-pointer"
                 >
                   <span>Book Free Demo</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => scrollTo("gallery")}
-                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-blue-600 border border-blue-200 font-semibold px-7 py-3.5 rounded-full shadow-xs transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-blue-600 border border-blue-200 font-semibold px-7 py-3.5 rounded-full shadow-xs transition-all duration-200 cursor-pointer"
                 >
                   <span>View Product Demo</span>
                   <Play className="w-4 h-4 fill-blue-600 text-blue-600" />
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
 
-              <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm font-medium text-slate-700">
+              <motion.div
+                variants={fadeUp}
+                className="flex flex-wrap items-center gap-6 text-xs sm:text-sm font-medium text-slate-700"
+              >
                 {[
                   "99.99% Uptime",
                   "Rider + Driver Apps Included",
@@ -513,7 +553,7 @@ export default function CabAppFullProductPage() {
                     <span>{t}</span>
                   </div>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
 
             <motion.div
@@ -586,7 +626,13 @@ export default function CabAppFullProductPage() {
       {/* WHY CHOOSE US */}
       <section id="why-choose-us" className="py-20 lg:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
               <UserCheck className="w-3.5 h-3.5 text-blue-600" />
               <span>Why Choose Us</span>
@@ -599,16 +645,20 @@ export default function CabAppFullProductPage() {
               for faster bookings, higher fleet utilization, and hassle-free
               daily operations.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          >
             {features.map((feature, idx) => (
               <motion.div
                 key={idx}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
+                variants={cardVariant}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 className="bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all duration-300 flex items-start gap-4 group"
               >
                 <div
@@ -626,14 +676,20 @@ export default function CabAppFullProductPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* MODULES */}
       <section id="modules" className="py-20 lg:py-24 bg-[#f8fafc] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-3xl mx-auto mb-14"
+          >
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
               <Layers className="w-3.5 h-3.5 text-blue-600" />
               <span>Our Modules</span>
@@ -646,18 +702,27 @@ export default function CabAppFullProductPage() {
               smart dispatch to driver payouts, fleet management, and corporate
               billing.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-10">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 mb-10"
+          >
             {modules.map((mod) => {
               const isSelected = activeModule === mod.id;
               return (
-                <button
+                <motion.button
                   key={mod.id}
+                  variants={cardVariant}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => setActiveModule(mod.id)}
                   className={`text-left p-3.5 sm:p-4 rounded-xl border transition-all duration-200 flex items-center justify-between cursor-pointer ${
                     isSelected
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-transparent shadow-lg shadow-blue-500/25 scale-[1.02]"
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-transparent shadow-lg shadow-blue-500/25"
                       : "bg-white text-slate-700 border-slate-200/80 hover:border-blue-300 hover:shadow-sm"
                   }`}
                 >
@@ -676,50 +741,53 @@ export default function CabAppFullProductPage() {
                   {isSelected && (
                     <ArrowRight className="w-4 h-4 text-white shrink-0 ml-1" />
                   )}
-                </button>
+                </motion.button>
               );
             })}
-          </div>
-
-          <motion.div
-            key={currentModuleData.id}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 shadow-xl"
-          >
-            <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-10">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 text-white bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md shadow-blue-500/25">
-                {React.cloneElement(currentModuleData.icon, {
-                  className: "w-8 h-8",
-                })}
-              </div>
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
-                    {currentModuleData.title}
-                  </h3>
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
-                    Included in SWS Cab Suite
-                  </span>
-                </div>
-                <p className="text-base text-slate-600 leading-relaxed mb-6">
-                  {currentModuleData.description}
-                </p>
-                <div className="grid sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
-                  {currentModuleData.highlights.map((point, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-2.5 text-sm text-slate-700"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
-                      <span>{point}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
           </motion.div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentModuleData.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 shadow-xl"
+            >
+              <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-10">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 text-white bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md shadow-blue-500/25">
+                  {React.cloneElement(currentModuleData.icon, {
+                    className: "w-8 h-8",
+                  })}
+                </div>
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
+                      {currentModuleData.title}
+                    </h3>
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+                      Included in SWS Cab Suite
+                    </span>
+                  </div>
+                  <p className="text-base text-slate-600 leading-relaxed mb-6">
+                    {currentModuleData.description}
+                  </p>
+                  <div className="grid sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
+                    {currentModuleData.highlights.map((point, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-2.5 text-sm text-slate-700"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                        <span>{point}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
@@ -728,33 +796,53 @@ export default function CabAppFullProductPage() {
         <div className="absolute -left-12 -top-12 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
         <div className="absolute -right-12 -bottom-12 w-64 h-64 rounded-full bg-sky-300/20 blur-2xl pointer-events-none" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 text-center">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 text-center"
+          >
             {[
               { icon: ShieldCheck, value: "99.99%", label: "System Uptime" },
-              { icon: Route, value: "10k+", label: "Trips Booked" },
+              { icon: Route, value: "1k+", label: "Trips Booked" },
               { icon: Users, value: "300+", label: "Fleet Operators Powered" },
               { icon: Headphones, value: "24/7", label: "Support Available" },
             ].map(({ icon: Icon, value, label }) => (
-              <div key={label} className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full border border-white/30 bg-white/10 backdrop-blur-xs flex items-center justify-center mb-3.5 shadow-sm">
+              <motion.div
+                key={label}
+                variants={cardVariant}
+                className="flex flex-col items-center"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 6 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-12 h-12 rounded-full border border-white/30 bg-white/10 backdrop-blur-xs flex items-center justify-center mb-3.5 shadow-sm"
+                >
                   <Icon className="w-6 h-6 text-white" />
-                </div>
+                </motion.div>
                 <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
                   {value}
                 </p>
                 <p className="text-blue-100 text-xs sm:text-sm font-medium mt-1">
                   {label}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* GALLERY */}
       <section id="gallery" className="py-20 lg:py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 shadow-xs mb-3.5">
               <Monitor className="w-3.5 h-3.5 text-blue-600" />
               <span>Product Gallery &amp; Live Demos</span>
@@ -766,13 +854,21 @@ export default function CabAppFullProductPage() {
               Explore real screens from our cab booking software—from live
               dispatch and fare calculation to driver trips and payouts.
             </p>
-          </div>
+          </motion.div>
 
           {/* 6 Real Product Demo Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-14">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-14"
+          >
             {productDemos.map((demo) => (
-              <div
+              <motion.div
                 key={demo.id}
+                variants={cardVariant}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 className="bg-white rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
                 <div>
@@ -828,9 +924,9 @@ export default function CabAppFullProductPage() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           <div className="bg-[#f8fafc] rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 shadow-lg">
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -845,8 +941,10 @@ export default function CabAppFullProductPage() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {productDemos.map((demo, idx) => (
-                  <button
+                  <motion.button
                     key={demo.id}
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.96 }}
                     onClick={() => setActiveDemoTab(idx)}
                     className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                       activeDemoTab === idx
@@ -855,33 +953,40 @@ export default function CabAppFullProductPage() {
                     }`}
                   >
                     {demo.shortTitle}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
 
-            <div
-              onClick={() =>
-                setPreviewImage({
-                  src: productDemos[activeDemoTab].image,
-                  title: productDemos[activeDemoTab].title,
-                })
-              }
-              className="relative w-full h-[380px] sm:h-[500px] lg:h-[580px] bg-gradient-to-b from-slate-100 to-slate-200/70 rounded-2xl border border-slate-200/80 shadow-inner overflow-hidden cursor-pointer group flex items-center justify-center p-4 sm:p-6"
-            >
-              <div className="relative w-[220px] sm:w-[280px] h-[350px] sm:h-[460px] lg:h-[520px] rounded-[36px] overflow-hidden shadow-2xl border-4 border-slate-900 bg-white">
-                <Image
-                  src={productDemos[activeDemoTab].image}
-                  alt={productDemos[activeDemoTab].title}
-                  fill
-                  className="object-cover object-top group-hover:scale-[1.01] transition-transform duration-300"
-                />
-              </div>
-              <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-sm text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 shadow-lg">
-                <ZoomIn className="w-4 h-4 text-blue-400" /> Click to View
-                Fullscreen
-              </div>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeDemoTab}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.25 }}
+                onClick={() =>
+                  setPreviewImage({
+                    src: productDemos[activeDemoTab].image,
+                    title: productDemos[activeDemoTab].title,
+                  })
+                }
+                className="relative w-full h-[380px] sm:h-[500px] lg:h-[580px] bg-gradient-to-b from-slate-100 to-slate-200/70 rounded-2xl border border-slate-200/80 shadow-inner overflow-hidden cursor-pointer group flex items-center justify-center p-4 sm:p-6"
+              >
+                <div className="relative w-[220px] sm:w-[280px] h-[350px] sm:h-[460px] lg:h-[520px] rounded-[36px] overflow-hidden shadow-2xl border-4 border-slate-900 bg-white">
+                  <Image
+                    src={productDemos[activeDemoTab].image}
+                    alt={productDemos[activeDemoTab].title}
+                    fill
+                    className="object-cover object-top group-hover:scale-[1.01] transition-transform duration-300"
+                  />
+                </div>
+                <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-sm text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 shadow-lg">
+                  <ZoomIn className="w-4 h-4 text-blue-400" /> Click to View
+                  Fullscreen
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>

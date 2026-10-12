@@ -14,6 +14,25 @@ const blogService = {
     return res.data;
   },
 
+  getById: async (id) => {
+    try {
+      const res = await axios.get(`${API_URL}/blogs/id/${id}`);
+      return res.data;
+    } catch {
+      try {
+        const res = await axios.get(`${API_URL}/blogs/${id}`);
+        return res.data;
+      } catch {
+        const all = await blogService.getAll();
+        const found = all.find(
+          (b) => String(b.id) === String(id) || b.slug === String(id)
+        );
+        if (found) return found;
+        throw new Error("Blog not found");
+      }
+    }
+  },
+
   create: async (data) => {
     const res = await axios.post(`${API_URL}/blogs`, data);
     return res.data;

@@ -34,8 +34,14 @@ exports.getAllBlogs = async (req, res) => {
 // GET SINGLE
 exports.getBlogBySlug = async (req, res) => {
   try {
+    const identifier = req.params.slug;
+    const isNumeric = /^\d+$/.test(identifier);
+    const where = isNumeric
+      ? { [Op.or]: [{ id: identifier }, { slug: identifier }] }
+      : { slug: identifier };
+
     const blog = await Blog.findOne({
-      where: { slug: req.params.slug },
+      where,
       include: [
         {
           model: Blog,
@@ -51,6 +57,29 @@ exports.getBlogBySlug = async (req, res) => {
     res.json(blog);
   } catch (err) {
     console.error("Error fetching blog:", err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// GET BY ID
+exports.getBlogById = async (req, res) => {
+  try {
+    const blog = await Blog.findByPk(req.params.id, {
+      include: [
+        {
+          model: Blog,
+          as: "FeaturedBlogs",
+          attributes: ["id", "title", "short_description", "image_url", "slug"],
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    res.json(blog);
+  } catch (err) {
+    console.error("Error fetching blog by ID:", err);
     res.status(500).json({ message: err.message });
   }
 };

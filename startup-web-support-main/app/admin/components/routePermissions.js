@@ -2,6 +2,10 @@
 export const routePermissions = {
   "/admin/dashboard": "view_dashboard",
   "/admin/blogs": "view_blog",
+  "/admin/blogs/new": "create_blog",
+  "/admin/blogs/create": "create_blog",
+  "/admin/blogs/edit": "edit_blog",
+  "/admin/blogs/edit/:id": "edit_blog",
   "/admin/invoices": "view_invoices",
   "/admin/portfolio": "view_portfolio_item",
   "/admin/our-clients": "view_clients",

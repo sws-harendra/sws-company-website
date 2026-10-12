@@ -16,6 +16,7 @@ import {
   Clock,
   User,
   Loader2,
+  ExternalLink,
 } from "lucide-react";
 
 export default function BlogsPage() {
@@ -162,6 +163,23 @@ export default function BlogsPage() {
                         <span className="font-mono text-[11px] truncate max-w-xs text-zinc-400">
                           /{b.slug}
                         </span>
+                      )}
+                      {b.redirect_url && (
+                        <a
+                          href={
+                            b.redirect_url.startsWith("http://") ||
+                            b.redirect_url.startsWith("https://")
+                              ? b.redirect_url
+                              : `https://${b.redirect_url}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] text-sky-600 dark:text-sky-400 hover:underline max-w-[200px] truncate"
+                          title={`Redirects to: ${b.redirect_url}`}
+                        >
+                          <ExternalLink className="w-3 h-3 shrink-0" />
+                          <span className="truncate">{b.redirect_url}</span>
+                        </a>
                       )}
                     </div>
                   </div>

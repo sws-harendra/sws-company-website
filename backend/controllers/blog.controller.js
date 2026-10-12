@@ -46,7 +46,7 @@ exports.getBlogBySlug = async (req, res) => {
         {
           model: Blog,
           as: "FeaturedBlogs",
-          attributes: ["id", "title", "short_description", "image_url", "slug"],
+          attributes: ["id", "title", "short_description", "image_url", "slug", "redirect_url"],
           through: { attributes: [] }, // hides join table data
         },
       ],
@@ -69,7 +69,7 @@ exports.getBlogById = async (req, res) => {
         {
           model: Blog,
           as: "FeaturedBlogs",
-          attributes: ["id", "title", "short_description", "image_url", "slug"],
+          attributes: ["id", "title", "short_description", "image_url", "slug", "redirect_url"],
           through: { attributes: [] },
         },
       ],

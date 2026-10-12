@@ -74,16 +74,56 @@ export default async function BlogPostPage({ params }) {
             </div>
 
             {post.image_url && (
-              <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
-                <Image
-                  src={post.image_url}
-                  alt={post.title}
-                  width={800}
-                  height={500}
-                  className="w-full h-auto object-cover"
-                  unoptimized
-                />
-              </div>
+              post.redirect_url ? (
+                <a
+                  href={
+                    post.redirect_url.startsWith("http://") ||
+                    post.redirect_url.startsWith("https://")
+                      ? post.redirect_url
+                      : `https://${post.redirect_url}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative block mb-12 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                  title="Click to visit link (opens in new page)"
+                >
+                  <Image
+                    src={post.image_url}
+                    alt={post.title}
+                    width={800}
+                    height={500}
+                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.01]"
+                    unoptimized
+                  />
+                  <div className="absolute bottom-3 right-3 bg-black/70 hover:bg-black/90 text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 backdrop-blur-sm transition-all shadow-md">
+                    <span>Visit Link</span>
+                    <svg
+                      className="w-3.5 h-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </div>
+                </a>
+              ) : (
+                <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
+                  <Image
+                    src={post.image_url}
+                    alt={post.title}
+                    width={800}
+                    height={500}
+                    className="w-full h-auto object-cover"
+                    unoptimized
+                  />
+                </div>
+              )
             )}
 
             <div

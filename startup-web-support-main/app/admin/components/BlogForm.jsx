@@ -29,6 +29,8 @@ import {
   ArrowLeft,
   Sparkles,
   ShieldAlert,
+  Link2,
+  ExternalLink,
 } from "lucide-react";
 import { useAuth } from "../(main)/context/AuthContext";
 
@@ -59,6 +61,7 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
     short_description: "",
     content: "",
     image_url: "",
+    redirect_url: "",
     author: "",
     status: "draft",
     contactus: false,
@@ -98,7 +101,10 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
   // Set selected if passed directly
   useEffect(() => {
     if (selected) {
-      setFormData(selected);
+      setFormData({
+        ...selected,
+        redirect_url: selected.redirect_url || "",
+      });
       setPreview(selected.image_url || "");
       setAutoSlug(false);
       if (selected.FeaturedBlogs) {
@@ -116,7 +122,10 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
         .getById(blogId)
         .then((blog) => {
           if (!isMounted || !blog) return;
-          setFormData(blog);
+          setFormData({
+            ...blog,
+            redirect_url: blog.redirect_url || "",
+          });
           setPreview(blog.image_url || "");
           setAutoSlug(false);
           if (blog.FeaturedBlogs) {
@@ -254,7 +263,8 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
             Access Denied
           </h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-            You do not have permission ({requiredPermission}) to manage this blog.
+            You do not have permission ({requiredPermission}) to manage this
+            blog.
           </p>
         </div>
         <Link href="/admin/blogs">
@@ -345,8 +355,12 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="draft">Draft (Hidden from public)</SelectItem>
-                  <SelectItem value="published">Published (Live on site)</SelectItem>
+                  <SelectItem value="draft">
+                    Draft (Hidden from public)
+                  </SelectItem>
+                  <SelectItem value="published">
+                    Published (Live on site)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -367,7 +381,8 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
               Short Description / Summary
             </Label>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              A brief preview paragraph shown on blog listing cards and search engines.
+              A brief preview paragraph shown on blog listing cards and search
+              engines.
             </p>
             <Textarea
               name="short_description"
@@ -469,6 +484,51 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
               )}
             </div>
           </div>
+
+          <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/80 space-y-2">
+            <Label
+              htmlFor="redirect_url"
+              className="text-zinc-700 dark:text-zinc-300 font-medium flex items-center gap-2"
+            >
+              <Link2 className="w-4 h-4 text-primary-brand-color" />
+              Featured Image Redirect URL (Optional)
+            </Label>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              When clicked on the published blog, the featured image redirects
+              to this URL in a new page/tab.
+            </p>
+            <div className="relative">
+              <Input
+                id="redirect_url"
+                name="redirect_url"
+                type="url"
+                value={formData.redirect_url || ""}
+                onChange={handleChange}
+                placeholder="https://example.com"
+                className="bg-zinc-50/50 dark:bg-zinc-800/40 border-zinc-200 dark:border-zinc-800 focus-visible:ring-primary-brand-color pl-9"
+              />
+              <Link2 className="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+            {formData.redirect_url && (
+              <div className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 pt-1">
+                <ExternalLink className="w-3.5 h-3.5 text-primary-brand-color shrink-0" />
+                <span>Redirects to:</span>
+                <a
+                  href={
+                    formData.redirect_url.startsWith("http://") ||
+                    formData.redirect_url.startsWith("https://")
+                      ? formData.redirect_url
+                      : `https://${formData.redirect_url}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary-brand-color hover:underline font-medium truncate max-w-md"
+                >
+                  {formData.redirect_url}
+                </a>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Settings & Featured Blogs */}
@@ -486,7 +546,8 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
                 Show Contact Us Widget
               </Label>
               <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                Display an interactive lead capture form at the bottom of this blog post.
+                Display an interactive lead capture form at the bottom of this
+                blog post.
               </p>
             </div>
             <Switch
@@ -502,7 +563,8 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
               Featured / Related Blogs
             </Label>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Hold Ctrl (or Cmd on Mac) to select multiple blogs to feature at the end of this article.
+              Hold Ctrl (or Cmd on Mac) to select multiple blogs to feature at
+              the end of this article.
             </p>
             <select
               multiple

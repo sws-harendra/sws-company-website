@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     image_url: {
       type: DataTypes.STRING,
     },
+    redirect_url: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     author: {
       type: DataTypes.STRING,
     },

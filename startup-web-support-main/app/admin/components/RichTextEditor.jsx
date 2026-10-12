@@ -38,8 +38,6 @@ import {
   Redo2,
   Image as ImageIcon,
   Link as LinkIcon,
-  Maximize2,
-  Minimize2,
   Table as TableIcon,
   Columns,
   Palette,
@@ -160,8 +158,8 @@ const CustomImage = Image.extend({
       wrapper.style.position = "relative";
       wrapper.style.display = "block";
 
-      const align = node.attrs["data-align"] || "center";
-      const initialWidth = node.attrs.width || "50%";
+      let currentAlign = node.attrs["data-align"] || "center";
+      let currentWidth = node.attrs.width || "50%";
 
       const applyContainerStyles = (currAlign, currWidth) => {
         const isFull = currAlign === "full";
@@ -191,7 +189,7 @@ const CustomImage = Image.extend({
         }
       };
 
-      applyContainerStyles(align, initialWidth);
+      applyContainerStyles(currentAlign, currentWidth);
 
       const img = document.createElement("img");
       img.src = node.attrs.src;
@@ -205,15 +203,7 @@ const CustomImage = Image.extend({
 
       const sizeBadge = document.createElement("span");
       sizeBadge.className = "image-size-badge";
-      sizeBadge.textContent = initialWidth;
-
-      const handleBR = document.createElement("div");
-      handleBR.className = "image-resize-handle handle-br";
-      handleBR.title = "Drag corner to resize width";
-
-      const handleBL = document.createElement("div");
-      handleBL.className = "image-resize-handle handle-bl";
-      handleBL.title = "Drag corner to resize width";
+      sizeBadge.textContent = currentWidth;
 
       const quickBar = document.createElement("div");
       quickBar.className = "image-quick-bar";
@@ -322,25 +312,89 @@ const CustomImage = Image.extend({
         quickBar.appendChild(btnDel);
       };
 
-      updateQuickBar(align, initialWidth);
+      updateQuickBar(currentAlign, currentWidth);
 
-      const initResize = (handle, dir) => {
+      // Define 8 resize handles for all 4 corners and 4 edges
+      const RESIZE_HANDLES = [
+        { dir: "nw", className: "handle-nw", title: "Drag corner to resize", cursor: "nwse-resize" },
+        { dir: "n",  className: "handle-n",  title: "Drag top edge to resize", cursor: "ns-resize" },
+        { dir: "ne", className: "handle-ne", title: "Drag corner to resize", cursor: "nesw-resize" },
+        { dir: "e",  className: "handle-e",  title: "Drag right edge to resize", cursor: "ew-resize" },
+        { dir: "se", className: "handle-se", title: "Drag corner to resize", cursor: "nwse-resize" },
+        { dir: "s",  className: "handle-s",  title: "Drag bottom edge to resize", cursor: "ns-resize" },
+        { dir: "sw", className: "handle-sw", title: "Drag corner to resize", cursor: "nesw-resize" },
+        { dir: "w",  className: "handle-w",  title: "Drag left edge to resize", cursor: "ew-resize" },
+      ];
+
+      const handleElements = RESIZE_HANDLES.map((cfg) => {
+        const handle = document.createElement("div");
+        handle.className = `image-resize-handle ${cfg.className}`;
+        handle.title = cfg.title;
+
         handle.addEventListener("mousedown", (e) => {
           e.preventDefault();
           e.stopPropagation();
 
           const startX = e.clientX;
+          const startY = e.clientY;
           const startWidth = container.offsetWidth;
+          const startHeight = container.offsetHeight || (startWidth * 0.6);
+          const aspectRatio = startHeight > 0 ? (startWidth / startHeight) : 1.5;
           const editorEl = container.closest(".tiptap") || document.body;
           const editorWidth = editorEl.offsetWidth || 800;
 
-          let finalPercent = container.style.width || "50%";
+          const prevUserSelect = document.body.style.userSelect;
+          const prevCursor = document.body.style.cursor;
+          document.body.style.userSelect = "none";
+          document.body.style.cursor = cfg.cursor;
+
+          wrapper.classList.add("is-resizing");
+
+          const pos = typeof getPos === "function" ? getPos() : undefined;
+          if (typeof pos === "number" && !wrapper.classList.contains("is-selected")) {
+            editor.chain().setNodeSelection(pos).run();
+          }
+
+          let finalPercent = container.style.width || currentWidth || "50%";
 
           const onMouseMove = (moveEvent) => {
-            const deltaX = dir === "br" ? (moveEvent.clientX - startX) : (startX - moveEvent.clientX);
-            const newPx = Math.max(80, Math.min(editorWidth, startWidth + deltaX));
-            const pct = Math.min(100, Math.max(15, Math.round((newPx / editorWidth) * 100)));
+            const deltaX = moveEvent.clientX - startX;
+            const deltaY = moveEvent.clientY - startY;
+
+            let dw = 0;
+            const dir = cfg.dir;
+
+            if (dir === "e") {
+              dw = deltaX;
+            } else if (dir === "w") {
+              dw = -deltaX;
+            } else if (dir === "s") {
+              dw = deltaY * aspectRatio;
+            } else if (dir === "n") {
+              dw = -deltaY * aspectRatio;
+            } else if (dir === "se") {
+              const hDelta = deltaX;
+              const vDelta = deltaY * aspectRatio;
+              dw = Math.abs(hDelta) >= Math.abs(vDelta) ? hDelta : vDelta;
+            } else if (dir === "sw") {
+              const hDelta = -deltaX;
+              const vDelta = deltaY * aspectRatio;
+              dw = Math.abs(hDelta) >= Math.abs(vDelta) ? hDelta : vDelta;
+            } else if (dir === "ne") {
+              const hDelta = deltaX;
+              const vDelta = -deltaY * aspectRatio;
+              dw = Math.abs(hDelta) >= Math.abs(vDelta) ? hDelta : vDelta;
+            } else if (dir === "nw") {
+              const hDelta = -deltaX;
+              const vDelta = -deltaY * aspectRatio;
+              dw = Math.abs(hDelta) >= Math.abs(vDelta) ? hDelta : vDelta;
+            }
+
+            const alignFactor = (currentAlign === "center") ? 2 : 1;
+            const newPx = Math.max(80, Math.min(editorWidth, startWidth + (dw * alignFactor)));
+            const pct = Math.min(100, Math.max(10, Math.round((newPx / editorWidth) * 100)));
             finalPercent = `${pct}%`;
+
             container.style.width = finalPercent;
             sizeBadge.textContent = finalPercent;
           };
@@ -348,20 +402,32 @@ const CustomImage = Image.extend({
           const onMouseUp = () => {
             document.removeEventListener("mousemove", onMouseMove);
             document.removeEventListener("mouseup", onMouseUp);
+            document.body.style.userSelect = prevUserSelect;
+            document.body.style.cursor = prevCursor;
+            wrapper.classList.remove("is-resizing");
 
-            const pos = typeof getPos === "function" ? getPos() : undefined;
-            if (typeof pos === "number") {
-              editor.chain().setNodeSelection(pos).updateAttributes("image", { width: finalPercent }).run();
+            const currentPos = typeof getPos === "function" ? getPos() : undefined;
+            if (typeof currentPos === "number") {
+              const targetAlign = (currentAlign === "full" && finalPercent !== "100%") ? "center" : currentAlign;
+              currentAlign = targetAlign;
+              currentWidth = finalPercent;
+              editor
+                .chain()
+                .setNodeSelection(currentPos)
+                .updateAttributes("image", {
+                  width: finalPercent,
+                  "data-align": targetAlign,
+                })
+                .run();
             }
           };
 
           document.addEventListener("mousemove", onMouseMove);
           document.addEventListener("mouseup", onMouseUp);
         });
-      };
 
-      initResize(handleBR, "br");
-      initResize(handleBL, "bl");
+        return handle;
+      });
 
       wrapper.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -373,8 +439,7 @@ const CustomImage = Image.extend({
 
       wrapper.appendChild(img);
       wrapper.appendChild(sizeBadge);
-      wrapper.appendChild(handleBR);
-      wrapper.appendChild(handleBL);
+      handleElements.forEach((h) => wrapper.appendChild(h));
       wrapper.appendChild(quickBar);
       container.appendChild(wrapper);
 
@@ -386,6 +451,8 @@ const CustomImage = Image.extend({
           img.alt = updatedNode.attrs.alt || "";
           const newWidth = updatedNode.attrs.width || "50%";
           const newAlign = updatedNode.attrs["data-align"] || "center";
+          currentAlign = newAlign;
+          currentWidth = newWidth;
           applyContainerStyles(newAlign, newWidth);
           sizeBadge.textContent = newWidth;
           updateQuickBar(newAlign, newWidth);
@@ -398,7 +465,11 @@ const CustomImage = Image.extend({
           wrapper.classList.remove("is-selected");
         },
         stopEvent: (event) => {
-          return quickBar.contains(event.target) || handleBR.contains(event.target) || handleBL.contains(event.target);
+          return (
+            quickBar.contains(event.target) ||
+            event.target?.classList?.contains("image-resize-handle") ||
+            handleElements.some((h) => h.contains(event.target))
+          );
         },
         destroy: () => {},
       };
@@ -524,7 +595,6 @@ export default function RichTextEditor({ value, onChange }) {
   const colorInputRef = useRef(null);
   const highlightInputRef = useRef(null);
   const savedSelectionRef = useRef(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const editor = useEditor({
     editorProps: {
@@ -802,13 +872,7 @@ export default function RichTextEditor({ value, onChange }) {
   };
 
   return (
-    <div
-      className={`border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden transition-all bg-white dark:bg-zinc-900 ${
-        isFullscreen
-          ? "fixed inset-0 z-50 rounded-none w-screen h-screen flex flex-col p-4 bg-white dark:bg-zinc-900"
-          : "relative shadow-sm"
-      }`}
-    >
+    <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden transition-all bg-white dark:bg-zinc-900 relative shadow-sm">
       {/* Top Menu Bar */}
       <div className="flex items-center justify-between px-3 py-1.5 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-800/40 text-xs text-zinc-600 dark:text-zinc-400">
         <div className="flex items-center gap-4">
@@ -865,23 +929,6 @@ export default function RichTextEditor({ value, onChange }) {
             </span>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => setIsFullscreen(!isFullscreen)}
-          className="flex items-center gap-1 text-zinc-600 dark:text-zinc-300 hover:text-primary-brand-color text-xs p-1 rounded transition"
-          title={isFullscreen ? "Exit Fullscreen" : "Fullscreen Editor"}
-        >
-          {isFullscreen ? (
-            <>
-              <Minimize2 className="w-3.5 h-3.5" /> Exit Fullscreen
-            </>
-          ) : (
-            <>
-              <Maximize2 className="w-3.5 h-3.5" /> Fullscreen
-            </>
-          )}
-        </button>
       </div>
 
       {/* Main Toolbar */}
@@ -1387,13 +1434,7 @@ export default function RichTextEditor({ value, onChange }) {
       </div>
 
       {/* Editor Content Area */}
-      <div
-        className={`${
-          isFullscreen
-            ? "flex-1 overflow-y-auto p-6 max-w-5xl mx-auto w-full admin-scrollbar"
-            : "min-h-[300px] max-h-[600px] overflow-y-auto p-4 admin-scrollbar"
-        }`}
-      >
+      <div className="min-h-[300px] max-h-[600px] overflow-y-auto p-4 admin-scrollbar">
         <EditorContent editor={editor} className="tiptap prose max-w-none focus:outline-none" />
       </div>
     </div>

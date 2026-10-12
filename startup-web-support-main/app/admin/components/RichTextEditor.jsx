@@ -25,6 +25,7 @@ import {
   Italic,
   Underline as UnderlineIcon,
   Strikethrough,
+  RemoveFormatting,
   AlignLeft,
   AlignCenter,
   AlignRight,
@@ -450,13 +451,95 @@ const CustomTableCell = TableCell.extend({
   },
 });
 
+/**
+ * Strips stubborn foreign font-family, color, background-color, and external classes
+ * from pasted HTML so pasted content conforms to blog typography and remains freely editable.
+ */
+function cleanPastedHTML(html) {
+  if (!html || typeof html !== "string") return html;
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    // Remove scripts, styles, meta, noscript, iframes
+    doc
+      .querySelectorAll("script, style, meta, link, noscript, iframe")
+      .forEach((el) => el.remove());
+
+    const allElements = Array.from(doc.body.querySelectorAll("*"));
+    for (const el of allElements) {
+      // Remove arbitrary external classes from internet / Word
+      if (el.className && !el.className.includes("layout-table")) {
+        el.removeAttribute("class");
+      }
+
+      // Clean inline styles
+      if (el.hasAttribute("style")) {
+        const style = el.style;
+        style.removeProperty("font-family");
+        style.removeProperty("font-size");
+        style.removeProperty("color");
+        style.removeProperty("background");
+        style.removeProperty("background-color");
+        style.removeProperty("line-height");
+        style.removeProperty("letter-spacing");
+        style.removeProperty("word-spacing");
+
+        // Remove any mso-* properties from Microsoft Word
+        Array.from(style).forEach((prop) => {
+          if (
+            prop.startsWith("mso-") ||
+            prop.includes("font") ||
+            prop.includes("color")
+          ) {
+            style.removeProperty(prop);
+          }
+        });
+
+        const remaining = el.getAttribute("style")?.trim();
+        if (!remaining || remaining === "" || remaining === ";") {
+          el.removeAttribute("style");
+        }
+      }
+
+      // Convert <font> tags to plain contents
+      if (el.tagName === "FONT") {
+        el.replaceWith(...Array.from(el.childNodes));
+      }
+      // Unwrap empty span tags with no attributes
+      else if (el.tagName === "SPAN" && el.attributes.length === 0) {
+        el.replaceWith(...Array.from(el.childNodes));
+      }
+    }
+
+    return doc.body.innerHTML;
+  } catch (err) {
+    console.error("Error cleaning pasted HTML:", err);
+    return html;
+  }
+}
+
 export default function RichTextEditor({ value, onChange }) {
   const fileInputRef = useRef(null);
   const colorInputRef = useRef(null);
   const highlightInputRef = useRef(null);
+  const savedSelectionRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const editor = useEditor({
+    editorProps: {
+      transformPastedHTML(html) {
+        return cleanPastedHTML(html);
+      },
+    },
+    onSelectionUpdate: ({ editor }) => {
+      const { from, to, empty } = editor.state.selection;
+      if (!empty) {
+        savedSelectionRef.current = { from, to };
+      } else {
+        savedSelectionRef.current = null;
+      }
+    },
     extensions: [
       StarterKit.configure({
         heading: false,
@@ -657,6 +740,16 @@ export default function RichTextEditor({ value, onChange }) {
     }
   };
 
+  // Helper to apply marks while preserving user text selection if native controls lose focus
+  const applyWithSelection = (actionFn) => {
+    const chain = editor.chain().focus();
+    if (savedSelectionRef.current && editor.state.selection.empty) {
+      chain.setTextSelection(savedSelectionRef.current);
+    }
+    actionFn(chain);
+    chain.run();
+  };
+
   // Font family selector for specific selection/words
   const currentFontFamily = () => {
     const raw = editor.getAttributes("textStyle").fontFamily;
@@ -670,11 +763,13 @@ export default function RichTextEditor({ value, onChange }) {
 
   const handleFontFamilyChange = (e) => {
     const val = e.target.value;
-    if (!val) {
-      editor.chain().focus().unsetFontFamily().run();
-    } else {
-      editor.chain().focus().setFontFamily(val).run();
-    }
+    applyWithSelection((chain) => {
+      if (!val) {
+        chain.unsetFontFamily();
+      } else {
+        chain.setFontFamily(val);
+      }
+    });
   };
 
   // Font size selector for specific selection/words
@@ -684,11 +779,26 @@ export default function RichTextEditor({ value, onChange }) {
 
   const handleFontSizeChange = (e) => {
     const val = e.target.value;
-    if (!val) {
-      editor.chain().focus().unsetFontSize().run();
-    } else {
-      editor.chain().focus().setFontSize(val).run();
-    }
+    applyWithSelection((chain) => {
+      if (!val) {
+        chain.unsetFontSize();
+      } else {
+        chain.setFontSize(val);
+      }
+    });
+  };
+
+  // Clear all formatting (styles, fonts, colors, and blocks) from current selection
+  const handleClearFormatting = () => {
+    applyWithSelection((chain) => {
+      chain
+        .unsetAllMarks()
+        .unsetFontFamily()
+        .unsetFontSize()
+        .unsetColor()
+        .unsetHighlight()
+        .clearNodes();
+    });
   };
 
   return (
@@ -718,6 +828,13 @@ export default function RichTextEditor({ value, onChange }) {
               onClick={() => editor.chain().focus().redo().run()}
             >
               Redo
+            </span>
+            <span
+              className="cursor-pointer hover:text-red-500 transition"
+              onClick={handleClearFormatting}
+              title="Clear all foreign styles, fonts & colors from selected text"
+            >
+              Clear Styles
             </span>
             <span
               className="cursor-pointer hover:text-primary-brand-color transition"
@@ -846,10 +963,11 @@ export default function RichTextEditor({ value, onChange }) {
 
         <div className="h-5 w-[1px] bg-zinc-200 dark:bg-zinc-800 mx-0.5" />
 
-        {/* Inline formatting: Bold, Italic, Underline, Strike */}
+        {/* Inline formatting: Bold, Italic, Underline, Strike, Clear Formatting */}
         <div className="flex items-center bg-zinc-100 dark:bg-zinc-800/70 rounded-md p-0.5">
           <button
             type="button"
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={`p-1.5 rounded transition ${
               editor.isActive("bold")
@@ -862,6 +980,7 @@ export default function RichTextEditor({ value, onChange }) {
           </button>
           <button
             type="button"
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => editor.chain().focus().toggleItalic().run()}
             className={`p-1.5 rounded transition ${
               editor.isActive("italic")
@@ -874,6 +993,7 @@ export default function RichTextEditor({ value, onChange }) {
           </button>
           <button
             type="button"
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => editor.chain().focus().toggleUnderline().run()}
             className={`p-1.5 rounded transition ${
               editor.isActive("underline")
@@ -886,6 +1006,7 @@ export default function RichTextEditor({ value, onChange }) {
           </button>
           <button
             type="button"
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => editor.chain().focus().toggleStrike().run()}
             className={`p-1.5 rounded transition ${
               editor.isActive("strike")
@@ -895,6 +1016,16 @@ export default function RichTextEditor({ value, onChange }) {
             title="Strikethrough"
           >
             <Strikethrough className="w-4 h-4" />
+          </button>
+          <div className="h-4 w-[1px] bg-zinc-300 dark:bg-zinc-700 mx-0.5" />
+          <button
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={handleClearFormatting}
+            className="p-1.5 rounded hover:bg-white dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 hover:text-red-600 transition"
+            title="Clear Formatting (Remove foreign fonts, colors, and styles from selection)"
+          >
+            <RemoveFormatting className="w-4 h-4" />
           </button>
         </div>
 
@@ -908,9 +1039,12 @@ export default function RichTextEditor({ value, onChange }) {
             <input
               type="color"
               ref={colorInputRef}
-              onChange={(e) =>
-                editor.chain().focus().setColor(e.target.value).run()
-              }
+              onChange={(e) => {
+                const colorVal = e.target.value;
+                applyWithSelection((chain) => {
+                  chain.setColor(colorVal);
+                });
+              }}
               className="w-3.5 h-3.5 p-0 border-0 rounded cursor-pointer bg-transparent"
             />
           </label>
@@ -924,13 +1058,12 @@ export default function RichTextEditor({ value, onChange }) {
               type="color"
               ref={highlightInputRef}
               defaultValue="#fef08a"
-              onChange={(e) =>
-                editor
-                  .chain()
-                  .focus()
-                  .setHighlight({ color: e.target.value })
-                  .run()
-              }
+              onChange={(e) => {
+                const highlightVal = e.target.value;
+                applyWithSelection((chain) => {
+                  chain.setHighlight({ color: highlightVal });
+                });
+              }}
               className="w-3.5 h-3.5 p-0 border-0 rounded cursor-pointer bg-transparent"
             />
           </label>

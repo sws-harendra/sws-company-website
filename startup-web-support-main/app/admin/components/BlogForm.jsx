@@ -591,41 +591,6 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
             </select>
           </div>
         </div>
-
-        {/* Bottom Action Footer */}
-        <div className="sticky bottom-4 z-20 flex items-center justify-between p-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl shadow-lg">
-          <Link
-            href="/admin/blogs"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Blogs
-          </Link>
-          <div className="flex items-center gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleCancel}
-              className="border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 min-w-24"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={isSaving || uploading}
-              className="bg-gradient-to-r from-[#1a4468] to-[#029bd2] hover:opacity-90 text-white shadow-md transition-opacity min-w-36 font-semibold"
-            >
-              {isSaving ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin" /> Saving...
-                </span>
-              ) : isEditing ? (
-                "Update Blog"
-              ) : (
-                "Publish Blog"
-              )}
-            </Button>
-          </div>
-        </div>
       </form>
     </div>
   );

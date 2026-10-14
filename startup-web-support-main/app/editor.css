@@ -87,16 +87,27 @@
   margin: 0.5rem 0;
 }
 
-.tiptap strong {
+.tiptap strong,
+.tiptap b {
   font-weight: bold;
+  color: inherit !important;
 }
 
-.tiptap em {
+.tiptap em,
+.tiptap i {
   font-style: italic;
+  color: inherit !important;
 }
 
-.tiptap s {
+.tiptap s,
+.tiptap del {
   text-decoration: line-through;
+  color: inherit !important;
+}
+
+.tiptap u {
+  text-decoration: underline;
+  color: inherit !important;
 }
 
 /* Tables / Two-column Layouts */

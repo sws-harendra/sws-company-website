@@ -17,7 +17,7 @@ import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import CommonServices from "@/services/common.service";
 import "../../editor.css";
 import {
@@ -595,20 +595,27 @@ export default function RichTextEditor({ value, onChange }) {
   const colorInputRef = useRef(null);
   const highlightInputRef = useRef(null);
   const savedSelectionRef = useRef(null);
+  const updateActiveStylesRef = useRef(null);
+
+  const [activeStyles, setActiveStyles] = useState({
+    fontFamily: "",
+    fontSize: "16px",
+  });
 
   const editor = useEditor({
+    shouldRerenderOnTransaction: true,
     editorProps: {
       transformPastedHTML(html) {
         return cleanPastedHTML(html);
       },
     },
     onSelectionUpdate: ({ editor }) => {
-      const { from, to, empty } = editor.state.selection;
-      if (!empty) {
-        savedSelectionRef.current = { from, to };
-      } else {
-        savedSelectionRef.current = null;
-      }
+      const { from, to } = editor.state.selection;
+      savedSelectionRef.current = { from, to };
+      updateActiveStylesRef.current?.();
+    },
+    onTransaction: () => {
+      updateActiveStylesRef.current?.();
     },
     extensions: [
       StarterKit.configure({
@@ -654,8 +661,6 @@ export default function RichTextEditor({ value, onChange }) {
       editor.commands.setContent(value || "");
     }
   }, [value, editor]);
-
-  if (!editor) return null;
 
   // Image upload
   const addImage = async (file) => {
@@ -793,6 +798,7 @@ export default function RichTextEditor({ value, onChange }) {
 
   // Heading / Paragraph selector
   const currentBlockType = () => {
+    if (!editor) return "p";
     if (editor.isActive("heading", { level: 1 })) return "h1";
     if (editor.isActive("heading", { level: 2 })) return "h2";
     if (editor.isActive("heading", { level: 3 })) return "h3";
@@ -801,6 +807,7 @@ export default function RichTextEditor({ value, onChange }) {
   };
 
   const handleHeadingChange = (e) => {
+    if (!editor) return;
     const val = e.target.value;
     if (val === "p") {
       editor.chain().focus().setParagraph().run();
@@ -812,50 +819,279 @@ export default function RichTextEditor({ value, onChange }) {
 
   // Helper to apply marks while preserving user text selection if native controls lose focus
   const applyWithSelection = (actionFn) => {
+    if (!editor) return;
     const chain = editor.chain().focus();
-    if (savedSelectionRef.current && editor.state.selection.empty) {
+    if (savedSelectionRef.current) {
       chain.setTextSelection(savedSelectionRef.current);
     }
     actionFn(chain);
     chain.run();
   };
 
-  // Font family selector for specific selection/words
+  // Detect active font family and font size anywhere in the editor (marks, DOM inline styles, computed styles)
+  const getActiveFontInfo = useCallback(() => {
+    if (!editor) return { fontSize: "16px", fontFamily: "" };
+
+    let detectedFontSize = "";
+    let detectedFontFamily = "";
+
+    // 1. TipTap mark attributes from current selection
+    const textStyleAttrs = editor.getAttributes("textStyle") || {};
+    if (textStyleAttrs.fontSize) detectedFontSize = textStyleAttrs.fontSize;
+    if (textStyleAttrs.fontFamily) detectedFontFamily = textStyleAttrs.fontFamily;
+
+    // 2. If empty selection or boundary stripped mark, check ProseMirror resolved positions
+    try {
+      const { $from, empty } = editor.state.selection;
+      if ((!detectedFontSize || !detectedFontFamily) && empty) {
+        const mark =
+          $from.marks().find((m) => m.type.name === "textStyle") ||
+          $from.nodeBefore?.marks?.find((m) => m.type.name === "textStyle") ||
+          $from.nodeAfter?.marks?.find((m) => m.type.name === "textStyle");
+
+        if (mark?.attrs) {
+          if (!detectedFontSize && mark.attrs.fontSize) detectedFontSize = mark.attrs.fontSize;
+          if (!detectedFontFamily && mark.attrs.fontFamily) detectedFontFamily = mark.attrs.fontFamily;
+        }
+      }
+    } catch {
+      // ignore
+    }
+
+    // 3. Fallback to DOM element (inline style or computed style)
+    if (typeof window !== "undefined" && editor.view) {
+      let domEl = null;
+      try {
+        const domResult = editor.view.domAtPos(editor.state.selection.from);
+        if (domResult?.node) {
+          domEl =
+            domResult.node.nodeType === Node.TEXT_NODE
+              ? domResult.node.parentElement
+              : domResult.node;
+        }
+      } catch {
+        // ignore
+      }
+
+      if (!domEl) {
+        const sel = window.getSelection();
+        if (sel?.anchorNode && editor.view.dom?.contains(sel.anchorNode)) {
+          domEl =
+            sel.anchorNode.nodeType === Node.TEXT_NODE
+              ? sel.anchorNode.parentElement
+              : sel.anchorNode;
+        }
+      }
+
+      if (domEl) {
+        // Check inline styles first up the DOM hierarchy within the editor
+        let curr = domEl;
+        while (curr && curr !== editor.view.dom) {
+          if (!detectedFontSize && curr.style?.fontSize) {
+            detectedFontSize = curr.style.fontSize;
+          }
+          if (!detectedFontFamily && curr.style?.fontFamily) {
+            detectedFontFamily = curr.style.fontFamily;
+          }
+          if (detectedFontSize && detectedFontFamily) break;
+          curr = curr.parentElement;
+        }
+
+        // If still not detected, inspect computed styles
+        try {
+          const computed = window.getComputedStyle(domEl);
+          if (!detectedFontSize && computed?.fontSize) {
+            detectedFontSize = computed.fontSize;
+          }
+          if (!detectedFontFamily && computed?.fontFamily) {
+            detectedFontFamily = computed.fontFamily;
+          }
+        } catch {
+          // ignore
+        }
+      }
+    }
+
+    // 4. Normalize font size (e.g., "20px", "20" -> "20px")
+    if (detectedFontSize) {
+      const num = parseFloat(detectedFontSize);
+      if (!isNaN(num) && num > 0) {
+        detectedFontSize = `${Math.round(num)}px`;
+      }
+    }
+
+    // 5. Normalize font family (match against FONT_FAMILIES)
+    if (detectedFontFamily) {
+      const cleanRaw = detectedFontFamily.toLowerCase().replace(/['" ]/g, "");
+      const match = FONT_FAMILIES.find((f) => {
+        if (!f.value) return false;
+        const cleanVal = f.value.toLowerCase().replace(/['" ]/g, "");
+        return (
+          cleanVal === cleanRaw ||
+          cleanRaw.includes(cleanVal.split(",")[0]) ||
+          cleanVal.includes(cleanRaw.split(",")[0])
+        );
+      });
+      if (match) {
+        detectedFontFamily = match.value;
+      }
+    }
+
+    return {
+      fontSize: detectedFontSize || "16px",
+      fontFamily: detectedFontFamily || "",
+    };
+  }, [editor]);
+
+  const updateActiveStyles = useCallback(() => {
+    if (!editor) return;
+    const fontInfo = getActiveFontInfo();
+    setActiveStyles((prev) => {
+      if (
+        prev.fontSize === fontInfo.fontSize &&
+        prev.fontFamily === fontInfo.fontFamily
+      ) {
+        return prev;
+      }
+      return {
+        fontSize: fontInfo.fontSize,
+        fontFamily: fontInfo.fontFamily,
+      };
+    });
+  }, [editor, getActiveFontInfo]);
+
+  useEffect(() => {
+    updateActiveStylesRef.current = updateActiveStyles;
+  }, [updateActiveStyles]);
+
+  useEffect(() => {
+    if (!editor) return;
+    const handleUpdate = () => {
+      updateActiveStyles();
+    };
+    editor.on("selectionUpdate", handleUpdate);
+    editor.on("transaction", handleUpdate);
+    editor.on("focus", handleUpdate);
+    updateActiveStyles();
+    return () => {
+      editor.off("selectionUpdate", handleUpdate);
+      editor.off("transaction", handleUpdate);
+      editor.off("focus", handleUpdate);
+    };
+  }, [editor, updateActiveStyles]);
+
+  // Font family selector
   const currentFontFamily = () => {
-    const raw = editor.getAttributes("textStyle").fontFamily;
-    if (!raw) return "";
-    const cleanRaw = raw.toLowerCase().replace(/['" ]/g, "");
-    const match = FONT_FAMILIES.find(
-      (f) => f.value && f.value.toLowerCase().replace(/['" ]/g, "") === cleanRaw
-    );
-    return match ? match.value : raw;
+    return activeStyles.fontFamily || getActiveFontInfo().fontFamily || "";
   };
 
-  const handleFontFamilyChange = (e) => {
-    const val = e.target.value;
+  const applyFontFamily = (val) => {
     applyWithSelection((chain) => {
       if (!val) {
         chain.unsetFontFamily();
       } else {
-        chain.setFontFamily(val);
+        const { empty } = editor.state.selection;
+        if (empty) {
+          if (editor.isActive("textStyle")) {
+            chain.extendMarkRange("textStyle").setFontFamily(val);
+          } else {
+            const $pos = editor.state.selection.$from;
+            const text = $pos.parent.textBetween(
+              0,
+              $pos.parent.content.size,
+              undefined,
+              "\ufffc"
+            );
+            const parentOffset = $pos.parentOffset;
+            let start = parentOffset;
+            let end = parentOffset;
+            while (start > 0 && /\S/.test(text[start - 1])) start--;
+            while (end < text.length && /\S/.test(text[end])) end++;
+            if (end > start) {
+              const fromWord = $pos.start() + start;
+              const toWord = $pos.start() + end;
+              chain.setTextSelection({ from: fromWord, to: toWord }).setFontFamily(val);
+            } else {
+              chain.setFontFamily(val);
+            }
+          }
+        } else {
+          chain.setFontFamily(val);
+        }
       }
     });
+    setActiveStyles((prev) => ({ ...prev, fontFamily: val }));
   };
 
-  // Font size selector for specific selection/words
-  const currentFontSize = () => {
-    return editor.getAttributes("textStyle").fontSize || "";
-  };
-
-  const handleFontSizeChange = (e) => {
+  const handleFontFamilyChange = (e) => {
     const val = e.target.value;
+    applyFontFamily(val);
+  };
+
+  // Font size selector
+  const currentFontSize = () => {
+    return activeStyles.fontSize || getActiveFontInfo().fontSize || "16px";
+  };
+
+  const applyFontSize = (val) => {
     applyWithSelection((chain) => {
       if (!val) {
         chain.unsetFontSize();
       } else {
-        chain.setFontSize(val);
+        const { empty } = editor.state.selection;
+        if (empty) {
+          if (editor.isActive("textStyle")) {
+            chain.extendMarkRange("textStyle").setFontSize(val);
+          } else {
+            const $pos = editor.state.selection.$from;
+            const text = $pos.parent.textBetween(
+              0,
+              $pos.parent.content.size,
+              undefined,
+              "\ufffc"
+            );
+            const parentOffset = $pos.parentOffset;
+            let start = parentOffset;
+            let end = parentOffset;
+            while (start > 0 && /\S/.test(text[start - 1])) start--;
+            while (end < text.length && /\S/.test(text[end])) end++;
+            if (end > start) {
+              const fromWord = $pos.start() + start;
+              const toWord = $pos.start() + end;
+              chain.setTextSelection({ from: fromWord, to: toWord }).setFontSize(val);
+            } else {
+              chain.setFontSize(val);
+            }
+          }
+        } else {
+          chain.setFontSize(val);
+        }
       }
     });
+    setActiveStyles((prev) => ({ ...prev, fontSize: val || "16px" }));
+  };
+
+  const handleFontSizeChange = (e) => {
+    const val = e.target.value;
+    applyFontSize(val);
+  };
+
+  const PRESET_NUMS = [12, 14, 16, 18, 20, 24, 28, 32, 36, 48];
+
+  const handleDecreaseFontSize = () => {
+    const current = currentFontSize();
+    const num = parseInt(current.replace("px", ""), 10) || 16;
+    const prevPreset = [...PRESET_NUMS].reverse().find((s) => s < num);
+    const newNum = prevPreset !== undefined ? prevPreset : Math.max(10, num - 2);
+    applyFontSize(`${newNum}px`);
+  };
+
+  const handleIncreaseFontSize = () => {
+    const current = currentFontSize();
+    const num = parseInt(current.replace("px", ""), 10) || 16;
+    const nextPreset = PRESET_NUMS.find((s) => s > num);
+    const newNum = nextPreset !== undefined ? nextPreset : Math.min(72, num + 2);
+    applyFontSize(`${newNum}px`);
   };
 
   // Clear all formatting (styles, fonts, colors, and blocks) from current selection
@@ -869,7 +1105,35 @@ export default function RichTextEditor({ value, onChange }) {
         .unsetHighlight()
         .clearNodes();
     });
+    setActiveStyles({
+      fontSize: "16px",
+      fontFamily: "",
+    });
   };
+
+  // Available font size and family options (dynamically including active value if custom)
+  const availableFontSizes = (() => {
+    const list = [...FONT_SIZES];
+    const active = currentFontSize();
+    if (active && !list.some((s) => s.value === active)) {
+      list.splice(1, 0, { label: active, value: active });
+    }
+    return list;
+  })();
+
+  const availableFontFamilies = (() => {
+    const list = [...FONT_FAMILIES];
+    const active = currentFontFamily();
+    if (active && !list.some((f) => f.value === active)) {
+      list.splice(1, 0, {
+        label: active.split(",")[0].replace(/['"]/g, ""),
+        value: active,
+      });
+    }
+    return list;
+  })();
+
+  if (!editor) return null;
 
   return (
     <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden transition-all bg-white dark:bg-zinc-900 relative shadow-sm">
@@ -982,7 +1246,7 @@ export default function RichTextEditor({ value, onChange }) {
             title="Font Family (Select text/words to apply font)"
             className="text-xs font-medium px-2 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary-brand-color cursor-pointer max-w-[135px]"
           >
-            {FONT_FAMILIES.map((font) => (
+            {availableFontFamilies.map((font) => (
               <option
                 key={font.label}
                 value={font.value}
@@ -993,19 +1257,39 @@ export default function RichTextEditor({ value, onChange }) {
             ))}
           </select>
 
-          <select
-            value={currentFontSize()}
-            onChange={handleFontSizeChange}
-            aria-label="Font Size"
-            title="Font Size (Select text/words to apply size)"
-            className="text-xs font-medium px-2 py-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary-brand-color cursor-pointer w-[95px]"
-          >
-            {FONT_SIZES.map((size) => (
-              <option key={size.label} value={size.value}>
-                {size.label}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center border border-zinc-200 dark:border-zinc-700 rounded-md bg-white dark:bg-zinc-800 overflow-hidden shadow-none">
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={handleDecreaseFontSize}
+              title="Decrease Font Size"
+              className="px-2 py-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-primary-brand-color transition border-r border-zinc-200 dark:border-zinc-700"
+            >
+              A-
+            </button>
+            <select
+              value={currentFontSize()}
+              onChange={handleFontSizeChange}
+              aria-label="Font Size"
+              title="Font Size (Select text/words to apply size)"
+              className="text-xs font-medium px-2 py-1.5 bg-transparent text-zinc-700 dark:text-zinc-200 focus:outline-none cursor-pointer w-[92px]"
+            >
+              {availableFontSizes.map((size) => (
+                <option key={size.label} value={size.value}>
+                  {size.label}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={handleIncreaseFontSize}
+              title="Increase Font Size"
+              className="px-2 py-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-primary-brand-color transition border-l border-zinc-200 dark:border-zinc-700"
+            >
+              A+
+            </button>
+          </div>
         </div>
 
         <div className="h-5 w-[1px] bg-zinc-200 dark:bg-zinc-800 mx-0.5" />

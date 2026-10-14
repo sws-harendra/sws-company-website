@@ -121,7 +121,7 @@
   --secondary-brand-color: #1a4468;
   --bg-hex-stroke: rgba(255, 255, 255, 0.06);
   --bg-hud-stroke: rgba(255, 255, 255, 0.18);
-  --bg-node-stroke: rgba(255, 255, 255, 0.20);
+  --bg-node-stroke: rgba(255, 255, 255, 0.2);
   color-scheme: dark;
 }
 
@@ -277,7 +277,6 @@
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   /* Firefox */
 }
-
 
 .admin-scrollbar::-webkit-scrollbar {
   width: 4px;
@@ -446,9 +445,18 @@
   line-height: 1.5;
 }
 
-.prose strong {
-  color: var(--color-foreground, #111827);
-  font-weight: 600;
+.prose strong,
+.prose b {
+  color: inherit;
+  font-weight: 700;
+}
+
+.prose em,
+.prose i,
+.prose u,
+.prose s,
+.prose del {
+  color: inherit;
 }
 
 .prose a {

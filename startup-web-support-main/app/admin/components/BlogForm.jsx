@@ -31,6 +31,10 @@ import {
   ShieldAlert,
   Link2,
   ExternalLink,
+  Save,
+  Globe,
+  Send,
+  CheckCircle2,
 } from "lucide-react";
 import { useAuth } from "../(main)/context/AuthContext";
 
@@ -197,20 +201,28 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSave = async (forcedStatus) => {
     if (!formData.title?.trim()) {
       toast.error("Please enter a blog title");
       return;
     }
 
+    const targetStatus = forcedStatus || formData.status || "published";
+
     setIsSaving(true);
+    const dataToSave = {
+      ...formData,
+      status: targetStatus,
+    };
+
+    setFormData((prev) => ({ ...prev, status: targetStatus }));
+
     try {
       let savedBlog;
       if (isEditing) {
-        savedBlog = await blogService.update(effectiveId, formData);
+        savedBlog = await blogService.update(effectiveId, dataToSave);
       } else {
-        savedBlog = await blogService.create(formData);
+        savedBlog = await blogService.create(dataToSave);
       }
 
       const targetId = savedBlog?.id || effectiveId;
@@ -219,7 +231,13 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
       }
 
       toast.success(
-        isEditing ? "Blog updated successfully!" : "Blog created successfully!",
+        targetStatus === "published"
+          ? isEditing
+            ? "Blog updated and published successfully!"
+            : "Blog published successfully!"
+          : isEditing
+            ? "Draft updated successfully!"
+            : "Draft saved successfully!"
       );
 
       if (onSave) {
@@ -228,11 +246,16 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
         router.push("/admin/blogs");
       }
     } catch (err) {
-      toast.error("Error saving blog");
+      toast.error(err?.response?.data?.message || "Error saving blog");
       console.error("Error saving blog:", err);
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleSubmit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    await handleSave();
   };
 
   // Permission authorization verification
@@ -279,6 +302,85 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 pb-12">
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Top Header & Quick Actions Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm sticky top-4 z-20 backdrop-blur-md bg-white/95 dark:bg-zinc-900/95 transition-all">
+          <div className="flex items-center gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleCancel}
+              className="h-10 px-3 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl"
+            >
+              <ArrowLeft className="w-4 h-4 mr-1.5" /> Back
+            </Button>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+                  {isEditing ? "Edit Blog Post" : "Create New Blog"}
+                </h1>
+                <span
+                  className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${
+                    formData.status === "published"
+                      ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                      : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20"
+                  }`}
+                >
+                  {formData.status === "published" ? "Live / Published" : "Draft"}
+                </span>
+              </div>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                {isEditing
+                  ? "Update article details, content and publish settings"
+                  : "Compose content, upload media and publish to your website"}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCancel}
+              disabled={isSaving}
+              className="h-10 px-4 rounded-xl border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300"
+            >
+              Cancel
+            </Button>
+
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => handleSave("draft")}
+              disabled={isSaving || uploading}
+              className="h-10 px-4 rounded-xl font-medium border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200"
+            >
+              {isSaving ? (
+                <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
+              ) : (
+                <Save className="w-4 h-4 mr-1.5" />
+              )}
+              Save Draft
+            </Button>
+
+            <Button
+              type="button"
+              onClick={() => handleSave("published")}
+              disabled={isSaving || uploading}
+              className="h-10 px-5 rounded-xl font-semibold bg-gradient-to-r from-[#1a4468] via-[#102d45] to-[#029bd2] hover:opacity-95 text-white shadow-md active:scale-95 transition-all"
+            >
+              {isSaving ? (
+                <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
+              ) : (
+                <Globe className="w-4 h-4 mr-1.5" />
+              )}
+              {isEditing && formData.status === "published"
+                ? "Update & Publish"
+                : "Publish Blog"}
+            </Button>
+          </div>
+        </div>
+
         {/* Basic Info Card */}
         <div className="p-6 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 shadow-sm space-y-5">
           <div className="flex items-center gap-2.5 text-primary-brand-color pb-2 border-b border-zinc-100 dark:border-zinc-800/80">
@@ -589,6 +691,72 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
                   </option>
                 ))}
             </select>
+          </div>
+        </div>
+
+        {/* Bottom Form Actions */}
+        <div className="p-5 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+            <span>Current Status:</span>
+            <span
+              className={`font-semibold capitalize px-2.5 py-0.5 rounded-full text-xs ${
+                formData.status === "published"
+                  ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                  : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20"
+              }`}
+            >
+              {formData.status}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCancel}
+              disabled={isSaving}
+              className="h-11 px-5 rounded-xl border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300"
+            >
+              Cancel
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleSave("draft")}
+              disabled={isSaving || uploading}
+              className="h-11 px-5 rounded-xl font-medium border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200"
+            >
+              {isSaving ? (
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+              ) : (
+                <Save className="w-4 h-4 mr-2" />
+              )}
+              Save as Draft
+            </Button>
+
+            <Button
+              type="submit"
+              onClick={() => handleSave("published")}
+              disabled={isSaving || uploading}
+              className="h-11 px-6 rounded-xl font-bold bg-gradient-to-r from-[#1a4468] via-[#102d45] to-[#029bd2] hover:opacity-95 text-white shadow-lg active:scale-95 transition-all"
+            >
+              {isSaving ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  <span>Publishing...</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-white" />
+                  <span>
+                    {isEditing && formData.status === "published"
+                      ? "Update & Publish"
+                      : "Publish Blog"}
+                  </span>
+                </div>
+              )}
+            </Button>
           </div>
         </div>
       </form>

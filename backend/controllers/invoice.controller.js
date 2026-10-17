@@ -156,7 +156,8 @@ exports.updateInvoice = async (req, res) => {
     await invoice.update(
       {
         ...req.body,
-        invoiceDate: req.body.invoiceDate || invoice.invoiceDate || invoice.createdAt,
+        invoiceDate:
+          req.body.invoiceDate || invoice.invoiceDate || invoice.createdAt,
         discount: parseFloat(discount) || 0,
         gst: parseFloat(gst) || 18,
         totalAmount,
@@ -370,7 +371,10 @@ exports.downloadInvoicePDF = async (req, res) => {
     // Helper to format date strictly as DD/MM/YYYY
     const formatDateDMY = (dateInput) => {
       if (!dateInput) return "";
-      if (typeof dateInput === "string" && /^\d{2}\/\d{2}\/\d{4}$/.test(dateInput)) {
+      if (
+        typeof dateInput === "string" &&
+        /^\d{2}\/\d{2}\/\d{4}$/.test(dateInput)
+      ) {
         return dateInput;
       }
       const d = new Date(dateInput);
@@ -442,18 +446,18 @@ exports.downloadInvoicePDF = async (req, res) => {
     // 4️⃣ Render HTML
     const html = compiledTemplate(data);
 
-    // const browser = await puppeteer.launch({
-    //   executablePath: "/usr/bin/chromium-browser",
-    //   headless: "new",
-    //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
-
-    //   // headless: true,
-    // });
-    // for development
     const browser = await puppeteer.launch({
-      headless: true,
+      executablePath: "/usr/bin/chromium-browser",
+      headless: "new",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+
+      // headless: true,
     });
+    // for development
+    // const browser = await puppeteer.launch({
+    //   headless: true,
+    //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    // });
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "load" });
 

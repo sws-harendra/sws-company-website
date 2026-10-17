@@ -14,24 +14,42 @@ import { ADD_BUTTON_CLASS } from "@/constants";
 import { toast } from "sonner";
 
 export default function InvoiceForm({ selected, onSave, onCancel }) {
+  const getTodayDate = () => new Date().toISOString().split("T")[0];
+
   const [form, setForm] = useState(
-    selected || {
-      name: "",
-      companyName: "",
-      number: "",
-      gstNumber: "",
-      address: "",
-      email: "",
-      gst: "",
-      discount: "",
-      services: [{ description: "", amount: "", hsnCode: "" }],
-      payments: [{ modeOfPayment: "", receivedAmount: "", paymentDate: "" }],
-    },
+    selected
+      ? {
+          ...selected,
+          invoiceDate: selected.invoiceDate
+            ? String(selected.invoiceDate).split("T")[0]
+            : selected.createdAt
+            ? String(selected.createdAt).split("T")[0]
+            : getTodayDate(),
+        }
+      : {
+          invoiceDate: getTodayDate(),
+          name: "",
+          companyName: "",
+          number: "",
+          gstNumber: "",
+          address: "",
+          email: "",
+          gst: "",
+          discount: "",
+          services: [{ description: "", amount: "", hsnCode: "" }],
+          payments: [{ modeOfPayment: "", receivedAmount: "", paymentDate: "" }],
+        },
   );
   useEffect(() => {
-    console.log(selected);
     if (selected) {
-      setForm(selected);
+      setForm({
+        ...selected,
+        invoiceDate: selected.invoiceDate
+          ? String(selected.invoiceDate).split("T")[0]
+          : selected.createdAt
+          ? String(selected.createdAt).split("T")[0]
+          : getTodayDate(),
+      });
     }
   }, [selected]);
   const handleChange = (e) => {
@@ -76,13 +94,26 @@ export default function InvoiceForm({ selected, onSave, onCancel }) {
         <CardContent className="p-3 md:p-4 space-y-4">
           <h3 className="font-semibold">Client Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              name="name"
-              placeholder="Client Name"
-              value={form.name}
-              className={INPUT_CLASS}
-              onChange={handleChange}
-            />
+            <div>
+              <span className="text-xs text-zinc-500 font-medium ml-1">Invoice Date</span>
+              <Input
+                type="date"
+                name="invoiceDate"
+                value={form.invoiceDate || ""}
+                className={INPUT_CLASS}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <span className="text-xs text-zinc-500 font-medium ml-1">Client Name</span>
+              <Input
+                name="name"
+                placeholder="Client Name"
+                value={form.name}
+                className={INPUT_CLASS}
+                onChange={handleChange}
+              />
+            </div>
             <Input
               name="companyName"
               placeholder="Company Name"

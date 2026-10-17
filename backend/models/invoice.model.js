@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
+    invoiceDate: {
+      type: DataTypes.DATEONLY,
+      allowNull: true,
+    },
     name: { type: DataTypes.STRING, allowNull: false },
     companyName: { type: DataTypes.STRING },
     number: { type: DataTypes.STRING },

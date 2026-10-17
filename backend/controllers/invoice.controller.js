@@ -24,6 +24,7 @@ exports.createInvoice = async (req, res) => {
   const t = await Invoice.sequelize.transaction();
   try {
     const {
+      invoiceDate,
       name,
       companyName,
       number,
@@ -60,6 +61,7 @@ exports.createInvoice = async (req, res) => {
     const invoice = await Invoice.create(
       {
         invoiceId: code,
+        invoiceDate: invoiceDate || new Date(),
         name,
         companyName,
         number,
@@ -154,6 +156,7 @@ exports.updateInvoice = async (req, res) => {
     await invoice.update(
       {
         ...req.body,
+        invoiceDate: req.body.invoiceDate || invoice.invoiceDate || invoice.createdAt,
         discount: parseFloat(discount) || 0,
         gst: parseFloat(gst) || 18,
         totalAmount,
@@ -391,7 +394,7 @@ exports.downloadInvoicePDF = async (req, res) => {
     const data = {
       client: {
         invoice_no: invoice.invoiceId,
-        created_at: formatDateDMY(invoice.createdAt),
+        created_at: formatDateDMY(invoice.invoiceDate || invoice.createdAt),
         name: invoice.name,
         email: invoice.email,
         company_name: invoice.companyName,

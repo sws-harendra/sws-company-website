@@ -37,21 +37,23 @@ exports.createInvoice = async (req, res) => {
     } = req.body;
 
     const globalSettings = await InvoiceSetting.findOne();
-    const finalDetails = [{
-      gstNumber: globalSettings ? (globalSettings.gstNumber || "") : "",
-      accountNumber: globalSettings ? (globalSettings.accountNumber || "") : "",
-      ifsc: globalSettings ? (globalSettings.ifsc || "") : "",
-      accountName: globalSettings ? (globalSettings.accountName || "") : "",
-    }];
+    const finalDetails = [
+      {
+        gstNumber: globalSettings ? globalSettings.gstNumber || "" : "",
+        accountNumber: globalSettings ? globalSettings.accountNumber || "" : "",
+        ifsc: globalSettings ? globalSettings.ifsc || "" : "",
+        accountName: globalSettings ? globalSettings.accountName || "" : "",
+      },
+    ];
 
     const code = await generateInvoiceCode();
     const totalAmount =
-      (services?.reduce((sum, s) => sum + (parseFloat(s.amount) || 0), 0) || 0) -
-      (parseFloat(discount) || 0);
+      (services?.reduce((sum, s) => sum + (parseFloat(s.amount) || 0), 0) ||
+        0) - (parseFloat(discount) || 0);
     const totalReceived =
       payments?.reduce(
         (sum, p) => sum + (parseFloat(p.receivedAmount) || 0),
-        0
+        0,
       ) || 0;
     const dueAmount = totalAmount - totalReceived;
 
@@ -70,7 +72,7 @@ exports.createInvoice = async (req, res) => {
         totalReceived,
         dueAmount,
       },
-      { transaction: t }
+      { transaction: t },
     );
 
     if (services?.length)
@@ -80,7 +82,7 @@ exports.createInvoice = async (req, res) => {
           amount: parseFloat(s.amount) || 0,
           invoiceId: invoice.id,
         })),
-        { transaction: t }
+        { transaction: t },
       );
 
     if (payments?.length)
@@ -90,13 +92,13 @@ exports.createInvoice = async (req, res) => {
           receivedAmount: parseFloat(p.receivedAmount) || 0,
           invoiceId: invoice.id,
         })),
-        { transaction: t }
+        { transaction: t },
       );
 
     if (finalDetails?.length)
       await InvoiceDetail.bulkCreate(
         finalDetails.map((d) => ({ ...d, invoiceId: invoice.id })),
-        { transaction: t }
+        { transaction: t },
       );
 
     await t.commit();
@@ -104,7 +106,10 @@ exports.createInvoice = async (req, res) => {
   } catch (err) {
     await t.rollback();
     console.error(err);
-    require('fs').writeFileSync('d:\\sws-company-website\\backend\\backend-error.log', err.stack || err.message);
+    require("fs").writeFileSync(
+      "d:\\sws-company-website\\backend\\backend-error.log",
+      err.stack || err.message,
+    );
     res.status(500).json({ message: err.message });
   }
 };
@@ -129,18 +134,20 @@ exports.updateInvoice = async (req, res) => {
     const { services, payments, discount, gst } = req.body;
 
     // Preserve exact existing bank details, ignoring any frontend updates
-    const finalDetails = invoice.details ? invoice.details.map(d => ({
-      gstNumber: d.gstNumber || "",
-      accountNumber: d.accountNumber || "",
-      ifsc: d.ifsc || "",
-      accountName: d.accountName || "",
-    })) : [];
+    const finalDetails = invoice.details
+      ? invoice.details.map((d) => ({
+          gstNumber: d.gstNumber || "",
+          accountNumber: d.accountNumber || "",
+          ifsc: d.ifsc || "",
+          accountName: d.accountName || "",
+        }))
+      : [];
     const totalAmount =
       services.reduce((sum, s) => sum + parseFloat(s.amount || 0), 0) -
       parseFloat(discount || 0);
     const totalReceived = payments.reduce(
       (sum, p) => sum + parseFloat(p.receivedAmount || 0),
-      0
+      0,
     );
     const dueAmount = totalAmount - totalReceived;
 
@@ -154,7 +161,7 @@ exports.updateInvoice = async (req, res) => {
         dueAmount,
         version: invoice.version + 1,
       },
-      { transaction: t }
+      { transaction: t },
     );
 
     // Replace nested items
@@ -168,7 +175,7 @@ exports.updateInvoice = async (req, res) => {
         amount: parseFloat(s.amount) || 0,
         invoiceId: id,
       })),
-      { transaction: t }
+      { transaction: t },
     );
     await InvoicePayment.bulkCreate(
       payments.map((p) => ({
@@ -176,11 +183,11 @@ exports.updateInvoice = async (req, res) => {
         receivedAmount: parseFloat(p.receivedAmount) || 0,
         invoiceId: id,
       })),
-      { transaction: t }
+      { transaction: t },
     );
     await InvoiceDetail.bulkCreate(
       finalDetails.map((d) => ({ ...d, invoiceId: id })),
-      { transaction: t }
+      { transaction: t },
     );
 
     await t.commit();
@@ -211,7 +218,7 @@ exports.deleteInvoice = async (req, res) => {
     await InvoiceHistory.destroy({ where: { invoiceId: id }, transaction: t });
 
     await invoice.destroy({ transaction: t });
-    
+
     await t.commit();
     res.json({ message: "Invoice deleted successfully" });
   } catch (error) {
@@ -323,7 +330,7 @@ exports.downloadInvoicePDF = async (req, res) => {
       "..",
       "templates",
       "invoices",
-      "template1.hbs"
+      "template1.hbs",
     );
     const htmlTemplate = fs.readFileSync(templatePath, "utf8");
     const compiledTemplate = handlebars.compile(htmlTemplate);
@@ -342,13 +349,13 @@ exports.downloadInvoicePDF = async (req, res) => {
     const totalAmount =
       invoice.services?.reduce(
         (sum, s) => sum + parseFloat(s.amount || 0),
-        0
+        0,
       ) || 0;
 
     const totalReceived =
       invoice.payments?.reduce(
         (sum, p) => sum + parseFloat(p.receivedAmount || 0),
-        0
+        0,
       ) || 0;
 
     const gstPercent = parseFloat(invoice.gst) || 0;
@@ -357,8 +364,23 @@ exports.downloadInvoicePDF = async (req, res) => {
       totalAmount + gstAmount - (parseFloat(invoice.discount) || 0);
     const dueAmount = grandTotal - totalReceived;
 
+    // Helper to format date strictly as DD/MM/YYYY
+    const formatDateDMY = (dateInput) => {
+      if (!dateInput) return "";
+      if (typeof dateInput === "string" && /^\d{2}\/\d{2}\/\d{4}$/.test(dateInput)) {
+        return dateInput;
+      }
+      const d = new Date(dateInput);
+      if (isNaN(d.getTime())) return String(dateInput);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+
     // ✅ Register Helpers
     handlebars.registerHelper("inc", (value) => parseInt(value) + 1);
+    handlebars.registerHelper("formatDate", (val) => formatDateDMY(val));
     handlebars.registerHelper("numberToWords", (num) => {
       const { toWords } = require("number-to-words");
       if (!num || isNaN(num)) return "Zero";
@@ -369,30 +391,38 @@ exports.downloadInvoicePDF = async (req, res) => {
     const data = {
       client: {
         invoice_no: invoice.invoiceId,
-        created_at: invoice.createdAt
-          ? new Date(invoice.createdAt).toLocaleDateString()
-          : "",
+        created_at: formatDateDMY(invoice.createdAt),
         name: invoice.name,
         email: invoice.email,
         company_name: invoice.companyName,
         number: invoice.number,
         address: invoice.address,
-        // STRICT SNAPSHOT ISOLATION
-        // If this invoice has a snapshot in the DB, strictly use it (even if it's empty).
-        // It should NEVER fallback to current global settings for an old invoice!
-        gst_client: invoice.details?.length > 0 ? (invoice.details[0].gstNumber || "") : (settings?.gstNumber || ""),
+        // Client GST entered in the invoice form
+        gst_client: invoice.gstNumber || "",
+        // Owner / Company GST from settings or snapshot
+        owner_gst:
+          invoice.details?.length > 0 && invoice.details[0].gstNumber
+            ? invoice.details[0].gstNumber
+            : settings?.gstNumber || "",
         description: invoice.services?.map((s) => s.description) || [],
         hsn: invoice.services?.map((s) => s.hsnCode) || [],
         amount: invoice.services?.map((s) => s.amount) || [],
         mode_of_payment: invoice.payments?.map((p) => p.modeOfPayment) || [],
         payment_date:
-          invoice.payments?.map((p) =>
-            new Date(p.paymentDate).toLocaleDateString()
-          ) || [],
+          invoice.payments?.map((p) => formatDateDMY(p.paymentDate)) || [],
         receive_amount: invoice.payments?.map((p) => p.receivedAmount) || [],
-        account_name: invoice.details?.length > 0 ? (invoice.details[0].accountName || "") : (settings?.accountName || ""),
-        accoun_number: invoice.details?.length > 0 ? (invoice.details[0].accountNumber || "") : (settings?.accountNumber || ""),
-        ifsc_code: invoice.details?.length > 0 ? (invoice.details[0].ifsc || "") : (settings?.ifsc || ""),
+        account_name:
+          invoice.details?.length > 0
+            ? invoice.details[0].accountName || ""
+            : settings?.accountName || "",
+        accoun_number:
+          invoice.details?.length > 0
+            ? invoice.details[0].accountNumber || ""
+            : settings?.accountNumber || "",
+        ifsc_code:
+          invoice.details?.length > 0
+            ? invoice.details[0].ifsc || ""
+            : settings?.ifsc || "",
         gst: gstPercent,
         discount: parseFloat(invoice.discount) || 0,
         logoSrc,
@@ -406,28 +436,21 @@ exports.downloadInvoicePDF = async (req, res) => {
       },
     };
 
-    handlebars.registerHelper("inc", (value) => parseInt(value) + 1);
-    handlebars.registerHelper("numberToWords", (num) => {
-      // simple number to words converter (basic version)
-      const words = require("number-to-words");
-      return words.toWords(num);
-    });
-
     // 4️⃣ Render HTML
     const html = compiledTemplate(data);
 
-    const browser = await puppeteer.launch({
-      executablePath: "/usr/bin/chromium-browser",
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-
-      // headless: true,
-    });
-    // for development
     // const browser = await puppeteer.launch({
-    //   headless: true,
+    //   executablePath: "/usr/bin/chromium-browser",
+    //   headless: "new",
     //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
+
+    //   // headless: true,
     // });
+    // for development
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "load" });
 
@@ -443,7 +466,7 @@ exports.downloadInvoicePDF = async (req, res) => {
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
-      `attachment; filename=${invoice.invoiceId.replace(/\s+/g, "-")}.pdf`
+      `attachment; filename=${invoice.invoiceId.replace(/\s+/g, "-")}.pdf`,
     );
     res.send(pdfBuffer);
   } catch (err) {

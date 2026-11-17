@@ -7,6 +7,7 @@ import {
   IoMegaphoneOutline, 
   IoArrowForward 
 } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const keyBenefits = [
   { icon: IoSparklesOutline, text: 'Distinctive Brand Identity' },
@@ -80,6 +81,7 @@ const BrandTransformationCta = () => {
           
           <motion.div variants={itemVariants}>
             <motion.button
+              onClick={() => openWhatsApp("Brand Identity & Promotion")}
               className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg"
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}

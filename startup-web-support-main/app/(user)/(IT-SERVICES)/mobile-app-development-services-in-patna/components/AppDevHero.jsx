@@ -8,6 +8,7 @@ import {
 } from "@/components/GlobalCss";
 import { buttonVariants } from "@/components/ui/button";
 import ContactUs from "@/components/ContactUs";
+import { openWhatsApp } from "@/lib/whatsapp";
 
 const statsData = [
   {
@@ -79,11 +80,12 @@ const AppDevHero = () => {
             </motion.p>
             <motion.div variants={buttonVariants}>
               <motion.button
+                onClick={() => openWhatsApp("Mobile App Development in Patna")}
                 className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-lg flex items-center gap-3 transition-colors duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Read More <FiArrowRight />
+                Get Quotation <FiArrowRight />
               </motion.button>
             </motion.div>
           </motion.div>

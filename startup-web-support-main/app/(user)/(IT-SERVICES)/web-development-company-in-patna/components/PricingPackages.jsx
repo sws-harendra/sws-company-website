@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
 import SoftwareService from '../../software-development/components/SoftwareService';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const packagesData = [
   {
@@ -134,6 +135,7 @@ const PricingPackages = () => {
               </ul>
 
               <motion.button
+                onClick={() => openWhatsApp(`${pkg.name} Web Development Package (₹${pkg.price})`)}
                 className={`w-full font-bold py-3 px-6 rounded-lg transition-all duration-300 mt-auto
                   ${pkg.featured 
                     ? 'bg-sky-500 hover:bg-sky-600 text-white' 

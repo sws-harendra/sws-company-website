@@ -8,6 +8,7 @@ import {
   IoPeopleOutline,        // Audience Engagement
   IoArrowForward
 } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 // Key aspects for Content Marketing
 const keyAspects = [
@@ -89,6 +90,7 @@ const ContentMarketingHero = () => {
             
           <motion.div variants={itemVariants}>
             <motion.button
+              onClick={() => openWhatsApp("Content Marketing Strategy")}
               className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 md:px-10 px-4 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg" // sky Button
               whileHover={{ scale: 1.05, y: -3}} 
               whileTap={{ scale: 0.95 }}

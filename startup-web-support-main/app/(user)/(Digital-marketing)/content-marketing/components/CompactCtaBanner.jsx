@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { IoArrowForward } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const CompactCtaBanner = () => {
   const containerVariants = {
@@ -55,6 +56,7 @@ const CompactCtaBanner = () => {
           {/* Right Side: Button */}
           <motion.div className="lg:w-auto flex-shrink-0" variants={itemVariants}>
             <motion.button
+              onClick={() => openWhatsApp("Content Marketing & Digital Strategy")}
               className="inline-flex items-center bg-white text-sky-600 font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg transform hover:-translate-y-1" // White button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

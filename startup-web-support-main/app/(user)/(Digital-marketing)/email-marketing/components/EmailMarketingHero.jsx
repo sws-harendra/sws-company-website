@@ -8,6 +8,7 @@ import {
   IoRocketOutline,
   IoArrowForward
 } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 // Key benefits for Email Marketing
 const keyBenefits = [
@@ -89,6 +90,7 @@ const EmailMarketingHero = () => {
             
           <motion.div variants={itemVariants}>
             <motion.button
+              onClick={() => openWhatsApp("Email Marketing Campaigns")}
               className="inline-flex items-center bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg" // Changed button color
               whileHover={{ scale: 1.05, y: -3, boxShadow: "0 10px 20px rgba(20, 184, 166, 0.4)" }} 
               whileTap={{ scale: 0.95 }}

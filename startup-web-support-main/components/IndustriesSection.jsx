@@ -4,6 +4,7 @@ import InfoCard from "./ui/InfoCard";
 import topCards from "./ui/TopCard";
 import Image from 'next/image';
 import TopInfoSection from "./ui/TopInfoSection";
+import { openWhatsApp } from "@/lib/whatsapp";
 
 const industriesData = [
   { icon: "realstate.png", name: 'Real estate' },
@@ -79,6 +80,8 @@ const IndustriesSection = () => {
                 key={index}
                 className="group bg-sky-700 p-6 rounded-xl flex flex-col items-center justify-center gap-4 border border-sky-700 cursor-pointer transition-all duration-300"
                 variants={itemVariants}
+                onClick={() => openWhatsApp(`${industry.name} Industry Solutions`)}
+                title={`Get quotation for ${industry.name} solutions`}
                 whileHover={{
                   y: -10,
                   scale: 1.05,

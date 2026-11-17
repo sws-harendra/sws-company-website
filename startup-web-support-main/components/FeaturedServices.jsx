@@ -10,7 +10,7 @@ import {
 } from "./GlobalCss";
 import Image from "next/image";
 import { BsWhatsapp } from "react-icons/bs";
-import * as fpixel from "@/lib/fpixel";
+import { getWhatsAppUrl, openWhatsApp } from "@/lib/whatsapp";
 
 const servicesData = [
   {
@@ -72,26 +72,7 @@ const servicesData = [
   },
 ];
 
-const getWhatsAppUrl = (serviceTitle) => {
-  const phoneNumber = "917479499718";
-  const message = serviceTitle
-    ? `Hello Startup Web Support! I would like to get a free quotation for ${serviceTitle}.`
-    : `Hello Startup Web Support! I would like to get a free quotation for your services.`;
-
-  return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-};
-
 const FeaturedServices = () => {
-  const handleServiceClick = (serviceTitle) => {
-    fpixel.event("Contact", {
-      method: "WhatsApp",
-      content_name: `Featured Service - ${serviceTitle || "General"}`,
-    });
-    fpixel.customEvent("WhatsAppClick", {
-      phoneNumber: "917479499718",
-      service: serviceTitle || "General",
-    });
-  };
 
   return (
     <section className="relative py-20 bg-white overflow-hidden">
@@ -142,10 +123,7 @@ const FeaturedServices = () => {
                 key={index}
                 layout
                 whileHover={{ scale: 1.03 }}
-                onClick={() => {
-                  handleServiceClick(service?.title);
-                  window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-                }}
+                onClick={() => openWhatsApp(service?.title)}
                 className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full cursor-pointer group/card"
                 variants={cardVariants}
               >
@@ -190,7 +168,7 @@ const FeaturedServices = () => {
                     rel="noopener noreferrer"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleServiceClick(service?.title);
+                      openWhatsApp(service?.title);
                     }}
                     className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-[#009CDE] hover:bg-[#0086bf] text-white font-semibold text-sm rounded-lg shadow-sm hover:shadow-md transition-all duration-200 group"
                   >

@@ -8,6 +8,7 @@ import {
   IoPeopleOutline,        // Teamwork/Mentorship
   IoArrowForward
 } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 // Key benefits for the IT Internship
 const keyBenefits = [
@@ -89,6 +90,7 @@ const ITInternshipHero = () => {
             
           <motion.div variants={itemVariants}>
             <motion.button
+              onClick={() => openWhatsApp("IT Internship Application")}
               className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg" // sky Button
               whileHover={{ scale: 1.05, y: -3, boxShadow: "0 10px 20px rgba(13, 148, 136, 0.4)" }} 
               whileTap={{ scale: 0.95 }}

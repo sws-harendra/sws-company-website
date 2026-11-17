@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { IoPlayForwardCircleOutline, IoArrowForward } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const VideoMarketingCta = () => {
   const containerVariants = {
@@ -70,6 +71,7 @@ const VideoMarketingCta = () => {
                 Contact us today to discuss how we can create a <span className="font-semibold text-white">video marketing strategy</span> tailored to your startup's goals and budget. Let's craft videos that captivate, engage, and convert.
              </p>
              <motion.button
+                onClick={() => openWhatsApp("Video Marketing Strategy")}
                 className="inline-flex items-center bg-white text-sky-600 font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 gap-2 text-base" // Slightly smaller button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}

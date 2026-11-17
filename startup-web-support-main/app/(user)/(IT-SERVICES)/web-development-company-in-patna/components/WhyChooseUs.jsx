@@ -1,6 +1,7 @@
 "use client"
 import { gridContainerVariants, imageVariants2, textChildVariants } from '@/components/GlobalCss';
 import { motion } from 'framer-motion';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 
 const WhyChooseUs = () => {
@@ -55,6 +56,7 @@ const WhyChooseUs = () => {
 
                         <motion.div variants={textChildVariants}>
                             <motion.button
+                                onClick={() => openWhatsApp("Website Development in Patna")}
                                 className="bg-sky-600 hover:bg-sky-700 shadow-xl hover:shadow-2xl text-white font-bold py-4 px-8 rounded-full transition-colors duration-300 text-lg"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}

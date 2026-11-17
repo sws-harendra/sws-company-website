@@ -10,6 +10,7 @@ import {
 } from 'react-icons/io5';
 import { gridContainerVariants, headerTextVariants, textChildVariants } from '@/components/GlobalCss';
 import { buttonVariants } from '@/components/ui/button';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 // Key benefits for Video Marketing
 const keyBenefits = [
@@ -70,6 +71,7 @@ const VideoMarketingHero = () => {
             
           <motion.div variants={buttonVariants}>
             <motion.button
+              onClick={() => openWhatsApp("Video Marketing Projects")}
               className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg" // sky Button
               whileHover={{ scale: 1.05, y: -3, boxShadow: "0 10px 20px rgba(220, 38, 38, 0.4)" }} 
               whileTap={{ scale: 0.95 }}

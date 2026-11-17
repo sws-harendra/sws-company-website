@@ -1,6 +1,7 @@
 "use client"
 import { motion } from 'framer-motion';
 import { gridContainerVariants, textChildVariants } from './GlobalCss';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const BACKGROUND_VIDEO_URL = 'hero.mp4';
 
@@ -44,6 +45,7 @@ const HeroSection = () => {
 
           <motion.div className="mt-10 space-x-4 space-y-4" variants={textChildVariants}>
             <motion.button
+              onClick={() => window.scrollTo({ top: window.innerHeight * 0.8, behavior: "smooth" })}
               className="bg-sky-800 hover:bg-sky-900 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300"
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}
@@ -51,6 +53,7 @@ const HeroSection = () => {
               Explore Our Services
             </motion.button>
             <motion.button
+              onClick={() => openWhatsApp("Free IT Consultation")}
               className="bg-transparent border border-white hover:bg-white hover:text-sky-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300"
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}

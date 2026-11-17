@@ -1,8 +1,9 @@
 "use client"
 import { motion } from 'framer-motion';
 import { bellShakeAnimation, cardVariants, gridContainerVariants, headerTextVariants, textChildVariants } from './GlobalCss';
-import Link from 'next/link';
 import AnimatedArrow from './AnimatedArrow';
+import { BsWhatsapp } from 'react-icons/bs';
+import { getWhatsAppUrl, openWhatsApp } from '@/lib/whatsapp';
 
 const serviceItems = [
     {
@@ -65,35 +66,51 @@ const ServiceFeatures = () => {
                     whileInView="visible"
                     viewport={{ once: false, amount: 0.3 }}
                 >
-                    {serviceItems.map((item, index) => (
-                        <motion.div
-                            key={index}
-                            className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-full"
-                            variants={cardVariants}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 1.1 }} transition={{ duration: 0.3 }}
-                        >
-                            <div>
-                                <motion.img
-                                    initial={{ rotate: [0] }}
-                                    whileHover={bellShakeAnimation}
-                                    whileTap={bellShakeAnimation}
-                                    src={item.image}
-                                    alt={item.title}
-                                    className="w-16 h-16 object-contain mb-6 mx-auto" // इमेज को सेंटर करने के लिए mx-auto
-                                />
-                                <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-3">
-                                    {item.title}
-                                </h3>
-                                <p className="text-gray-600 leading-relaxed text-base mb-6">
-                                    {item.description}
-                                </p>
-                            </div>
-                            <Link href="#" className="text-blue-600 hover:text-blue-700 flex items-center font-semibold py-1 ps-5 rounded-lg border-2 border-blue-200 hover:border-blue-300 transition-colors duration-300 mx-auto">
-                                Learn More<AnimatedArrow />
-                            </Link>
-                        </motion.div>
-                    ))}
+                    {serviceItems.map((item, index) => {
+                        const whatsappUrl = getWhatsAppUrl(item.title);
+                        return (
+                            <motion.div
+                                key={index}
+                                className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-full cursor-pointer group"
+                                variants={cardVariants}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.98 }}
+                                transition={{ duration: 0.3 }}
+                                onClick={() => openWhatsApp(item.title)}
+                            >
+                                <div>
+                                    <motion.img
+                                        initial={{ rotate: [0] }}
+                                        whileHover={bellShakeAnimation}
+                                        whileTap={bellShakeAnimation}
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-16 h-16 object-contain mb-6 mx-auto"
+                                    />
+                                    <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-3 group-hover:text-[#009CDE] transition-colors">
+                                        {item.title}
+                                    </h3>
+                                    <p className="text-gray-600 leading-relaxed text-base mb-6">
+                                        {item.description}
+                                    </p>
+                                </div>
+                                <a
+                                    href={whatsappUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        openWhatsApp(item.title);
+                                    }}
+                                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm text-blue-600 border-2 border-blue-200 hover:border-[#009CDE] hover:bg-[#009CDE] hover:text-white transition-all duration-300 mx-auto"
+                                >
+                                    <BsWhatsapp className="w-4 h-4 text-[#25D366] group-hover:text-white transition-colors" />
+                                    <span>Get Free Quotation</span>
+                                    <AnimatedArrow />
+                                </a>
+                            </motion.div>
+                        );
+                    })}
                 </motion.div>
             </div>
         </section>

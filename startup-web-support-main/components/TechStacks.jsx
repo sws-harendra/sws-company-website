@@ -1,6 +1,9 @@
 'use client'
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
+import { BsWhatsapp } from "react-icons/bs";
+import { getWhatsAppUrl, openWhatsApp } from "@/lib/whatsapp";
 
 export default function TechStack() {
   const technologies = [
@@ -79,13 +82,26 @@ export default function TechStack() {
             solutions.
           </p>
 
-          <div className="flex gap-4 pt-4">
-            <button className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105">
-              Get Started
-            </button>
-            <button className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-cyan-500 hover:text-cyan-600 transition-all duration-300">
-              Learn More
-            </button>
+          <div className="flex flex-wrap gap-4 pt-4">
+            <a
+              href={getWhatsAppUrl("Modern Tech Development")}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                e.stopPropagation();
+                openWhatsApp("Modern Tech Development");
+              }}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105"
+            >
+              <BsWhatsapp className="w-4 h-4" />
+              <span>Get Started</span>
+            </a>
+            <Link
+              href="/portfolio"
+              className="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-cyan-500 hover:text-cyan-600 transition-all duration-300 hover:scale-105"
+            >
+              View Our Work
+            </Link>
           </div>
         </div>
 
@@ -99,7 +115,9 @@ export default function TechStack() {
             {technologies.map((tech, idx) => (
               <div
                 key={tech.name}
-                className="group relative"
+                className="group relative cursor-pointer"
+                onClick={() => openWhatsApp(`${tech.name} Development`)}
+                title={`Get quotation for ${tech.name} development`}
                 style={{
                   animation: `float ${3 + (idx % 3)}s ease-in-out infinite`,
                   animationDelay: `${idx * 0.2}s`,

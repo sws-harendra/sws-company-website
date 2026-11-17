@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { IoArrowForward } from 'react-icons/io5';
 import ContactUs from '@/components/ContactUs';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const Hero = () => {
   const containerVariants = {
@@ -77,6 +78,7 @@ const Hero = () => {
             
             <motion.div variants={itemVariants}>
               <motion.button
+                onClick={() => openWhatsApp("Free SEO Analysis")}
                 className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg"
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.95 }}

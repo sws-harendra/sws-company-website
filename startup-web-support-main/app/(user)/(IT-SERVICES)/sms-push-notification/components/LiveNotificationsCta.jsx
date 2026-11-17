@@ -7,6 +7,7 @@ import {
   IoAnalyticsOutline,
   IoShieldCheckmarkOutline
 } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const keyFeatures = [
   { icon: IoChatbubblesOutline, text: 'Real-Time Updates & Alerts help you connect with customers instantly so they always get the right information at the right time.' },
@@ -78,6 +79,7 @@ const LiveNotificationsCta = () => {
 
             <motion.div variants={itemVariants}>
               <motion.button
+                onClick={() => openWhatsApp("SMS & Push Notification Services")}
                 className="bg-white text-sky-600 font-bold py-3 px-8 rounded-lg shadow-lg text-lg transition-transform duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

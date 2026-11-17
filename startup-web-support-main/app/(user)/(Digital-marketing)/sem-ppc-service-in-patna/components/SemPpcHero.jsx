@@ -8,6 +8,7 @@ import {
   IoCashOutline 
 } from 'react-icons/io5';
 import { gridContainerVariants, headerTextVariants, textChildVariants } from '@/components/GlobalCss';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const keyMetrics = [
   {
@@ -55,6 +56,7 @@ const SemPpcHero = () => {
             
           <motion.div variants={textChildVariants} className="mb-12">
             <motion.button
+              onClick={() => openWhatsApp("SEM & PPC Campaigns")}
               className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg"
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}

@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
 import Image from 'next/image';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const benefitsList = [
   { text: 'Uses the most leading and modern technologies.' },
@@ -89,6 +90,7 @@ const BusinessValue = () => {
 
             <motion.div variants={itemVariants}>
               <motion.button
+                onClick={() => openWhatsApp("Mobile App Development")}
                 className="bg-sky-900 hover:sky-900 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-300 text-lg"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

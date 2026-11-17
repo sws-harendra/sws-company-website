@@ -55,6 +55,7 @@ const PortfolioHero = () => {
 
             <motion.div variants={itemVariants}>
               <motion.button
+                onClick={() => window.scrollTo({ top: window.innerHeight * 0.7, behavior: "smooth" })}
                 className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg" // Adjusted padding
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.95 }}

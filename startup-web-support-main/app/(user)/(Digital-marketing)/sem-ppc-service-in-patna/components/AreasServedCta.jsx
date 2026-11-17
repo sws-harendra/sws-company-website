@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { IoLocationSharp, IoArrowForward } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 const AreasServedCta = () => {
   const containerVariants = {
@@ -62,6 +63,7 @@ const AreasServedCta = () => {
               Ready to grow your business with the <span className="font-semibold text-sky-600">best SEM Company in Patna</span>? Contact us today for a free consultation, and let's create a strategy that gets your website the visibility it deserves!
             </p>
             <motion.button
+              onClick={() => openWhatsApp("SEM & PPC Consultation")}
               className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg"
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}

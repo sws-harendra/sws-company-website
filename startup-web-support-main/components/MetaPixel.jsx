@@ -15,27 +15,43 @@ function MetaPixelTracker() {
     fpixel.pageview();
   }, [pathname, searchParams]);
 
-  // Global click delegate for WhatsApp and Phone links across the site
+  // Global click delegate for WhatsApp and Phone links/buttons across the site
   useEffect(() => {
+    let lastTrackTime = 0;
+
     const handleGlobalClick = (e) => {
-      const target = e.target.closest("a");
+      const target = e.target.closest("a, button, [data-whatsapp]");
       if (!target) return;
 
-      const href = target.getAttribute("href") || "";
+      const now = Date.now();
+      if (now - lastTrackTime < 300) return; // Debounce rapid multi-triggers
 
-      // WhatsApp links
-      if (href.includes("wa.me") || href.includes("api.whatsapp.com") || href.includes("whatsapp.com/send")) {
+      const href = target.getAttribute("href") || target.dataset.href || "";
+      const isWhatsApp =
+        href.includes("wa.me") ||
+        href.includes("api.whatsapp.com") ||
+        href.includes("whatsapp.com/send") ||
+        target.dataset.whatsapp;
+
+      // WhatsApp interactions
+      if (isWhatsApp) {
+        lastTrackTime = now;
+        const topic = target.dataset.whatsapp || target.innerText?.trim() || "WhatsApp Click";
         fpixel.event("Contact", {
           method: "WhatsApp",
-          url: href,
+          content_name: topic,
+          url: href || window.location.href,
         });
         fpixel.customEvent("WhatsAppClick", {
-          url: href,
+          service: topic,
+          url: href || window.location.href,
         });
+        return;
       }
 
       // Telephone links
       if (href.startsWith("tel:")) {
+        lastTrackTime = now;
         fpixel.event("Contact", {
           method: "Phone Call",
           phone: href.replace("tel:", ""),

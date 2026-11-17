@@ -168,7 +168,7 @@ const ContactUs = ({
               value={formData.fullname}
               onChange={handleInputChange}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="John Doe"
+              placeholder=""
             />
           </motion.div>
 
@@ -179,13 +179,13 @@ const ContactUs = ({
                 name: "email",
                 label: "Email *",
                 type: "email",
-                placeholder: "you@example.com",
+                placeholder: "",
               },
               {
                 name: "phone",
                 label: "Phone *",
                 type: "tel",
-                placeholder: "+91 234 567 890",
+                placeholder: "",
               },
             ].map((field, i) => (
               <motion.div
@@ -219,13 +219,17 @@ const ContactUs = ({
               onChange={handleInputChange}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/70 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white"
             >
-              <option value="" disabled>Select a subject</option>
+              <option value="" disabled>
+                Select a subject
+              </option>
               <option value="Website development">Website development</option>
               <option value="app development">app development</option>
               <option value="google ads">google ads</option>
               <option value="facebook ads">facebook ads</option>
               <option value="seo">seo</option>
-              <option value="social media management">social media management</option>
+              <option value="social media management">
+                social media management
+              </option>
               <option value="company registration">company registration</option>
             </select>
           </motion.div>

@@ -2,6 +2,7 @@
 import ContactUs from "@/components/ContactUs";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import { openWhatsApp } from "@/lib/whatsapp";
 
 const HeroSection = () => {
   const containerVariants = {
@@ -81,6 +82,7 @@ const HeroSection = () => {
               variants={textChildVariants}
             >
               <motion.button
+                onClick={() => openWhatsApp("Web Development in Patna")}
                 className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-6 rounded-lg flex items-center gap-2 transition-colors duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -92,6 +94,7 @@ const HeroSection = () => {
               <span className="text-gray-500 font-semibold">OR</span>
 
               <motion.button
+                onClick={() => openWhatsApp("Web Development Packages")}
                 className="bg-transparent hover:bg-slate-100 text-sky-600 font-bold py-3 px-6 rounded-lg border-2 border-sky-600 transition-colors duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

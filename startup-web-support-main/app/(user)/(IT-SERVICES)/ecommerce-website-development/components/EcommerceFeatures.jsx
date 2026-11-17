@@ -7,6 +7,7 @@ import {
   IoShieldCheckmarkOutline,
   IoArrowForward,
 } from "react-icons/io5";
+import { getWhatsAppUrl, openWhatsApp } from "@/lib/whatsapp";
 
 const ecommerceFeatures = [
   {
@@ -99,8 +100,9 @@ const EcommerceFeatures = () => {
             return (
               <motion.div
                 key={index}
-                className="bg-white p-8 rounded-xl border border-gray-200 shadow-lg flex flex-col h-full transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:border-blue-500"
+                className="bg-white p-8 rounded-xl border border-gray-200 shadow-lg flex flex-col h-full transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:border-blue-500 cursor-pointer"
                 variants={itemVariants}
+                onClick={() => openWhatsApp(`E-commerce: ${feature.title}`)}
               >
                 <div className="bg-gradient-to-br from-blue-500 to-cyan-400 text-white rounded-full p-4 w-16 h-16 flex items-center justify-center mb-6">
                   <Icon className="text-3xl" />
@@ -112,10 +114,16 @@ const EcommerceFeatures = () => {
                   {feature.description}
                 </p>
                 <a
-                  href="#"
+                  href={getWhatsAppUrl(`E-commerce: ${feature.title}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openWhatsApp(`E-commerce: ${feature.title}`);
+                  }}
                   className="flex items-center text-blue-600 font-semibold mt-auto group"
                 >
-                  Learn More
+                  Get Free Quotation
                   <IoArrowForward className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
               </motion.div>

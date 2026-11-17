@@ -7,6 +7,7 @@ import {
   IoAnalyticsOutline, 
   IoArrowForward 
 } from 'react-icons/io5';
+import { getWhatsAppUrl, openWhatsApp } from '@/lib/whatsapp';
 
 const coreServices = [
   {
@@ -80,8 +81,9 @@ const Hero = () => {
             return (
               <motion.div
                 key={index}
-                className="group relative bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+                className="group relative bg-white p-8 rounded-xl shadow-lg border border-gray-100 flex flex-col h-full overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer"
                 variants={itemVariants}
+                onClick={() => openWhatsApp(service.title)}
               >
                 {/* Subtle background glow on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-sky-100 via-white to-cyan-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -99,8 +101,17 @@ const Hero = () => {
                   <p className="text-gray-600 leading-relaxed text-center flex-grow mb-6">
                     {service.description}
                   </p>
-                  <a href="#" className="flex items-center justify-center text-sky-600 font-semibold mt-auto group">
-                    Learn More
+                  <a
+                    href={getWhatsAppUrl(service.title)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openWhatsApp(service.title);
+                    }}
+                    className="flex items-center justify-center text-sky-600 font-semibold mt-auto group"
+                  >
+                    Get Free Quotation
                     <IoArrowForward className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>
                 </div>

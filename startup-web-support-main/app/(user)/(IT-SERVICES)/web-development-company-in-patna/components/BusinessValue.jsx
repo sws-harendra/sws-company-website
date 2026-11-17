@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { gridContainerVariants, imageVariants2, textChildVariants } from '@/components/GlobalCss';
 import Image from 'next/image';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 
 const BusinessValue = () => {
@@ -76,6 +77,7 @@ const BusinessValue = () => {
             </motion.p>
 
             <motion.button
+              onClick={() => openWhatsApp("Hiring for Website Development")}
               className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
               variants={textChildVariants}
               whileHover={{ scale: 1.05 }}

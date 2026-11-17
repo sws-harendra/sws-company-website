@@ -8,6 +8,7 @@ import {
   IoAnalyticsOutline,
   IoArrowForward
 } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 // Key aspects of branding & promotion
 const keyAspects = [
@@ -89,6 +90,7 @@ const BrandingHero = () => {
             
           <motion.div variants={itemVariants}>
             <motion.button
+              onClick={() => openWhatsApp("Branding & Promotion Services")}
               className="inline-flex items-center bg-sky-500 hover:bg-sky-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg"
               whileHover={{ scale: 1.05, y: -3, boxShadow: "0 10px 20px rgba(22, 163, 175, 0.4)" }} 
               whileTap={{ scale: 0.95 }}

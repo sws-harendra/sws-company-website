@@ -8,6 +8,7 @@ import {
   IoAnalyticsOutline,
   IoArrowForward
 } from 'react-icons/io5';
+import { openWhatsApp } from '@/lib/whatsapp';
 
 // Key benefits for SMO/SMM
 const keyBenefits = [
@@ -89,6 +90,7 @@ const SmoSmmHero = () => {
             
           <motion.div variants={itemVariants}>
             <motion.button
+              onClick={() => openWhatsApp("SMO & SMM Services")}
               className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold md:py-4 md:px-10 px-4 py-3 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg"
               whileHover={{ scale: 1.05, y: -3, boxShadow: "0 10px 20px rgba(2, 132, 199, 0.4)" }} // Added shadow on hover
               whileTap={{ scale: 0.95 }}

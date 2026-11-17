@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import ContactFormModal from "@/components/PopupContactus";
 import Call from "@/components/call";
 import WhatsAppButton from "@/components/whatsapp";
+import MetaPixel from "@/components/MetaPixel";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
   return (
     <div>
+      <MetaPixel />
       <div className="fixed right-4 bottom-20 z-50 flex flex-col items-end gap-4">
         <Call />
         <WhatsAppButton />

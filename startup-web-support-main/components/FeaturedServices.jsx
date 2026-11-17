@@ -8,8 +8,9 @@ import {
   headerTextVariants,
   imageVariants,
 } from "./GlobalCss";
-import { useState } from "react";
 import Image from "next/image";
+import { BsWhatsapp } from "react-icons/bs";
+import * as fpixel from "@/lib/fpixel";
 
 const servicesData = [
   {
@@ -71,8 +72,26 @@ const servicesData = [
   },
 ];
 
+const getWhatsAppUrl = (serviceTitle) => {
+  const phoneNumber = "917479499718";
+  const message = serviceTitle
+    ? `Hello Startup Web Support! I would like to get a free quotation for ${serviceTitle}.`
+    : `Hello Startup Web Support! I would like to get a free quotation for your services.`;
+
+  return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+};
+
 const FeaturedServices = () => {
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  const handleServiceClick = (serviceTitle) => {
+    fpixel.event("Contact", {
+      method: "WhatsApp",
+      content_name: `Featured Service - ${serviceTitle || "General"}`,
+    });
+    fpixel.customEvent("WhatsAppClick", {
+      phoneNumber: "917479499718",
+      service: serviceTitle || "General",
+    });
+  };
 
   return (
     <section className="relative py-20 bg-white overflow-hidden">
@@ -115,65 +134,73 @@ const FeaturedServices = () => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {servicesData.map((service, index) => (
-            <motion.div
-              key={index}
-              layout
-              whileHover={{ scale: 1.03 }}
-              className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col"
-              variants={cardVariants}
-            >
-              {/* Icon */}
-              <motion.div
-                className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
-                variants={imageVariants}
-              >
-                <Image 
-  fetchPriority="high"
+          {servicesData.map((service, index) => {
+            const whatsappUrl = getWhatsAppUrl(service?.title);
 
-                  src={service.image}
-                  alt={service.title}
-            
-                  width={56}  
-                  height={56}
-                  className=" object-contain"
-                  whileHover={bellShakeAnimation}
-                />
-              </motion.div>
-
-              {/* Content */}
+            return (
               <motion.div
+                key={index}
                 layout
-                className="flex flex-col flex-grow text-left"
-                variants={cardContentVariants}
+                whileHover={{ scale: 1.03 }}
+                onClick={() => {
+                  handleServiceClick(service?.title);
+                  window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+                }}
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full cursor-pointer group/card"
+                variants={cardVariants}
               >
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  {service.title}
-                </h3>
-
-                <p
-                  className={`text-gray-600 text-sm leading-relaxed transition-all duration-300
-                    ${expandedIndex === index ? "" : "line-clamp-4"}
-                  `}
-                >
-                  {service.description}
-                </p>
-
-                {service.description.length > 120 && (
-                  <button
-                    onClick={() =>
-                      setExpandedIndex(
-                        expandedIndex === index ? null : index
-                      )
-                    }
-                    className="mt-3 text-blue-600 font-medium hover:underline self-start"
+                <div>
+                  {/* Icon */}
+                  <motion.div
+                    className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
+                    variants={imageVariants}
                   >
-                    {expandedIndex === index ? "Read Less" : "Read More"}
-                  </button>
-                )}
+                    <Image 
+                      fetchPriority="high"
+                      src={service.image}
+                      alt={service.title}
+                      width={56}  
+                      height={56}
+                      className="object-contain"
+                      whileHover={bellShakeAnimation}
+                    />
+                  </motion.div>
+
+                  {/* Content */}
+                  <motion.div
+                    layout
+                    className="flex flex-col text-left"
+                    variants={cardContentVariants}
+                  >
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2 min-h-[56px] flex items-center group-hover/card:text-[#009CDE] transition-colors duration-200">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-4">
+                      {service.description}
+                    </p>
+                  </motion.div>
+                </div>
+
+                {/* Action Button */}
+                <div className="mt-6 pt-2">
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleServiceClick(service?.title);
+                    }}
+                    className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-[#009CDE] hover:bg-[#0086bf] text-white font-semibold text-sm rounded-lg shadow-sm hover:shadow-md transition-all duration-200 group"
+                  >
+                    <BsWhatsapp className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
+                    <span>Get Free Quotation</span>
+                  </a>
+                </div>
               </motion.div>
-            </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
       </div>
     </section>

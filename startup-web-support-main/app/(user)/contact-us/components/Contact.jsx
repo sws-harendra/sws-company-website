@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoSendOutline, IoCloseOutline } from "react-icons/io5";
 import contactService from "@/services/contact.service";
 import { toast } from "sonner";
+import * as fpixel from "@/lib/fpixel";
 
 const contactVideoUrl = "/hero-bg.mp4"; // Example: public/videos/contact-video.mp4
 
@@ -81,6 +82,17 @@ const Contact = () => {
     try {
       await contactService.createContact(formData);
       setShowSuccessModal(true);
+
+      // Meta Pixel Lead tracking
+      fpixel.event("Lead", {
+        content_name: "Contact Page Form Submission",
+        form_name: "Contact Us Page",
+        subject: formData.subject || "General Inquiry",
+      });
+      fpixel.customEvent("FormSubmission", {
+        form_name: "Contact Us Page",
+      });
+
       setFormData({
         fullname: "",
         email: "",

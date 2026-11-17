@@ -5,6 +5,7 @@ import contactService from "@/services/contact.service";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { motion } from "framer-motion";
+import * as fpixel from "@/lib/fpixel";
 
 const ContactUs = ({
   title = "Get Started Today",
@@ -82,6 +83,19 @@ const ContactUs = ({
       await contactService.createContact(formData);
       setStatus("✅ Message sent successfully!");
       setShowConfetti(true); // 🎉 trigger confetti
+
+      // Meta Pixel Lead tracking
+      fpixel.event("Lead", {
+        content_name: "Contact Form Submission",
+        form_name: "ContactUs",
+        page: page,
+        subject: formData.subject || "General Inquiry",
+      });
+      fpixel.customEvent("FormSubmission", {
+        form_name: "ContactUs",
+        page: page,
+      });
+
       setFormData({
         fullname: "",
         email: "",

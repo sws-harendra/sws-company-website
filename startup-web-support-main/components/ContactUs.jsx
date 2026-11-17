@@ -260,7 +260,7 @@ const ContactUs = ({
                             name="fullname"
                             value={formData.fullname}
                             onChange={handleInputChange}
-                            placeholder="e.g. Rahul Sharma"
+                            placeholder=""
                             className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                               errors.fullname
                                 ? "border-red-400 focus:ring-red-200"
@@ -289,7 +289,7 @@ const ContactUs = ({
                               name="email"
                               value={formData.email}
                               onChange={handleInputChange}
-                              placeholder="e.g. rahul@example.com"
+                              placeholder=""
                               className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                                 errors.email
                                   ? "border-red-400 focus:ring-red-200"
@@ -315,7 +315,7 @@ const ContactUs = ({
                               name="phone"
                               value={formData.phone}
                               onChange={handleInputChange}
-                              placeholder="e.g. +91 98765 43210"
+                              placeholder=""
                               className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                                 errors.phone
                                   ? "border-red-400 focus:ring-red-200"

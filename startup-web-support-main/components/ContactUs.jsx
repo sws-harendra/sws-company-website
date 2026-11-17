@@ -33,7 +33,7 @@ const ContactUs = ({
   showTitle = false,
   showClose = false,
   onClose,
-  showCtaSide = true,
+  showCtaSide = false, // 👈 Only true when explicitly passed (e.g. in the popup modal)
   ctaImage = "/cta.png",
   className = "",
   style = {},
@@ -104,7 +104,7 @@ const ContactUs = ({
         page: page,
       });
 
-      // Stop confetti after 5 seconds but keep the success state visible for WhatsApp CTA
+      // Stop confetti after 5 seconds
       setTimeout(() => {
         setShowConfetti(false);
       }, 5000);
@@ -133,7 +133,7 @@ const ContactUs = ({
         `I am looking for a rapid quick solution and quotation. Please assist me!`;
 
     return `https://wa.me/91${WHATSAPP_PHONE}?text=${encodeURIComponent(
-      defaultMsg,
+      defaultMsg
     )}`;
   };
 
@@ -177,10 +177,14 @@ const ContactUs = ({
         </div>
       )}
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
+      <div
+        className={`relative ${
+          showCtaSide ? "max-w-5xl" : "max-w-xl"
+        } mx-auto px-2 sm:px-4`}
+      >
         {showTitle && (
           <motion.div
-            className="text-center mb-8 sm:mb-12"
+            className="text-center mb-6 sm:mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -188,17 +192,17 @@ const ContactUs = ({
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100/70 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 mb-3">
               <Zap className="w-3.5 h-3.5" /> Fast Response Guaranteed
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
               {title}
             </h2>
-            <p className="mt-3 text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               {subtitle}
             </p>
           </motion.div>
         )}
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="relative bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden"
@@ -207,7 +211,7 @@ const ContactUs = ({
           {showClose && (
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all shadow-sm"
+              className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all shadow-sm cursor-pointer"
               aria-label="Close contact dialog"
             >
               <X className="w-5 h-5" />
@@ -218,30 +222,34 @@ const ContactUs = ({
             className={
               showCtaSide
                 ? "grid grid-cols-1 lg:grid-cols-12 items-stretch"
-                : "max-w-xl mx-auto"
+                : "w-full"
             }
           >
-            {/* ================= LEFT SIDE: FORM OR SUCCESS STATE ================= */}
+            {/* ================= FORM OR SUCCESS VIEW ================= */}
             <div
               className={`${
                 showCtaSide ? "lg:col-span-7" : "w-full"
-              } p-6 sm:p-8 lg:p-10 flex flex-col justify-center relative`}
+              } p-6 sm:p-8 lg:p-9 flex flex-col justify-center relative`}
             >
               <AnimatePresence mode="wait">
                 {!isSubmitted ? (
                   /* Form View */
                   <motion.div
                     key="form-view"
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -15 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
+                    exit={{ opacity: 0, x: -15 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="mb-6">
+                    <div className="mb-5 sm:mb-6">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 border border-blue-100 dark:border-blue-900/40 mb-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        Online Now • Response in ~15 Mins
+                      </div>
                       <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                         {title || "Send us a Message"}
                       </h3>
-                      <p className="mt-1.5 text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                      <p className="mt-1.5 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                         {subtitle ||
                           "Fill in your details below and our tech specialists will reach out promptly."}
                       </p>
@@ -260,7 +268,7 @@ const ContactUs = ({
                             name="fullname"
                             value={formData.fullname}
                             onChange={handleInputChange}
-                            placeholder=""
+                            placeholder="Your Full Name"
                             className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                               errors.fullname
                                 ? "border-red-400 focus:ring-red-200"
@@ -279,8 +287,7 @@ const ContactUs = ({
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-1.5">
-                            Email Address{" "}
-                            <span className="text-red-500">*</span>
+                            Email <span className="text-red-500">*</span>
                           </label>
                           <div className="relative">
                             <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -289,7 +296,7 @@ const ContactUs = ({
                               name="email"
                               value={formData.email}
                               onChange={handleInputChange}
-                              placeholder=""
+                              placeholder="your.email@example.com"
                               className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                                 errors.email
                                   ? "border-red-400 focus:ring-red-200"
@@ -306,7 +313,7 @@ const ContactUs = ({
 
                         <div>
                           <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-1.5">
-                            Phone Number <span className="text-red-500">*</span>
+                            Phone <span className="text-red-500">*</span>
                           </label>
                           <div className="relative">
                             <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -315,7 +322,7 @@ const ContactUs = ({
                               name="phone"
                               value={formData.phone}
                               onChange={handleInputChange}
-                              placeholder=""
+                              placeholder="e.g. +91 98765 43210"
                               className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                                 errors.phone
                                   ? "border-red-400 focus:ring-red-200"
@@ -404,7 +411,10 @@ const ContactUs = ({
                       {/* Trust guarantee */}
                       <div className="flex items-center justify-center gap-2 pt-1 text-xs text-gray-500 dark:text-gray-400">
                         <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                        <span>Fast Direct Call / WhatsApp Follow-up</span>
+                        <span>
+                          100% Confidential • Fast Direct Call / WhatsApp
+                          Follow-up
+                        </span>
                       </div>
                     </form>
                   </motion.div>
@@ -426,7 +436,7 @@ const ContactUs = ({
                     <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
                       Inquiry Received!
                     </h3>
-                    <p className="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-md mx-auto">
+                    <p className="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300 max-w-md mx-auto">
                       Thank you,{" "}
                       <span className="font-semibold text-gray-900 dark:text-white">
                         {submittedData?.fullname || "valued client"}
@@ -444,13 +454,13 @@ const ContactUs = ({
                         <Zap className="w-3.5 h-3.5 fill-current" /> Rapid Quick
                         Solution
                       </div>
-                      <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h4 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1.5">
                         Need an Immediate Reply or Urgent Quote?
                       </h4>
-                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-5 leading-relaxed">
+                      <p className="text-xs text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-4 leading-relaxed">
                         Don’t wait for an email callback! Connect directly with
                         our lead technical consultant right now on WhatsApp for
-                        instant project estimation and instant onboarding.
+                        instant project estimation and immediate onboarding.
                       </p>
 
                       {/* Giant glowing WhatsApp button */}
@@ -461,16 +471,16 @@ const ContactUs = ({
                         onClick={() =>
                           handleWhatsAppClick("Post-Submit Rapid Solution")
                         }
-                        className="w-full inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-base sm:text-lg py-4 px-6 rounded-xl shadow-lg shadow-[#25D366]/30 hover:shadow-[#25D366]/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 group"
+                        className="w-full inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm sm:text-base py-3.5 px-5 rounded-xl shadow-lg shadow-[#25D366]/30 hover:shadow-[#25D366]/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 group"
                       >
-                        <BsWhatsapp className="w-6 h-6 animate-bounce" />
+                        <BsWhatsapp className="w-5 h-5 animate-bounce" />
                         <span>Chat on WhatsApp for Rapid Solution</span>
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </a>
 
-                      <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                      <div className="mt-3.5 flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500 dark:text-gray-400">
                         <span className="flex items-center gap-1.5">
-                          <Phone className="w-4 h-4 text-emerald-600" />
+                          <Phone className="w-3.5 h-3.5 text-emerald-600" />
                           Or Call:{" "}
                           <a
                             href={`tel:${WHATSAPP_PHONE}`}
@@ -514,7 +524,7 @@ const ContactUs = ({
               </AnimatePresence>
             </div>
 
-            {/* ================= RIGHT SIDE: CTA HERO ILLUSTRATION ================= */}
+            {/* ================= RIGHT SIDE: CTA HERO ILLUSTRATION (ONLY IN MODAL) ================= */}
             {showCtaSide && (
               <div className="lg:col-span-5 bg-gradient-to-br from-slate-50 via-blue-50/60 to-indigo-50/50 dark:from-slate-800/90 dark:via-slate-850 dark:to-slate-900 border-t lg:border-t-0 lg:border-l border-slate-100 dark:border-slate-800 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
                 {/* Ambient glow */}
@@ -523,8 +533,15 @@ const ContactUs = ({
 
                 {/* Top header */}
                 <div className="relative z-10">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100/80 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 w-fit mb-2">
+                    <Sparkles className="w-3.5 h-3.5" /> Rapid Business Support
+                  </div>
+                  <h4 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                    Talk Directly with Our Specialists
+                  </h4>
                   <p className="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                    Get transparent consultation and fast project kickoff.
+                    Get transparent consultation, customized architectural
+                    guidance, and fast project kickoff.
                   </p>
                 </div>
 
@@ -535,8 +552,8 @@ const ContactUs = ({
                     <Image
                       src={ctaImage}
                       alt="Startup Web Support Helpdesk"
-                      width={340}
-                      height={300}
+                      width={320}
+                      height={280}
                       className="w-full h-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-500"
                       priority
                     />
@@ -545,10 +562,25 @@ const ContactUs = ({
 
                 {/* Bullet points & quick WhatsApp */}
                 <div className="relative z-10 space-y-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
+                  <div className="space-y-1.5 text-xs text-gray-600 dark:text-gray-300">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                      <span>Free 30-min strategy & feasibility roadmap</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      <span>Direct WhatsApp line for rapid updates</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                      <span>Full end-to-end execution & SLA guarantee</span>
+                    </div>
+                  </div>
+
                   {/* Fast WhatsApp direct action pill */}
                   <a
                     href={getWhatsAppUrl(
-                      "Hi! I’d like to speak with a specialist directly about my project.",
+                      "Hi! I’d like to speak with a specialist directly about my project."
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -559,6 +591,11 @@ const ContactUs = ({
                     <span>Quick Chat on WhatsApp</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
+
+                  <div className="flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400 px-1">
+                    <span>⭐ 4.9/5 Rating</span>
+                    <span>500+ Projects Delivered</span>
+                  </div>
                 </div>
               </div>
             )}

@@ -133,7 +133,7 @@ const ContactUs = ({
         `I am looking for a rapid quick solution and quotation. Please assist me!`;
 
     return `https://wa.me/91${WHATSAPP_PHONE}?text=${encodeURIComponent(
-      defaultMsg
+      defaultMsg,
     )}`;
   };
 
@@ -268,7 +268,7 @@ const ContactUs = ({
                             name="fullname"
                             value={formData.fullname}
                             onChange={handleInputChange}
-                            placeholder="Your Full Name"
+                            placeholder=""
                             className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                               errors.fullname
                                 ? "border-red-400 focus:ring-red-200"
@@ -296,7 +296,7 @@ const ContactUs = ({
                               name="email"
                               value={formData.email}
                               onChange={handleInputChange}
-                              placeholder="your.email@example.com"
+                              placeholder=""
                               className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                                 errors.email
                                   ? "border-red-400 focus:ring-red-200"
@@ -322,7 +322,7 @@ const ContactUs = ({
                               name="phone"
                               value={formData.phone}
                               onChange={handleInputChange}
-                              placeholder="e.g. +91 98765 43210"
+                              placeholder=""
                               className={`w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border ${
                                 errors.phone
                                   ? "border-red-400 focus:ring-red-200"
@@ -580,7 +580,7 @@ const ContactUs = ({
                   {/* Fast WhatsApp direct action pill */}
                   <a
                     href={getWhatsAppUrl(
-                      "Hi! I’d like to speak with a specialist directly about my project."
+                      "Hi! I’d like to speak with a specialist directly about my project.",
                     )}
                     target="_blank"
                     rel="noopener noreferrer"

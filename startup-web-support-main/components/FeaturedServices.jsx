@@ -1,5 +1,11 @@
 "use client";
+
+import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { BsWhatsapp } from "react-icons/bs";
+import { Sparkles, ArrowUpRight } from "lucide-react";
+import { getWhatsAppUrl, openWhatsApp } from "@/lib/whatsapp";
 import {
   bellShakeAnimation,
   cardContentVariants,
@@ -8,108 +14,119 @@ import {
   headerTextVariants,
   imageVariants,
 } from "./GlobalCss";
-import Image from "next/image";
-import { BsWhatsapp } from "react-icons/bs";
-import { getWhatsAppUrl, openWhatsApp } from "@/lib/whatsapp";
 
 const servicesData = [
   {
     image: "/website-development.png",
     title: "Website Development",
     description:
-      `Startup Web Support is a reliable web development company Bihar that works hand in hand with local and regional businesses. We provide custom web development services in a simple and practical way, without overcomplicating things. Our main focus is on clean website layouts, fast loading speed, and smooth mobile performance, so your business can grow online without technical stress or confusion.`,
+      "Startup Web Support builds high-speed, mobile-responsive custom websites. Clean layout architecture, rapid loading speed, and modern SEO that convert visitors into paying clients.",
   },
   {
     image: "/app-development.png",
     title: "App Development",
     description:
-      `As a reliable mobile app development company, we build easy-to-use and secure applications for startups, small businesses, and enterprises. We work like a professional app development agency, ensuring every app performs smoothly and supports future business growth.`,
+      "We design and build secure, intuitive mobile apps for iOS and Android. Engineered for smooth user experiences, scalable architecture, and reliable enterprise performance.",
   },
   {
     image: "/ecommerce-website.png",
     title: "E-Commerce Website",
     description:
-      `We offer complete E-commerce Website Development solutions for businesses planning to sell products or services online. From product listing to payment setup and order handling, everything is managed properly to keep the process simple for business owners.
-        Our e-commerce platforms are fast, secure, and customer-friendly, helping users shop comfortably while making it easy for owners to manage sales and inventory without stress.`,
+      "Full-featured online stores with automated payment gateways, product catalogs, live inventory tracking, and frictionless checkout flows to maximize retail revenue.",
   },
   {
     image: "/marketing.png",
     title: "Marketing Solutions",
     description:
-      `As a local digital marketing agency Patna, we understand how businesses operate in this region. Our marketing approach is practical, transparent, and focused on results that matter.
-        We provide SEO Services in Patna and Digital Marketing in Patna that help businesses gain visibility, attract the right audience, and generate real enquiries instead of empty traffic.
-`,
+      "Results-driven digital marketing and SEO services in Patna. Practical, transparent campaigns that deliver verified enquiries, organic search growth, and real customers.",
   },
   {
     image: "/ads.png",
     title: "Premium Advertising",
     description:
-      `Our team handles Paid Social Media Marketing in Patna with proper planning and regular monitoring, so your advertising budget is used carefully and effectively. We design campaigns that reach the right people at the right time, based on how local customers actually behave online.`,
+      "Data-backed Paid Social Media Marketing and Google Search campaigns. Strategic targeting, tight budget control, and maximum lead return tailored to audience behavior.",
   },
   {
     image: "/design.png",
     title: "Designing Solutions",
     description:
-      `We provide Best Graphic Designing Services for websites, social media creatives, and branding needs. Our designs are clean, clear, and made to connect easily with your audience.
-        Strong visuals help build trust, which is why our design work focuses on clarity and professionalism so your brand looks reliable across all platforms.
-`,
-  },
-   {
-    image: "/marketing.png",
-    title: "Accounting & Financial Software",
-    description:
-      `As a professional software development company, we build accounting and financial systems that are made for everyday business use, not just for namesake. We understand how billing, entries, and reports are handled on a daily basis, so our software keeps these tasks simple, clear, and stress-free.
-      All our solutions follow the required compliance rules, so business owners can work with peace of mind, knowing everything is accurate and properly maintained.
-`,
+      "Professional graphic design, UI/UX design, and corporate branding assets that build instant trust and ensure your company stands out across digital platforms.",
   },
   {
-    image: "/website-development.png",
+    image: "/finance.png",
+    title: "Financial & ERP Software",
+    description:
+      "Custom accounting, billing, and financial software designed for everyday business operations. 100% compliant, easy to operate, and equipped with error-free reporting.",
+  },
+  {
+    image: "/it-solution.png",
     title: "Web & Software Solutions",
     description:
-      ` Startup Web Support is a trusted web application development company delivering practical digital systems that support daily business operations. We focus on applications that are easy to use and genuinely helpful.
-        Recognized among Top Software Development in Patna, we build business-focused solutions that improve efficiency and strengthen online presence through reliable support and honest work.
-`,
+      "Reliable web application development delivering practical digital systems that automate operational workflows, enhance efficiency, and support long-term growth.",
   },
 ];
 
 const FeaturedServices = () => {
-
   return (
-    <section className="relative py-20 bg-white overflow-hidden">
-      {/* Background Circles */}
-      <div className="absolute right-[-20%] top-1/3 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200 opacity-40" />
-      <div className="absolute left-[-20%] bottom-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200 opacity-40" />
+    <section className="relative py-24 sm:py-32 bg-white overflow-hidden font-sans">
+      {/* =========================================================================
+          BACKGROUND: AMBIENT GLOW & VERTICAL LIGHT ACCENTS (Matching Hero Styling)
+         ========================================================================= */}
+      <div
+        className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden"
+        aria-hidden="true"
+      >
+        {/* Soft Ambient Radial Glow Behind Header */}
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[90vw] max-w-5xl h-[420px] bg-gradient-to-b from-[#38bdf8]/10 via-[#009CDE]/04 to-transparent rounded-full blur-3xl" />
 
-      <div className="container mx-auto px-4 max-w-7xl relative z-10">
-        {/* Heading */}
-        <div className="text-center mb-16">
+        {/* Top & Bottom Ambient Glow Circles */}
+        <div className="absolute right-[-10%] top-1/4 w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-sky-200/30 to-blue-300/20 blur-3xl" />
+        <div className="absolute left-[-10%] bottom-1/4 w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-sky-200/30 to-indigo-200/20 blur-3xl" />
+
+        {/* Ambient Top Subtle Horizon Line */}
+        <div className="absolute top-0 inset-x-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#009CDE]/20 to-transparent" />
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+        {/* =======================================================================
+            SECTION HEADER (World-Class Typography & Announcement Pill)
+           ======================================================================= */}
+        <div className="text-center mb-16 sm:mb-20">
+         
+
+          {/* Master Heading */}
           <motion.h2
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+            className="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-[1.14] mb-4 sm:mb-5"
             variants={headerTextVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Our Featured Services
+            Our Featured{" "}
+            <span className="font-serif italic font-medium bg-gradient-to-r from-[#009CDE] via-[#0086bf] to-[#0668E1] bg-clip-text text-transparent px-1 drop-shadow-xs">
+              Services
+            </span>
           </motion.h2>
 
+          {/* Subheading Narrative */}
           <motion.p
-            className="text-lg text-gray-600 max-w-3xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-normal px-2"
             variants={headerTextVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.15 }}
           >
-            We are an IT company in Patna that delivers powerful digital solutions
-            to help businesses grow globally with scalable and innovative
-            technology.
+            Delivering scalable, secure, and revenue-focused technology solutions
+            engineered to help businesses in Patna and beyond lead in the digital era.
           </motion.p>
         </div>
 
-        {/* Services Grid */}
+        {/* =======================================================================
+            SERVICES GRID (Highlighted Glassmorphic Cards)
+           ======================================================================= */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7"
           variants={gridContainerVariants}
           initial="hidden"
           whileInView="visible"
@@ -122,46 +139,53 @@ const FeaturedServices = () => {
               <motion.div
                 key={index}
                 layout
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.025, y: -6 }}
                 onClick={() => openWhatsApp(service?.title)}
-                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full cursor-pointer group/card"
+                className="relative overflow-hidden flex flex-col justify-between h-full bg-gradient-to-b from-white via-sky-50/50 to-blue-50/40 backdrop-blur-2xl p-6 rounded-[26px] border border-sky-200/80 shadow-[0_16px_36px_-8px_rgba(0,156,222,0.18),0_2px_8px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,1)] hover:border-[#009CDE] hover:shadow-[0_22px_50px_-6px_rgba(0,156,222,0.32),0_0_24px_rgba(56,189,248,0.22)] transition-all duration-300 cursor-pointer group/card before:absolute before:top-0 before:inset-x-0 before:h-[3px] before:bg-gradient-to-r before:from-transparent before:via-[#009CDE] before:to-transparent"
                 variants={cardVariants}
               >
-                <div>
-                  {/* Icon */}
+                {/* Luminous Inner Corner Glow Highlight */}
+                <div className="absolute -top-16 -right-16 w-36 h-36 bg-gradient-to-br from-[#38bdf8]/30 via-[#009CDE]/15 to-transparent rounded-full blur-2xl pointer-events-none group-hover/card:scale-150 transition-transform duration-500" />
+
+                {/* Subtle Digital Circuit Mesh Texture */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#009CDE0d_1px,transparent_1px),linear-gradient(to_bottom,#009CDE0d_1px,transparent_1px)] bg-[size:14px_14px] pointer-events-none rounded-[26px] opacity-60" />
+
+                {/* Card Body */}
+                <div className="relative z-10 flex flex-col items-start text-left">
+                  {/* Borderless 3D Soft Cushion Icon Box */}
                   <motion.div
-                    className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
+                    className="w-16 h-16 rounded-[22px] bg-gradient-to-br from-sky-50 via-blue-50 to-sky-100/70 shadow-[0_8px_20px_-4px_rgba(0,156,222,0.18),inset_0_1px_2px_rgba(255,255,255,0.9)] flex items-center justify-center flex-shrink-0 mb-5 group-hover/card:scale-108 group-hover/card:shadow-[0_12px_24px_-4px_rgba(0,156,222,0.28)] transition-all duration-300"
                     variants={imageVariants}
                   >
-                    <Image 
+                    <Image
                       fetchPriority="high"
                       src={service.image}
                       alt={service.title}
-                      width={56}  
-                      height={56}
-                      className="object-contain"
+                      width={44}
+                      height={44}
+                      className="object-contain drop-shadow-[0_4px_8px_rgba(0,156,222,0.25)]"
                       whileHover={bellShakeAnimation}
                     />
                   </motion.div>
 
-                  {/* Content */}
+                  {/* Text Content */}
                   <motion.div
                     layout
                     className="flex flex-col text-left"
                     variants={cardContentVariants}
                   >
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2 min-h-[56px] flex items-center group-hover/card:text-[#009CDE] transition-colors duration-200">
+                    <h3 className="text-xl font-extrabold text-slate-900 tracking-tight leading-snug group-hover/card:text-[#009CDE] transition-colors duration-200">
                       {service.title}
                     </h3>
 
-                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-4">
+                    <p className="text-slate-600 text-sm leading-relaxed mt-2.5 font-normal">
                       {service.description}
                     </p>
                   </motion.div>
                 </div>
 
-                {/* Action Button */}
-                <div className="mt-6 pt-2">
+                {/* Bottom CTA Action Button */}
+                <div className="mt-6 pt-2 relative z-10">
                   <a
                     href={whatsappUrl}
                     target="_blank"
@@ -170,10 +194,11 @@ const FeaturedServices = () => {
                       e.stopPropagation();
                       openWhatsApp(service?.title);
                     }}
-                    className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-[#009CDE] hover:bg-[#0086bf] text-white font-semibold text-sm rounded-lg shadow-sm hover:shadow-md transition-all duration-200 group"
+                    className="group/btn inline-flex items-center justify-center gap-2.5 w-full px-4 py-3 bg-gradient-to-r from-[#009CDE] to-[#0086bf] hover:from-[#0086bf] hover:to-[#0074a6] text-white font-bold text-sm rounded-xl shadow-[0_4px_14px_rgba(0,156,222,0.32)] hover:shadow-[0_6px_20px_rgba(0,156,222,0.45)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
                   >
-                    <BsWhatsapp className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
+                    <BsWhatsapp className="w-4 h-4 transition-transform duration-200 group-hover/btn:scale-115 text-white" />
                     <span>Get Free Quotation</span>
+                    <ArrowUpRight className="w-4 h-4 text-white/80 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                   </a>
                 </div>
               </motion.div>

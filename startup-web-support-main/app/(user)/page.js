@@ -24,7 +24,7 @@ const page = () => {
         image="sws-logo.png"
         keywords="it company in patna,software company in patna, digital marketing agency Patna, web development company Bihar, best it company in patna,mobile app development company, software development company, mobile app development company India, app development agency, web application development company, custom web development services, SEO Services in Patna, Digital Marketing in Patna, Website Development Patna, E-commerce Website Development, Best Graphic Designing Services, Best Internet Marketing Services in Patna, Top Software Development in Patna,Top 10 IT Company in Patna, Paid Social Media Marketing in Patna, Social Media Management in Patna,Top Software Company in Patna"
       />
-      <div className="overflow-hidden">
+      <div className="overflow-x-clip">
         {/* <Hero /> */}
 
         <NewHeroSection />

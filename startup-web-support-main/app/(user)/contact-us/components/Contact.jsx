@@ -1,10 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  IoCloseOutline,
-} from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 import { BsWhatsapp } from "react-icons/bs";
 import {
   User,
@@ -17,7 +14,8 @@ import {
   Zap,
   PhoneCall,
   Loader2,
-  ShieldCheck,
+  MapPin,
+  ExternalLink,
 } from "lucide-react";
 import contactService from "@/services/contact.service";
 import { toast } from "sonner";
@@ -161,7 +159,7 @@ const Contact = () => {
                 ! We’ve received your message and will review it shortly.
               </p>
 
-              {/* 🔥 RAPID QUICK SOLUTION WHATSAPP CARD 🔥 */}
+              {/* RAPID QUICK SOLUTION WHATSAPP CARD */}
               <div className="mt-5 p-5 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-green-500/5 to-teal-500/10 border-2 border-emerald-500/30 text-center relative overflow-hidden shadow-inner">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white uppercase tracking-wider mb-2.5 shadow-sm">
                   <Zap className="w-3.5 h-3.5 fill-current" /> Rapid Quick
@@ -172,7 +170,8 @@ const Contact = () => {
                 </h4>
                 <p className="text-xs text-gray-600 dark:text-gray-300 max-w-sm mx-auto mb-4 leading-relaxed">
                   Skip the queue! Connect directly with our lead specialist
-                  right now on WhatsApp for instant project estimation & support.
+                  right now on WhatsApp for instant project estimation &amp;
+                  support.
                 </p>
 
                 <a
@@ -218,94 +217,23 @@ const Contact = () => {
       </AnimatePresence>
 
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* ================= LEFT COLUMN: HERO ILLUSTRATION & CTA ================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+          {/* ================= LEFT COLUMN: CONTACT FORM ================= */}
           <motion.div
-            className="lg:col-span-5 order-2 lg:order-1"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-xl overflow-hidden">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 mb-3">
-                <Sparkles className="w-3.5 h-3.5" /> Rapid Business Solutions
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-                Let&apos;s Build Something Great Together
-              </h3>
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                Have a new project or looking to upgrade your tech stack? Our
-                dedicated engineers and marketers are ready to assist you.
-              </p>
-
-              {/* The CTA illustration image */}
-              <div className="relative my-6 flex items-center justify-center">
-                <div className="absolute inset-0 bg-sky-400/10 rounded-full blur-3xl transform scale-90" />
-                <Image
-                  src="/cta.png"
-                  alt="Startup Web Support Helpdesk"
-                  width={340}
-                  height={300}
-                  className="relative z-10 w-full max-w-[260px] sm:max-w-[300px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-500"
-                  priority
-                />
-              </div>
-
-              {/* Value items */}
-              <div className="space-y-2.5 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <span>Free 30-min strategy & feasibility roadmap</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-500" />
-                  <span>Direct WhatsApp support for rapid solution</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-indigo-500" />
-                  <span>Transparent milestone-based development</span>
-                </div>
-              </div>
-
-              {/* Direct Quick WhatsApp Button */}
-              <div className="mt-6">
-                <a
-                  href={`https://wa.me/91${WHATSAPP_PHONE}?text=${encodeURIComponent(
-                    "Hello Startup Web Support! I would like to consult with an expert regarding my project."
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm py-3.5 px-5 rounded-xl shadow-md hover:shadow-lg transition-all"
-                >
-                  <BsWhatsapp className="w-5 h-5" />
-                  <span>Chat on WhatsApp Directly</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* ================= RIGHT COLUMN: MODERN FORM ================= */}
-          <motion.div
-            className="lg:col-span-7 order-1 lg:order-2"
-            initial={{ opacity: 0, x: 30 }}
+            className="lg:col-span-7 flex flex-col"
+            initial={{ opacity: 0, x: -25 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 dark:border-slate-800 shadow-xl">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/80 dark:border-slate-800 shadow-xl flex-1 flex flex-col justify-between">
               <div className="mb-6">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 border border-blue-100 dark:border-blue-900/40 mb-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  Fast Response • Dedicated IT Consultants
-                </span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                   Get In Touch With Us
                 </h2>
                 <p className="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-300">
                   Ready to elevate your digital presence? Send us your
-                  requirements and get a customized proposal within hours.
+                  requirements and get a customized proposal.
                 </p>
               </div>
 
@@ -328,8 +256,7 @@ const Contact = () => {
                         value={formData.fullname}
                         onChange={handleInputChange}
                         required
-                        className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
-                        placeholder="Your Full Name"
+                        className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
                       />
                     </div>
                   </div>
@@ -351,8 +278,7 @@ const Contact = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
-                        placeholder="your.email@example.com"
+                        className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
                       />
                     </div>
                   </div>
@@ -376,8 +302,7 @@ const Contact = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         required
-                        className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
-                        placeholder="e.g. +91 98765 43210"
+                        className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
                       />
                     </div>
                   </div>
@@ -398,8 +323,7 @@ const Contact = () => {
                         name="subject"
                         value={formData.subject}
                         onChange={handleInputChange}
-                        className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
-                        placeholder="e.g. Web / App Development"
+                        className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
                       />
                     </div>
                   </div>
@@ -418,11 +342,10 @@ const Contact = () => {
                     <textarea
                       id="message"
                       name="message"
-                      rows="3"
+                      rows="4"
                       value={formData.message}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all resize-none"
-                      placeholder="Brief details about your project or inquiry..."
+                      className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 transition-all resize-none"
                     />
                   </div>
                 </div>
@@ -435,7 +358,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 px-6 rounded-xl text-white font-semibold text-base sm:text-lg flex items-center justify-center space-x-2 shadow-lg shadow-sky-500/25 hover:shadow-xl hover:shadow-sky-500/35 transition-all duration-200 bg-gradient-to-r from-sky-600 via-blue-600 to-[#0197DD] hover:opacity-95 active:scale-[0.99] disabled:opacity-75 disabled:cursor-not-allowed group cursor-pointer"
+                  className="w-full py-3.5 px-6 rounded-xl text-white font-semibold text-base flex items-center justify-center space-x-2 shadow-lg shadow-sky-500/25 hover:shadow-xl hover:shadow-sky-500/35 transition-all duration-200 bg-gradient-to-r from-sky-600 via-blue-600 to-[#0197DD] hover:opacity-95 active:scale-[0.99] disabled:opacity-75 disabled:cursor-not-allowed group cursor-pointer"
                 >
                   {loading ? (
                     <>
@@ -449,14 +372,58 @@ const Contact = () => {
                     </>
                   )}
                 </button>
-
-                <div className="flex items-center justify-center gap-2 pt-1 text-xs text-gray-500 dark:text-gray-400">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>
-                    100% Confidential • Direct Contact & Fast Turnaround
-                  </span>
-                </div>
               </form>
+            </div>
+          </motion.div>
+
+          {/* ================= RIGHT COLUMN: INTERACTIVE GOOGLE MAP ================= */}
+          <motion.div
+            className="lg:col-span-5 flex flex-col"
+            initial={{ opacity: 0, x: 25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-3 sm:p-4 border border-slate-200/80 dark:border-slate-800 shadow-xl flex flex-col h-full min-h-[440px] sm:min-h-[500px]">
+              {/* Responsive Google Map Frame */}
+              <div className="relative w-full flex-1 min-h-[350px] rounded-2xl overflow-hidden border border-slate-200/70 dark:border-slate-800">
+                <iframe
+                  title="Startup Web Support"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4085.3175911032195!2d85.07166537588884!3d25.602328277452866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed57b293eb6bf7%3A0x9a21341604d0ef5d!2sStartup%20Web%20Support!5e1!3m2!1sen!2sin!4v1795002229043!5m2!1sen!2sin"
+                  className="w-full h-full min-h-[350px] border-0"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+              </div>
+
+              {/* Location Details Footer */}
+              <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="flex items-start gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-sky-50 dark:bg-sky-950/50 text-[#009CDE] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900 dark:text-white">
+                      Startup Web Support
+                    </h4>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 leading-relaxed">
+                      3rd Floor, Parvati Tower, Phulwari Rd, Jagdeo Path, Patna,
+                      Bihar 800014
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href="https://maps.google.com/?q=3rd+Floor,+Parvati+Tower,+Phulwari+Rd,+Jagdeo+Path,+Patna,+Bihar+800014"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-[#009CDE] text-gray-800 hover:text-white dark:bg-slate-800 dark:text-gray-200 dark:hover:bg-[#009CDE] dark:hover:text-white text-xs font-semibold transition-all duration-200 whitespace-nowrap"
+                >
+                  <span>Open Maps</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>

@@ -189,9 +189,6 @@ const ContactUs = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100/70 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 mb-3">
-              <Zap className="w-3.5 h-3.5" /> Fast Response Guaranteed
-            </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
               {title}
             </h2>
@@ -242,16 +239,12 @@ const ContactUs = ({
                     transition={{ duration: 0.3 }}
                   >
                     <div className="mb-5 sm:mb-6">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 border border-blue-100 dark:border-blue-900/40 mb-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        Online Now • Response in ~15 Mins
-                      </div>
                       <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                         {title || "Send us a Message"}
                       </h3>
                       <p className="mt-1.5 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                         {subtitle ||
-                          "Fill in your details below and our tech specialists will reach out promptly."}
+                          "Fill in your details below and our team will get in touch promptly."}
                       </p>
                     </div>
 
@@ -407,15 +400,6 @@ const ContactUs = ({
                           </>
                         )}
                       </button>
-
-                      {/* Trust guarantee */}
-                      <div className="flex items-center justify-center gap-2 pt-1 text-xs text-gray-500 dark:text-gray-400">
-                        <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                        <span>
-                          100% Confidential • Fast Direct Call / WhatsApp
-                          Follow-up
-                        </span>
-                      </div>
                     </form>
                   </motion.div>
                 ) : (
@@ -533,15 +517,11 @@ const ContactUs = ({
 
                 {/* Top header */}
                 <div className="relative z-10">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100/80 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 w-fit mb-2">
-                    <Sparkles className="w-3.5 h-3.5" /> Rapid Business Support
-                  </div>
                   <h4 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-                    Talk Directly with Our Specialists
+                    Talk With Our Specialists
                   </h4>
                   <p className="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                    Get transparent consultation, customized architectural
-                    guidance, and fast project kickoff.
+                    Get in touch for technical consultation, architecture guidance, and project estimation.
                   </p>
                 </div>
 
@@ -560,24 +540,8 @@ const ContactUs = ({
                   </div>
                 </div>
 
-                {/* Bullet points & quick WhatsApp */}
-                <div className="relative z-10 space-y-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
-                  <div className="space-y-1.5 text-xs text-gray-600 dark:text-gray-300">
-                    <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                      <span>Free 30-min strategy & feasibility roadmap</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      <span>Direct WhatsApp line for rapid updates</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-                      <span>Full end-to-end execution & SLA guarantee</span>
-                    </div>
-                  </div>
-
-                  {/* Fast WhatsApp direct action pill */}
+                {/* Direct WhatsApp Action */}
+                <div className="relative z-10 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
                   <a
                     href={getWhatsAppUrl(
                       "Hi! I’d like to speak with a specialist directly about my project.",
@@ -585,17 +549,12 @@ const ContactUs = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => handleWhatsAppClick("Right CTA Sidebar")}
-                    className="w-full inline-flex items-center justify-center gap-2.5 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 font-semibold text-xs sm:text-sm py-2.5 px-4 rounded-xl transition-all"
+                    className="w-full inline-flex items-center justify-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition-all"
                   >
-                    <BsWhatsapp className="w-4 h-4 text-emerald-600" />
+                    <BsWhatsapp className="w-4 h-4" />
                     <span>Quick Chat on WhatsApp</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
-
-                  <div className="flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400 px-1">
-                    <span>⭐ 4.9/5 Rating</span>
-                    <span>500+ Projects Delivered</span>
-                  </div>
                 </div>
               </div>
             )}

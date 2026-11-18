@@ -92,8 +92,6 @@ const FeaturedServices = () => {
             SECTION HEADER (World-Class Typography & Announcement Pill)
            ======================================================================= */}
         <div className="text-center mb-16 sm:mb-20">
-         
-
           {/* Master Heading */}
           <motion.h2
             className="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-[1.14] mb-4 sm:mb-5"
@@ -117,8 +115,9 @@ const FeaturedServices = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
           >
-            Delivering scalable, secure, and revenue-focused technology solutions
-            engineered to help businesses in Patna and beyond lead in the digital era.
+            Delivering scalable, secure, and revenue-focused technology
+            solutions engineered to help businesses in Patna and beyond lead in
+            the digital era.
           </motion.p>
         </div>
 

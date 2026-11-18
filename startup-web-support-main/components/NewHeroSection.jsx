@@ -31,13 +31,13 @@ const headlineItems = [
     suffix: "",
   },
   {
-    prefix: "Build Your Digital Presence.",
-    highlight: "Expand Your Reach.",
+    prefix: "Build Your Brand.",
+    highlight: "Grow Your Reach.",
     suffix: "",
   },
   {
-    prefix: "Get More Customers with",
-    highlight: "Powerful Digital Solutions",
+    prefix: "Get More Leads.",
+    highlight: "Grow Your Business.",
     suffix: "",
   },
   {

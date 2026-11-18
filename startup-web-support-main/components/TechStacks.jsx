@@ -1,199 +1,261 @@
-'use client'
+"use client";
+
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import React from "react";
-import Link from "next/link";
-import { BsWhatsapp } from "react-icons/bs";
-import { getWhatsAppUrl, openWhatsApp } from "@/lib/whatsapp";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { openWhatsApp } from "@/lib/whatsapp";
+
+const technologies = [
+  {
+    name: "Next.js 15",
+    category: "Frontend",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+    description:
+      "Fullstack React framework with edge server-side rendering, instant page transitions, and enterprise SEO.",
+  },
+  {
+    name: "React 19",
+    category: "Frontend",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+    description:
+      "Modern UI library engineered for highly responsive, interactive, and seamless user experiences.",
+  },
+  {
+    name: "TypeScript",
+    category: "Frontend",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+    description:
+      "Strict type-safe architecture ensuring scalable, self-documenting code with zero runtime crashes.",
+  },
+  {
+    name: "Tailwind CSS",
+    category: "Frontend",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
+    description:
+      "Utility-first styling engine delivering custom design systems with sub-second paint speeds.",
+  },
+  {
+    name: "Node.js",
+    category: "Backend",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+    description:
+      "Asynchronous event-driven runtime built for fast, resilient APIs and scalable microservices.",
+  },
+  {
+    name: "Python",
+    category: "Backend",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    description:
+      "High-speed backend architecture optimized for AI integration, data processing, and automation.",
+  },
+  {
+    name: "Laravel",
+    category: "Backend",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
+    description:
+      "Enterprise-grade framework featuring clean architectural patterns, robust security, and reliable APIs.",
+  },
+  {
+    name: "Flutter",
+    category: "Mobile",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg",
+    description:
+      "Cross-platform mobile engine compiling to high-performance native iOS and Android apps.",
+  },
+  {
+    name: "React Native",
+    category: "Mobile",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+    description:
+      "Native mobile applications with direct hardware integration and smooth 60+ FPS user interfaces.",
+  },
+  {
+    name: "PostgreSQL",
+    category: "Database",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+    description:
+      "Battle-tested relational database engineered for mission-critical reliability and complex queries.",
+  },
+  {
+    name: "MongoDB",
+    category: "Database",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+    description:
+      "High-throughput NoSQL document database built for flexible schemas and real-time operations.",
+  },
+  {
+    name: "MySQL",
+    category: "Database",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+    description:
+      "Structured enterprise database trusted worldwide for high availability, transactional speed, and stability.",
+  },
+  {
+    name: "Redis",
+    category: "Database",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg",
+    description:
+      "In-memory data store for lightning-fast caching, session management, and real-time message queuing.",
+  },
+  {
+    name: "Docker",
+    category: "DevOps",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+    description:
+      "Containerization technology ensuring consistent, isolated environments from development to production.",
+  },
+  {
+    name: "AWS & Cloud",
+    category: "Cloud",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original.svg",
+    description:
+      "Global cloud infrastructure providing high availability, auto-scaling, and edge content delivery.",
+  },
+];
 
 export default function TechStack() {
-  const technologies = [
-    {
-      name: "Php",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
-      color: "from-purple-400 to-purple-500",
-    },
-    {
-      name: "React",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-      color: "from-cyan-400 to-blue-500",
-    },
-    {
-      name: "Node.js",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-      color: "from-green-500 to-emerald-600",
-    },
-    {
-      name: "MongoDB",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-      color: "from-green-600 to-teal-600",
-    },
+  const [maxScroll, setMaxScroll] = useState(0);
 
-    {
-      name: "Next.js",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-      color: "from-gray-700 to-gray-900",
-    },
-    {
-      name: "Tailwind",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
-      color: "from-cyan-400 to-blue-600",
-    },
-    {
-      name: "PostgreSQL",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-      color: "from-blue-700 to-indigo-700",
-    },
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
 
-    {
-      name: "Laravel",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
-      color: "from-orange-500 to-orange-600",
-    },
-    {
-      name: "Mysql",
-      logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
-      color: "from-blue-500 to-blue-600",
-    },
-  ];
+  // Measure horizontal scroll distance
+  useEffect(() => {
+    const calculateDistance = () => {
+      if (trackRef.current) {
+        const scrollWidth = trackRef.current.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        const paddingRight = viewportWidth < 640 ? 40 : 100;
+        const distance = Math.max(
+          0,
+          scrollWidth - viewportWidth + paddingRight,
+        );
+        setMaxScroll(distance);
+      }
+    };
+
+    calculateDistance();
+    window.addEventListener("resize", calculateDistance);
+    const timer = setTimeout(calculateDistance, 250);
+
+    return () => {
+      window.removeEventListener("resize", calculateDistance);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // Track vertical scroll through pinned container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Smooth translation across horizontal axis
+  const rawX = useTransform(
+    scrollYProgress,
+    (progress) => -progress * maxScroll,
+  );
+  const smoothX = useSpring(rawX, {
+    damping: 24,
+    stiffness: 110,
+    mass: 0.12,
+  });
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-8">
-      <div className="max-w-7xl w-full grid lg:grid-cols-2 gap-16 items-center">
-        {/* Left Side - Text Content */}
-        <div className="space-y-6 text-gray-900">
-          <div className="inline-block">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-brand-color to-secondary-brand-color sm:text-xl  text-sm font-semibold tracking-widest uppercase">
-              Technology Stack
-            </span>
-            <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-blue-600 mt-2 rounded-full"></div>
-          </div>
+    <section
+      ref={containerRef}
+      className="relative h-[320vh] bg-white text-slate-900 font-sans"
+    >
+      {/* Background Soft Glows */}
+      <div
+        className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden"
+        aria-hidden="true"
+      >
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] max-w-4xl h-[400px] bg-gradient-to-b from-[#38bdf8]/10 via-[#009CDE]/05 to-transparent rounded-full blur-3xl" />
+        <div className="absolute right-[-10%] top-1/3 w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-sky-200/20 to-blue-300/10 blur-3xl" />
+        <div className="absolute left-[-10%] bottom-1/4 w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-sky-200/20 to-indigo-200/10 blur-3xl" />
+      </div>
 
-          <h3 className="text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
-            Powered by
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600">
+      {/* Sticky Viewport Container */}
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden z-10 py-6 sm:py-10">
+        {/* Clean Center Heading */}
+        <div className="container mx-auto px-4 max-w-7xl text-center mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+            Engineered with{" "}
+            <span className="font-serif italic font-medium bg-gradient-to-r from-[#009CDE] via-[#0086bf] to-[#0668E1] bg-clip-text text-transparent px-1">
               Modern Tech
             </span>
-          </h3>
-
-          <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            We leverage cutting-edge technologies to build scalable, performant,
-            and maintainable applications. Our tech stack is carefully curated
-            to deliver exceptional user experiences and robust backend
-            solutions.
-          </p>
-
-          <div className="flex flex-wrap gap-4 pt-4">
-            <a
-              href={getWhatsAppUrl("Modern Tech Development")}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                e.stopPropagation();
-                openWhatsApp("Modern Tech Development");
-              }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105"
-            >
-              <BsWhatsapp className="w-4 h-4" />
-              <span>Get Started</span>
-            </a>
-            <Link
-              href="/portfolio"
-              className="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-cyan-500 hover:text-cyan-600 transition-all duration-300 hover:scale-105"
-            >
-              View Our Work
-            </Link>
-          </div>
+          </h2>
         </div>
 
-        {/* Right Side - Geometric Tech Grid */}
-        <div className="relative">
-          {/* Background Glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-blue-500/10 blur-3xl"></div>
+        {/* Horizontal Cards Scroller */}
+        <div className="w-full relative overflow-hidden py-10 -my-4">
+          {/* Edge Fades */}
+          <div className="absolute left-0 inset-y-0 w-8 sm:w-20 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 inset-y-0 w-8 sm:w-20 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none" />
 
-          {/* Hexagonal Grid Pattern */}
-          <div className="relative grid grid-cols-3 gap-6">
-            {technologies.map((tech, idx) => (
-              <div
+          {/* Gliding Track */}
+          <motion.div
+            ref={trackRef}
+            style={{ x: smoothX }}
+            className="flex items-center gap-5 sm:gap-6 px-6 sm:px-14 lg:px-20 py-4 w-max select-none will-change-transform"
+          >
+            {technologies.map((tech) => (
+              <motion.div
                 key={tech.name}
-                className="group relative cursor-pointer"
-                onClick={() => openWhatsApp(`${tech.name} Development`)}
-                title={`Get quotation for ${tech.name} development`}
-                style={{
-                  animation: `float ${3 + (idx % 3)}s ease-in-out infinite`,
-                  animationDelay: `${idx * 0.2}s`,
-                }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                onClick={() => openWhatsApp(`${tech.name} Development Project`)}
+                title={`Discuss ${tech.name} development`}
+                className="group relative w-[290px] sm:w-[330px] md:w-[360px] h-[370px] sm:h-[400px] rounded-[30px] p-7 sm:p-8 bg-gradient-to-b from-white via-sky-50/40 to-blue-50/20 border border-sky-100/90 shadow-[0_12px_32px_-6px_rgba(0,156,222,0.12),0_2px_8px_rgba(0,0,0,0.02),inset_0_1px_2px_rgba(255,255,255,1)] hover:border-[#009CDE] hover:shadow-[0_20px_45px_-8px_rgba(0,156,222,0.28),0_0_20px_rgba(56,189,248,0.2)] transition-all duration-300 cursor-pointer flex flex-col justify-between flex-shrink-0 overflow-hidden"
               >
-                {/* Hexagon Shape */}
-                <div className="relative aspect-square">
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-5 group-hover:opacity-10 transition-opacity duration-300`}
-                    style={{
-                      clipPath:
-                        "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                    }}
-                  ></div>
+                {/* Ambient Corner Flare */}
+                <div className="absolute -top-12 -right-12 w-28 h-28 bg-sky-200/40 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+                <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#009CDE]/0 group-hover:via-[#009CDE] to-transparent transition-all duration-300" />
 
-                  {/* Border */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-30 group-hover:opacity-60 transition-all duration-300 group-hover:scale-105`}
-                    style={{
-                      clipPath:
-                        "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                      padding: "2px",
-                    }}
-                  ></div>
-
-                  {/* Inner Content */}
-                  <div
-                    className="absolute inset-0 bg-white flex items-center justify-center group-hover:bg-gray-50 transition-colors duration-300"
-                    style={{
-                      clipPath:
-                        "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                      margin: "2px",
-                    }}
-                  >
-                    <div className="text-center p-4">
-                      <Image
-                        src={tech.logo}
-                        alt={tech.name}
-                        width={48}
-                        height={48}
-                        className="w-12 h-12 mx-auto mb-2 group-hover:scale-110 transition-transform duration-300"
-                      />
-                      <div
-                        className={`text-xs font-semibold text-transparent bg-clip-text bg-gradient-to-br ${tech.color}`}
-                      >
-                        {tech.name}
-                      </div>
-                    </div>
+                {/* Top Section: Category Badge + Arrow */}
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-[#009CDE] bg-sky-50/90 border border-sky-200/80 px-3 py-1 rounded-full uppercase tracking-wider">
+                    {tech.category}
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-slate-50 group-hover:bg-[#009CDE] group-hover:text-white text-slate-400 flex items-center justify-center transition-colors shadow-2xs">
+                    <ArrowUpRight className="w-4 h-4" />
                   </div>
                 </div>
 
-                {/* Hover Glow Effect */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300 -z-10`}
-                  style={{
-                    clipPath:
-                      "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                  }}
-                ></div>
-              </div>
+                {/* Middle Section: Bigger Logo & Typography */}
+                <div className="my-auto">
+                  {/* Bigger Logo Container */}
+                  <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-[24px] bg-gradient-to-br from-sky-50 via-white to-blue-50 shadow-[0_6px_18px_-2px_rgba(0,156,222,0.16),inset_0_1px_2px_rgba(255,255,255,1)] border border-sky-100/80 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                    <Image
+                      unoptimized
+                      src={tech.logo}
+                      alt={tech.name}
+                      width={52}
+                      height={52}
+                      className="w-13 h-13 sm:w-15 sm:h-15 object-contain drop-shadow-xs"
+                    />
+                  </div>
+
+                  <h3 className="text-2xl sm:text-[26px] font-black text-slate-900 group-hover:text-[#009CDE] transition-colors tracking-tight mb-2">
+                    {tech.name}
+                  </h3>
+
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                    {tech.description}
+                  </p>
+                </div>
+
+                {/* Bottom Section: Clean Link */}
+                <div className="pt-4 border-t border-sky-100/80 flex items-center justify-between text-xs font-bold text-[#009CDE]">
+                  <span>Discuss Project</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
-
-     <style jsx>{`
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-`}</style>
-
-    </div>
+    </section>
   );
 }

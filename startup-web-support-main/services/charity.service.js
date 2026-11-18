@@ -1,10 +1,11 @@
 import { API_URL } from "@/constants";
+import api from "./api";
 import axios from "axios";
 
 const charityService = {
   getAll: async ({
     page = 1,
-    limit = 9,
+    limit = 100,
     search = "",
     category = "all",
     status = "all",
@@ -18,28 +19,53 @@ const charityService = {
     if (status && status !== "all") params.append("status", status);
     if (featured !== undefined && featured !== "all") params.append("featured", featured);
 
-    const res = await axios.get(`${API_URL}/charity?${params.toString()}`);
-    return res.data;
+    try {
+      const res = await api.get(`/charity?${params.toString()}`);
+      return res.data;
+    } catch {
+      const res = await axios.get(`${API_URL}/charity?${params.toString()}`);
+      return res.data;
+    }
   },
 
   getById: async (id) => {
-    const res = await axios.get(`${API_URL}/charity/${id}`);
-    return res.data;
+    try {
+      const res = await api.get(`/charity/${id}`);
+      return res.data;
+    } catch {
+      const res = await axios.get(`${API_URL}/charity/${id}`);
+      return res.data;
+    }
   },
 
   create: async (data) => {
-    const res = await axios.post(`${API_URL}/charity`, data);
-    return res.data;
+    try {
+      const res = await api.post("/charity", data);
+      return res.data;
+    } catch {
+      const res = await axios.post(`${API_URL}/charity`, data);
+      return res.data;
+    }
   },
 
   update: async (id, data) => {
-    const res = await axios.put(`${API_URL}/charity/${id}`, data);
-    return res.data;
+    try {
+      const res = await api.put(`/charity/${id}`, data);
+      return res.data;
+    } catch {
+      const res = await axios.put(`${API_URL}/charity/${id}`, data);
+      return res.data;
+    }
   },
 
   remove: async (id) => {
-    const res = await axios.delete(`${API_URL}/charity/${id}`);
-    return res.data;
+    try {
+      const res = await api.delete(`/charity/${id}`);
+      return res.data;
+    } catch {
+      const res = await axios.delete(`${API_URL}/charity/${id}`);
+      return res.data;
+    }
   },
 };
 

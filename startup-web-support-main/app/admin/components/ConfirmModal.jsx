@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 
 export default function ConfirmModal({
   isOpen,
+  open,
   onClose,
   onConfirm,
   title = "Confirm Action",
@@ -20,8 +21,10 @@ export default function ConfirmModal({
   cancelText = "Cancel",
   variant = "destructive",
 }) {
+  const isModalOpen = isOpen !== undefined ? isOpen : (open !== undefined ? open : false);
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md rounded-xl shadow-xl dark:bg-zinc-900 dark:border-zinc-800">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold dark:text-zinc-100">{title}</DialogTitle>

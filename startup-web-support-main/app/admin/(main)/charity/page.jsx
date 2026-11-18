@@ -56,16 +56,17 @@ export default function AdminCharityPage() {
   };
 
   const handleConfirmDelete = async () => {
-    if (deleteId) {
-      try {
-        await charityService.remove(deleteId);
-        toast.success("Item deleted successfully");
-        setDeleteId(null);
-        fetchCharities();
-      } catch (error) {
-        console.error("Delete failed:", error);
-        toast.error("Failed to delete item");
-      }
+    const idToDelete = deleteId;
+    if (!idToDelete) return;
+
+    try {
+      await charityService.remove(idToDelete);
+      toast.success("Item deleted successfully");
+      setDeleteId(null);
+      fetchCharities();
+    } catch (error) {
+      console.error("Delete failed:", error);
+      toast.error(error.response?.data?.error || "Failed to delete item");
     }
   };
 
@@ -214,7 +215,10 @@ export default function AdminCharityPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => handleDeleteClick(item.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(item.id);
+                    }}
                     className="h-7 w-7 hover:text-red-600"
                     title="Delete"
                   >
@@ -246,11 +250,12 @@ export default function AdminCharityPage() {
 
       {/* Confirm Delete Modal */}
       <ConfirmModal
-        open={!!deleteId}
+        isOpen={Boolean(deleteId)}
+        open={Boolean(deleteId)}
         onClose={() => setDeleteId(null)}
         onConfirm={handleConfirmDelete}
         title="Delete Charity Media"
-        description="Are you sure you want to delete this media item? It will be removed from the charity page."
+        description="Are you sure you want to delete this media item? It will be permanently removed from the website."
       />
     </div>
   );

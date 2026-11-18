@@ -15,7 +15,8 @@ import {
   Plus, 
   ArrowRight,
   ShieldCheck,
-  Zap
+  Zap,
+  Heart
 } from "lucide-react";
 import Link from "next/link";
 import contactService from "@/services/contact.service";
@@ -23,6 +24,7 @@ import blogService from "@/services/blog.service";
 import clientService from "@/services/client.service";
 import invoiceService from "@/services/invoice.service";
 import portfolioService from "@/services/portfolio.service";
+import charityService from "@/services/charity.service";
 import axios from "axios";
 import { API_URL } from "@/constants";
 
@@ -37,7 +39,8 @@ const Dashboard = () => {
     invoices: 0,
     clients: 0,
     blogs: 0,
-    portfolios: 0
+    portfolios: 0,
+    charities: 0,
   });
   const [leadsTrend, setLeadsTrend] = useState({ percentage: 0, isPositive: true });
   const [recentLeads, setRecentLeads] = useState([]);
@@ -68,13 +71,15 @@ const Dashboard = () => {
           blogsRes,
           clientsRes,
           invoicesRes,
-          portfoliosRes
+          portfoliosRes,
+          charitiesRes
         ] = await Promise.allSettled([
           contactService.getAllContacts({ limit: 100 }),
           blogService.getAll(),
           clientService.getAll(),
           invoiceService.getAll({ limit: 100 }),
-          portfolioService.getAll({ limit: 100 })
+          portfolioService.getAll({ limit: 100 }),
+          charityService.getAll({ limit: 100 })
         ]);
 
         let leadsCount = 0;
@@ -146,6 +151,13 @@ const Dashboard = () => {
           portfoliosCount = pData?.totalItems || pList.length || 0;
         }
 
+        let charitiesCount = 0;
+        if (charitiesRes.status === "fulfilled") {
+          const chData = charitiesRes.value;
+          const chList = Array.isArray(chData) ? chData : chData?.charities || [];
+          charitiesCount = chData?.totalItems || chList.length || 0;
+        }
+
         let invoicesCount = 0;
         let totalBill = 0;
         let paid = 0;
@@ -163,7 +175,7 @@ const Dashboard = () => {
           });
         }
 
-        setStats({ leads: leadsCount, blogs: blogsCount, clients: clientsCount, invoices: invoicesCount, portfolios: portfoliosCount });
+        setStats({ leads: leadsCount, blogs: blogsCount, clients: clientsCount, invoices: invoicesCount, portfolios: portfoliosCount, charities: charitiesCount });
         setRecentLeads(recentLeadsList);
         setBillingInfo({ totalAmount: totalBill, paidCount: paid, unpaidCount: unpaid });
 
@@ -204,8 +216,8 @@ const Dashboard = () => {
         <div className="h-4 w-1/3 bg-zinc-200 dark:bg-zinc-800 rounded-lg" />
         
         {/* Metrics Grid Loading Skeleton */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {[...Array(5)].map((_, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+          {[...Array(6)].map((_, i) => (
             <div key={i} className="h-28 bg-zinc-200 dark:bg-zinc-800 rounded-lg border border-zinc-200/50 dark:border-zinc-800/50" />
           ))}
         </div>
@@ -240,7 +252,7 @@ const Dashboard = () => {
       </div>
 
       {/* Metrics Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
 
         {/* Card 1: Leads — sky blue overlapping circles */}
         <div className="animate-fade-in-up delay-75 relative overflow-hidden rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 py-4 px-4">
@@ -328,6 +340,24 @@ const Dashboard = () => {
             </div>
             <p className="text-2xl font-black text-zinc-900 dark:text-white">{stats.portfolios}</p>
             <p className="text-[10px] text-zinc-400 mt-1 font-semibold">Showcase items</p>
+          </div>
+        </div>
+
+        {/* Card 6: Charity — rose circles */}
+        <div className="animate-fade-in-up delay-450 relative overflow-hidden rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 py-4 px-4">
+          <svg className="absolute -top-2 -right-2 w-24 h-24 pointer-events-none" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="78" cy="18" r="22" fill="none" stroke="#f43f5e" strokeWidth="6" strokeOpacity="0.22"/>
+            <circle cx="78" cy="18" r="12" fill="#f43f5e" fillOpacity="0.18"/>
+            <circle cx="88" cy="44" r="8" fill="#fb7185" fillOpacity="0.16"/>
+            <circle cx="60" cy="6" r="5" fill="#e11d48" fillOpacity="0.20"/>
+          </svg>
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-2">
+              <Heart className="w-3.5 h-3.5 text-rose-500"/>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Charity</p>
+            </div>
+            <p className="text-2xl font-black text-zinc-900 dark:text-white">{stats.charities}</p>
+            <p className="text-[10px] text-zinc-400 mt-1 font-semibold">Community drives</p>
           </div>
         </div>
 

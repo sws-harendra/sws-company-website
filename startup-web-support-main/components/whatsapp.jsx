@@ -10,7 +10,7 @@ const WhatsAppButton = () => {
   const message = "Hello! I’d like to know more about your services."; // prefilled message
 
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-    message
+    message,
   )}`;
 
   const handleClick = () => {
@@ -34,7 +34,8 @@ const WhatsAppButton = () => {
                  hover:bg-green-600 transition-all duration-300 flex items-center justify-center
                  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
     >
-      <BsWhatsapp size={24} aria-hidden="true" /> {/* hide icon from screen readers */}
+      <BsWhatsapp size={24} aria-hidden="true" />{" "}
+      {/* hide icon from screen readers */}
     </Link>
   );
 };

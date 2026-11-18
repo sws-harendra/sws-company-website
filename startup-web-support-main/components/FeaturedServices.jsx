@@ -80,8 +80,8 @@ const FeaturedServices = () => {
         <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[90vw] max-w-5xl h-[420px] bg-gradient-to-b from-[#38bdf8]/10 via-[#009CDE]/04 to-transparent rounded-full blur-3xl" />
 
         {/* Top & Bottom Ambient Glow Circles */}
-        <div className="absolute right-[-10%] top-1/4 w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-sky-200/30 to-blue-300/20 blur-3xl" />
-        <div className="absolute left-[-10%] bottom-1/4 w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-sky-200/30 to-indigo-200/20 blur-3xl" />
+        <div className="absolute right-[-10%] top-1/4 w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-sky-200/20 to-blue-300/10 blur-3xl" />
+        <div className="absolute left-[-10%] bottom-1/4 w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-sky-200/20 to-indigo-200/10 blur-3xl" />
 
         {/* Ambient Top Subtle Horizon Line */}
         <div className="absolute top-0 inset-x-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#009CDE]/20 to-transparent" />
@@ -140,20 +140,20 @@ const FeaturedServices = () => {
                 layout
                 whileHover={{ scale: 1.025, y: -6 }}
                 onClick={() => openWhatsApp(service?.title)}
-                className="relative overflow-hidden flex flex-col justify-between h-full bg-gradient-to-b from-white via-sky-50/50 to-blue-50/40 backdrop-blur-2xl p-6 rounded-[26px] border border-sky-200/80 shadow-[0_16px_36px_-8px_rgba(0,156,222,0.18),0_2px_8px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,1)] hover:border-[#009CDE] hover:shadow-[0_22px_50px_-6px_rgba(0,156,222,0.32),0_0_24px_rgba(56,189,248,0.22)] transition-all duration-300 cursor-pointer group/card before:absolute before:top-0 before:inset-x-0 before:h-[3px] before:bg-gradient-to-r before:from-transparent before:via-[#009CDE] before:to-transparent"
+                className="relative overflow-hidden flex flex-col justify-between h-full bg-gradient-to-b from-white via-white to-sky-50/30 backdrop-blur-2xl p-6 rounded-[26px] border border-sky-100 shadow-[0_10px_26px_-8px_rgba(0,156,222,0.08),0_2px_8px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,1)] hover:border-[#009CDE]/60 hover:shadow-[0_16px_36px_-6px_rgba(0,156,222,0.16),0_4px_12px_rgba(0,0,0,0.04)] transition-all duration-300 cursor-pointer group/card before:absolute before:top-0 before:inset-x-0 before:h-[3px] before:bg-gradient-to-r before:from-transparent before:via-[#009CDE]/80 before:to-transparent"
                 variants={cardVariants}
               >
                 {/* Luminous Inner Corner Glow Highlight */}
-                <div className="absolute -top-16 -right-16 w-36 h-36 bg-gradient-to-br from-[#38bdf8]/30 via-[#009CDE]/15 to-transparent rounded-full blur-2xl pointer-events-none group-hover/card:scale-150 transition-transform duration-500" />
+                <div className="absolute -top-16 -right-16 w-36 h-36 bg-gradient-to-br from-[#38bdf8]/15 via-[#009CDE]/06 to-transparent rounded-full blur-2xl pointer-events-none group-hover/card:scale-125 transition-transform duration-500" />
 
                 {/* Subtle Digital Circuit Mesh Texture */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#009CDE0d_1px,transparent_1px),linear-gradient(to_bottom,#009CDE0d_1px,transparent_1px)] bg-[size:14px_14px] pointer-events-none rounded-[26px] opacity-60" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#009CDE08_1px,transparent_1px),linear-gradient(to_bottom,#009CDE08_1px,transparent_1px)] bg-[size:14px_14px] pointer-events-none rounded-[26px] opacity-40" />
 
                 {/* Card Body */}
                 <div className="relative z-10 flex flex-col items-start text-left">
                   {/* Borderless 3D Soft Cushion Icon Box */}
                   <motion.div
-                    className="w-16 h-16 rounded-[22px] bg-gradient-to-br from-sky-50 via-blue-50 to-sky-100/70 shadow-[0_8px_20px_-4px_rgba(0,156,222,0.18),inset_0_1px_2px_rgba(255,255,255,0.9)] flex items-center justify-center flex-shrink-0 mb-5 group-hover/card:scale-108 group-hover/card:shadow-[0_12px_24px_-4px_rgba(0,156,222,0.28)] transition-all duration-300"
+                    className="w-16 h-16 rounded-[22px] bg-gradient-to-br from-sky-50/80 via-white to-sky-100/40 shadow-[0_4px_12px_-2px_rgba(0,156,222,0.10),inset_0_1px_2px_rgba(255,255,255,0.9)] flex items-center justify-center flex-shrink-0 mb-5 group-hover/card:scale-108 group-hover/card:shadow-[0_8px_18px_-2px_rgba(0,156,222,0.18)] transition-all duration-300"
                     variants={imageVariants}
                   >
                     <Image

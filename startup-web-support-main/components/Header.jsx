@@ -54,6 +54,7 @@ import {
   Phone,
   NewspaperIcon,
   FlaskConical,
+  Heart,
 } from "lucide-react";
 import Image from "next/image";
 import { FaProductHunt, FaWhatsapp } from "react-icons/fa";
@@ -216,6 +217,11 @@ const otherLinks = [
     href: "/portfolio",
     label: "Portfolio",
     icon: <Briefcase className="h-4 w-4 text-sky-600" />,
+  },
+  {
+    href: "/charity",
+    label: "Charity",
+    icon: <Heart className="h-4 w-4 text-rose-500" />,
   },
   {
     href: "/contact-us",

@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <div>
       <MetaPixel />
-      <div className="fixed right-4 bottom-20 z-50 flex flex-col items-end gap-4">
+      <div className="fixed right-4 bottom-10 z-50 flex flex-col items-end gap-4">
         <Call />
         <WhatsAppButton />
       </div>

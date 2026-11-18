@@ -60,6 +60,14 @@ const Footer = () => {
               </li>
               <li>
                 <Link
+                  href="/charity"
+                  className="hover:text-white transition-colors flex items-center gap-1.5"
+                >
+                  Charity & Giving <span className="text-xs px-1.5 py-0.2 bg-rose-600/30 text-rose-400 rounded-full border border-rose-500/30">Impact</span>
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/privacy-policy"
                   className="hover:text-white transition-colors"
                 >

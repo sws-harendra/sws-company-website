@@ -61,6 +61,8 @@ app.use("/api/banners", require("./routes/banner.route"));
 app.use("/api/blogs", require("./routes/blog.routes"));
 app.use("/api/our-clients", require("./routes/ourClients.routes"));
 app.use("/api/portfolio", require("./routes/portfolio.routes"));
+app.use("/api/charity", require("./routes/charity.routes"));
+app.use("/api/charities", require("./routes/charity.routes"));
 app.use("/api/contacts", require("./routes/contact.routes"));
 app.use("/api/invoices", require("./routes/invoice.route"));
 app.use("/api/invoice-settings", require("./routes/invoiceSetting.route"));

@@ -14,7 +14,17 @@ if (existsSync(workerSrc)) {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["api.startupwebsupport.com", "localhost"],
+    domains: ["api.startupwebsupport.com", "localhost", "images.unsplash.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
+    ],
   },
   webpack: (config) => {
     // Prevent canvas module errors when pdfjs-dist runs in SSR context

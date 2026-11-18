@@ -1,0 +1,46 @@
+import { API_URL } from "@/constants";
+import axios from "axios";
+
+const charityService = {
+  getAll: async ({
+    page = 1,
+    limit = 9,
+    search = "",
+    category = "all",
+    status = "all",
+    featured = "all",
+  } = {}) => {
+    const params = new URLSearchParams();
+    if (page) params.append("page", page);
+    if (limit) params.append("limit", limit);
+    if (search && search.trim() !== "") params.append("search", search.trim());
+    if (category && category !== "all") params.append("category", category);
+    if (status && status !== "all") params.append("status", status);
+    if (featured !== undefined && featured !== "all") params.append("featured", featured);
+
+    const res = await axios.get(`${API_URL}/charity?${params.toString()}`);
+    return res.data;
+  },
+
+  getById: async (id) => {
+    const res = await axios.get(`${API_URL}/charity/${id}`);
+    return res.data;
+  },
+
+  create: async (data) => {
+    const res = await axios.post(`${API_URL}/charity`, data);
+    return res.data;
+  },
+
+  update: async (id, data) => {
+    const res = await axios.put(`${API_URL}/charity/${id}`, data);
+    return res.data;
+  },
+
+  remove: async (id) => {
+    const res = await axios.delete(`${API_URL}/charity/${id}`);
+    return res.data;
+  },
+};
+
+export default charityService;

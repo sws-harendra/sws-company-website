@@ -6,6 +6,7 @@ import ContactFormModal from "@/components/PopupContactus";
 import Call from "@/components/call";
 import WhatsAppButton from "@/components/whatsapp";
 import MetaPixel from "@/components/MetaPixel";
+import TopBar from "@/components/TopBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
         <Call />
         <WhatsAppButton />
       </div>
+      <TopBar />
       <Header />
       <ContactFormModal />
       {children}

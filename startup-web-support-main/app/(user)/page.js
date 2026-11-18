@@ -12,6 +12,7 @@ import TechStack from "@/components/TechStacks";
 import PortfolioGrid from "./portfolio/components/PortfolioGrid";
 import Seo from "@/components/Seo";
 import NewHeroSection from "@/components/NewHeroSection";
+import TopBar from "@/components/TopBar";
 
 const page = () => {
   return (
@@ -25,6 +26,7 @@ const page = () => {
       />
       <div className="overflow-hidden">
         {/* <Hero /> */}
+
         <NewHeroSection />
         {/* <HeroSlider /> */}
         <FeaturedServices />

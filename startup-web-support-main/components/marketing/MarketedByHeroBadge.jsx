@@ -25,7 +25,7 @@ export default function MarketedByHeroBadge({ marketer }) {
               {marketer.name}
             </strong>
             <span className="hidden md:inline text-slate-300">
-              • Authorized SWS Representative ({marketer.partnerId})
+              • Authorized SWS Representative
             </span>
           </div>
         </div>

@@ -23,7 +23,7 @@ export default function MarketedByProfileSection({ marketer }) {
   if (!marketer) return null;
 
   const whatsappMessage = encodeURIComponent(
-    `Hello ${marketer.name}! I am visiting your Startup Web Support marketing partner page and would like to get a quote / consultation for my project.`
+    `Hello ${marketer.name}! I am visiting your Startup Web Support marketing partner page and would like to get a quote / consultation for my project.`,
   );
   const whatsappUrl = `https://wa.me/${marketer.whatsapp}?text=${whatsappMessage}`;
   const phoneUrl = `tel:${marketer.phone.replace(/\s+/g, "")}`;
@@ -42,7 +42,10 @@ export default function MarketedByProfileSection({ marketer }) {
             Marketed by <span className="text-blue-600">{marketer.name}</span>
           </h2>
           <p className="mt-2 text-slate-600 text-sm sm:text-base">
-            Representing <strong className="text-slate-900">Startup Web Support</strong> — empowering your business with end-to-end software, web & mobile development, and data-driven marketing.
+            Representing{" "}
+            <strong className="text-slate-900">Startup Web Support</strong> —
+            empowering your business with end-to-end software, web & mobile
+            development, and data-driven marketing.
           </p>
         </div>
 
@@ -98,18 +101,6 @@ export default function MarketedByProfileSection({ marketer }) {
                     <p className="text-sm font-medium text-blue-600 mt-1">
                       {marketer.title}
                     </p>
-
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 mt-2">
-                      <span className="font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-700">
-                        ID: {marketer.partnerId}
-                      </span>
-                      {marketer.location && (
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                          {marketer.location}
-                        </span>
-                      )}
-                    </div>
                   </div>
                 </div>
 
@@ -217,7 +208,9 @@ export default function MarketedByProfileSection({ marketer }) {
                     </p>
                     {marketer.exclusiveOffer.code && (
                       <div className="mt-3 flex items-center gap-2">
-                        <span className="text-[11px] text-slate-400">Referral Code:</span>
+                        <span className="text-[11px] text-slate-400">
+                          Referral Code:
+                        </span>
                         <code className="text-xs font-mono font-bold bg-white/10 text-sky-300 px-2 py-0.5 rounded border border-white/10">
                           {marketer.exclusiveOffer.code}
                         </code>

@@ -166,11 +166,28 @@
               <span class="label">📧 Contact Number</span>
               <div class="value">{{contact}}</div>
             </div>
-          </div>
-          
 
-          
-          
+            {{#if subject}}
+            <div class="info-row">
+              <span class="label">🎯 Subject / Service</span>
+              <div class="value">{{subject}}</div>
+            </div>
+            {{/if}}
+
+            {{#if pageUsed}}
+            <div class="info-row">
+              <span class="label">🌐 Page Submitted</span>
+              <div class="value">{{pageUsed}}</div>
+            </div>
+            {{/if}}
+          </div>
+
+          {{#if message}}
+          <div class="message-box">
+            <span class="label">💬 Message / Requirements</span>
+            <div class="message-text">{{message}}</div>
+          </div>
+          {{/if}}
         </div>
         
         <div class="footer">

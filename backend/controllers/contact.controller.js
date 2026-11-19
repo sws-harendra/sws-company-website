@@ -14,9 +14,9 @@ exports.createContact = async (req, res) => {
         name: req.body.fullname,
         email: req.body.email,
         contact: req.body.phone || "N/A",
-        // subject: req.body?.subject,
-        // pageUsed: req.body?.pageUsed,
-        // message: req.body.message,
+        subject: req.body?.subject || "General Inquiry",
+        pageUsed: req.body?.pageUsed || "Contact Page",
+        message: req.body?.message || "",
       }
     );
     res.status(201).json(contact);
@@ -49,6 +49,7 @@ exports.getAllContacts = async (req, res) => {
             { phone: { [Op.like]: `%${q}%` } },
             { subject: { [Op.like]: `%${q}%` } },
             { pageUsed: { [Op.like]: `%${q}%` } },
+            { message: { [Op.like]: `%${q}%` } },
           ],
         }
       : {};

@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    message: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   });
 
   return Contact;

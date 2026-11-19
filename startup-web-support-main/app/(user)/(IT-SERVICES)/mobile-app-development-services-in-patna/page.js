@@ -27,9 +27,9 @@ const page = () => {
         <OurServicesTabs />
         <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
         <DevelopmentProcess />
-        <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
-        <BusinessValue />
-        <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
+        {/* <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
+        <BusinessValue /> */}
+        {/* <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" /> */}
         <AppDevelopmentServices />
         <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
         <TopInfoSection />

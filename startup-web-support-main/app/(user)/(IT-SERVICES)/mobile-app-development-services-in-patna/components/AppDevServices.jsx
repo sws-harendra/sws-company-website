@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { motion } from "framer-motion";
 import {
   Smartphone,
   Apple,
@@ -6,12 +8,19 @@ import {
   Rocket,
   Gamepad2,
   FileText,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles,
 } from "lucide-react";
+import { BsWhatsapp } from "react-icons/bs";
+import { openWhatsApp } from "@/lib/whatsapp";
 
 export default function AppDevelopmentServices() {
   const services = [
     {
-      icon: <FileText className="w-8 h-8 text-blue-500" />,
+      icon: <FileText className="w-6 h-6 text-blue-600" />,
+      bgAccent: "bg-blue-50 border-blue-100 text-blue-600",
+      gradient: "from-blue-500 to-cyan-500",
       title: "Custom Mobile App Development",
       description:
         "Tailored solutions that meet your specific requirements across various platforms including iOS, Android, and Windows.",
@@ -24,7 +33,9 @@ export default function AppDevelopmentServices() {
       ],
     },
     {
-      icon: <Apple className="w-8 h-8 text-blue-500" />,
+      icon: <Apple className="w-6 h-6 text-slate-900" />,
+      bgAccent: "bg-slate-100 border-slate-200 text-slate-900",
+      gradient: "from-slate-700 to-slate-900",
       title: "iOS App Development",
       description:
         "Robust and user-friendly iOS applications for iPhone, iPad, and Apple Watch, following best practices.",
@@ -37,7 +48,9 @@ export default function AppDevelopmentServices() {
       ],
     },
     {
-      icon: <Smartphone className="w-8 h-8 text-green-500" />,
+      icon: <Smartphone className="w-6 h-6 text-emerald-600" />,
+      bgAccent: "bg-emerald-50 border-emerald-100 text-emerald-600",
+      gradient: "from-emerald-500 to-teal-500",
       title: "Android App Development",
       description:
         "High-performance apps providing a seamless experience across all Android devices and OS versions.",
@@ -50,7 +63,9 @@ export default function AppDevelopmentServices() {
       ],
     },
     {
-      icon: <Rocket className="w-8 h-8 text-purple-500" />,
+      icon: <Rocket className="w-6 h-6 text-purple-600" />,
+      bgAccent: "bg-purple-50 border-purple-100 text-purple-600",
+      gradient: "from-purple-500 to-indigo-500",
       title: "Cross-Platform App Development",
       description:
         "Reach a wider audience with apps built using React Native and Flutter, running smoothly on both iOS and Android.",
@@ -63,7 +78,9 @@ export default function AppDevelopmentServices() {
       ],
     },
     {
-      icon: <Monitor className="w-8 h-8 text-indigo-500" />,
+      icon: <Monitor className="w-6 h-6 text-indigo-600" />,
+      bgAccent: "bg-indigo-50 border-indigo-100 text-indigo-600",
+      gradient: "from-indigo-500 to-sky-500",
       title: "Progressive Web App (PWA) Development",
       description:
         "Combines the best of web and mobile app experiences with PWAs - fast, reliable, and native-like.",
@@ -76,7 +93,9 @@ export default function AppDevelopmentServices() {
       ],
     },
     {
-      icon: <Gamepad2 className="w-8 h-8 text-pink-500" />,
+      icon: <Gamepad2 className="w-6 h-6 text-pink-600" />,
+      bgAccent: "bg-pink-50 border-pink-100 text-pink-600",
+      gradient: "from-pink-500 to-rose-500",
       title: "Game Development",
       description:
         "Bring your game ideas to life with our expert game development services.",
@@ -90,71 +109,129 @@ export default function AppDevelopmentServices() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 110,
+        damping: 14,
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-6 pb-16">
-        {/* Header */}
-        <div className="text-center py-12">
-          <h1 className="text-4xl font-bold text-gray-900">
+    <section className="relative bg-gradient-to-b from-[#f8fbff] via-white to-[#f8fbff] py-16 sm:py-24 overflow-hidden">
+      {/* Ambient background glows */}
+      <div className="absolute top-1/4 -right-20 w-80 h-80 rounded-full bg-blue-100/40 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -left-20 w-80 h-80 rounded-full bg-sky-100/40 blur-3xl pointer-events-none" />
+
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        {/* ================= SECTION HEADER ================= */}
+        <motion.div
+          className="text-center mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+        
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight mb-4">
             Our Comprehensive App Development Services
-          </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          </h2>
+
+          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             We offer a full spectrum of mobile development, from concept to
             launch, ensuring your app stands out in a crowded marketplace.
           </p>
-        </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="w-12 h-1 bg-[#1e88e5] rounded-full mx-auto mt-5 shadow-xs" />
+        </motion.div>
+
+        {/* ================= SERVICES 6-CARD GRID ================= */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={containerVariants}
+        >
           {services.map((service, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 p-8 border border-gray-100 hover:border-blue-200 group"
+              variants={itemVariants}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="group relative bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_8px_30px_-6px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_45px_-10px_rgba(30,136,229,0.18)] hover:border-sky-300 transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
-              {/* Icon */}
-              <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
-                {service.icon}
+              {/* Top Accent Line on Hover */}
+              <div
+                className={`absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+              />
+
+              <div>
+                {/* Squircle Icon */}
+                <div
+                  className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-108 shadow-2xs ${service.bgAccent}`}
+                >
+                  {service.icon}
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2.5 tracking-tight group-hover:text-[#1e88e5] transition-colors">
+                  {service.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6 font-normal">
+                  {service.description}
+                </p>
+
+                {/* Features List */}
+                <div className="space-y-2.5 pt-2 border-t border-slate-100 mb-6">
+                  {service.features.map((feature, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-start text-xs sm:text-sm text-slate-700 gap-2.5"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <span className="leading-snug">{feature}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* Title */}
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                {service.title}
-              </h3>
+              {/* Card Footer Action - Highlighted Prominent Button */}
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                <button
+                  onClick={() => openWhatsApp(`${service.title} Inquiry`)}
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 active:scale-[0.98] text-white font-semibold text-xs sm:text-sm shadow-md shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-200 cursor-pointer group/btn"
+                >
+                  <BsWhatsapp className="w-4 h-4" />
+                  <span>Discuss Project</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+                </button>
 
-              {/* Description */}
-              <p className="text-gray-600 text-sm mb-6 leading-relaxed">
-                {service.description}
-              </p>
-
-              {/* Features */}
-              <ul className="space-y-3">
-                {service.features.map((feature, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-start text-sm text-gray-700"
-                  >
-                    <svg
-                      className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                <span className="text-xs font-mono font-bold text-slate-400 px-2.5 py-1.5 bg-slate-50 rounded-xl border border-slate-100">
+                  0{index + 1}
+                </span>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-      
-    </div>
+    </section>
   );
 }

@@ -25,7 +25,7 @@ const statsData = [
   },
   {
     icon: Smartphone,
-    endValue: 20,
+    endValue: 30,
     suffix: "+",
     label: "Apps Developed",
   },

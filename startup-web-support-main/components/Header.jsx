@@ -232,10 +232,10 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background backdrop-blur py-1">
-      <div className="container mx-auto flex h-16 items-center justify-between px-3 sm:px-4 md:px-6">
+      <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-2"
+          className="mr-6 flex shrink-0 items-center gap-2"
         >
           <Image
             src="/icon.png"
@@ -250,7 +250,7 @@ export default function Header() {
         {/* ================================== */}
         {/* DESKTOP NAVIGATION */}
         {/* ================================== */}
-        <NavigationMenu className="hidden md:flex flex-1 justify-center">
+        <NavigationMenu className="hidden md:flex ml-auto lg:mx-auto">
           <NavigationMenuList className="gap-0.5 lg:gap-1">
             <NavigationMenuItem>
               <Link
@@ -308,9 +308,6 @@ export default function Header() {
             ))}
           </NavigationMenuList>
         </NavigationMenu>
-
-        {/* Right side spacer to keep navigation dead-center on desktop */}
-        <div className="hidden md:flex shrink-0 w-[90px] md:w-[100px] lg:w-[110px] xl:w-[120px]" />
 
         {/* ================================== */}
         {/* MOBILE NAVIGATION                 */}

@@ -516,7 +516,7 @@ const ContactUs = ({
                 <div className="absolute -bottom-20 -left-20 w-52 h-52 bg-sky-400/10 rounded-full blur-3xl pointer-events-none" />
 
                 {/* Top header */}
-                <div className="relative z-10">
+                <div className="relative z-10 order-1">
                   <h4 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                     Talk With Our Specialists
                   </h4>
@@ -525,23 +525,8 @@ const ContactUs = ({
                   </p>
                 </div>
 
-                {/* Illustration with shadow */}
-                <div className="relative my-4 sm:my-6 flex items-center justify-center">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-400/15 via-sky-300/10 to-indigo-400/15 rounded-full blur-2xl transform scale-90" />
-                  <div className="relative z-10 w-full max-w-[220px] sm:max-w-[260px] aspect-square flex items-center justify-center">
-                    <Image
-                      src={ctaImage}
-                      alt="Startup Web Support Helpdesk"
-                      width={320}
-                      height={280}
-                      className="w-full h-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-500"
-                      priority
-                    />
-                  </div>
-                </div>
-
-                {/* Direct WhatsApp Action */}
-                <div className="relative z-10 pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
+                {/* Direct WhatsApp Action - Shows right under text on mobile (order-2), pinned to bottom on desktop (lg:order-3) */}
+                <div className="relative z-10 order-2 lg:order-3 mt-4 lg:mt-0 pt-3 lg:pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
                   <a
                     href={getWhatsAppUrl(
                       "Hi! I’d like to speak with a specialist directly about my project.",
@@ -555,6 +540,21 @@ const ContactUs = ({
                     <span>Quick Chat on WhatsApp</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
+                </div>
+
+                {/* Illustration with shadow - Placed after WhatsApp button on mobile (order-3), middle on desktop (lg:order-2) */}
+                <div className="relative order-3 lg:order-2 mt-4 mb-2 lg:my-6 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-400/15 via-sky-300/10 to-indigo-400/15 rounded-full blur-2xl transform scale-90" />
+                  <div className="relative z-10 w-full max-w-[200px] sm:max-w-[240px] lg:max-w-[260px] aspect-square flex items-center justify-center">
+                    <Image
+                      src={ctaImage}
+                      alt="Startup Web Support Helpdesk"
+                      width={320}
+                      height={280}
+                      className="w-full h-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-500"
+                      priority
+                    />
+                  </div>
                 </div>
               </div>
             )}

@@ -2,66 +2,74 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { Sparkles, ArrowUpRight, ArrowRight } from "lucide-react";
+import {
+  Home,
+  GraduationCap,
+  HeartPulse,
+  Luggage,
+  Landmark,
+  Truck,
+  ShoppingCart,
+  CalendarDays,
+  Rocket,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 import { openWhatsApp } from "@/lib/whatsapp";
 
 const industriesData = [
   {
-    icon: "/realstate.png",
+    icon: Home,
     name: "Real Estate",
     tag: "Property & Housing",
     subtitle:
-      "Property search portals, broker CRM, 3D floorplans & automated lead pipelines.",
+      "Property search portals, broker CRM, 3D floorplans & automated lead gen.",
   },
   {
-    icon: "/education.png",
+    icon: GraduationCap,
     name: "Education & EdTech",
     tag: "LMS & Learning",
     subtitle:
-      "Interactive LMS portals, online exam engines, student apps & fee management.",
+      "Interactive LMS portals, online exam engines, student apps & more.",
   },
   {
-    icon: "/healthcare.png",
+    icon: HeartPulse,
     name: "Healthcare & Clinics",
     tag: "Clinic & Hospital",
     subtitle:
-      "Telemedicine apps, appointment scheduling, hospital ERP & digital health records.",
+      "Telemedicine apps, appointment scheduling, hospital ERP & digital care.",
   },
   {
-    icon: "/hospitality.png",
+    icon: Luggage,
     name: "Hospitality & Travel",
     tag: "Travel & Dining",
     subtitle:
-      "Direct booking engines, room reservation portals, restaurant POS & loyalty apps.",
+      "Direct booking engines, room reservation portals, restaurant POS.",
   },
   {
-    icon: "/finance.png",
+    icon: Landmark,
     name: "Finance & Banking",
     tag: "FinTech & Billing",
     subtitle:
-      "GST invoicing, loan management portals, payment integrations & secure audit trails.",
+      "Secure banking solutions, fintech apps, and financial management tools.",
   },
   {
-    icon: "/transport.png",
+    icon: Truck,
     name: "Transport & Logistics",
     tag: "Fleet & Cargo",
-    subtitle:
-      "Real-time GPS tracking, dispatch portals, delivery driver apps & inventory flow.",
+    subtitle: "Fleet management, logistics tracking, and transport solutions.",
   },
   {
-    icon: "/ecomerce.png",
+    icon: ShoppingCart,
     name: "eCommerce & Retail",
     tag: "B2B & D2C Stores",
-    subtitle:
-      "High-conversion online stores, multi-vendor marketplaces & omni-channel POS.",
+    subtitle: "Online stores, inventory management, and retail solutions.",
   },
   {
-    icon: "/event.png",
+    icon: CalendarDays,
     name: "Events & Media",
     tag: "Ticketing & Booking",
-    subtitle:
-      "Online ticket booking engines, QR pass verification & sponsor showcase portals.",
+    subtitle: "Event booking, media platforms, and community engagement tools.",
   },
 ];
 
@@ -90,121 +98,107 @@ const IndustriesSection = () => {
   };
 
   return (
-    <section className="relative bg-gradient-to-b from-[#1e88e5] via-[#1976d2] to-[#1e88e5] py-20 sm:py-24 font-sans overflow-hidden text-white">
+    <section className="relative bg-gradient-to-b from-[#f8fbff] via-[#edf5ff] to-[#f8fbff] py-20 sm:py-24 font-sans overflow-hidden text-slate-900">
       {/* =========================================================================
-          BACKGROUND AMBIENT LIGHTING & GLOW (Soft Neutral Aura)
+          BACKGROUND AMBIENT LIGHTING (Clean, Soft & Seamless - No Clutter)
          ========================================================================= */}
       <div
         className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden"
         aria-hidden="true"
       >
-        {/* Soft Ambient Glow */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[90vw] max-w-5xl h-[450px] bg-white/12 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-1/4 w-[400px] h-[400px] bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 right-[-5%] w-[450px] h-[450px] bg-sky-200/12 rounded-full blur-3xl" />
+        {/* Soft Radial Ambient Glow Behind Header */}
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[90vw] max-w-4xl h-[380px] bg-gradient-to-b from-[#009CDE]/10 via-sky-200/20 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-        {/* Subtle Grid Mesh */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:32px_32px] opacity-35" />
+        {/* Soft Corner Glows */}
+        <div className="absolute -top-16 -left-16 w-80 h-80 rounded-full bg-gradient-to-br from-[#009CDE]/10 via-sky-200/15 to-transparent blur-3xl pointer-events-none" />
+        <div className="absolute top-1/4 -right-16 w-80 h-80 rounded-full bg-gradient-to-bl from-sky-200/20 to-transparent blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 left-1/3 w-80 h-80 rounded-full bg-sky-200/15 blur-3xl pointer-events-none" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         {/* =======================================================================
-            HEADER (Expert Typography & Announcement Capsule)
+            HEADER (Matches Reference Layout with Brand Color Accent)
            ======================================================================= */}
         <motion.div
-          className="text-center mb-16 sm:mb-20"
+          className="text-center mb-14 sm:mb-18"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
         >
-          {/* Announcement Capsule */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 border border-white/30 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider mb-4 sm:mb-5 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-sky-200" />
-            <span>Cross-Industry Excellence</span>
-          </div>
-
           {/* Master Heading */}
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-[1.14] mb-4 sm:mb-5">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-[1.14] mb-3 sm:mb-4">
             Industries We{" "}
-            <span className="font-serif italic font-medium text-sky-100 drop-shadow-sm px-1">
-              Serve
+            <span className="font-serif italic font-medium text-[#009CDE] px-1">
+              Help Grow
             </span>
           </h2>
+
           {/* Subheading Narrative */}
-          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl sm:max-w-3xl mx-auto leading-relaxed font-normal px-2">
-            Tailored digital platforms, custom software, and high-performance
-            marketing funnels built to address the unique challenges of your
-            sector.
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl sm:max-w-3xl mx-auto leading-relaxed font-normal px-2">
+            Digital solutions built around the unique needs of your business.
           </p>
+
+          {/* Center Brand Blue Accent Bar */}
+          <div className="w-12 h-1 bg-[#009CDE] rounded-full mx-auto mt-4 sm:mt-5 shadow-[0_2px_8px_rgba(0,156,222,0.4)]" />
         </motion.div>
 
         {/* =======================================================================
-            INDUSTRIES GRID (Crisp Frosted Glass Cards - Bright & Low-Shade)
+            INDUSTRIES GRID (Crisp White Luxury Cards with Hover Highlights)
            ======================================================================= */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6.5"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
           {industriesData.map((industry, index) => {
-            const iconSrc = industry.icon.startsWith("/")
-              ? industry.icon
-              : `/${industry.icon}`;
+            const IconComponent = industry.icon;
 
             return (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                whileHover={{ scale: 1.025, y: -6 }}
+                whileHover={{ y: -6, scale: 1.015 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() =>
                   openWhatsApp(`${industry.name} Industry Solutions`)
                 }
                 title={`Discuss ${industry.name} Solutions`}
-                className="group relative overflow-hidden flex flex-col justify-between rounded-[26px] p-6 sm:p-6.5 bg-gradient-to-b from-white/[0.25] via-white/[0.18] to-white/[0.14] hover:from-white/[0.34] hover:via-white/[0.24] hover:to-white/[0.20] backdrop-blur-2xl border border-white/35 hover:border-white/65 shadow-[0_8px_30px_rgba(0,0,0,0.12),inset_0_1px_2px_rgba(255,255,255,0.45)] hover:shadow-[0_16px_38px_rgba(0,0,0,0.18),0_0_24px_rgba(255,255,255,0.25)] transition-all duration-300 cursor-pointer before:absolute before:top-0 before:inset-x-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-white/75 before:to-transparent before:opacity-0 group-hover:before:opacity-100 before:transition-opacity duration-300"
+                className="group relative bg-white rounded-[22px] sm:rounded-[24px] p-6 sm:p-7 border border-sky-100/80 shadow-[0_8px_25px_-4px_rgba(0,156,222,0.08),0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_45px_-8px_rgba(0,156,222,0.22),0_0_20px_rgba(0,156,222,0.08)] hover:border-[#009CDE]/50 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
-                {/* Luminous Inner Corner Glow (Clean White Highlight) */}
-                <div className="absolute -top-16 -right-16 w-36 h-36 bg-white/20 rounded-full blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+                {/* Left Accent Bar: Shows only on hover across all cards */}
+                <div className="absolute left-0 top-6 bottom-6 w-1 sm:w-1.5 rounded-r-full bg-[#009CDE] opacity-0 group-hover:opacity-100 shadow-[0_0_8px_rgba(0,156,222,0.6)] transition-all duration-300" />
 
-                {/* Subtle Interior Tint */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none rounded-[26px]" />
-
-                {/* Card Top Section: Icon Hub & Information */}
-                <div className="relative z-10 flex flex-col items-start text-left">
-                  {/* Icon Hub Container (Bright Frosted Cushion) */}
-                  <div className="w-16 h-16 rounded-[20px] bg-white/30 border border-white/40 backdrop-blur-md shadow-[0_4px_14px_rgba(0,0,0,0.08),inset_0_1px_2px_rgba(255,255,255,0.6)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-white/40 group-hover:border-white/60 transition-all duration-300 mb-5">
-                    <Image
-                      src={iconSrc}
-                      alt={industry.name}
-                      width={38}
-                      height={38}
-                      className="object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-300"
-                    />
+                {/* Card Top: Squircle Icon & Information */}
+                <div>
+                  {/* Squircle Icon Container */}
+                  <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mb-5 group-hover:scale-108 group-hover:bg-[#009CDE] group-hover:border-[#009CDE] transition-all duration-300 shadow-2xs">
+                    <IconComponent className="w-6 h-6 sm:w-6.5 sm:h-6.5 text-[#009CDE] group-hover:text-white transition-colors duration-300" />
                   </div>
 
-                  {/* Industry Category Tag */}
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-sky-200 mb-1.5 flex items-center gap-1.5">
-                    {industry.tag}
-                  </span>
-
                   {/* Industry Title */}
-                  <h3 className="text-xl font-extrabold text-white tracking-tight">
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-[#009CDE] transition-colors tracking-tight">
                     {industry.name}
                   </h3>
 
-                  {/* Industry Subtitle / Capability Description */}
-                  <p className="text-xs sm:text-[13px] text-white/85 group-hover:text-white leading-relaxed font-normal mt-2 line-clamp-2 transition-colors">
+                  {/* Industry Subtitle */}
+                  <p className="text-xs sm:text-[13px] text-slate-500 leading-relaxed font-normal mt-2 line-clamp-2">
                     {industry.subtitle}
                   </p>
                 </div>
 
-                {/* Bottom Interactive Link */}
-                <div className="mt-5 pt-3.5 border-t border-white/20 flex items-center justify-between text-xs font-bold text-white group-hover:text-sky-100 transition-colors relative z-10">
-                  <span>Explore Solutions</span>
-                  <ArrowUpRight className="w-4 h-4 text-white group-hover:text-sky-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                {/* Card Bottom: "Explore Solutions" + Circular Arrow Button */}
+                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-xs sm:text-sm font-semibold text-[#009CDE] group-hover:text-[#0086bf] transition-colors">
+                    Explore Solutions
+                  </span>
+
+                  {/* Circular Arrow Button */}
+                  <div className="w-8 h-8 rounded-full bg-sky-50 border border-sky-100 text-[#009CDE] group-hover:bg-[#009CDE] group-hover:text-white group-hover:border-[#009CDE] group-hover:translate-x-1 flex items-center justify-center transition-all duration-300 shadow-2xs">
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
                 </div>
               </motion.div>
             );
@@ -212,7 +206,7 @@ const IndustriesSection = () => {
         </motion.div>
 
         {/* =======================================================================
-            BOTTOM CUSTOM CONSULTATION BANNER (Frosted Glass with White CTA)
+            BOTTOM CUSTOM CONSULTATION BANNER
            ======================================================================= */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -221,20 +215,20 @@ const IndustriesSection = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-14 sm:mt-18 text-center"
         >
-          <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-4 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl sm:rounded-full bg-white/20 hover:bg-white/25 backdrop-blur-2xl border border-white/30 hover:border-white/50 text-white shadow-[0_8px_28px_rgba(0,0,0,0.12),inset_0_1px_2px_rgba(255,255,255,0.4)] transition-all duration-300">
+          <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-4 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl sm:rounded-full bg-white border border-sky-100 shadow-[0_8px_25px_rgba(0,156,222,0.08)] text-slate-800">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-sky-200 shrink-0 animate-pulse" />
-              <span className="text-xs sm:text-sm font-medium text-white/95">
+              <Sparkles className="w-4 h-4 text-[#009CDE] shrink-0" />
+              <span className="text-xs sm:text-sm font-medium text-slate-600">
                 Don&apos;t see your industry listed? We build tailored digital
                 systems for custom niches.
               </span>
             </div>
             <button
               onClick={() => openWhatsApp("Custom Industry Digital Solutions")}
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full bg-white hover:bg-white/90 text-[#0f5ca8] font-bold text-xs sm:text-sm shadow-[0_4px_16px_rgba(0,0,0,0.14)] hover:shadow-[0_6px_22px_rgba(0,0,0,0.22)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full bg-[#009CDE] hover:bg-[#0086bf] text-white font-bold text-xs sm:text-sm shadow-[0_4px_14px_rgba(0,156,222,0.3)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
               <span>Talk to our solution architects</span>
-              <ArrowRight className="w-4 h-4 text-[#0f5ca8]" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </button>
           </div>
         </motion.div>

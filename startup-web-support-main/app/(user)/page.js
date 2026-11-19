@@ -34,9 +34,7 @@ const page = () => {
         <AboutUs />
         <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
         <ServiceFeatures />
-        <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" />
         <IndustriesSection />
-        <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
 
         <TechStack />
 

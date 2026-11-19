@@ -35,9 +35,7 @@ const page = () => {
         <TopInfoSection />
         <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
         <VerticalTabServices />
-        <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
         <IndustriesSection />
-        <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
         <AppDevFaq />
       </div>
     </>

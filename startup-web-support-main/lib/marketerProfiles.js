@@ -1,40 +1,40 @@
 /**
- * Marketer & Partner Profiles Configuration
+ * Dynamic Marketer & Partner Profile Handler
  * -------------------------------------------------------------
- * Add or edit marketing partner details below.
- * These profiles are loaded when a visitor arrives via a specific
- * subdomain (e.g., rahul.startupwebsupport.com) or query param (?ref=rahul).
+ * No static/hardcoded personal data.
+ * All profiles are resolved dynamically based on the active subdomain
+ * or URL parameters (?name=...&phone=...&whatsapp=...&email=...).
  */
 
-export const DEFAULT_MARKETER = {
-  id: "official",
+export const DEFAULT_BRAND_MARKETER = {
+  id: "marketing",
   name: "Authorized Marketing Partner",
   title: "Official Growth Partner & IT Consultant",
   partnerId: "SWS-MKT-PARTNER",
-  phone: "+91 7479499718",
-  whatsapp: "917479499718",
-  email: "marketing@startupwebsupport.com",
+  phone: "+91 8789112014",
+  whatsapp: "8789112014",
+  email: "aanvigroup@startupwebsupport.com",
   location: "Patna, Bihar & Pan-India",
   avatar: "/sws-logo.png",
-  avatarFallback: "MP",
+  avatarFallback: "SWS",
   tagline:
     "Empowering businesses with Startup Web Support's premier IT & Software solutions.",
-  bio: "Welcome! As an official marketing partner of Startup Web Support, I connect ambitious businesses with our enterprise-grade web development, mobile applications, custom software, and high-impact digital marketing solutions. Enjoy direct priority onboarding and exclusive partner privileges.",
+  bio: "Official marketing and client growth division of Startup Web Support. Connecting ambitious businesses with enterprise-grade web development, mobile applications, custom software, and high-impact digital marketing solutions.",
   verified: true,
   rating: 4.9,
   reviewsCount: 38,
   exclusiveOffer: {
     badge: "Exclusive Partner Offer",
-    headline: "Complimentary Tech Audit & Up to 15% Off Custom Development",
+    headline: "Complimentary Tech Audit & Priority Sprint Allocation",
     description:
-      "Connect through this official partner page to claim priority sprint allocation, a free UI/UX & SEO audit, and dedicated account manager support.",
+      "Connect through this official partner portal to receive priority architecture review, custom quote analysis, and dedicated onboarding support.",
     code: "PARTNER-PRIORITY",
   },
   highlights: [
     "Direct Core Engineering Access (No Middlemen)",
     "Guaranteed Startup Web Support Quality & Security",
     "Priority Delivery Timelines & Dedicated Support",
-    "Tailored Commercials & Flexible Milestones",
+    "Tailored Commercials & Transparent Milestones",
   ],
   stats: [
     { label: "Client Satisfaction", value: "99.4%" },
@@ -43,59 +43,62 @@ export const DEFAULT_MARKETER = {
     { label: "Consultation Response", value: "< 15 Mins" },
   ],
   socials: {
-    whatsapp: "https://wa.me/917479499718",
-    email: "mailto:marketing@startupwebsupport.com",
-    phone: "tel:+917479499718",
-    linkedin: "https://linkedin.com",
+    whatsapp: "https://wa.me/8789112014",
+    email: "mailto:aanvigroup@startupwebsupport.com",
+    phone: "tel:+918789112014",
+    // linkedin: "https://linkedin.com",
   },
 };
 
 /**
- * Pre-configured Marketer Profiles Map.
- * You can add as many partners as you wish.
- * Key can be the subdomain (e.g. 'aman' for aman.startupwebsupport.com or 'aman' in /marketing?ref=aman)
+ * Format subdomain string into a clean readable display title
+ * e.g. "aanvigroup" -> "Aanvi Group"
+ * e.g. "hello" -> "Hello"
  */
-export const MARKETER_PROFILES = {
-  official: DEFAULT_MARKETER,
-  // Specific profile for the "hello" subdomain:
-  aanvigroup: {
-    ...DEFAULT_MARKETER,
-    id: "aanvigroup",
-    name: "Aanvi Group",
-    title: "Authorized Growth Partner & Digital Consultant",
-    partnerId: "SWS-MKT-HELLO",
-    phone: "+91 8789112014",
-    whatsapp: "8789112014",
-    email: "officialanupchaudhary@gmail.com",
-    avatarFallback: "AG",
-    bio: "Welcome! As an official marketing partner representing Startup Web Support, I connect businesses with top-tier custom software development, mobile apps, web solutions, and high-impact digital marketing strategies.",
-  },
-};
+function formatSubdomainName(slug) {
+  if (!slug) return DEFAULT_BRAND_MARKETER.name;
+
+  // Replace hyphens/underscores with spaces
+  const cleaned = slug.replace(/[-_]+/g, " ").trim();
+
+  // Capitalize words
+  return cleaned
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
 
 /**
- * Retrieve a marketer profile by key/subdomain with fallback to default
- * and support for custom query parameter overrides.
+ * Retrieve marketer profile purely dynamically.
+ * Zero hardcoded personal data.
  *
- * @param {string} [identifier] - Subdomain, slug, or profile ID
- * @param {Record<string, string>} [queryOverrides] - Optional query params to dynamically override fields
- * @returns {typeof DEFAULT_MARKETER}
+ * @param {string} [identifier] - Subdomain or slug (e.g., "aanvigroup")
+ * @param {Record<string, string>} [queryOverrides] - Optional query params
  */
 export function getMarketerProfile(identifier, queryOverrides = {}) {
   const cleanId = (identifier || "").toString().trim().toLowerCase();
 
-  // Find base profile or fallback
-  let profile = MARKETER_PROFILES[cleanId] || {
-    ...DEFAULT_MARKETER,
-    id: cleanId || DEFAULT_MARKETER.id,
-    name: cleanId
-      ? cleanId.charAt(0).toUpperCase() + cleanId.slice(1) + " (Partner)"
-      : DEFAULT_MARKETER.name,
-    partnerId: cleanId
-      ? `SWS-MKT-${cleanId.toUpperCase()}`
-      : DEFAULT_MARKETER.partnerId,
+  const displayName = cleanId
+    ? formatSubdomainName(cleanId)
+    : DEFAULT_BRAND_MARKETER.name;
+
+  const partnerCode = cleanId
+    ? `SWS-MKT-${cleanId.toUpperCase().replace(/[^A-Z0-9]/g, "")}`
+    : DEFAULT_BRAND_MARKETER.partnerId;
+
+  // Base dynamic profile from subdomain
+  let profile = {
+    ...DEFAULT_BRAND_MARKETER,
+    id: cleanId || DEFAULT_BRAND_MARKETER.id,
+    name: displayName,
+    partnerId: partnerCode,
+    avatarFallback: displayName.slice(0, 2).toUpperCase(),
+    bio: cleanId
+      ? `Welcome! As an official marketing partner representing Startup Web Support, ${displayName} connects businesses with top-tier custom software development, mobile apps, web solutions, and high-impact digital marketing strategies.`
+      : DEFAULT_BRAND_MARKETER.bio,
   };
 
-  // If query overrides are passed, allow dynamic tweaking without code edit
+  // Dynamically override any fields passed via query parameters
   if (queryOverrides && typeof queryOverrides === "object") {
     profile = {
       ...profile,

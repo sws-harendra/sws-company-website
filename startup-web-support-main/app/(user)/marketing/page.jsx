@@ -64,7 +64,7 @@ export default async function MarketingPage({ searchParams }) {
     resolvedSearchParams.partner ||
     resolvedSearchParams.ref ||
     resolvedSearchParams.mkt ||
-    "hello";
+    "aanvigroup";
 
   const marketer = getMarketerProfile(identifier, resolvedSearchParams);
 

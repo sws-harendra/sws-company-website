@@ -24,7 +24,7 @@ export default function MarketedByStickyBar({ marketer }) {
   if (!marketer || dismissed || !scrolled) return null;
 
   const whatsappMessage = encodeURIComponent(
-    `Hello ${marketer.name}! I am on your Startup Web Support marketing partner page and would like to ask some questions.`
+    `Hello ${marketer.name}! I am on your Startup Web Support marketing partner page and would like to ask some questions.`,
   );
   const whatsappUrl = `https://wa.me/${marketer.whatsapp}?text=${whatsappMessage}`;
   const phoneUrl = `tel:${marketer.phone.replace(/\s+/g, "")}`;
@@ -32,7 +32,7 @@ export default function MarketedByStickyBar({ marketer }) {
   return (
     <aside
       aria-label="Marketing partner consultation bar"
-      className="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 z-40 max-w-md w-auto bg-slate-900/95 backdrop-blur-md text-white border border-slate-700/80 rounded-2xl shadow-2xl p-3.5 sm:p-4 animate-in slide-in-from-bottom-5 duration-300"
+      className="fixed bottom-3 left-3 right-3 sm:right-auto sm:left-6 sm:bottom-6 z-40 max-w-md w-auto bg-slate-900/95 backdrop-blur-md text-white border border-slate-700/80 rounded-2xl shadow-2xl p-3.5 sm:p-4 animate-in slide-in-from-bottom-5 sm:slide-in-from-left-5 duration-300"
     >
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
@@ -42,7 +42,9 @@ export default function MarketedByStickyBar({ marketer }) {
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 text-xs text-slate-300">
               <span>Marketed by</span>
-              <span className="font-semibold text-white truncate">{marketer.name}</span>
+              <span className="font-semibold text-white truncate">
+                {marketer.name}
+              </span>
             </div>
             <p className="text-[11px] text-emerald-400 font-medium truncate">
               Authorized Partner • SWS

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -218,11 +219,7 @@ const otherLinks = [
     label: "Portfolio",
     icon: <Briefcase className="h-4 w-4 text-sky-600" />,
   },
-  {
-    href: "/charity",
-    label: "Charity",
-    icon: <Heart className="h-4 w-4 text-rose-500" />,
-  },
+
   {
     href: "/contact-us",
     label: "Contact Us",
@@ -235,31 +232,48 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background backdrop-blur py-1">
-      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="mr-6 flex items-center gap-2">
-          <Image src="/icon.png" alt="logo" width="120" height="100" />
+      <div className="container mx-auto flex h-16 items-center justify-between px-3 sm:px-4 md:px-6">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2"
+        >
+          <Image
+            src="/icon.png"
+            alt="logo"
+            width={120}
+            height={100}
+            className="h-auto w-[90px] md:w-[100px] lg:w-[110px] xl:w-[120px] shrink-0"
+            priority
+          />
         </Link>
 
         {/* ================================== */}
         {/* DESKTOP NAVIGATION */}
         {/* ================================== */}
-        <NavigationMenu className="hidden md:flex">
-          <NavigationMenuList>
+        <NavigationMenu className="hidden md:flex flex-1 justify-center">
+          <NavigationMenuList className="gap-0.5 lg:gap-1">
             <NavigationMenuItem>
               <Link
                 href={homeLink.href}
-                className={
-                  navigationMenuTriggerStyle() + " flex items-center gap-2"
-                }
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "h-8 xl:h-9 px-1.5 py-1 text-xs lg:px-2.5 lg:py-1.5 lg:text-sm xl:px-3 gap-1 lg:gap-1.5 flex items-center"
+                )}
               >
-                {homeLink.icon} {homeLink.label}
+                <span className="hidden xl:inline-flex shrink-0">
+                  {homeLink.icon}
+                </span>
+                <span>{homeLink.label}</span>
               </Link>
             </NavigationMenuItem>
 
             {dropdownLinksConfig.map((dropdown) => (
               <NavigationMenuItem key={dropdown.title}>
-                <NavigationMenuTrigger className="flex items-center text-center gap-2">
-                  {dropdown.icon} {dropdown.title}
+                <NavigationMenuTrigger className="h-8 xl:h-9 px-1.5 py-1 text-xs lg:px-2.5 lg:py-1.5 lg:text-sm xl:px-3 gap-1 lg:gap-1.5 flex items-center text-center">
+                  <span className="hidden xl:inline-flex shrink-0">
+                    {dropdown.icon}
+                  </span>
+                  <span>{dropdown.title}</span>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid grid-cols-3 w-[500px] gap-3 p-4 md:w-[600px]">
@@ -280,16 +294,23 @@ export default function Header() {
               <NavigationMenuItem key={link.href}>
                 <Link
                   href={link.href}
-                  className={
-                    navigationMenuTriggerStyle() + " flex items-center gap-2"
-                  }
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    "h-8 xl:h-9 px-1.5 py-1 text-xs lg:px-2.5 lg:py-1.5 lg:text-sm xl:px-3 gap-1 lg:gap-1.5 flex items-center"
+                  )}
                 >
-                  {link.icon} {link.label}
+                  <span className="hidden xl:inline-flex shrink-0">
+                    {link.icon}
+                  </span>
+                  <span>{link.label}</span>
                 </Link>
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
         </NavigationMenu>
+
+        {/* Right side spacer to keep navigation dead-center on desktop */}
+        <div className="hidden md:flex shrink-0 w-[90px] md:w-[100px] lg:w-[110px] xl:w-[120px]" />
 
         {/* ================================== */}
         {/* MOBILE NAVIGATION                 */}

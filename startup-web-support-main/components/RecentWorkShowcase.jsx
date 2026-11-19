@@ -2,12 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowUpRight,
-  ExternalLink,
-  X,
-  CheckCircle2,
-} from "lucide-react";
+import { ArrowUpRight, ExternalLink, X, CheckCircle2, Sparkles } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 import Link from "next/link";
 import Image from "next/image";
@@ -137,7 +132,7 @@ const RecentWorkShowcase = () => {
       if (data?.portfolios?.length) {
         const combined = [...data.portfolios, ...defaultProjects];
         const unique = Array.from(
-          new Map(combined.map((item) => [item.title, item])).values()
+          new Map(combined.map((item) => [item.title, item])).values(),
         );
         setProjects(unique);
       } else {
@@ -187,25 +182,33 @@ const RecentWorkShowcase = () => {
   }, []);
 
   return (
-    <section className="relative bg-[#070e1b] pt-3 sm:pt-6 pb-14 sm:pb-20 overflow-hidden font-sans text-white select-none">
+    <section className="relative bg-[#030712] pt-16 sm:pt-24 pb-16 sm:pb-24 overflow-hidden font-sans text-white select-none">
+      {/* Top subtle highlight divider */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sky-500/25 to-transparent z-30" />
+
       {/* Background Soft Glows */}
       <div
         className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
         aria-hidden="true"
       >
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[90vw] max-w-5xl h-[450px] bg-gradient-to-b from-[#009CDE]/15 via-blue-600/10 to-transparent rounded-full blur-3xl" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[90vw] max-w-5xl h-[450px] bg-gradient-to-b from-[#009CDE]/12 via-blue-600/8 to-transparent rounded-full blur-3xl" />
         <div className="absolute top-1/3 -right-20 w-[450px] h-[450px] bg-sky-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-10 -left-20 w-[450px] h-[450px] bg-indigo-500/10 rounded-full blur-3xl" />
       </div>
 
       {/* Section Header */}
-      <div className="container mx-auto px-4 max-w-7xl relative z-30 text-center mb-4 sm:mb-6">
+      <div className="container mx-auto px-4 max-w-7xl relative z-30 text-center mb-10 sm:mb-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/25 text-sky-400 text-xs sm:text-sm font-semibold mb-3 tracking-wider uppercase backdrop-blur-sm">
+            <Sparkles className="w-3.5 h-3.5" />
+            Featured Projects
+          </div>
+
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight">
             Our Recent{" "}
             <span className="font-serif italic font-medium bg-gradient-to-r from-sky-400 via-[#009CDE] to-blue-400 bg-clip-text text-transparent px-1">
@@ -213,7 +216,7 @@ const RecentWorkShowcase = () => {
             </span>
           </h2>
 
-          <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
+          <p className="mt-3 text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
             Explore the high-performance web applications, enterprise software,
             and native mobile apps delivered by our engineering squad.
           </p>
@@ -223,10 +226,10 @@ const RecentWorkShowcase = () => {
       {/* 3D Isometric Tilted Marquee Wall (Netflix Style) */}
       <div className="relative w-full overflow-hidden py-2 sm:py-4">
         {/* Soft Vignette Edge Masks */}
-        <div className="absolute top-0 inset-x-0 h-14 sm:h-20 bg-gradient-to-b from-[#070e1b] via-[#070e1b]/80 to-transparent z-20 pointer-events-none" />
-        <div className="absolute bottom-0 inset-x-0 h-28 sm:h-40 bg-gradient-to-t from-[#070e1b] via-[#070e1b]/80 to-transparent z-20 pointer-events-none" />
-        <div className="absolute left-0 inset-y-0 w-16 sm:w-44 bg-gradient-to-r from-[#070e1b] via-[#070e1b]/90 to-transparent z-20 pointer-events-none" />
-        <div className="absolute right-0 inset-y-0 w-16 sm:w-44 bg-gradient-to-l from-[#070e1b] via-[#070e1b]/90 to-transparent z-20 pointer-events-none" />
+        <div className="absolute top-0 inset-x-0 h-14 sm:h-20 bg-gradient-to-b from-[#030712] via-[#030712]/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute bottom-0 inset-x-0 h-28 sm:h-40 bg-gradient-to-t from-[#030712] via-[#030712]/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute left-0 inset-y-0 w-16 sm:w-44 bg-gradient-to-r from-[#030712] via-[#030712]/90 to-transparent z-20 pointer-events-none" />
+        <div className="absolute right-0 inset-y-0 w-16 sm:w-44 bg-gradient-to-l from-[#030712] via-[#030712]/90 to-transparent z-20 pointer-events-none" />
 
         {/* Tilted Perspective Container */}
         <div className="w-[145vw] sm:w-[135vw] md:w-[125vw] -ml-[22vw] sm:-ml-[17vw] md:-ml-[12vw] transform -rotate-[10deg] sm:-rotate-[12deg] md:-rotate-[13deg] scale-[1.04] sm:scale-[1.08] origin-center flex flex-col gap-4 sm:gap-6 py-4 will-change-transform">
@@ -363,7 +366,7 @@ const RecentWorkShowcase = () => {
                   <button
                     onClick={() =>
                       openWhatsApp(
-                        `Consultation for ${selectedProject.title} Project`
+                        `Consultation for ${selectedProject.title} Project`,
                       )
                     }
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md hover:scale-105 transition-all cursor-pointer"

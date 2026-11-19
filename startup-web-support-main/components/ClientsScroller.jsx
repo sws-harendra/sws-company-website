@@ -44,7 +44,7 @@ const ClientsScroller = () => {
   };
 
   return (
-    <section className="py-24 bg-white font-sans">
+    <section className="py-0 bg-white font-sans">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Header */}
         <motion.div
@@ -58,8 +58,9 @@ const ClientsScroller = () => {
             Clients who trust us with their digital growth
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Our team does not only explain concepts clearly , but also provides the latest cutting 
-            edge technology throughout the project and proper support after that.
+            Our team does not only explain concepts clearly , but also provides
+            the latest cutting edge technology throughout the project and proper
+            support after that.
           </p>
         </motion.div>
 

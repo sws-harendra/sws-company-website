@@ -36,14 +36,14 @@ const Testimonials = () => {
   }
 
   return (
-    <section className="relative bg-[#070e1b] py-16 sm:py-24 overflow-hidden font-sans text-white">
+    <section className="relative bg-[#0d203f] py-16 sm:py-24 overflow-hidden font-sans text-white">
       {/* Background Ambient Glows */}
       <div
         className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden"
         aria-hidden="true"
       >
-        <div className="absolute -top-24 right-1/4 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl" />
+        <div className="absolute -top-24 right-1/4 w-[500px] h-[500px] bg-sky-400/15 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
@@ -58,6 +58,11 @@ const Testimonials = () => {
             transition={{ duration: 0.5 }}
             className="text-center md:text-left max-w-2xl"
           >
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-400/15 border border-sky-400/30 text-sky-300 text-xs sm:text-sm font-semibold mb-3 tracking-wider uppercase backdrop-blur-sm">
+              <Quote className="w-3.5 h-3.5 text-sky-400 fill-sky-400/20" />
+              Client Testimonials
+            </div>
+
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
               What Our{" "}
               <span className="font-serif italic font-medium bg-gradient-to-r from-sky-400 via-[#009CDE] to-blue-400 bg-clip-text text-transparent">

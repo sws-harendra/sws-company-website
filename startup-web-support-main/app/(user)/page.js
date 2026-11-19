@@ -41,8 +41,9 @@ const page = () => {
         <TechStack />
 
         <ClientsScroller />
-        <PageDivider upperColor="#ffffff" lowerColor="#070e1b" height="h-12" />
+        <PageDivider upperColor="#ffffff" lowerColor="#0d203f" height="h-12" />
         <Testimonials />
+        <PageDivider upperColor="#0d203f" lowerColor="#030712" height="h-14" />
         <RecentWorkShowcase />
       </div>
     </>

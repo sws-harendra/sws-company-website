@@ -9,7 +9,7 @@ import Testimonials from "@/components/Testimonials";
 import Call from "@/components/call";
 import WhatsAppButton from "@/components/whatsapp";
 import TechStack from "@/components/TechStacks";
-import PortfolioGrid from "./portfolio/components/PortfolioGrid";
+import RecentWorkShowcase from "@/components/RecentWorkShowcase";
 import Seo from "@/components/Seo";
 import NewHeroSection from "@/components/NewHeroSection";
 import TopBar from "@/components/TopBar";
@@ -41,10 +41,9 @@ const page = () => {
         <TechStack />
 
         <ClientsScroller />
-        <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" />
+        <PageDivider upperColor="#ffffff" lowerColor="#070e1b" height="h-12" />
         <Testimonials />
-        <PageDivider upperColor="#1e88e5" lowerColor="#F3F7FD" height="h-12" />
-        <PortfolioGrid />
+        <RecentWorkShowcase />
       </div>
     </>
   );

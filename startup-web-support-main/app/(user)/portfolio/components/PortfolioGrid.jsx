@@ -1,16 +1,204 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  IoArrowForward,
-  IoClose,
-  IoChevronBack,
-  IoChevronForward,
-} from "react-icons/io5";
+  ExternalLink,
+  X,
+  Search,
+  CheckCircle2,
+  ArrowRight,
+  Eye,
+  Loader2,
+} from "lucide-react";
+import { BsWhatsapp } from "react-icons/bs";
 import Link from "next/link";
-import portfolioService from "@/services/portfolio.service";
 import Image from "next/image";
+import portfolioService from "@/services/portfolio.service";
+import { openWhatsApp } from "@/lib/whatsapp";
+
+// Fallback portfolio showcase items if database has no records
+const defaultProjects = [
+  {
+    id: "proj-1",
+    title: "HealthSync Hospital ERP",
+    category: "Healthcare & ERP",
+    image_url: "/hms/dashboard-web.png",
+    description:
+      "Enterprise healthcare platform managing 500+ beds, OPD queues, electronic health records, and multi-department billing in real time.",
+    redirect_url: "/hms",
+  },
+  {
+    id: "proj-2",
+    title: "UrbanCart Multi-Vendor Platform",
+    category: "E-Commerce",
+    image_url: "/ecommerce/hero-section.png",
+    description:
+      "Modern marketplace featuring real-time inventory synchronization, instant payment gateway checkouts, and vendor dashboards.",
+    redirect_url: "/ecommerce",
+  },
+  {
+    id: "proj-3",
+    title: "CityRide On-Demand Cab App",
+    category: "Mobile Apps",
+    image_url: "/cab-booking/homepage.jpeg",
+    description:
+      "Real-time driver dispatch application with live GPS navigation, dynamic surge pricing algorithms, and seamless digital wallets.",
+    redirect_url: "/cab-booking",
+  },
+  {
+    id: "proj-4",
+    title: "MediLab Pathology Suite",
+    category: "Healthcare & ERP",
+    image_url: "/pathology/product-demo.png",
+    description:
+      "Automated clinical pathology system generating instant QR-verified lab reports, barcode sample tracking, and SMS notifications.",
+    redirect_url: "/pathology",
+  },
+  {
+    id: "proj-5",
+    title: "EduVibe Interactive LMS",
+    category: "EdTech",
+    image_url: "/website_hero.jpg",
+    description:
+      "Scalable e-learning portal serving 20k+ concurrent students with live streaming classes, automated quizzes, and student portals.",
+    redirect_url: "#",
+  },
+  {
+    id: "proj-6",
+    title: "FinTrack Corporate ERP",
+    category: "FinTech & ERP",
+    image_url: "/software.jpg",
+    description:
+      "Automated GST-compliant invoicing, payroll management, and expense auditing software built for enterprise operations.",
+    redirect_url: "#",
+  },
+  {
+    id: "proj-7",
+    title: "QuickCommerce Delivery Network",
+    category: "Mobile Apps",
+    image_url: "/mobile-app.jpg",
+    description:
+      "Sub-15 minute grocery fulfillment mobile application with micro-warehouse routing and live driver telemetry.",
+    redirect_url: "#",
+  },
+  {
+    id: "proj-8",
+    title: "ApexStore POS & Inventory",
+    category: "E-Commerce",
+    image_url: "/ecommerce/inventory.png",
+    description:
+      "Cloud POS and inventory control suite synchronizing physical retail barcode scanners with online storefronts.",
+    redirect_url: "/ecommerce",
+  },
+  {
+    id: "proj-9",
+    title: "SmartDoctor Telehealth OPD",
+    category: "Healthcare & ERP",
+    image_url: "/hms/doctor.png",
+    description:
+      "HIPAA-compliant video consultation platform connecting patients with specialist doctors, digital prescriptions, and follow-ups.",
+    redirect_url: "/hms",
+  },
+  {
+    id: "proj-10",
+    title: "SwiftPark Smart Mobility",
+    category: "Mobile Apps",
+    image_url: "/cab-booking/parking-assit.jpeg",
+    description:
+      "Automated vehicle parking reservation system featuring live sensor space detection and contactless payment scanning.",
+    redirect_url: "/cab-booking",
+  },
+  {
+    id: "proj-11",
+    title: "PharmaCare Supply Chain",
+    category: "Healthcare & ERP",
+    image_url: "/hms/medicine.png",
+    description:
+      "Batch tracking, expiry management, and wholesale distributor ordering system for multi-chain pharmacies.",
+    redirect_url: "/hms",
+  },
+  {
+    id: "proj-12",
+    title: "EliteWear Fashion Store",
+    category: "E-Commerce",
+    image_url: "/ecommerce/showcase.png",
+    description:
+      "Ultra-fast Next.js storefront engineered for high conversion rates with visual product configurators and 3D previews.",
+    redirect_url: "/ecommerce",
+  },
+];
+
+const categories = [
+  "All",
+  "Healthcare & ERP",
+  "E-Commerce",
+  "Mobile Apps",
+  "EdTech",
+  "FinTech & ERP",
+  "Web Development",
+];
+
+// Intelligently infer category if backend records lack an explicit category
+const getProjectCategory = (item) => {
+  if (item.category && item.category.trim() !== "") return item.category;
+  const text = `${item.title || ""} ${item.description || ""}`.toLowerCase();
+  if (
+    text.includes("health") ||
+    text.includes("hospital") ||
+    text.includes("doctor") ||
+    text.includes("pathology") ||
+    text.includes("medical") ||
+    text.includes("clinic") ||
+    text.includes("hms")
+  ) {
+    return "Healthcare & ERP";
+  }
+  if (
+    text.includes("shop") ||
+    text.includes("ecom") ||
+    text.includes("cart") ||
+    text.includes("store") ||
+    text.includes("retail") ||
+    text.includes("pos")
+  ) {
+    return "E-Commerce";
+  }
+  if (
+    text.includes("app") ||
+    text.includes("mobile") ||
+    text.includes("cab") ||
+    text.includes("ride") ||
+    text.includes("ios") ||
+    text.includes("android")
+  ) {
+    return "Mobile Apps";
+  }
+  if (
+    text.includes("edu") ||
+    text.includes("school") ||
+    text.includes("learn") ||
+    text.includes("student") ||
+    text.includes("college") ||
+    text.includes("academy") ||
+    text.includes("lms")
+  ) {
+    return "EdTech";
+  }
+  if (
+    text.includes("finance") ||
+    text.includes("bank") ||
+    text.includes("tax") ||
+    text.includes("audit") ||
+    text.includes("invoice") ||
+    text.includes("gst") ||
+    text.includes("erp") ||
+    text.includes("billing")
+  ) {
+    return "FinTech & ERP";
+  }
+  return "Web Development";
+};
 
 const PortfolioGrid = () => {
   const [projects, setProjects] = useState([]);
@@ -18,107 +206,101 @@ const PortfolioGrid = () => {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: {
-      opacity: 0,
-      y: 40,
-      scale: 0.95,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 0.6,
-      },
-    },
-  };
-
-  const modalVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.8,
-      transition: { duration: 0.3 },
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 25,
-        duration: 0.5,
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.8,
-      transition: { duration: 0.3 },
-    },
-  };
-
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 1.1 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  };
-
-  // Fetch paginated data
-  const fetchPortfolios = useCallback(async () => {
-    if (loading || !hasMore) return;
+  // Fetch paginated portfolios from database
+  const loadPortfolios = useCallback(async (pageNum = 1) => {
     setLoading(true);
     try {
-      const data = await portfolioService.getAll({ page, limit: 15 });
-      if (data?.portfolios?.length) {
+      const limit = 15;
+      const data = await portfolioService.getAll({ page: pageNum, limit });
+
+      let fetchedList = [];
+      let totalPages = 1;
+      let totalItems = 0;
+
+      if (Array.isArray(data)) {
+        fetchedList = data;
+        totalItems = data.length;
+        totalPages = Math.ceil(data.length / limit) || 1;
+      } else if (Array.isArray(data?.portfolios)) {
+        fetchedList = data.portfolios;
+        totalItems = data.totalItems || data.total || data.count || 0;
+        totalPages = data.totalPages || Math.ceil(totalItems / limit) || 1;
+      } else if (Array.isArray(data?.data)) {
+        fetchedList = data.data;
+        totalItems = data.totalItems || data.total || 0;
+        totalPages = data.totalPages || Math.ceil(totalItems / limit) || 1;
+      }
+
+      if (fetchedList.length > 0) {
         setProjects((prev) => {
-          const existingIds = new Set(prev.map((p) => p.id));
-          const newOnes = data.portfolios.filter((p) => !existingIds.has(p.id));
-          return [...prev, ...newOnes];
+          if (pageNum === 1) {
+            return fetchedList;
+          }
+          const existingIds = new Set(
+            prev.map((p) => String(p.id || p._id || p.title))
+          );
+          const newItems = fetchedList.filter(
+            (p) => !existingIds.has(String(p.id || p._id || p.title))
+          );
+          return [...prev, ...newItems];
         });
-        setHasMore(page < data.totalPages);
+
+        // Determine if there are more pages
+        const moreAvailable =
+          pageNum < totalPages || fetchedList.length === limit;
+        setHasMore(moreAvailable);
       } else {
+        if (pageNum === 1) {
+          setProjects(defaultProjects);
+        }
         setHasMore(false);
       }
     } catch (err) {
       console.error("Error fetching portfolios:", err);
+      if (pageNum === 1) {
+        setProjects(defaultProjects);
+      }
+      setHasMore(false);
     } finally {
       setLoading(false);
     }
-  }, [page]);
+  }, []);
 
   useEffect(() => {
-    fetchPortfolios();
-  }, [fetchPortfolios]);
+    loadPortfolios(1);
+  }, [loadPortfolios]);
 
+  // Load More button handler
   const handleLoadMore = () => {
-    if (!loading && hasMore) {
-      setPage((prev) => prev + 1);
-    }
+    if (loading || !hasMore) return;
+    const nextPage = page + 1;
+    setPage(nextPage);
+    loadPortfolios(nextPage);
   };
+
+  // Filter projects by category and search term
+  const filteredProjects = useMemo(() => {
+    const list = projects.length > 0 ? projects : defaultProjects;
+
+    return list.filter((item) => {
+      const itemCategory = getProjectCategory(item);
+      const matchesCategory =
+        activeCategory === "All" ||
+        itemCategory.toLowerCase() === activeCategory.toLowerCase();
+      const matchesSearch =
+        searchQuery === "" ||
+        item.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        itemCategory.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [projects, activeCategory, searchQuery]);
 
   const openModal = (project) => {
     setSelectedProject(project);
-    setImageLoaded(false);
     document.body.style.overflow = "hidden";
   };
 
@@ -127,7 +309,6 @@ const PortfolioGrid = () => {
     document.body.style.overflow = "unset";
   };
 
-  // Close modal on escape key
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") closeModal();
@@ -137,208 +318,255 @@ const PortfolioGrid = () => {
   }, []);
 
   return (
-    <section className="overflow-x-hidden z-20 relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-24 font-sans">
-      <div className="z-0 absolute left-[-10%] top-[-1%] flex items-center justify-center w-72 h-72">
-        <div className="absolute w-96 h-96 opacity-10 rounded-full border-[10px] border-transparent bg-primary-brand-color p-[2px]"></div>
+    <section className="bg-slate-50/70 py-10 sm:py-16 font-sans text-slate-900 min-h-screen">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        {/* =======================================================================
+            CONTROLS BAR: CATEGORY TABS & SEARCH
+           ======================================================================= */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 sm:mb-10">
+          {/* Category Filter Pills */}
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? "bg-[#009CDE] text-white shadow-[0_4px_14px_rgba(0,156,222,0.35)] scale-105"
+                      : "bg-white text-slate-600 hover:text-[#009CDE] hover:bg-sky-50 border border-slate-200/90 shadow-2xs"
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
 
-        <div className="absolute w-4 h-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 rounded-full"></div>
-      </div>
-      <div className="z-0 absolute right-[-19%] top-2/4 -translate-y-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-100 to-indigo-200  opacity-40" />
+          {/* Search Box & Project Count */}
+          <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search projects..."
+                className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm rounded-full bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-[#009CDE] transition-all shadow-2xs"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
 
-      {/* <div className="absolute right-[-10%] top-[-4%] flex items-center justify-center w-72 h-72">
-        <div className="absolute w-72 h-72 opacity-46 rounded-full border-[10px] border-transparent bg-primary-brand-color p-[2px]"></div>
+            <div className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold text-slate-600 shadow-2xs whitespace-nowrap">
+              <span>{filteredProjects.length} Projects</span>
+            </div>
+          </div>
+        </div>
 
-        <div className="absolute w-52 h-52 bg-white rounded-full"></div>
-      </div> */}
-      <div className="container mx-auto px-6 max-w-7xl">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-20"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={{
-            hidden: { opacity: 0, y: 30 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: { duration: 0.6, ease: "easeOut" },
-            },
-          }}
-        >
-          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent mb-6">
-            Our Recent Work
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Explore the latest solutions delivered by our web application development company, 
-            developed by our skilled and experienced development team.
-          </p>
-        </motion.div>
-
-        {/* Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
-          {projects.map((project, index) => (
-            <Link href={project.redirect_url} key={project.id}>
-              <motion.div
-                key={project.id}
-                className="group cursor-pointer rounded-2xl bg-white shadow-lg border border-gray-200/60 overflow-hidden flex flex-col h-full transition-all duration-500 transform hover:shadow-2xl hover:-translate-y-3"
-                // variants={itemVariants}
-                whileHover={{
-                  scale: 1.02,
-                  transition: {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 20,
-                  },
-                }}
-                onClick={() => openModal(project)}
-              >
-                <div className="aspect-video overflow-hidden relative">
-                  <Image
-                    fill
-                    fetchpriority="high"
-                    src={project.image_url}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-
-                <div className="z-20 flex flex-col flex-grow px-6 pt-2 bg-white">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  {project.description && (
-                    <p className="text-gray-600 text-base leading-relaxed flex-grow mb-6 line-clamp-3">
-                      {project.description}
-                    </p>
-                  )}
-                  {/* {project.redirect_url && (
-                  <Link
-                    href={project.redirect_url}
-                    className="inline-flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 group/link shadow-lg hover:shadow-xl"
-                    target="_blank"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <span className="text-center">View Project</span>
-                  </Link>
-                )} */}
-                </div>
-              </motion.div>
-            </Link>
-          ))}
-        </motion.div>
-
-        {/* Load More / Status */}
-        <div className="text-center mt-16">
-          {loading && (
-            <motion.div
-              className="flex justify-center items-center space-x-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+        {/* =======================================================================
+            PORTFOLIO GRID
+           ======================================================================= */}
+        {filteredProjects.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-3xl border border-slate-200/80 p-8">
+            <p className="text-lg font-bold text-slate-700">No projects found</p>
+            <p className="text-sm text-slate-500 mt-1">
+              Try adjusting your search query or switching categories.
+            </p>
+            <button
+              onClick={() => {
+                setActiveCategory("All");
+                setSearchQuery("");
+              }}
+              className="mt-4 px-5 py-2 rounded-full bg-[#009CDE] text-white text-xs font-bold hover:bg-[#0086bf] transition-all cursor-pointer"
             >
-              <div className="w-6 h-6 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" />
-              <p className="text-gray-600 font-medium">
-                Loading amazing projects...
-              </p>
-            </motion.div>
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {filteredProjects.map((project) => {
+              const projectCategory = getProjectCategory(project);
+
+              return (
+                <motion.div
+                  key={project.id || project.title}
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.25 }}
+                  onClick={() => openModal(project)}
+                  className="group relative bg-white rounded-[26px] overflow-hidden border border-slate-200/80 shadow-[0_10px_30px_-6px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_-8px_rgba(0,156,222,0.2)] hover:border-[#009CDE]/80 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                >
+                  {/* Screenshot Container */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+                    <Image
+                      unoptimized
+                      src={project.image_url}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-108"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="px-4 py-2 rounded-full bg-white/95 text-slate-900 font-bold text-xs shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                        <Eye className="w-3.5 h-3.5 text-[#009CDE]" />
+                        <span>View Details</span>
+                      </span>
+                    </div>
+
+                    {/* Category Pill */}
+                    <div className="absolute top-3 left-3 z-10">
+                      <span className="text-[10px] font-bold text-[#009CDE] bg-white/95 border border-sky-200/80 px-2.5 py-0.5 rounded-full shadow-2xs backdrop-blur-md">
+                        {projectCategory}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Info Content */}
+                  <div className="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-xl font-black text-slate-900 group-hover:text-[#009CDE] transition-colors tracking-tight line-clamp-1 mb-2">
+                        {project.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-2 font-normal">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    {/* Card Bottom Strip */}
+                    <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#009CDE]">
+                      <span>Explore Project</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* =======================================================================
+            PAGINATION: LOAD MORE PROJECTS BUTTON & STATUS
+           ======================================================================= */}
+        <div className="text-center mt-12 sm:mt-16">
+          {loading && (
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm shadow-2xs mb-4">
+              <Loader2 className="w-4 h-4 animate-spin text-[#009CDE]" />
+              <span>Fetching additional projects...</span>
+            </div>
           )}
 
           {!loading && hasMore && (
             <motion.button
               onClick={handleLoadMore}
-              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#009CDE] to-[#0086bf] hover:from-[#0086bf] hover:to-[#0074a6] text-white font-bold text-sm shadow-[0_4px_16px_rgba(0,156,222,0.32)] transition-all duration-200 cursor-pointer"
             >
               Load More Projects
             </motion.button>
           )}
 
-          {!hasMore && projects.length > 0 && (
-            <motion.p
-              className="text-gray-500 text-lg mt-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              That's all for now! 🎉
-            </motion.p>
+          {!hasMore && filteredProjects.length > 0 && (
+            <p className="text-xs sm:text-sm text-slate-500 font-medium">
+              You&apos;ve viewed all projects 🎉
+            </p>
           )}
         </div>
       </div>
-      {/* Image Zoom Modal */}
+
+      {/* =======================================================================
+          INTERACTIVE PROJECT DETAILS MODAL
+         ======================================================================= */}
       <AnimatePresence>
         {selectedProject && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md"
             onClick={closeModal}
+            role="dialog"
+            aria-modal="true"
           >
             <motion.div
-              className="relative w-3/6 rounded-3xl overflow-hidden shadow-2xl"
-              variants={modalVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 20 }}
+              transition={{ duration: 0.25 }}
               onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-3xl rounded-3xl bg-white border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
-              {/* Close Button */}
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 z-10 p-3 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+                className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-md transition-all cursor-pointer"
+                aria-label="Close dialog"
               >
-                <IoClose className="w-6 h-6 text-gray-900" />
+                <X className="w-5 h-5" />
               </button>
 
-              {/* Image Container */}
-              <div className="relative aspect-video max-h-[70vh] bg-gray-100">
-                {!imageLoaded && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                  </div>
-                )}
-                <motion.img
+              <div className="relative aspect-video w-full bg-slate-900 overflow-hidden flex-shrink-0">
+                <Image
+                  unoptimized
                   src={selectedProject.image_url}
                   alt={selectedProject.title}
-                  className="w-full h-full object-contain"
-                  variants={imageVariants}
-                  initial="hidden"
-                  animate={imageLoaded ? "visible" : "hidden"}
-                  onLoad={() => setImageLoaded(true)}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 800px"
                 />
               </div>
 
-              {/* Project Info */}
-              <div className="px-8 bg-white text-center">
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              <div className="p-6 sm:p-8 flex-1 overflow-y-auto">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-bold text-[#009CDE] bg-sky-50 border border-sky-200 px-3 py-1 rounded-full uppercase tracking-wider">
+                    {getProjectCategory(selectedProject)}
+                  </span>
+                  <div className="flex items-center gap-1 text-emerald-600 text-xs font-semibold">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Live in Production</span>
+                  </div>
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mb-3">
                   {selectedProject.title}
                 </h3>
-                {selectedProject.description && (
-                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                    {selectedProject.description}
-                  </p>
-                )}
-                {selectedProject.redirect_url && (
-                  <Link
-                    href={selectedProject.redirect_url}
-                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                    target="_blank"
+
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-normal">
+                  {selectedProject.description}
+                </p>
+
+                <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-100">
+                  {selectedProject.redirect_url &&
+                    selectedProject.redirect_url !== "#" && (
+                      <Link
+                        href={selectedProject.redirect_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#009CDE] to-[#0086bf] text-white font-bold text-sm shadow-md hover:scale-105 transition-all"
+                      >
+                        <span>View Live Platform</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
+                    )}
+
+                  <button
+                    onClick={() =>
+                      openWhatsApp(
+                        `Consultation for ${selectedProject.title} Project`
+                      )
+                    }
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md hover:scale-105 transition-all cursor-pointer"
                   >
-                    View Full Project
-                    <IoArrowForward className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Link>
-                )}
+                    <BsWhatsapp className="w-4 h-4" />
+                    <span>Get Similar Solution</span>
+                  </button>
+                </div>
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </section>

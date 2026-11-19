@@ -36,14 +36,14 @@ const Testimonials = () => {
   }
 
   return (
-    <section className="relative bg-gradient-to-b from-[#1e88e5] via-[#1a7cd4] to-[#166fc4] py-16 sm:py-24 overflow-hidden font-sans text-white">
+    <section className="relative bg-[#070e1b] py-16 sm:py-24 overflow-hidden font-sans text-white">
       {/* Background Ambient Glows */}
       <div
         className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden"
         aria-hidden="true"
       >
-        <div className="absolute -top-24 right-1/4 w-[500px] h-[500px] bg-sky-300/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 left-1/4 w-[500px] h-[500px] bg-blue-400/20 rounded-full blur-3xl" />
+        <div className="absolute -top-24 right-1/4 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
@@ -60,12 +60,12 @@ const Testimonials = () => {
           >
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
               What Our{" "}
-              <span className="font-serif italic font-medium text-sky-200">
+              <span className="font-serif italic font-medium bg-gradient-to-r from-sky-400 via-[#009CDE] to-blue-400 bg-clip-text text-transparent">
                 Clients Say
               </span>
             </h2>
 
-            <p className="text-base sm:text-lg text-sky-100/90 leading-relaxed font-normal">
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
               Real feedback from clients who have built and scaled their digital
               products with Startup Web Support.
             </p>
@@ -77,14 +77,14 @@ const Testimonials = () => {
               <button
                 onClick={() => swiperInstance?.slidePrev()}
                 aria-label="Previous testimonial"
-                className="w-11 h-11 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#1e88e5] border border-white/30 hover:border-white flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer hover:scale-105 active:scale-95"
+                className="w-11 h-11 rounded-full bg-white/10 hover:bg-white text-white hover:text-[#070e1b] border border-white/20 hover:border-white flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer hover:scale-105 active:scale-95"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={() => swiperInstance?.slideNext()}
                 aria-label="Next testimonial"
-                className="w-11 h-11 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#1e88e5] border border-white/30 hover:border-white flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer hover:scale-105 active:scale-95"
+                className="w-11 h-11 rounded-full bg-white/10 hover:bg-white text-white hover:text-[#070e1b] border border-white/20 hover:border-white flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer hover:scale-105 active:scale-95"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>

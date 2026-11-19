@@ -44,7 +44,7 @@ const ClientsScroller = () => {
   };
 
   return (
-    <section className="py-0 bg-white font-sans">
+    <section className="pb-16 pt-0  bg-white font-sans">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Header */}
         <motion.div

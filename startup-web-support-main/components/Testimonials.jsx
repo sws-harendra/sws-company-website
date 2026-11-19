@@ -36,14 +36,15 @@ const Testimonials = () => {
   }
 
   return (
-    <section className="relative bg-[#0d203f] py-16 sm:py-24 overflow-hidden font-sans text-white">
-      {/* Background Ambient Glows */}
+    <section className="relative bg-white py-16 sm:py-24 overflow-hidden font-sans text-slate-900">
+      {/* Background Soft Glows (matching TechStack aesthetic) */}
       <div
         className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden"
         aria-hidden="true"
       >
-        <div className="absolute -top-24 right-1/4 w-[500px] h-[500px] bg-sky-400/15 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] max-w-4xl h-[400px] bg-gradient-to-b from-[#38bdf8]/10 via-[#009CDE]/05 to-transparent rounded-full blur-3xl" />
+        <div className="absolute right-[-10%] top-1/3 w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-sky-200/20 to-blue-300/10 blur-3xl" />
+        <div className="absolute left-[-10%] bottom-1/4 w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-sky-200/20 to-indigo-200/10 blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
@@ -58,19 +59,19 @@ const Testimonials = () => {
             transition={{ duration: 0.5 }}
             className="text-center md:text-left max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-400/15 border border-sky-400/30 text-sky-300 text-xs sm:text-sm font-semibold mb-3 tracking-wider uppercase backdrop-blur-sm">
-              <Quote className="w-3.5 h-3.5 text-sky-400 fill-sky-400/20" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200/80 text-sky-700 text-xs sm:text-sm font-semibold mb-3 tracking-wider uppercase">
+              <Quote className="w-3.5 h-3.5 text-[#009CDE] fill-[#009CDE]/10" />
               Client Testimonials
             </div>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight mb-4">
               What Our{" "}
-              <span className="font-serif italic font-medium bg-gradient-to-r from-sky-400 via-[#009CDE] to-blue-400 bg-clip-text text-transparent">
+              <span className="font-serif italic font-medium bg-gradient-to-r from-[#009CDE] via-[#0086bf] to-[#0668E1] bg-clip-text text-transparent">
                 Clients Say
               </span>
             </h2>
 
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
               Real feedback from clients who have built and scaled their digital
               products with Startup Web Support.
             </p>
@@ -82,14 +83,14 @@ const Testimonials = () => {
               <button
                 onClick={() => swiperInstance?.slidePrev()}
                 aria-label="Previous testimonial"
-                className="w-11 h-11 rounded-full bg-white/10 hover:bg-white text-white hover:text-[#070e1b] border border-white/20 hover:border-white flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer hover:scale-105 active:scale-95"
+                className="w-11 h-11 rounded-full bg-white hover:bg-slate-900 text-slate-700 hover:text-white border border-slate-200 hover:border-slate-900 flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer hover:scale-105 active:scale-95"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={() => swiperInstance?.slideNext()}
                 aria-label="Next testimonial"
-                className="w-11 h-11 rounded-full bg-white/10 hover:bg-white text-white hover:text-[#070e1b] border border-white/20 hover:border-white flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer hover:scale-105 active:scale-95"
+                className="w-11 h-11 rounded-full bg-white hover:bg-slate-900 text-slate-700 hover:text-white border border-slate-200 hover:border-slate-900 flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer hover:scale-105 active:scale-95"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -105,7 +106,7 @@ const Testimonials = () => {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="h-[280px] rounded-[28px] bg-white/15 border border-white/20"
+                className="h-[280px] rounded-[28px] bg-slate-100 border border-slate-200"
               />
             ))}
           </div>
@@ -128,8 +129,8 @@ const Testimonials = () => {
               pagination={{
                 clickable: true,
                 bulletClass:
-                  "inline-block w-2.5 h-2.5 rounded-full bg-white/40 mx-1 transition-all duration-300 cursor-pointer",
-                bulletActiveClass: "!w-8 !bg-white !rounded-full shadow-sm",
+                  "inline-block w-2.5 h-2.5 rounded-full bg-slate-300 mx-1 transition-all duration-300 cursor-pointer",
+                bulletActiveClass: "!w-8 !bg-[#009CDE] !rounded-full shadow-sm",
               }}
               breakpoints={{
                 640: {
@@ -166,7 +167,7 @@ const Testimonials = () => {
 
                 return (
                   <SwiperSlide key={item.id || index} className="h-auto">
-                    <div className="group h-full bg-white rounded-[28px] p-7 sm:p-8 flex flex-col justify-between text-slate-900 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.18)] border border-white/60 hover:-translate-y-1.5 transition-all duration-300">
+                    <div className="group h-full bg-white rounded-[28px] p-7 sm:p-8 flex flex-col justify-between text-slate-900 shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_rgba(0,156,222,0.14)] border border-slate-200/90 hover:border-[#009CDE]/50 hover:-translate-y-1.5 transition-all duration-300">
                       {/* Top Row: Rating Stars */}
                       <div>
                         <div className="flex items-center gap-1 text-amber-400 mb-5">
@@ -190,7 +191,7 @@ const Testimonials = () => {
                       {/* Client Profile Footer */}
                       <div className="pt-5 border-t border-slate-100 flex items-center gap-3 mt-auto">
                         {/* Dynamic Avatar Initials */}
-                        <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#009CDE] to-[#0668E1] text-white flex items-center justify-center font-bold text-sm shadow-[0_4px_12px_rgba(0,156,222,0.3)] flex-shrink-0">
+                        <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#009CDE] to-[#0668E1] text-white flex items-center justify-center font-bold text-sm shadow-[0_4px_12px_rgba(0,156,222,0.25)] flex-shrink-0">
                           {initials}
                         </div>
 

@@ -22,7 +22,7 @@ const itemVariants = {
 
 const TopInfoSection = () => {
   return (
-    <section className="bg-[#1e88e5] py-24 mt-16">
+    <section className="bg-[#1e88e5] py-24">
       <div className="container mx-auto px-6 max-w-7xl">
 
         <motion.div

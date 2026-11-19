@@ -7,7 +7,6 @@ import {
   Gamepad2,
   FileText,
 } from "lucide-react";
-import TopInfoSection from "@/components/ui/TopInfoSection";
 
 export default function AppDevelopmentServices() {
   const services = [
@@ -92,8 +91,8 @@ export default function AppDevelopmentServices() {
   ];
 
   return (
-    <div className="min-h-screen ">
-      <div className="max-w-7xl mx-auto ">
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 pb-16">
         {/* Header */}
         <div className="text-center py-12">
           <h1 className="text-4xl font-bold text-gray-900">

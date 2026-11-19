@@ -23,20 +23,21 @@ const page = () => {
 
       <div>
         <AppDevHero />
-        <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" />
+        <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
         <OurServicesTabs />
-        <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
+        <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
         <DevelopmentProcess />
-        <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" />
+        <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
         <BusinessValue />
-        <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
+        <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
         <AppDevelopmentServices />
+        <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
         <TopInfoSection />
-        {/* <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" /> */}{" "}
-        <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-24" />
+        <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
         <VerticalTabServices />
+        <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
         <IndustriesSection />
-        <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
+        <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
         <AppDevFaq />
       </div>
     </>

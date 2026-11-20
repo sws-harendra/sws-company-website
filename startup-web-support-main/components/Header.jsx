@@ -124,32 +124,32 @@ const dropdownLinksConfig = [
         icon: <MousePointerClick className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/smo-smm",
+        href: "/smo-smm-services-in-patna",
         title: "SMO | SMM",
         icon: <ThumbsUp className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/branding-promotion",
+        href: "/branding-promotion-in-patna",
         title: "Branding & Promotion",
         icon: <BadgeCheck className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/email-marketing",
+        href: "/email-marketing-in-patna",
         title: "Email Marketing",
         icon: <Mail className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/video-marketing",
+        href: "/video-marketing-in-patna",
         title: "Video Marketing",
         icon: <Video className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/content-marketing",
+        href: "/content-marketing-in-patna",
         title: "Content Marketing",
         icon: <FileText className="h-4 w-4 text-sky-600" />,
       },
       {
-        href: "/whatsapp-marketing",
+        href: "/whatsapp-marketing-services-in-patna",
         title: "Whatsapp Marketing",
         icon: <FaWhatsapp className="h-4 w-4 text-sky-600" />,
       },
@@ -233,10 +233,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background backdrop-blur py-1">
       <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="mr-6 flex shrink-0 items-center gap-2"
-        >
+        <Link href="/" className="mr-6 flex shrink-0 items-center gap-2">
           <Image
             src="/icon.png"
             alt="logo"
@@ -257,7 +254,7 @@ export default function Header() {
                 href={homeLink.href}
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "h-8 xl:h-9 px-1.5 py-1 text-xs lg:px-2.5 lg:py-1.5 lg:text-sm xl:px-3 gap-1 lg:gap-1.5 flex items-center"
+                  "h-8 xl:h-9 px-1.5 py-1 text-xs lg:px-2.5 lg:py-1.5 lg:text-sm xl:px-3 gap-1 lg:gap-1.5 flex items-center",
                 )}
               >
                 <span className="hidden xl:inline-flex shrink-0">
@@ -296,7 +293,7 @@ export default function Header() {
                   href={link.href}
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    "h-8 xl:h-9 px-1.5 py-1 text-xs lg:px-2.5 lg:py-1.5 lg:text-sm xl:px-3 gap-1 lg:gap-1.5 flex items-center"
+                    "h-8 xl:h-9 px-1.5 py-1 text-xs lg:px-2.5 lg:py-1.5 lg:text-sm xl:px-3 gap-1 lg:gap-1.5 flex items-center",
                   )}
                 >
                   <span className="hidden xl:inline-flex shrink-0">

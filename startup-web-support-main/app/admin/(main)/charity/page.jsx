@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Pencil,
@@ -21,6 +21,7 @@ import CharityForm from "@/app/admin/components/CharityForm";
 import ConfirmModal from "@/app/admin/components/ConfirmModal";
 import { toast } from "sonner";
 import Link from "next/link";
+import { resolveCharityMedia } from "@/lib/videoUtils";
 
 export default function AdminCharityPage() {
   const [charities, setCharities] = useState([]);
@@ -150,9 +151,12 @@ export default function AdminCharityPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {charities.map((item) => {
-            const isVideo = (item.redirect_url || item.image_url || "").match(
-              /\.(mp4|webm)|youtube|youtu\.be|vimeo/i
-            );
+            const {
+              isVideo,
+              videoUrl,
+              thumbnailUrl,
+              isDirectVideo,
+            } = resolveCharityMedia(item);
 
             return (
               <div
@@ -160,11 +164,30 @@ export default function AdminCharityPage() {
                 className="group relative rounded-xl overflow-hidden border bg-card shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div className="relative aspect-[4/3] bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
-                  <img
-                    src={item.image_url}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  {thumbnailUrl ? (
+                    <img
+                      src={thumbnailUrl}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : isDirectVideo && videoUrl ? (
+                    <video
+                      src={videoUrl}
+                      preload="metadata"
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover pointer-events-none"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-zinc-200 dark:bg-zinc-800 text-muted-foreground">
+                      {isVideo ? (
+                        <Video className="w-8 h-8 text-rose-500" />
+                      ) : (
+                        <ImageIcon className="w-8 h-8 opacity-40" />
+                      )}
+                    </div>
+                  )}
+
                   {isVideo && (
                     <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/70 text-white text-[10px] font-semibold flex items-center gap-1 backdrop-blur-sm">
                       <Video className="w-3 h-3 text-rose-400" /> Video
@@ -233,7 +256,9 @@ export default function AdminCharityPage() {
 
       {/* Add / Edit Modal */}
       <ReusableModal
-        title={editingCharity ? "Edit Photo / Video" : "Add Charity Photo or Video"}
+        title={
+          editingCharity ? "Edit Photo / Video" : "Add Charity Photo or Video"
+        }
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         maxWidth="max-w-xl"

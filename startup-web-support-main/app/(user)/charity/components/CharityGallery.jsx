@@ -11,35 +11,14 @@ import {
   Calendar,
   Image as ImageIcon,
   Heart,
+  Video as VideoIcon,
 } from "lucide-react";
 import charityService from "@/services/charity.service";
-
-// Helper to determine if a URL is a video
-function checkIsVideo(url, redirectUrl) {
-  const target = (redirectUrl || url || "").toLowerCase();
-  return (
-    target.includes(".mp4") ||
-    target.includes(".webm") ||
-    target.includes("youtube.com") ||
-    target.includes("youtu.be") ||
-    target.includes("vimeo.com")
-  );
-}
-
-// Helper to extract YouTube embed URL
-function getYouTubeEmbedUrl(url) {
-  try {
-    if (url.includes("youtu.be/")) {
-      const id = url.split("youtu.be/")[1]?.split("?")[0];
-      return `https://www.youtube.com/embed/${id}?autoplay=1`;
-    }
-    if (url.includes("watch?v=")) {
-      const id = url.split("watch?v=")[1]?.split("&")[0];
-      return `https://www.youtube.com/embed/${id}?autoplay=1`;
-    }
-  } catch {}
-  return url;
-}
+import {
+  resolveCharityMedia,
+  getYouTubeEmbedUrl,
+  getVimeoEmbedUrl,
+} from "@/lib/videoUtils";
 
 export default function CharityGallery() {
   const [items, setItems] = useState([]);
@@ -63,6 +42,7 @@ export default function CharityGallery() {
   }, []);
 
   const activeItem = selectedIndex !== null ? items[selectedIndex] : null;
+  const activeMedia = activeItem ? resolveCharityMedia(activeItem) : null;
 
   // Keyboard navigation
   useEffect(() => {
@@ -113,7 +93,12 @@ export default function CharityGallery() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 sm:gap-6">
             {items.map((item, idx) => {
-              const isVideo = checkIsVideo(item.image_url, item.redirect_url);
+              const {
+                isVideo,
+                videoUrl,
+                thumbnailUrl,
+                isDirectVideo,
+              } = resolveCharityMedia(item);
 
               return (
                 <motion.div
@@ -122,14 +107,50 @@ export default function CharityGallery() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05, duration: 0.4 }}
                   onClick={() => setSelectedIndex(idx)}
-                  className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+                  className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
                 >
-                  {/* Thumbnail / Video */}
-                  <img
-                    src={item.image_url}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  {/* Thumbnail / Video Preview */}
+                  {thumbnailUrl ? (
+                    <img
+                      src={thumbnailUrl}
+                      alt={item.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        // Fallback to video element if image load fails
+                        if (isDirectVideo && videoUrl) {
+                          e.currentTarget.style.display = "none";
+                          const vid = e.currentTarget.nextElementSibling;
+                          if (vid) vid.style.display = "block";
+                        }
+                      }}
+                    />
+                  ) : null}
+
+                  {/* Fallback Direct Video Frame when no image thumbnail is set */}
+                  {(!thumbnailUrl || isDirectVideo) && videoUrl && (
+                    <video
+                      src={videoUrl}
+                      preload="metadata"
+                      muted
+                      playsInline
+                      style={{ display: thumbnailUrl ? "none" : "block" }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none"
+                    />
+                  )}
+
+                  {!thumbnailUrl && !videoUrl && (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-800 text-zinc-400 p-4 text-center">
+                      {isVideo ? (
+                        <VideoIcon className="w-10 h-10 mb-2 text-rose-500" />
+                      ) : (
+                        <ImageIcon className="w-10 h-10 mb-2 opacity-50" />
+                      )}
+                      <span className="text-xs font-medium text-zinc-300 line-clamp-1">
+                        {item.title}
+                      </span>
+                    </div>
+                  )}
 
                   {/* Video Play Badge */}
                   {isVideo && (
@@ -141,7 +162,7 @@ export default function CharityGallery() {
                   )}
 
                   {/* Gradient Overlay & Caption */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white pointer-events-none">
                     <h3 className="text-sm sm:text-base font-bold line-clamp-1 drop-shadow-sm">
                       {item.title}
                     </h3>
@@ -171,7 +192,7 @@ export default function CharityGallery() {
 
       {/* Lightbox / Details Modal */}
       <AnimatePresence>
-        {activeItem && (
+        {activeItem && activeMedia && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
             {/* Backdrop */}
             <motion.div
@@ -201,33 +222,35 @@ export default function CharityGallery() {
 
               {/* Media Display (Photo or Video) */}
               <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
-                {checkIsVideo(activeItem.image_url, activeItem.redirect_url) ? (
-                  (activeItem.redirect_url || activeItem.image_url).includes(
-                    "youtube",
-                  ) ||
-                  (activeItem.redirect_url || activeItem.image_url).includes(
-                    "youtu.be",
-                  ) ? (
+                {activeMedia.isVideo && activeMedia.videoUrl ? (
+                  activeMedia.isYouTube ? (
                     <iframe
-                      src={getYouTubeEmbedUrl(
-                        activeItem.redirect_url || activeItem.image_url,
-                      )}
+                      src={getYouTubeEmbedUrl(activeMedia.videoUrl)}
                       title={activeItem.title}
                       className="w-full h-full border-0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : activeMedia.isVimeo ? (
+                    <iframe
+                      src={getVimeoEmbedUrl(activeMedia.videoUrl)}
+                      title={activeItem.title}
+                      className="w-full h-full border-0"
+                      allow="autoplay; fullscreen; picture-in-picture"
                       allowFullScreen
                     />
                   ) : (
                     <video
                       controls
                       autoPlay
-                      src={activeItem.redirect_url || activeItem.image_url}
+                      src={activeMedia.videoUrl}
+                      poster={activeMedia.thumbnailUrl || undefined}
                       className="w-full h-full object-contain"
                     />
                   )
                 ) : (
                   <img
-                    src={activeItem.image_url}
+                    src={activeMedia.thumbnailUrl || activeItem.image_url}
                     alt={activeItem.title}
                     className="w-full h-full object-contain"
                   />
@@ -240,7 +263,7 @@ export default function CharityGallery() {
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedIndex(
-                          (prev) => (prev - 1 + items.length) % items.length,
+                          (prev) => (prev - 1 + items.length) % items.length
                         );
                       }}
                       className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/90 text-white backdrop-blur-sm transition-all"

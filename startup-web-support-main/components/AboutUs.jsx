@@ -88,15 +88,19 @@ const AboutUs = () => {
             </motion.p>
 
             <motion.div variants={textItemVariants} className="mt-8">
-              <Link href="/about-us" className="inline-block">
-                <motion.button
+              <Link
+                href="/about-us"
+                className="inline-block"
+                aria-label="Read more about Startup Web Support"
+              >
+                <motion.span
                   className="bg-gray-900/40 hover:bg-gray-900/60 text-white font-semibold py-3 px-8 rounded-lg flex items-center gap-3 transition-all duration-300"
                   whileHover={{ scale: 1.05, transition: { type: 'spring', stiffness: 300 } }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Read More
+                  Read More About Us
                   <BsArrowRightCircle className="text-xl" />
-                </motion.button>
+                </motion.span>
               </Link>
             </motion.div>
           </motion.div>

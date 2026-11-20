@@ -103,6 +103,7 @@ export default function BlogGrid() {
                   </p>
                   <Link
                     href={`/${post.slug}`}
+                    aria-label={`Read full article: ${post.title}`}
                     className="inline-flex items-center text-sky-600 font-semibold mt-auto group-hover:text-sky-700"
                   >
                     Read More &rarr;

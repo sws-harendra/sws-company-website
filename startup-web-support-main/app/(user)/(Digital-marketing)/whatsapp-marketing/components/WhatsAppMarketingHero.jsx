@@ -94,7 +94,7 @@ const WhatsAppMarketingHero = () => {
           <motion.div variants={itemVariants}>
             <motion.button
               onClick={() => openWhatsApp("WhatsApp Marketing Campaign")}
-              className="inline-flex items-center bg-sky-600 hover:bg-sky-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg" // sky Button
+              className="inline-flex items-center bg-sky-700 hover:bg-sky-800 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 gap-2 text-lg" // sky Button
               whileHover={{ scale: 1.05, y: -3, boxShadow: "0 10px 20px rgba(22, 163, 74, 0.4)" }} 
               whileTap={{ scale: 0.95 }}
             >

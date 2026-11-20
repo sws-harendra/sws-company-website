@@ -3,7 +3,7 @@ import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 
 const styles = `
   .topbar {
-    background: #1e88e5;
+    background: #1565c0;
     color: #fff;
     font-family: "Roboto", Arial, sans-serif;
     font-size: 14px;

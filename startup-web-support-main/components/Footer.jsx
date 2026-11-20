@@ -63,7 +63,10 @@ const Footer = () => {
                   href="/charity"
                   className="hover:text-white transition-colors flex items-center gap-1.5"
                 >
-                  Charity & Giving <span className="text-xs px-1.5 py-0.2 bg-rose-600/30 text-rose-400 rounded-full border border-rose-500/30">Impact</span>
+                  Charity & Giving{" "}
+                  <span className="text-xs px-2 py-0.5 bg-rose-700 text-white font-medium rounded-full border border-rose-600">
+                    Impact
+                  </span>
                 </Link>
               </li>
               <li>
@@ -138,7 +141,7 @@ const Footer = () => {
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-white shrink-0" />
                 <a
-                  href="mailto:info@yourcompany.com"
+                  href="mailto:info@startupwebsupport.com"
                   className="hover:text-white transition-colors"
                 >
                   info@startupwebsupport.com
@@ -165,20 +168,23 @@ const Footer = () => {
           <div className="flex space-x-4">
             <Link
               href="https://www.facebook.com/startupwebsupport/"
-              className="text-slate-400 hover:text-white transition-colors"
+              aria-label="Facebook"
+              className="text-slate-300 hover:text-white transition-colors"
             >
               <Facebook />
             </Link>
-            {/* <Link href="#" className="text-slate-400 hover:text-white transition-colors"><Twitter /></Link> */}
+            {/* <Link href="#" aria-label="Twitter" className="text-slate-300 hover:text-white transition-colors"><Twitter /></Link> */}
             <Link
               href="https://www.linkedin.com/company/startupwebsupport/"
-              className="text-slate-400 hover:text-white transition-colors"
+              aria-label="LinkedIn"
+              className="text-slate-300 hover:text-white transition-colors"
             >
               <Linkedin />
             </Link>
             <Link
               href="https://www.instagram.com/startup_web_support/"
-              className="text-slate-400 hover:text-white transition-colors"
+              aria-label="Instagram"
+              className="text-slate-300 hover:text-white transition-colors"
             >
               <Instagram />
             </Link>

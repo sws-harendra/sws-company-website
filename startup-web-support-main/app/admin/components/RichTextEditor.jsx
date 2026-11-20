@@ -591,6 +591,18 @@ function cleanPastedHTML(html) {
 }
 
 export default function RichTextEditor({ value, onChange }) {
+  useEffect(() => {
+    const linkId = "tiptap-google-fonts";
+    if (typeof document !== "undefined" && !document.getElementById(linkId)) {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href =
+        "https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Dancing+Script:wght@500;700&family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap";
+      document.head.appendChild(link);
+    }
+  }, []);
+
   const fileInputRef = useRef(null);
   const colorInputRef = useRef(null);
   const highlightInputRef = useRef(null);

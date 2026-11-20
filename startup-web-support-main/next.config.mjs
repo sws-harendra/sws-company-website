@@ -26,6 +26,9 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    optimizePackageImports: ["lucide-react", "react-icons", "framer-motion"],
+  },
   webpack: (config) => {
     // Prevent canvas module errors when pdfjs-dist runs in SSR context
     config.resolve.alias.canvas = false;

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Gallery({ images, heading }) {
@@ -28,10 +29,12 @@ export default function Gallery({ images, heading }) {
             }`}
             onClick={() => setSelected(img)}
           >
-            <img
+            <Image
               src={img.src}
-              alt={img.caption}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              alt={img.caption || "Gallery image"}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div className="absolute bottom-0 w-full bg-black/50 text-white text-sm py-2 px-3">
               {img.caption}

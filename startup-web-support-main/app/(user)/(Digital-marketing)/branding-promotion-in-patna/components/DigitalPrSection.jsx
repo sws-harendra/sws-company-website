@@ -1,5 +1,6 @@
 "use client"
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { IoMegaphoneOutline } from 'react-icons/io5'; // Icon representing PR/Outreach
 
@@ -54,7 +55,14 @@ const DigitalPrSection = () => {
                         viewport={{ once: true, amount: 0.3 }}
                         variants={iconVariants}
                     >
-                        <img src="/about.webp" alt="Digital" />
+                        <Image
+                            src="/about.webp"
+                            alt="Digital PR and Influencer Outreach"
+                            width={592}
+                            height={395}
+                            sizes="(max-width: 768px) 100vw, 592px"
+                            className="w-full h-auto object-contain rounded-xl"
+                        />
                     </motion.div>
                     {/* Right Column - Content */}
                     <motion.div

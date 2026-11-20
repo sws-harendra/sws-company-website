@@ -450,9 +450,9 @@ const ProjectCard = ({ project, onSelect }) => {
       </div>
 
       <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-4 z-10">
-        <h4 className="text-sm sm:text-base font-black text-white group-hover:text-sky-300 transition-colors tracking-tight truncate">
+        <h3 className="text-sm sm:text-base font-black text-white group-hover:text-sky-300 transition-colors tracking-tight truncate">
           {project.title}
-        </h4>
+        </h3>
         <p className="text-[11px] sm:text-xs text-slate-300 font-normal line-clamp-1 mt-0.5">
           {project.description}
         </p>

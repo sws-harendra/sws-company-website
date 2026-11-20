@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { headerTextVariants } from "./GlobalCss";
 import clientService from "@/services/client.service";
@@ -87,11 +88,16 @@ const ClientsScroller = () => {
                   key={index}
                   className="flex-shrink-0 w-40 h-24 flex items-center justify-center"
                 >
-                  <img
-                    src={client.logo}
-                    alt={client.brandName}
-                    className="max-w-full max-h-full object-contain transition-all duration-300 cursor-pointer"
-                  />
+                  {client.logo && (
+                    <Image
+                      src={client.logo}
+                      alt={client.brandName || "Client Logo"}
+                      width={160}
+                      height={96}
+                      unoptimized
+                      className="max-w-full max-h-full w-auto h-auto object-contain transition-all duration-300 cursor-pointer"
+                    />
+                  )}
                 </div>
               ))}
             </motion.div>

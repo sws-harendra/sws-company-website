@@ -1,26 +1,31 @@
-"use client"
-import React from 'react';
-import { motion } from 'framer-motion';
-import { IoLocationOutline, IoMailOutline, IoCallOutline } from 'react-icons/io5';
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  IoLocationOutline,
+  IoMailOutline,
+  IoCallOutline,
+} from "react-icons/io5";
 
 const contactDetails = [
   {
     icon: IoLocationOutline,
-    title: 'Location:',
-    detail: '3rd Floor, Parvati Tower, Phulwari Rd, Jagdeo Path, Patna, Bihar 800014',
-    href: 'https://maps.google.com/?q=3rd+Floor,+Parvati+Tower,+Phulwari+Rd,+Jagdeo+Path,+Patna,+Bihar+800014' // Optional: Link to Google Maps
+    title: "Location:",
+    detail:
+      "3rd Floor, Parvati Tower, Phulwari Rd, Jagdeo Path, Patna, Bihar 800014",
+    href: "https://maps.google.com/?q=3rd+Floor,+Parvati+Tower,+Phulwari+Rd,+Jagdeo+Path,+Patna,+Bihar+800014", // Optional: Link to Google Maps
   },
   {
     icon: IoMailOutline,
-    title: 'Email:',
-    detail: 'info@startupwebsupport.com',
-    href: 'mailto:info@startupwebsupport.com'
+    title: "Email:",
+    detail: "info@startupwebsupport.com",
+    href: "mailto:info@startupwebsupport.com",
   },
   {
     icon: IoCallOutline,
-    title: 'Phone:',
-    detail: '+91 7479499718', // Corrected format assuming Indian number
-    href: 'tel:+917479499718'
+    title: "Phone:",
+    detail: "+91 7479499718", // Corrected format assuming Indian number
+    href: "tel:+917479499718",
   },
 ];
 
@@ -41,7 +46,7 @@ const ContactInfo = () => {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 100,
         damping: 12,
       },
@@ -49,11 +54,11 @@ const ContactInfo = () => {
   };
 
   return (
-    <section className="bg-slate-50 py-24 ">
+    <section className="bg-slate-50 pb-24 pt-0">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Optional Heading */}
         {/* <motion.div className="text-center mb-16" ... > */}
-          {/* <h2 className="text-4xl font-bold text-gray-900">Contact Details</h2> */}
+        {/* <h2 className="text-4xl font-bold text-gray-900">Contact Details</h2> */}
         {/* </motion.div> */}
 
         <motion.div
@@ -77,7 +82,9 @@ const ContactInfo = () => {
                 <h3 className="text-xl font-semibold text-gray-800 text-center mb-2">
                   {contact.title}
                 </h3>
-                <p className={`text-gray-600 leading-relaxed text-center ${isLink ? 'hover:text-sky-600 transition-colors' : ''}`}>
+                <p
+                  className={`text-gray-600 leading-relaxed text-center ${isLink ? "hover:text-sky-600 transition-colors" : ""}`}
+                >
                   {contact.detail}
                 </p>
               </>
@@ -90,7 +97,12 @@ const ContactInfo = () => {
                 variants={itemVariants}
               >
                 {isLink ? (
-                  <a href={contact.href} target="_blank" rel="noopener noreferrer" className="w-full text-center">
+                  <a
+                    href={contact.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full text-center"
+                  >
                     {content}
                   </a>
                 ) : (

@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -42,7 +43,13 @@ import {
   Palette,
   Check,
   RotateCcw,
+  Eye,
+  Monitor,
+  Tablet,
+  Smartphone,
+  Maximize2,
 } from "lucide-react";
+import "@/app/editor.css";
 import { COMMON_COLORS } from "@/constants";
 import { useAuth } from "../(main)/context/AuthContext";
 
@@ -96,6 +103,38 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
   const [aiProvider, setAiProvider] = useState("auto"); // "auto" | "gemini" | "openai"
   const [aiKeywords, setAiKeywords] = useState("");
   const [showAiSettings, setShowAiSettings] = useState(false);
+
+  // Preview Modal States
+  const [mounted, setMounted] = useState(false);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [previewDevice, setPreviewDevice] = useState("desktop"); // "desktop" | "tablet" | "mobile"
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Close preview modal on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && showPreviewModal) {
+        setShowPreviewModal(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showPreviewModal]);
+
+  // Lock body scroll when preview modal is open
+  useEffect(() => {
+    if (showPreviewModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showPreviewModal]);
 
   const effectiveId = selected?.id || blogId || formData?.id;
   const isEditing = Boolean(effectiveId);
@@ -388,6 +427,68 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 pb-12">
+      {/* Top Navigation & Action Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-zinc-800">
+        <div className="flex items-center gap-3">
+          <Link href="/admin/blogs">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9 px-3 rounded-xl border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back to Blogs</span>
+            </Button>
+          </Link>
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary-brand-color" />
+              {isEditing ? "Edit Article" : "Create New Article"}
+            </h1>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+              Draft, customize styles, preview in full screen, and publish your content.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {/* Live Preview Button */}
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setShowPreviewModal(true)}
+            className="h-9 px-3.5 rounded-xl border-sky-300 dark:border-sky-800 text-[#029bd2] hover:text-[#029bd2] bg-sky-50/70 hover:bg-sky-100 dark:bg-sky-950/40 font-semibold shadow-xs flex items-center gap-2 cursor-pointer transition-all"
+            title="Preview how blog will look when published"
+          >
+            <Eye className="w-4 h-4 text-[#029bd2]" />
+            <span>Live Preview</span>
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => handleSave("draft")}
+            disabled={isSaving || uploading}
+            className="h-9 px-3.5 rounded-xl text-zinc-700 dark:text-zinc-200 border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-medium flex items-center gap-1.5 cursor-pointer"
+          >
+            <Save className="w-4 h-4" />
+            <span className="hidden sm:inline">Save Draft</span>
+          </Button>
+
+          <Button
+            type="button"
+            onClick={() => handleSave("published")}
+            disabled={isSaving || uploading}
+            className="h-9 px-4 rounded-xl font-bold bg-gradient-to-r from-[#1a4468] to-[#029bd2] text-white shadow-md hover:opacity-90 flex items-center gap-1.5 cursor-pointer"
+          >
+            <Globe className="w-4 h-4 text-white" />
+            <span>
+              {isEditing && formData.status === "published" ? "Update" : "Publish"}
+            </span>
+          </Button>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* ✨ AI Blog Generator Card */}
         <div className="p-6 border border-sky-200/90 dark:border-sky-900/60 rounded-2xl bg-gradient-to-br from-white via-sky-50/40 to-blue-50/30 dark:from-zinc-900 dark:via-zinc-900/90 dark:to-sky-950/20 shadow-sm space-y-5">
@@ -861,6 +962,7 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
               <RichTextEditor
                 value={formData.content}
                 onChange={handleContentChange}
+                onPreview={() => setShowPreviewModal(true)}
               />
             </div>
           </div>
@@ -1067,7 +1169,7 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
             </span>
           </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-end flex-wrap">
             <Button
               type="button"
               variant="outline"
@@ -1076,6 +1178,17 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
               className="h-11 px-5 rounded-xl border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300"
             >
               Cancel
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setShowPreviewModal(true)}
+              className="h-11 px-5 rounded-xl border-sky-300 dark:border-sky-800 text-[#029bd2] hover:text-[#029bd2] bg-sky-50/70 hover:bg-sky-100 dark:bg-sky-950/40 font-semibold flex items-center gap-2 cursor-pointer shadow-xs transition-all"
+              title="Preview how blog will look when published"
+            >
+              <Eye className="w-4 h-4 text-[#029bd2]" />
+              <span>Live Preview</span>
             </Button>
 
             <Button
@@ -1118,6 +1231,279 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
           </div>
         </div>
       </form>
+
+      {/* 🚀 Full-Screen Live Blog Preview Modal (Portaled directly to document.body to escape all navbar/stacking contexts) */}
+      {mounted && showPreviewModal && createPortal(
+        <div
+          className="fixed inset-0 z-[999999] bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 animate-in fade-in duration-200 overflow-hidden"
+          onClick={() => setShowPreviewModal(false)}
+        >
+          <div
+            className="w-full h-full max-w-7xl max-h-[96vh] bg-white dark:bg-zinc-950 rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-zinc-200 dark:border-zinc-800 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header Bar */}
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-xs shrink-0 z-20">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
+                    <Eye className="w-4 h-4 text-[#029bd2]" />
+                    Live Blog Preview
+                  </span>
+                </div>
+                <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">
+                  {formData.status?.toUpperCase() || "DRAFT"}
+                </span>
+              </div>
+
+              {/* Device Viewport Toggle (Desktop / Tablet / Mobile) */}
+              <div className="flex items-center bg-zinc-100 dark:bg-zinc-800 p-0.5 rounded-xl border border-zinc-200 dark:border-zinc-700">
+                <button
+                  type="button"
+                  onClick={() => setPreviewDevice("desktop")}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                    previewDevice === "desktop"
+                      ? "bg-white dark:bg-zinc-900 text-[#029bd2] shadow-xs"
+                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900"
+                  }`}
+                  title="Desktop View (Full Width)"
+                >
+                  <Monitor className="w-3.5 h-3.5" />
+                  <span className="hidden md:inline">Desktop</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewDevice("tablet")}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                    previewDevice === "tablet"
+                      ? "bg-white dark:bg-zinc-900 text-[#029bd2] shadow-xs"
+                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900"
+                  }`}
+                  title="Tablet View (768px)"
+                >
+                  <Tablet className="w-3.5 h-3.5" />
+                  <span className="hidden md:inline">Tablet</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewDevice("mobile")}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                    previewDevice === "mobile"
+                      ? "bg-white dark:bg-zinc-900 text-[#029bd2] shadow-xs"
+                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900"
+                  }`}
+                  title="Mobile View (390px)"
+                >
+                  <Smartphone className="w-3.5 h-3.5" />
+                  <span className="hidden md:inline">Mobile</span>
+                </button>
+              </div>
+
+              {/* Modal Actions & Prominent Close Button */}
+              <div className="flex items-center gap-2.5">
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => {
+                    setShowPreviewModal(false);
+                    handleSave("published");
+                  }}
+                  className="hidden sm:flex items-center gap-1.5 h-8 text-xs font-bold bg-gradient-to-r from-[#1a4468] to-[#029bd2] text-white shadow-xs"
+                >
+                  <Globe className="w-3.5 h-3.5" />
+                  Publish Blog
+                </Button>
+
+                <button
+                  type="button"
+                  onClick={() => setShowPreviewModal(false)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-500 text-rose-600 hover:text-white dark:text-rose-300 dark:hover:text-white border border-rose-200 dark:border-rose-900 hover:border-rose-500 transition-all font-semibold text-xs cursor-pointer shadow-xs active:scale-95"
+                  title="Close Preview (Esc)"
+                  aria-label="Close Preview"
+                >
+                  <X className="w-4 h-4" />
+                  <span>Close</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Scrollable Preview Canvas */}
+            <div className="flex-1 overflow-y-auto bg-zinc-100 dark:bg-zinc-950 admin-scrollbar relative font-sans">
+              <div className="min-h-full w-full flex flex-col items-center justify-start py-6 sm:py-8 px-2 sm:px-4">
+                <div
+                  className={`bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl h-fit w-full font-sans transition-all duration-200 ${
+                    previewDevice === "mobile"
+                      ? "max-w-[400px] rounded-[36px] p-6 border-4 border-zinc-800 shadow-2xl my-2"
+                      : previewDevice === "tablet"
+                      ? "max-w-[768px] rounded-2xl p-8 border-2 border-zinc-300 dark:border-zinc-700 shadow-xl my-2"
+                      : "max-w-5xl rounded-2xl p-6 sm:p-12 my-2 shadow-md"
+                  }`}
+                >
+                  {/* Simulated Public Breadcrumb */}
+                  <div className="text-sky-600 mb-6 text-sm font-medium flex items-center gap-1 font-sans">
+                    &larr; Back to Blog (Preview Mode)
+                  </div>
+
+                  {/* Article Header & Title */}
+                  <article className="space-y-6 font-sans">
+                    <h1
+                      className={`font-bold leading-tight font-sans ${
+                        previewDevice === "mobile"
+                          ? "text-2xl"
+                          : previewDevice === "tablet"
+                          ? "text-3xl"
+                          : "text-4xl md:text-5xl"
+                      }`}
+                      style={{ color: formData.title_color || "#111827" }}
+                    >
+                      {formData.title || "Your Blog Title Appears Here"}
+                    </h1>
+
+                  {/* Metadata Row */}
+                  <div className="flex items-center flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 border-b border-gray-100 pb-4">
+                    <span>By {formData.author || "Startup Web Support"}</span>
+                    <span>&bull;</span>
+                    <span>{new Date().toLocaleDateString()}</span>
+                    <span>&bull;</span>
+                    <span className="font-semibold text-sky-600 uppercase">
+                      {formData.status || "DRAFT"}
+                    </span>
+                    {formData.is_location_blog && formData.location && (
+                      <>
+                        <span>&bull;</span>
+                        <span className="inline-flex items-center gap-1 font-medium text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-100 text-xs">
+                          <MapPin className="w-3 h-3 text-[#029bd2]" />
+                          {formData.location}
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Featured Banner Image */}
+                  {(preview || formData.image_url) && (
+                    <div className="relative rounded-2xl overflow-hidden shadow-md border border-gray-100 my-6">
+                      <img
+                        src={preview || formData.image_url}
+                        alt={formData.title}
+                        className="w-full max-h-[480px] object-cover"
+                      />
+                      {formData.redirect_url && (
+                        <div className="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 backdrop-blur-sm">
+                          <span>Redirects to: {formData.redirect_url}</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Short Description Quote if present */}
+                  {formData.short_description && (
+                    <div className="p-4 rounded-xl bg-sky-50/50 border-l-4 border-[#029bd2] text-gray-700 text-base italic leading-relaxed">
+                      {formData.short_description}
+                    </div>
+                  )}
+
+                  {/* Main Article Body Render with Typography */}
+                  <div
+                    className="prose prose-lg max-w-none text-gray-700 dark:text-gray-300 pt-2"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        formData.content ||
+                        "<p class='text-zinc-400 italic'>No article content written yet. Write content in the editor to see it live here.</p>",
+                    }}
+                  />
+
+                  {/* Related Keywords */}
+                  {formData.keywords && (
+                    <div className="mt-10 pt-6 border-t border-gray-100">
+                      <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-3">
+                        Related Keywords & Topics
+                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {formData.keywords
+                          .split(",")
+                          .map((k) => k.trim())
+                          .filter(Boolean)
+                          .map((kw, i) => (
+                            <span
+                              key={i}
+                              className="px-3 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200"
+                            >
+                              #{kw}
+                            </span>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Contact Us Widget Mock if checked */}
+                  {formData.contactus && (
+                    <div className="mt-10 p-6 rounded-2xl bg-gradient-to-br from-zinc-50 to-sky-50/30 border border-sky-100 text-center space-y-3">
+                      <h4 className="text-xl font-bold text-zinc-900">Contact Now</h4>
+                      <p className="text-sm text-zinc-600">To Get Started and have your own product</p>
+                      <div className="max-w-md mx-auto pt-2 flex gap-2">
+                        <input
+                          type="text"
+                          disabled
+                          placeholder="Your email address..."
+                          className="flex-1 h-10 px-3 rounded-lg border border-zinc-300 bg-white text-xs"
+                        />
+                        <button disabled className="h-10 px-4 rounded-lg bg-[#029bd2] text-white text-xs font-bold">
+                          Send Inquiry
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Related Blogs Preview if selected */}
+                  {featuredBlogIds.length > 0 && (
+                    <div className="mt-12 pt-8 border-t border-gray-100">
+                      <h3 className="text-lg font-bold text-gray-900 mb-4">
+                        Featured & Related Articles ({featuredBlogIds.length})
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {allBlogs
+                          .filter((b) => featuredBlogIds.includes(b.id))
+                          .map((b) => (
+                            <div
+                              key={b.id}
+                              className="border border-gray-200 rounded-xl p-3 flex flex-col gap-2 bg-gray-50/50"
+                            >
+                              {b.image_url && (
+                                <img
+                                  src={b.image_url}
+                                  alt={b.title}
+                                  className="w-full h-28 object-cover rounded-lg"
+                                />
+                              )}
+                              <h4 className="font-semibold text-sm line-clamp-2 text-gray-800">
+                                {b.title}
+                              </h4>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                </article>
+              </div>
+            </div>
+
+            {/* Floating Exit Button while scrolling */}
+              <button
+                type="button"
+                onClick={() => setShowPreviewModal(false)}
+                className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 px-4 py-2 rounded-full bg-zinc-900/90 hover:bg-rose-600 text-white shadow-2xl backdrop-blur-sm border border-white/20 text-xs font-bold flex items-center gap-2 transition-all cursor-pointer hover:scale-105 active:scale-95"
+                title="Exit Preview (Esc)"
+              >
+                <X className="w-3.5 h-3.5" />
+                <span>Exit Preview</span>
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

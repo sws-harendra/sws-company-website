@@ -49,6 +49,7 @@ import {
   Type,
   Check,
   RotateCcw,
+  Eye,
 } from "lucide-react";
 
 export const FONT_FAMILIES = [
@@ -593,7 +594,7 @@ function cleanPastedHTML(html) {
   }
 }
 
-export default function RichTextEditor({ value, onChange }) {
+export default function RichTextEditor({ value, onChange, onPreview }) {
   useEffect(() => {
     const linkId = "tiptap-google-fonts";
     if (typeof document !== "undefined" && !document.getElementById(linkId)) {
@@ -1257,6 +1258,19 @@ export default function RichTextEditor({ value, onChange }) {
             </span>
           </div>
         </div>
+
+        {onPreview && (
+          <button
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={onPreview}
+            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-xs font-bold text-[#029bd2] bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900 border border-sky-200 dark:border-sky-800 transition-colors cursor-pointer"
+            title="Live Preview Blog"
+          >
+            <Eye className="w-3.5 h-3.5 text-[#029bd2]" />
+            <span>Preview</span>
+          </button>
+        )}
       </div>
 
       {/* Main Toolbar */}
@@ -2066,6 +2080,20 @@ export default function RichTextEditor({ value, onChange }) {
               <Trash2 className="w-3.5 h-3.5" />
             </button>
           </div>
+        )}
+
+        {/* Live Preview Button in Editor Toolbox */}
+        {onPreview && (
+          <button
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={onPreview}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#029bd2] bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900 border border-sky-200 dark:border-sky-800 shadow-xs cursor-pointer transition-all active:scale-95 ml-auto"
+            title="Preview how blog will look when published"
+          >
+            <Eye className="w-4 h-4 text-[#029bd2]" />
+            <span>Preview</span>
+          </button>
         )}
       </div>
 

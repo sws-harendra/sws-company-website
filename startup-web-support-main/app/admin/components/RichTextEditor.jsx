@@ -88,6 +88,9 @@ export const FONT_SIZES = [
 ];
 
 const CustomImage = Image.extend({
+  draggable: true,
+  selectable: true,
+
   addAttributes() {
     return {
       src: {
@@ -180,6 +183,7 @@ const CustomImage = Image.extend({
       wrapper.style.width = "100%";
       wrapper.style.position = "relative";
       wrapper.style.display = "block";
+      wrapper.setAttribute("data-drag-handle", "true");
 
       let currentAlign = node.attrs["data-align"] || "center";
       let currentWidth = node.attrs.width || "50%";
@@ -218,7 +222,6 @@ const CustomImage = Image.extend({
       const img = document.createElement("img");
       img.src = node.attrs.src;
       img.alt = node.attrs.alt || "";
-      img.draggable = false;
       img.style.width = "100%";
       img.style.height = currentHeight && currentHeight !== "auto" ? currentHeight : "auto";
       if (currentHeight && currentHeight !== "auto") {
@@ -226,7 +229,12 @@ const CustomImage = Image.extend({
       }
       img.style.display = "block";
       img.style.borderRadius = "0.5rem";
-      img.addEventListener("dragstart", (e) => e.preventDefault());
+
+      const dragBadge = document.createElement("div");
+      dragBadge.className = "image-drag-handle";
+      dragBadge.setAttribute("data-drag-handle", "true");
+      dragBadge.title = "Click & drag to move image between text";
+      dragBadge.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="5" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="15" cy="5" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="15" cy="19" r="1.5"/></svg><span>Move</span>`;
 
       const sizeBadge = document.createElement("span");
       sizeBadge.className = "image-size-badge";
@@ -260,7 +268,18 @@ const CustomImage = Image.extend({
       const updateQuickBar = (currAlign, currWidth, currHeight) => {
         quickBar.innerHTML = "";
 
-        const btnLeft = createBtn("⇦ Left", "Float Left (Text wraps around right side)", () => {
+        const btnDrag = document.createElement("button");
+        btnDrag.type = "button";
+        btnDrag.className = "image-drag-btn";
+        btnDrag.setAttribute("data-drag-handle", "true");
+        btnDrag.title = "Hold & drag to move image between text";
+        btnDrag.textContent = "⠿ Move";
+        btnDrag.style.cursor = "grab";
+        btnDrag.addEventListener("mousedown", (e) => {
+          e.stopPropagation();
+        });
+
+        const btnLeft = createBtn("⇦ Left (Wrap)", "Float Left (Text wraps around right side)", () => {
           const w = (currWidth === "100%" || !currWidth) ? "45%" : currWidth;
           const pos = typeof getPos === "function" ? getPos() : undefined;
           if (typeof pos === "number") {
@@ -268,20 +287,24 @@ const CustomImage = Image.extend({
           }
         }, currAlign === "left");
 
-        const btnCenter = createBtn("Center", "Center Image", () => {
+        const btnCenter = createBtn("Center (Break)", "Center Image (Text stays above & below)", () => {
           const pos = typeof getPos === "function" ? getPos() : undefined;
           if (typeof pos === "number") {
             editor.chain().setNodeSelection(pos).updateAttributes("image", { "data-align": "center" }).run();
           }
         }, currAlign === "center");
 
-        const btnRight = createBtn("Right ⇨", "Float Right (Text wraps around left side)", () => {
+        const btnRight = createBtn("Right (Wrap) ⇨", "Float Right (Text wraps around left side)", () => {
           const w = (currWidth === "100%" || !currWidth) ? "45%" : currWidth;
           const pos = typeof getPos === "function" ? getPos() : undefined;
           if (typeof pos === "number") {
             editor.chain().setNodeSelection(pos).updateAttributes("image", { "data-align": "right", width: w }).run();
           }
         }, currAlign === "right");
+
+        const sep0 = document.createElement("span");
+        sep0.className = "opacity-40";
+        sep0.textContent = "|";
 
         const sep1 = document.createElement("span");
         sep1.className = "opacity-40";
@@ -345,6 +368,8 @@ const CustomImage = Image.extend({
         }, false);
         btnDel.style.color = "#f87171";
 
+        quickBar.appendChild(btnDrag);
+        quickBar.appendChild(sep0);
         quickBar.appendChild(btnLeft);
         quickBar.appendChild(btnCenter);
         quickBar.appendChild(btnRight);
@@ -519,6 +544,7 @@ const CustomImage = Image.extend({
       });
 
       wrapper.appendChild(img);
+      wrapper.appendChild(dragBadge);
       wrapper.appendChild(sizeBadge);
       handleElements.forEach((h) => wrapper.appendChild(h));
       wrapper.appendChild(quickBar);
@@ -554,8 +580,11 @@ const CustomImage = Image.extend({
           wrapper.classList.remove("is-selected");
         },
         stopEvent: (event) => {
+          if (event.type === "dragstart" || event.type === "drag") {
+            return false;
+          }
           return (
-            quickBar.contains(event.target) ||
+            (quickBar.contains(event.target) && !event.target?.closest("[data-drag-handle]")) ||
             event.target?.classList?.contains("image-resize-handle") ||
             handleElements.some((h) => h.contains(event.target))
           );
@@ -744,6 +773,10 @@ export default function RichTextEditor({ value, onChange, onPreview }) {
         heading: false,
         codeBlock: false,
         blockquote: false,
+        dropcursor: {
+          color: "#029bd2",
+          width: 3,
+        },
       }),
       Heading.configure({ levels: [1, 2, 3, 4] }),
       Blockquote,

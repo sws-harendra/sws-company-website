@@ -116,6 +116,23 @@ const CustomImage = Image.extend({
           };
         },
       },
+      height: {
+        default: "auto",
+        parseHTML: (element) => {
+          return (
+            element.style.height ||
+            element.getAttribute("height") ||
+            (element.getAttribute("data-height") ? `${element.getAttribute("data-height")}` : "auto")
+          );
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.height || attributes.height === "auto") return {};
+          return {
+            height: attributes.height,
+            "data-height": attributes.height,
+          };
+        },
+      },
       "data-align": {
         default: "center",
         parseHTML: (element) => element.getAttribute("data-align") || "center",
@@ -133,16 +150,18 @@ const CustomImage = Image.extend({
   renderHTML({ HTMLAttributes }) {
     const align = HTMLAttributes["data-align"] || "center";
     const width = HTMLAttributes.width || "50%";
+    const height = HTMLAttributes.height && HTMLAttributes.height !== "auto" ? HTMLAttributes.height : "auto";
+    const objectFit = height !== "auto" ? "object-fit: cover;" : "";
 
     let inlineStyle = "";
     if (align === "left") {
-      inlineStyle = `float: left; margin: 0.5rem 1.5rem 1rem 0; width: ${width}; max-width: 100%; height: auto; border-radius: 0.5rem;`;
+      inlineStyle = `float: left; margin: 0.5rem 1.5rem 1rem 0; width: ${width}; max-width: 100%; height: ${height}; ${objectFit} border-radius: 0.5rem;`;
     } else if (align === "right") {
-      inlineStyle = `float: right; margin: 0.5rem 0 1rem 1.5rem; width: ${width}; max-width: 100%; height: auto; border-radius: 0.5rem;`;
+      inlineStyle = `float: right; margin: 0.5rem 0 1rem 1.5rem; width: ${width}; max-width: 100%; height: ${height}; ${objectFit} border-radius: 0.5rem;`;
     } else if (align === "full") {
-      inlineStyle = `display: block; width: 100%; max-width: 100%; height: auto; margin: 1.5rem auto; border-radius: 0.5rem; clear: both;`;
+      inlineStyle = `display: block; width: 100%; max-width: 100%; height: ${height}; ${objectFit} margin: 1.5rem auto; border-radius: 0.5rem; clear: both;`;
     } else {
-      inlineStyle = `display: block; margin: 1.5rem auto; width: ${width}; max-width: 100%; height: auto; border-radius: 0.5rem; clear: both;`;
+      inlineStyle = `display: block; margin: 1.5rem auto; width: ${width}; max-width: 100%; height: ${height}; ${objectFit} border-radius: 0.5rem; clear: both;`;
     }
 
     return [
@@ -164,6 +183,7 @@ const CustomImage = Image.extend({
 
       let currentAlign = node.attrs["data-align"] || "center";
       let currentWidth = node.attrs.width || "50%";
+      let currentHeight = node.attrs.height || "auto";
 
       const applyContainerStyles = (currAlign, currWidth) => {
         const isFull = currAlign === "full";
@@ -200,14 +220,25 @@ const CustomImage = Image.extend({
       img.alt = node.attrs.alt || "";
       img.draggable = false;
       img.style.width = "100%";
-      img.style.height = "auto";
+      img.style.height = currentHeight && currentHeight !== "auto" ? currentHeight : "auto";
+      if (currentHeight && currentHeight !== "auto") {
+        img.style.objectFit = "cover";
+      }
       img.style.display = "block";
       img.style.borderRadius = "0.5rem";
       img.addEventListener("dragstart", (e) => e.preventDefault());
 
       const sizeBadge = document.createElement("span");
       sizeBadge.className = "image-size-badge";
-      sizeBadge.textContent = currentWidth;
+
+      const updateSizeBadge = (w, h) => {
+        if (h && h !== "auto") {
+          sizeBadge.textContent = `${w} × ${h}`;
+        } else {
+          sizeBadge.textContent = w;
+        }
+      };
+      updateSizeBadge(currentWidth, currentHeight);
 
       const quickBar = document.createElement("div");
       quickBar.className = "image-quick-bar";
@@ -226,7 +257,7 @@ const CustomImage = Image.extend({
         return btn;
       };
 
-      const updateQuickBar = (currAlign, currWidth) => {
+      const updateQuickBar = (currAlign, currWidth, currHeight) => {
         quickBar.innerHTML = "";
 
         const btnLeft = createBtn("⇦ Left", "Float Left (Text wraps around right side)", () => {
@@ -259,41 +290,52 @@ const CustomImage = Image.extend({
         const btn25 = createBtn("25%", "Small (25%)", () => {
           const pos = typeof getPos === "function" ? getPos() : undefined;
           if (typeof pos === "number") {
-            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "25%" }).run();
+            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "25%", height: "auto" }).run();
           }
         }, currWidth === "25%");
 
         const btn33 = createBtn("33%", "One-Third (33%)", () => {
           const pos = typeof getPos === "function" ? getPos() : undefined;
           if (typeof pos === "number") {
-            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "33%" }).run();
+            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "33%", height: "auto" }).run();
           }
         }, currWidth === "33%");
 
         const btn50 = createBtn("50%", "Half (50%)", () => {
           const pos = typeof getPos === "function" ? getPos() : undefined;
           if (typeof pos === "number") {
-            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "50%" }).run();
+            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "50%", height: "auto" }).run();
           }
         }, currWidth === "50%");
 
         const btn75 = createBtn("75%", "Three-Fourths (75%)", () => {
           const pos = typeof getPos === "function" ? getPos() : undefined;
           if (typeof pos === "number") {
-            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "75%" }).run();
+            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "75%", height: "auto" }).run();
           }
         }, currWidth === "75%");
 
         const btn100 = createBtn("100%", "Full Width (100%)", () => {
           const pos = typeof getPos === "function" ? getPos() : undefined;
           if (typeof pos === "number") {
-            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "100%", "data-align": "center" }).run();
+            editor.chain().setNodeSelection(pos).updateAttributes("image", { width: "100%", height: "auto", "data-align": "center" }).run();
           }
         }, currWidth === "100%");
 
         const sep2 = document.createElement("span");
         sep2.className = "opacity-40";
         sep2.textContent = "|";
+
+        const btnAutoH = createBtn("Auto H", "Reset height to natural aspect ratio", () => {
+          const pos = typeof getPos === "function" ? getPos() : undefined;
+          if (typeof pos === "number") {
+            editor.chain().setNodeSelection(pos).updateAttributes("image", { height: "auto" }).run();
+          }
+        }, !currHeight || currHeight === "auto");
+
+        const sep3 = document.createElement("span");
+        sep3.className = "opacity-40";
+        sep3.textContent = "|";
 
         const btnDel = createBtn("✕", "Delete Image", () => {
           const pos = typeof getPos === "function" ? getPos() : undefined;
@@ -313,21 +355,23 @@ const CustomImage = Image.extend({
         quickBar.appendChild(btn75);
         quickBar.appendChild(btn100);
         quickBar.appendChild(sep2);
+        quickBar.appendChild(btnAutoH);
+        quickBar.appendChild(sep3);
         quickBar.appendChild(btnDel);
       };
 
-      updateQuickBar(currentAlign, currentWidth);
+      updateQuickBar(currentAlign, currentWidth, currentHeight);
 
       // Define 8 resize handles for all 4 corners and 4 edges
       const RESIZE_HANDLES = [
-        { dir: "nw", className: "handle-nw", title: "Drag corner to resize", cursor: "nwse-resize" },
-        { dir: "n",  className: "handle-n",  title: "Drag top edge to resize", cursor: "ns-resize" },
-        { dir: "ne", className: "handle-ne", title: "Drag corner to resize", cursor: "nesw-resize" },
-        { dir: "e",  className: "handle-e",  title: "Drag right edge to resize", cursor: "ew-resize" },
-        { dir: "se", className: "handle-se", title: "Drag corner to resize", cursor: "nwse-resize" },
-        { dir: "s",  className: "handle-s",  title: "Drag bottom edge to resize", cursor: "ns-resize" },
-        { dir: "sw", className: "handle-sw", title: "Drag corner to resize", cursor: "nesw-resize" },
-        { dir: "w",  className: "handle-w",  title: "Drag left edge to resize", cursor: "ew-resize" },
+        { dir: "nw", className: "handle-nw", title: "Drag corner to scale image", cursor: "nwse-resize" },
+        { dir: "n",  className: "handle-n",  title: "Drag top edge to adjust height", cursor: "ns-resize" },
+        { dir: "ne", className: "handle-ne", title: "Drag corner to scale image", cursor: "nesw-resize" },
+        { dir: "e",  className: "handle-e",  title: "Drag right edge to adjust width", cursor: "ew-resize" },
+        { dir: "se", className: "handle-se", title: "Drag corner to scale image", cursor: "nwse-resize" },
+        { dir: "s",  className: "handle-s",  title: "Drag bottom edge to adjust height", cursor: "ns-resize" },
+        { dir: "sw", className: "handle-sw", title: "Drag corner to scale image", cursor: "nesw-resize" },
+        { dir: "w",  className: "handle-w",  title: "Drag left edge to adjust width", cursor: "ew-resize" },
       ];
 
       const handleElements = RESIZE_HANDLES.map((cfg) => {
@@ -342,8 +386,7 @@ const CustomImage = Image.extend({
           const startX = e.clientX;
           const startY = e.clientY;
           const startWidth = container.offsetWidth;
-          const startHeight = container.offsetHeight || (startWidth * 0.6);
-          const aspectRatio = startHeight > 0 ? (startWidth / startHeight) : 1.5;
+          const startHeight = img.offsetHeight || container.offsetHeight || 200;
           const editorEl = container.closest(".tiptap") || document.body;
           const editorWidth = editorEl.offsetWidth || 800;
 
@@ -360,47 +403,79 @@ const CustomImage = Image.extend({
           }
 
           let finalPercent = container.style.width || currentWidth || "50%";
+          let finalHeight = currentHeight || "auto";
 
           const onMouseMove = (moveEvent) => {
             const deltaX = moveEvent.clientX - startX;
             const deltaY = moveEvent.clientY - startY;
-
-            let dw = 0;
             const dir = cfg.dir;
 
-            if (dir === "e") {
-              dw = deltaX;
-            } else if (dir === "w") {
-              dw = -deltaX;
-            } else if (dir === "s") {
-              dw = deltaY * aspectRatio;
+            // 1. VERTICAL ONLY HANDLES (n, s) -> Adjust Height in direction dragged
+            if (dir === "s") {
+              const newHeight = Math.max(60, Math.round(startHeight + deltaY));
+              finalHeight = `${newHeight}px`;
+              img.style.height = finalHeight;
+              img.style.objectFit = "cover";
+              updateSizeBadge(finalPercent, finalHeight);
+              return;
             } else if (dir === "n") {
-              dw = -deltaY * aspectRatio;
-            } else if (dir === "se") {
-              const hDelta = deltaX;
-              const vDelta = deltaY * aspectRatio;
-              dw = Math.abs(hDelta) >= Math.abs(vDelta) ? hDelta : vDelta;
+              const newHeight = Math.max(60, Math.round(startHeight - deltaY));
+              finalHeight = `${newHeight}px`;
+              img.style.height = finalHeight;
+              img.style.objectFit = "cover";
+              updateSizeBadge(finalPercent, finalHeight);
+              return;
+            }
+
+            // 2. HORIZONTAL ONLY HANDLES (e, w) -> Adjust Width in direction dragged
+            if (dir === "e" || dir === "w") {
+              const dw = dir === "e" ? deltaX : -deltaX;
+              const alignFactor = (currentAlign === "center") ? 2 : 1;
+              const newPx = Math.max(80, Math.min(editorWidth, startWidth + (dw * alignFactor)));
+              const pct = Math.min(100, Math.max(10, Math.round((newPx / editorWidth) * 100)));
+              finalPercent = `${pct}%`;
+              container.style.width = finalPercent;
+              updateSizeBadge(finalPercent, finalHeight);
+              return;
+            }
+
+            // 3. CORNER HANDLES (nw, ne, se, sw) -> Scale proportionally in direction dragged
+            let dw = 0;
+            let dh = 0;
+            if (dir === "se") {
+              dw = deltaX;
+              dh = deltaY;
             } else if (dir === "sw") {
-              const hDelta = -deltaX;
-              const vDelta = deltaY * aspectRatio;
-              dw = Math.abs(hDelta) >= Math.abs(vDelta) ? hDelta : vDelta;
+              dw = -deltaX;
+              dh = deltaY;
             } else if (dir === "ne") {
-              const hDelta = deltaX;
-              const vDelta = -deltaY * aspectRatio;
-              dw = Math.abs(hDelta) >= Math.abs(vDelta) ? hDelta : vDelta;
+              dw = deltaX;
+              dh = -deltaY;
             } else if (dir === "nw") {
-              const hDelta = -deltaX;
-              const vDelta = -deltaY * aspectRatio;
-              dw = Math.abs(hDelta) >= Math.abs(vDelta) ? hDelta : vDelta;
+              dw = -deltaX;
+              dh = -deltaY;
             }
 
             const alignFactor = (currentAlign === "center") ? 2 : 1;
-            const newPx = Math.max(80, Math.min(editorWidth, startWidth + (dw * alignFactor)));
-            const pct = Math.min(100, Math.max(10, Math.round((newPx / editorWidth) * 100)));
-            finalPercent = `${pct}%`;
+            const scaleX = (startWidth + (dw * alignFactor)) / startWidth;
+            const scaleY = (startHeight + dh) / startHeight;
+            const scale = Math.max(0.1, (scaleX + scaleY) / 2);
 
+            const newWidthPx = Math.max(80, Math.min(editorWidth, Math.round(startWidth * scale)));
+            const pct = Math.min(100, Math.max(10, Math.round((newWidthPx / editorWidth) * 100)));
+            finalPercent = `${pct}%`;
             container.style.width = finalPercent;
-            sizeBadge.textContent = finalPercent;
+
+            if (finalHeight !== "auto") {
+              const newHeightPx = Math.max(60, Math.round(startHeight * scale));
+              finalHeight = `${newHeightPx}px`;
+              img.style.height = finalHeight;
+              img.style.objectFit = "cover";
+            } else {
+              img.style.height = "auto";
+            }
+
+            updateSizeBadge(finalPercent, finalHeight);
           };
 
           const onMouseUp = () => {
@@ -415,11 +490,13 @@ const CustomImage = Image.extend({
               const targetAlign = (currentAlign === "full" && finalPercent !== "100%") ? "center" : currentAlign;
               currentAlign = targetAlign;
               currentWidth = finalPercent;
+              currentHeight = finalHeight;
               editor
                 .chain()
                 .setNodeSelection(currentPos)
                 .updateAttributes("image", {
                   width: finalPercent,
+                  height: finalHeight,
                   "data-align": targetAlign,
                 })
                 .run();
@@ -454,12 +531,20 @@ const CustomImage = Image.extend({
           img.src = updatedNode.attrs.src;
           img.alt = updatedNode.attrs.alt || "";
           const newWidth = updatedNode.attrs.width || "50%";
+          const newHeight = updatedNode.attrs.height || "auto";
           const newAlign = updatedNode.attrs["data-align"] || "center";
           currentAlign = newAlign;
           currentWidth = newWidth;
+          currentHeight = newHeight;
           applyContainerStyles(newAlign, newWidth);
-          sizeBadge.textContent = newWidth;
-          updateQuickBar(newAlign, newWidth);
+          img.style.height = newHeight && newHeight !== "auto" ? newHeight : "auto";
+          if (newHeight && newHeight !== "auto") {
+            img.style.objectFit = "cover";
+          } else {
+            img.style.objectFit = "";
+          }
+          updateSizeBadge(newWidth, newHeight);
+          updateQuickBar(newAlign, newWidth, newHeight);
           return true;
         },
         selectNode: () => {

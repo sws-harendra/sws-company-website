@@ -1330,9 +1330,9 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
 
             {/* Scrollable Preview Canvas */}
             <div className="flex-1 overflow-y-auto bg-zinc-100 dark:bg-zinc-950 admin-scrollbar relative font-sans">
-              <div className="min-h-full w-full flex flex-col items-center justify-start py-6 sm:py-8 px-2 sm:px-4">
+              <div className="w-full min-h-full py-6 sm:py-10 px-2 sm:px-4">
                 <div
-                  className={`bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl h-fit w-full font-sans transition-all duration-200 ${
+                  className={`bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl w-full mx-auto min-h-full font-sans transition-all duration-200 ${
                     previewDevice === "mobile"
                       ? "max-w-[400px] rounded-[36px] p-6 border-4 border-zinc-800 shadow-2xl my-2"
                       : previewDevice === "tablet"

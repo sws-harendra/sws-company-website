@@ -30,7 +30,11 @@ const page = () => {
         <NewHeroSection />
         {/* <HeroSlider /> */}
         <FeaturedServices />
-        <PageDivider upperColor="#ffff" lowerColor="#1e88e5" height="h-12" />
+        <PageDivider upperColor="#ffffff" lowerColor="#030712" height="h-16" />
+
+        <RecentWorkShowcase />
+
+        <PageDivider upperColor="#1e88e5" lowerColor="#1e88e5" height="h-12" />
         <AboutUs />
         <PageDivider upperColor="#1e88e5" lowerColor="#ffff" height="h-12" />
         <ServiceFeatures />
@@ -40,8 +44,6 @@ const page = () => {
 
         <ClientsScroller />
         <Testimonials />
-        <PageDivider upperColor="#ffffff" lowerColor="#030712" height="h-16" />
-        <RecentWorkShowcase />
       </div>
     </>
   );

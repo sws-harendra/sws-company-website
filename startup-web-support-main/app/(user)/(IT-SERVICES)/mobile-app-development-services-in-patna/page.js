@@ -26,33 +26,28 @@ const page = () => {
         {/* Section 1: Hero */}
         <AppDevHero />
         <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
-
         {/* Section 2: Our Services Tabs */}
-        <OurServicesTabs />
-        <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
-
+        <OurServicesTabs />{" "}
+        {/* Projects Section from Landing Page (After 3rd Section) */}
+        <PageDivider
+          upperColor="#1e88e5"
+          lowerColor="#030712"
+          height="h-16"
+        />{" "}
+        <RecentWorkShowcase />
         {/* Section 3: Development Process */}
         <DevelopmentProcess />
-
-        {/* Projects Section from Landing Page (After 3rd Section) */}
-        <PageDivider upperColor="#ffffff" lowerColor="#030712" height="h-14" />
-        <RecentWorkShowcase />
         {/* <PageDivider upperColor="#030712" lowerColor="#ffffff" height="h-14" /> */}
-
         {/* Section 4: Comprehensive App Dev Services */}
         <AppDevelopmentServices />
         <PageDivider upperColor="#ffffff" lowerColor="#1e88e5" height="h-12" />
-
         {/* Section 5: Top Info Section */}
         <TopInfoSection />
         <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
-
         {/* Section 6: Vertical Tab Services */}
         <VerticalTabServices />
-
         {/* Section 7: Industries */}
         <IndustriesSection />
-
         {/* Section 8: FAQ */}
         <AppDevFaq />
       </div>

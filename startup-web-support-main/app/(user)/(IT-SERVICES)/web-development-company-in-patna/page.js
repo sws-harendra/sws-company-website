@@ -34,15 +34,11 @@ const page = () => {
 
         {/* Section 2: Why Choose Us */}
         <WhyChooseUs />
-        <PageDivider upperColor="#1e88e5" lowerColor="#ffffff" height="h-12" />
+        <RecentWorkShowcase />
+        <PageDivider upperColor="#030712" lowerColor="#ffffff" height="h-14" />
 
         {/* Section 3: Business Value */}
         <BusinessValue />
-
-        {/* Projects Section from Landing Page (After 3rd Section) */}
-        <PageDivider upperColor="#ffffff" lowerColor="#030712" height="h-14" />
-        <RecentWorkShowcase />
-        <PageDivider upperColor="#030712" lowerColor="#ffffff" height="h-14" />
 
         {/* Section 4: Core Development Platforms */}
         <ServicesAccordion />

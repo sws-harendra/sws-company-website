@@ -72,6 +72,7 @@ exports.createBlog = async (req, res) => {
         const fallbackBody = { ...req.body };
         delete fallbackBody.is_location_blog;
         delete fallbackBody.location;
+        delete fallbackBody.keywords;
         const blog = await Blog.create(fallbackBody);
         return res.status(201).json(blog);
       } catch (fallbackErr) {
@@ -240,6 +241,7 @@ exports.updateBlog = async (req, res) => {
         const fallbackBody = { ...req.body };
         delete fallbackBody.is_location_blog;
         delete fallbackBody.location;
+        delete fallbackBody.keywords;
         await blog.update(fallbackBody);
         return res.json(blog);
       } catch (fallbackErr) {

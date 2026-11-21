@@ -47,6 +47,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    keywords: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   });
 
   // 🔗 Self-referential many-to-many relation

@@ -104,6 +104,7 @@ Respond ONLY with a valid JSON object (no markdown code blocks, no other text) w
   "title": "Compelling, high-CTR, human-sounding SEO title (under 70 characters${isLocation ? `, naturally mentioning ${locName}` : ''})",
   "slug": "url-friendly-slug-with-hyphens",
   "short_description": "Engaging 150-160 character meta description that hooks searchers and drives clicks",
+  "keywords": "6-10 high-value, comma-separated SEO meta keywords and long-tail search phrases${isLocation ? ` (including ${locName} localized keywords)` : ''}",
   "content": "Full semantic HTML article as described above",
   "tags": ["3-5 relevant SEO tags"],
   "reading_time": "e.g. 6 min read"
@@ -328,10 +329,21 @@ async function generateBlog({
     finalContent = finalContent.replace(/^```\s*/, "").replace(/\s*```$/, "");
   }
 
+  // Extract and normalize keywords
+  let finalKeywords = "";
+  if (parsed.keywords) {
+    finalKeywords = Array.isArray(parsed.keywords)
+      ? parsed.keywords.map((k) => String(k).trim()).filter(Boolean).join(", ")
+      : String(parsed.keywords).trim();
+  } else if (Array.isArray(parsed.tags) && parsed.tags.length > 0) {
+    finalKeywords = parsed.tags.map((t) => String(t).trim()).filter(Boolean).join(", ");
+  }
+
   return {
     title: finalTitle,
     slug: finalSlug,
     short_description: parsed.short_description?.trim() || "",
+    keywords: finalKeywords,
     content: finalContent,
     tags: Array.isArray(parsed.tags) ? parsed.tags : [],
     reading_time: parsed.reading_time || "5 min read",

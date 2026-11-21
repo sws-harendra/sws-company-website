@@ -143,6 +143,28 @@ export default async function BlogPostPage({ params }) {
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
+            {post.keywords && (
+              <div className="mt-10 pt-6 border-t border-gray-100">
+                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-3">
+                  Related Keywords & Topics
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {post.keywords
+                    .split(",")
+                    .map((k) => k.trim())
+                    .filter(Boolean)
+                    .map((kw, i) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-sky-50 hover:text-sky-700 transition-colors"
+                      >
+                        #{kw}
+                      </span>
+                    ))}
+                </div>
+              </div>
+            )}
+
             {post.contactus && (
               <ContactUs
                 page={slug}
@@ -209,10 +231,13 @@ export async function generateMetadata({ params }) {
   return {
     title: `${post.title} - Blog`,
     description: post.short_description || "Read this blog post",
+    keywords: post.keywords
+      ? post.keywords.split(",").map((k) => k.trim()).filter(Boolean)
+      : undefined,
     openGraph: {
       title: post.title,
       description: post.short_description,
-      images: [{ url: post.image_url }],
+      images: post.image_url ? [{ url: post.image_url }] : [],
     },
   };
 }

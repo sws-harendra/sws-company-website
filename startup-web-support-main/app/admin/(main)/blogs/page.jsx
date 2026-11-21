@@ -18,12 +18,33 @@ import {
   Loader2,
   ExternalLink,
   MapPin,
+  RefreshCw,
 } from "lucide-react";
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState(null);
+  const [syncingSitemap, setSyncingSitemap] = useState(false);
+
+  const handleSyncSitemap = async () => {
+    setSyncingSitemap(true);
+    const toastId = toast.loading("Updating sitemap.xml with all published blogs...");
+    try {
+      const res = await blogService.syncSitemap();
+      toast.success(res?.message || "Sitemap synchronized successfully!", {
+        id: toastId,
+        duration: 5000,
+      });
+    } catch (err) {
+      console.error("Failed to sync sitemap:", err);
+      toast.error(err?.response?.data?.message || "Failed to sync sitemap", {
+        id: toastId,
+      });
+    } finally {
+      setSyncingSitemap(false);
+    }
+  };
 
   const fetchBlogs = async () => {
     setLoading(true);
@@ -74,11 +95,29 @@ export default function BlogsPage() {
           </p>
         </div>
 
-        <Link href="/admin/blogs/new">
-          <Button className="bg-gradient-to-r from-[#1a4468] to-[#029bd2] hover:opacity-90 text-white shadow-md flex items-center gap-2">
-            <Plus className="w-4 h-4" /> New Blog
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleSyncSitemap}
+            disabled={syncingSitemap}
+            className="border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 flex items-center gap-2 shadow-xs cursor-pointer h-10 px-4 rounded-xl"
+            title="Update sitemap.xml with all published blogs and site routes"
+          >
+            <RefreshCw
+              className={`w-4 h-4 text-[#029bd2] ${
+                syncingSitemap ? "animate-spin" : ""
+              }`}
+            />
+            <span>{syncingSitemap ? "Syncing..." : "Sync Sitemap"}</span>
           </Button>
-        </Link>
+
+          <Link href="/admin/blogs/new">
+            <Button className="bg-gradient-to-r from-[#1a4468] to-[#029bd2] hover:opacity-90 text-white shadow-md flex items-center gap-2 h-10 px-4 rounded-xl cursor-pointer">
+              <Plus className="w-4 h-4" /> New Blog
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Loading state */}

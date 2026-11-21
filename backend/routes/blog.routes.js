@@ -5,6 +5,12 @@ const blogController = require("../controllers/blog.controller");
 // AI Generation
 router.post("/generate-ai", blogController.generateBlogWithAI);
 
+// Sitemap Synchronization
+router.post("/sync-sitemap", blogController.syncSitemap);
+
+// Locations
+router.get("/locations", blogController.getBlogLocations);
+
 // CRUD
 router.post("/", blogController.createBlog);
 router.get("/", blogController.getAllBlogs);

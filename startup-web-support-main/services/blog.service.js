@@ -5,7 +5,13 @@ import axios from "axios";
 const blogService = {
   getAll: async (params = {}) => {
     const query = new URLSearchParams(params).toString();
-    const res = await axios.get(`${API_URL}/blogs`);
+    const url = query ? `${API_URL}/blogs?${query}` : `${API_URL}/blogs`;
+    const res = await axios.get(url);
+    return res.data;
+  },
+
+  getLocations: async () => {
+    const res = await axios.get(`${API_URL}/blogs/locations`);
     return res.data;
   },
 
@@ -56,6 +62,11 @@ const blogService = {
 
   generateWithAI: async (payload) => {
     const res = await axios.post(`${API_URL}/blogs/generate-ai`, payload);
+    return res.data;
+  },
+
+  syncSitemap: async () => {
+    const res = await axios.post(`${API_URL}/blogs/sync-sitemap`);
     return res.data;
   },
 };

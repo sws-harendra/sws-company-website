@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 import blogService from "@/services/blog.service"; // ✅ use your existing service
 import { slugify } from "@/lib/sluggify";
 
@@ -14,8 +15,10 @@ export default function BlogGrid() {
     const fetchBlogs = async () => {
       try {
         const data = await blogService.getAll();
-        // Optional: filter only published blogs
-        const published = data.filter((b) => b.status === "published");
+        // Show only published blogs that are NOT location-specific
+        const published = data.filter(
+          (b) => b.status === "published" && !b.is_location_blog
+        );
         setPosts(published);
       } catch (err) {
         console.error("Failed to load blogs:", err);
@@ -113,6 +116,18 @@ export default function BlogGrid() {
             ))}
           </motion.div>
         )}
+
+        {/* Simple Bottom Link for Location Blogs */}
+        <div className="mt-16 text-center">
+          <Link
+            href="/blog/locations"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-200 text-sm font-medium text-gray-600 hover:text-sky-600 hover:border-sky-300 hover:bg-sky-50/50 transition-all"
+          >
+            <MapPin className="w-4 h-4 text-sky-600" />
+            <span>Looking for city-specific guides? View all location blogs</span>
+            <span className="text-sky-600">&rarr;</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

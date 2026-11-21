@@ -18,7 +18,7 @@ const page = () => {
   return (
     <>
       <Seo
-        title="Software Company in Patna | IT Company in Patna | Startup Web Support"
+        title="Software Company in Patna | IT Services - Startup Web Support"
         description="Leading IT company in Patna offering expert software development, digital solutions, and startup web support to help your business grow efficiently."
         canonical="https://startupwebsupport.com/"
         image="sws-logo.png"

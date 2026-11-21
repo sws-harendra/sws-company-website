@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const blogController = require("../controllers/blog.controller");
 
+// AI Generation
+router.post("/generate-ai", blogController.generateBlogWithAI);
+
 // CRUD
 router.post("/", blogController.createBlog);
 router.get("/", blogController.getAllBlogs);

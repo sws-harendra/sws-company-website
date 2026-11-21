@@ -53,6 +53,11 @@ const blogService = {
     });
     return res.data;
   },
+
+  generateWithAI: async (payload) => {
+    const res = await axios.post(`${API_URL}/blogs/generate-ai`, payload);
+    return res.data;
+  },
 };
 
 export default blogService;

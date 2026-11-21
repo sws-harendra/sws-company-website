@@ -35,6 +35,9 @@ import {
   Globe,
   Send,
   CheckCircle2,
+  MapPin,
+  Wand2,
+  SlidersHorizontal,
 } from "lucide-react";
 import { useAuth } from "../(main)/context/AuthContext";
 
@@ -69,6 +72,8 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
     author: "",
     status: "draft",
     contactus: false,
+    is_location_blog: false,
+    location: "",
   });
 
   const [allBlogs, setAllBlogs] = useState([]);
@@ -78,6 +83,12 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
   const [isSaving, setIsSaving] = useState(false);
   const [loadingBlog, setLoadingBlog] = useState(Boolean(blogId && !selected));
   const [autoSlug, setAutoSlug] = useState(true);
+
+  // AI Generation States
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [aiProvider, setAiProvider] = useState("auto"); // "auto" | "gemini" | "openai"
+  const [aiKeywords, setAiKeywords] = useState("");
+  const [showAiSettings, setShowAiSettings] = useState(false);
 
   const effectiveId = selected?.id || blogId || formData?.id;
   const isEditing = Boolean(effectiveId);
@@ -108,6 +119,8 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
       setFormData({
         ...selected,
         redirect_url: selected.redirect_url || "",
+        is_location_blog: Boolean(selected.is_location_blog),
+        location: selected.location || "",
       });
       setPreview(selected.image_url || "");
       setAutoSlug(false);
@@ -129,6 +142,8 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
           setFormData({
             ...blog,
             redirect_url: blog.redirect_url || "",
+            is_location_blog: Boolean(blog.is_location_blog),
+            location: blog.location || "",
           });
           setPreview(blog.image_url || "");
           setAutoSlug(false);
@@ -173,6 +188,66 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
 
   const handleContentChange = (html) => {
     setFormData((prev) => ({ ...prev, content: html }));
+  };
+
+  const handleGenerateWithAI = async () => {
+    if (!formData.title || !formData.title.trim()) {
+      toast.error("Please enter a blog title or topic first so AI knows what to write about.");
+      return;
+    }
+
+    if (formData.is_location_blog && (!formData.location || !formData.location.trim())) {
+      toast.error("Please enter a target location (e.g. 'Patna, Bihar') for your location blog.");
+      return;
+    }
+
+    if (formData.content && formData.content.trim().length > 50) {
+      const confirmReplace = window.confirm(
+        "Generating with AI will update your blog title, slug, summary, and article content. Do you want to proceed?"
+      );
+      if (!confirmReplace) return;
+    }
+
+    setIsGeneratingAI(true);
+    const toastId = toast.loading("Crafting high-quality, humanized SEO blog content...");
+
+    try {
+      const res = await blogService.generateWithAI({
+        title: formData.title.trim(),
+        isLocationBlog: formData.is_location_blog,
+        location: formData.location ? formData.location.trim() : "",
+        keywords: aiKeywords.trim(),
+        provider: aiProvider,
+      });
+
+      if (res?.data) {
+        const { title, slug, short_description, content, is_location_blog, location } = res.data;
+        setFormData((prev) => ({
+          ...prev,
+          title: title || prev.title,
+          slug: slug || prev.slug,
+          short_description: short_description || prev.short_description,
+          content: content || prev.content,
+          is_location_blog: typeof is_location_blog === "boolean" ? is_location_blog : prev.is_location_blog,
+          location: location || prev.location,
+        }));
+        setAutoSlug(false);
+        toast.success("Blog successfully generated with AI! Humanized and SEO optimized.", {
+          id: toastId,
+        });
+      } else {
+        toast.error("Failed to generate content: empty response.", { id: toastId });
+      }
+    } catch (err) {
+      console.error("AI Generation error:", err);
+      const errorMsg =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Failed to generate AI blog. Please check your GEMINI_API_KEY or OPENAI_API_KEY in backend/.env.";
+      toast.error(errorMsg, { id: toastId, duration: 6000 });
+    } finally {
+      setIsGeneratingAI(false);
+    }
   };
 
   const handleImageUpload = async (e) => {
@@ -302,7 +377,177 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 pb-12">
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Top Header & Quick Actions Bar */}
+        {/* ✨ AI Blog Generator Card */}
+        <div className="p-6 border border-sky-200/90 dark:border-sky-900/60 rounded-2xl bg-gradient-to-br from-white via-sky-50/40 to-blue-50/30 dark:from-zinc-900 dark:via-zinc-900/90 dark:to-sky-950/20 shadow-sm space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-sky-100 dark:border-zinc-800">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1a4468] via-[#029bd2] to-[#03a9e4] flex items-center justify-center text-white shadow-md shadow-[#029bd2]/20 shrink-0">
+                <Sparkles className="w-5 h-5 animate-pulse" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="font-bold text-lg text-zinc-900 dark:text-zinc-100">
+                    AI Content Studio & SEO Generator
+                  </h3>
+                  <span className="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    Anti-AI Tracking & Humanized
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                  Generate comprehensive, humanized, SEO-ranking articles using Gemini (Free tier) or OpenAI.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAiSettings((prev) => !prev)}
+                className="h-8 text-xs font-medium border-sky-200 dark:border-zinc-700 bg-white/90 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+                {showAiSettings ? "Hide Settings" : "AI Settings"}
+              </Button>
+            </div>
+          </div>
+
+          {/* Location Blog Checkbox & Dynamic Location Field */}
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-white/90 dark:bg-zinc-800/60 border border-sky-100 dark:border-zinc-700/80 shadow-xs">
+              <div className="flex items-start sm:items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="top_is_location_blog_checkbox"
+                  checked={formData.is_location_blog}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setFormData((prev) => ({
+                      ...prev,
+                      is_location_blog: checked,
+                      location: checked ? prev.location : "",
+                    }));
+                  }}
+                  className="w-4 h-4 mt-0.5 sm:mt-0 rounded text-[#029bd2] border-zinc-300 dark:border-zinc-600 focus:ring-[#029bd2] cursor-pointer"
+                />
+                <div>
+                  <Label
+                    htmlFor="top_is_location_blog_checkbox"
+                    className="font-semibold text-sm text-zinc-800 dark:text-zinc-200 cursor-pointer flex items-center gap-1.5"
+                  >
+                    <MapPin className="w-4 h-4 text-[#029bd2]" />
+                    Location-Based Blog (Local SEO)
+                  </Label>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    Check this if you want the article optimized specifically for a target city or region.
+                  </p>
+                </div>
+              </div>
+
+              {formData.is_location_blog && (
+                <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-sky-100 dark:bg-sky-900/50 text-[#029bd2] dark:text-sky-300 border border-sky-200 dark:border-sky-800 self-start sm:self-auto">
+                  📍 Localized Mode Enabled
+                </span>
+              )}
+            </div>
+
+            {/* Dynamic Location Field */}
+            {formData.is_location_blog && (
+              <div className="space-y-2 p-4 rounded-xl bg-sky-50/80 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800/60 animate-in fade-in-50 duration-200">
+                <Label
+                  htmlFor="top_blog_location_input"
+                  className="text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-[#029bd2]" />
+                  Target Location / City / State <span className="text-rose-500">*</span>
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="top_blog_location_input"
+                    name="location"
+                    value={formData.location || ""}
+                    onChange={handleChange}
+                    placeholder="e.g. Patna, Bihar, India (or New York, USA)"
+                    className="bg-white dark:bg-zinc-800 border-sky-200 dark:border-zinc-700 focus-visible:ring-[#029bd2] pl-9"
+                  />
+                  <MapPin className="w-4 h-4 text-sky-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                  AI will infuse regional business insights, local search dynamics, and geographical context for <strong>{formData.location || "your target location"}</strong>.
+                </p>
+              </div>
+            )}
+
+            {/* Optional AI Configuration Settings */}
+            {showAiSettings && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 animate-in fade-in-50 duration-200">
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                    AI Provider / Engine
+                  </Label>
+                  <Select value={aiProvider} onValueChange={setAiProvider}>
+                    <SelectTrigger className="bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 h-9 text-xs">
+                      <SelectValue placeholder="Select Engine" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="auto">Auto (Google Gemini Free Tier → OpenAI Fallback)</SelectItem>
+                      <SelectItem value="gemini">Google Gemini (Free tier URL / GEMINI_API_KEY)</SelectItem>
+                      <SelectItem value="openai">OpenAI (GPT-4o-mini / OPENAI_API_KEY)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-[10px] text-zinc-500">
+                    Reads API keys from backend .env automatically.
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                    Focus Keywords (Optional)
+                  </Label>
+                  <Input
+                    value={aiKeywords}
+                    onChange={(e) => setAiKeywords(e.target.value)}
+                    placeholder="e.g. web development agency, affordable SEO, custom software"
+                    className="bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 h-9 text-xs"
+                  />
+                  <p className="text-[10px] text-zinc-500">
+                    Keywords you want naturally integrated into the text.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Prompt helper & Generate Button */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+              <div className="text-xs text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-[#029bd2] shrink-0" />
+                <span>
+                  Type your <strong>Title / Topic</strong> below{formData.is_location_blog ? " & Location above" : ""}, then click generate.
+                </span>
+              </div>
+
+              <Button
+                type="button"
+                onClick={handleGenerateWithAI}
+                disabled={isGeneratingAI || isSaving}
+                className="h-11 px-6 rounded-xl font-bold bg-gradient-to-r from-[#1a4468] via-[#029bd2] to-[#03a9e4] hover:opacity-95 text-white shadow-md shadow-[#029bd2]/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {isGeneratingAI ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
+                    <span>Crafting Article with AI...</span>
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="w-4 h-4 text-white" />
+                    <span>Generate Blog with AI</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
 
         {/* Basic Info Card */}
         <div className="p-6 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 shadow-sm space-y-5">
@@ -315,9 +560,19 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="space-y-2">
-              <Label className="text-zinc-700 dark:text-zinc-300 font-medium">
-                Title <span className="text-rose-500">*</span>
-              </Label>
+              <div className="flex items-center justify-between">
+                <Label className="text-zinc-700 dark:text-zinc-300 font-medium">
+                  Title <span className="text-rose-500">*</span>
+                </Label>
+                <button
+                  type="button"
+                  onClick={handleGenerateWithAI}
+                  disabled={isGeneratingAI || isSaving}
+                  className="text-xs text-primary-brand-color hover:underline flex items-center gap-1 font-medium disabled:opacity-50 cursor-pointer"
+                >
+                  <Sparkles className="w-3 h-3" /> AI Generate Content
+                </button>
+              </div>
               <Input
                 name="title"
                 value={formData.title}
@@ -390,6 +645,22 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
               </Select>
             </div>
           </div>
+
+          {formData.is_location_blog && (
+            <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800/80 space-y-2">
+              <Label className="text-zinc-700 dark:text-zinc-300 font-medium flex items-center gap-1.5">
+                <MapPin className="w-4 h-4 text-[#029bd2]" />
+                Target Location (Local SEO)
+              </Label>
+              <Input
+                name="location"
+                value={formData.location || ""}
+                onChange={handleChange}
+                placeholder="e.g. Patna, Bihar, India"
+                className="bg-zinc-50/50 dark:bg-zinc-800/40 border-zinc-200 dark:border-zinc-800 focus-visible:ring-primary-brand-color"
+              />
+            </div>
+          )}
         </div>
 
         {/* Short Description & Main Content */}

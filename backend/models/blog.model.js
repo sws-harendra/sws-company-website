@@ -38,6 +38,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM("draft", "published"),
       defaultValue: "draft",
     },
+    is_location_blog: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: true,
+    },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 
   // 🔗 Self-referential many-to-many relation

@@ -1,6 +1,41 @@
 const db = require("../models");
 const Blog = db.Blog;
 const { Op } = require("sequelize");
+const { generateBlog } = require("../helpers/aiBlogGenerator");
+
+// AI GENERATE BLOG
+exports.generateBlogWithAI = async (req, res) => {
+  try {
+    const { title, isLocationBlog, location, keywords, tone, provider } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({ message: "Please provide a blog title or topic." });
+    }
+
+    if (isLocationBlog && (!location || !location.trim())) {
+      return res.status(400).json({ message: "Please provide a target location for the location blog." });
+    }
+
+    const generated = await generateBlog({
+      title: title.trim(),
+      isLocationBlog: Boolean(isLocationBlog),
+      location: location ? location.trim() : "",
+      keywords: keywords ? String(keywords).trim() : "",
+      tone: tone ? String(tone).trim() : "",
+      provider: provider || "auto",
+    });
+
+    res.json({
+      success: true,
+      data: generated,
+    });
+  } catch (err) {
+    console.error("Error generating blog with AI:", err);
+    res.status(500).json({
+      message: err.message || "Failed to generate blog with AI. Please check API keys.",
+    });
+  }
+};
 
 // CREATE
 exports.createBlog = async (req, res) => {
@@ -8,6 +43,18 @@ exports.createBlog = async (req, res) => {
     const blog = await Blog.create(req.body);
     res.status(201).json(blog);
   } catch (err) {
+    // If table doesn't have new columns yet, gracefully fallback without them
+    if (err.name === "SequelizeDatabaseError" && err.parent && err.parent.code === "ER_BAD_FIELD_ERROR") {
+      try {
+        const fallbackBody = { ...req.body };
+        delete fallbackBody.is_location_blog;
+        delete fallbackBody.location;
+        const blog = await Blog.create(fallbackBody);
+        return res.status(201).json(blog);
+      } catch (fallbackErr) {
+        return res.status(500).json({ message: fallbackErr.message });
+      }
+    }
     res.status(500).json({ message: err.message });
   }
 };
@@ -93,6 +140,19 @@ exports.updateBlog = async (req, res) => {
     await blog.update(req.body);
     res.json(blog);
   } catch (err) {
+    if (err.name === "SequelizeDatabaseError" && err.parent && err.parent.code === "ER_BAD_FIELD_ERROR") {
+      try {
+        const blog = await Blog.findByPk(req.params.id);
+        if (!blog) return res.status(404).json({ message: "Blog not found" });
+        const fallbackBody = { ...req.body };
+        delete fallbackBody.is_location_blog;
+        delete fallbackBody.location;
+        await blog.update(fallbackBody);
+        return res.json(blog);
+      } catch (fallbackErr) {
+        return res.status(500).json({ message: fallbackErr.message });
+      }
+    }
     res.status(500).json({ message: err.message });
   }
 };

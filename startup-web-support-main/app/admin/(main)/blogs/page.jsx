@@ -17,6 +17,7 @@ import {
   User,
   Loader2,
   ExternalLink,
+  MapPin,
 } from "lucide-react";
 
 export default function BlogsPage() {
@@ -147,6 +148,12 @@ export default function BlogsPage() {
                         )}
                         {b.status?.toUpperCase() || "DRAFT"}
                       </span>
+                      {b.location && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-sky-100 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300 border border-sky-200 dark:border-sky-800 shrink-0">
+                          <MapPin className="w-3 h-3 text-[#029bd2]" />
+                          {b.location}
+                        </span>
+                      )}
                     </div>
 
                     <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2">

@@ -98,7 +98,10 @@ export default function BlogGrid() {
                       {new Date(post.createdAt).toLocaleDateString()}
                     </span>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-sky-600 transition-colors">
+                  <h3
+                    className="text-xl font-semibold mb-3 group-hover:opacity-85 transition-colors"
+                    style={{ color: post.title_color || "#1f2937" }}
+                  >
                     <Link href={`/${post.slug}`}>{post.title}</Link>
                   </h3>
                   <p className="text-gray-600 text-sm leading-relaxed flex-grow mb-5">

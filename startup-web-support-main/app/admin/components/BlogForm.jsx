@@ -39,7 +39,11 @@ import {
   Wand2,
   SlidersHorizontal,
   Tag,
+  Palette,
+  Check,
+  RotateCcw,
 } from "lucide-react";
+import { COMMON_COLORS } from "@/constants";
 import { useAuth } from "../(main)/context/AuthContext";
 
 const RichTextEditor = dynamic(
@@ -65,6 +69,7 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
 
   const [formData, setFormData] = useState({
     title: "",
+    title_color: "",
     slug: "",
     short_description: "",
     keywords: "",
@@ -120,6 +125,7 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
     if (selected) {
       setFormData({
         ...selected,
+        title_color: selected.title_color || "",
         redirect_url: selected.redirect_url || "",
         keywords: selected.keywords || "",
         is_location_blog: Boolean(selected.is_location_blog),
@@ -144,6 +150,7 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
           if (!isMounted || !blog) return;
           setFormData({
             ...blog,
+            title_color: blog.title_color || "",
             redirect_url: blog.redirect_url || "",
             keywords: blog.keywords || "",
             is_location_blog: Boolean(blog.is_location_blog),
@@ -584,8 +591,123 @@ export default function BlogForm({ selected, blogId, onSave, onCancel }) {
                 onChange={handleChange}
                 required
                 placeholder="e.g. 10 Essential Web Trends for 2026"
-                className="bg-zinc-50/50 dark:bg-zinc-800/40 border-zinc-200 dark:border-zinc-800 focus-visible:ring-primary-brand-color"
+                style={{
+                  color: formData.title_color || undefined,
+                  fontWeight: 600,
+                }}
+                className="bg-zinc-50/50 dark:bg-zinc-800/40 border-zinc-200 dark:border-zinc-800 focus-visible:ring-primary-brand-color font-semibold"
               />
+
+              {/* Title Color Selector */}
+              <div className="pt-1.5 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <Palette className="w-3.5 h-3.5 text-primary-brand-color" />
+                    <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                      Title Color
+                    </span>
+                    <span
+                      className="text-[11px] font-mono px-2 py-0.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 font-semibold inline-flex items-center gap-1.5"
+                      style={{ color: formData.title_color || "#111827" }}
+                    >
+                      <span
+                        className="w-2.5 h-2.5 rounded-full inline-block shrink-0 border border-black/10 dark:border-white/10"
+                        style={{ backgroundColor: formData.title_color || "#111827" }}
+                      />
+                      {formData.title_color || "Default (#111827)"}
+                    </span>
+                  </div>
+                  {formData.title_color && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData((prev) => ({ ...prev, title_color: "" }))}
+                      className="text-[11px] text-zinc-500 hover:text-rose-500 flex items-center gap-1 transition-colors cursor-pointer"
+                      title="Reset title color to default"
+                    >
+                      <RotateCcw className="w-3 h-3" />
+                      Reset to Default
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {/* 12 Common Color Boxes */}
+                  {COMMON_COLORS.map((col) => {
+                    const isSelected =
+                      formData.title_color?.toLowerCase() === col.value.toLowerCase() ||
+                      (!formData.title_color && col.value === "#111827");
+                    return (
+                      <button
+                        key={col.value}
+                        type="button"
+                        onClick={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            title_color: col.value === "#111827" ? "" : col.value,
+                          }))
+                        }
+                        className={`w-6 h-6 rounded-md border transition-all transform hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center relative ${
+                          isSelected
+                            ? "ring-2 ring-primary-brand-color ring-offset-1 border-white dark:border-zinc-900 shadow-xs scale-105"
+                            : "border-black/15 dark:border-white/15 hover:shadow-xs"
+                        }`}
+                        style={{ backgroundColor: col.value }}
+                        title={`${col.label} (${col.value})`}
+                      >
+                        {isSelected && (
+                          <Check className="w-3.5 h-3.5 text-white drop-shadow-md" />
+                        )}
+                      </button>
+                    );
+                  })}
+
+                  {/* Custom Color Selector (Current color select) */}
+                  <div className="flex items-center gap-1 ml-1 pl-2 border-l border-zinc-200 dark:border-zinc-700">
+                    <label
+                      className="relative w-6 h-6 rounded-md border border-zinc-300 dark:border-zinc-600 overflow-hidden cursor-pointer shadow-xs flex items-center justify-center shrink-0 hover:scale-105 transition"
+                      title="Pick custom title color"
+                    >
+                      <input
+                        type="color"
+                        value={formData.title_color || "#111827"}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            title_color: e.target.value,
+                          }))
+                        }
+                        className="absolute -top-3 -left-3 w-12 h-12 cursor-pointer opacity-0"
+                      />
+                      <span
+                        className="w-full h-full"
+                        style={{ backgroundColor: formData.title_color || "#111827" }}
+                      />
+                    </label>
+
+                    <input
+                      type="text"
+                      value={formData.title_color || ""}
+                      placeholder="#111827"
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          title_color: e.target.value,
+                        }))
+                      }
+                      className="w-20 h-6 text-[11px] font-mono uppercase px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary-brand-color"
+                    />
+                  </div>
+                </div>
+
+                {formData.title && (
+                  <p
+                    className="text-xs font-semibold truncate pt-0.5"
+                    style={{ color: formData.title_color || "#111827" }}
+                  >
+                    Live Preview: {formData.title}
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="space-y-2">

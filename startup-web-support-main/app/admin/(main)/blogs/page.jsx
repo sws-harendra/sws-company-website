@@ -170,9 +170,19 @@ export default function BlogsPage() {
 
                   <div className="space-y-1.5 min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="font-semibold text-base sm:text-lg text-zinc-900 dark:text-zinc-100 truncate">
+                      <h2
+                        className="font-semibold text-base sm:text-lg truncate"
+                        style={{ color: b.title_color || undefined }}
+                      >
                         {b.title}
                       </h2>
+                      {b.title_color && (
+                        <span
+                          className="w-2.5 h-2.5 rounded-full inline-block shrink-0 border border-black/10 dark:border-white/10"
+                          style={{ backgroundColor: b.title_color }}
+                          title={`Title Color: ${b.title_color}`}
+                        />
+                      )}
                       <span
                         className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold shrink-0 ${
                           b.status === "published"

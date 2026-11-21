@@ -4,6 +4,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    title_color: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+      defaultValue: null,
+    },
     slug: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -62,6 +67,21 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: "featuredBlogId",
     });
   };
+
+  // Self-healing: verify title_color column exists in Blogs table
+  setTimeout(() => {
+    try {
+      sequelize.getQueryInterface().describeTable("Blogs").then((tableInfo) => {
+        if (tableInfo && !tableInfo.title_color) {
+          sequelize.getQueryInterface().addColumn("Blogs", "title_color", {
+            type: DataTypes.STRING(50),
+            allowNull: true,
+            defaultValue: null,
+          }).catch(() => {});
+        }
+      }).catch(() => {});
+    } catch {}
+  }, 1000);
 
   return Blog;
 };

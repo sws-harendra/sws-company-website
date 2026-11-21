@@ -51,7 +51,10 @@ export default async function BlogPostPage({ params }) {
         >
           {/* Main content */}
           <div className={featuredBlogs.length > 0 ? "lg:col-span-2" : ""}>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h1
+              className="text-4xl md:text-5xl font-bold mb-4"
+              style={{ color: post.title_color || "#111827" }}
+            >
               {post.title}
             </h1>
 

@@ -19,6 +19,7 @@ import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
 import { useRef, useState, useEffect, useCallback } from "react";
 import CommonServices from "@/services/common.service";
+import { COMMON_COLORS, COMMON_HIGHLIGHTS } from "@/constants";
 import "../../editor.css";
 import {
   Bold,
@@ -46,6 +47,8 @@ import {
   Trash2,
   Plus,
   Type,
+  Check,
+  RotateCcw,
 } from "lucide-react";
 
 export const FONT_FAMILIES = [
@@ -606,13 +609,34 @@ export default function RichTextEditor({ value, onChange }) {
   const fileInputRef = useRef(null);
   const colorInputRef = useRef(null);
   const highlightInputRef = useRef(null);
+  const colorPopoverRef = useRef(null);
+  const highlightPopoverRef = useRef(null);
   const savedSelectionRef = useRef(null);
   const updateActiveStylesRef = useRef(null);
+
+  const [showColorPopover, setShowColorPopover] = useState(false);
+  const [showHighlightPopover, setShowHighlightPopover] = useState(false);
+  const [customColorInput, setCustomColorInput] = useState("");
+  const [customHighlightInput, setCustomHighlightInput] = useState("");
 
   const [activeStyles, setActiveStyles] = useState({
     fontFamily: "",
     fontSize: "16px",
   });
+
+  // Close color popovers on click outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (colorPopoverRef.current && !colorPopoverRef.current.contains(e.target)) {
+        setShowColorPopover(false);
+      }
+      if (highlightPopoverRef.current && !highlightPopoverRef.current.contains(e.target)) {
+        setShowHighlightPopover(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const editor = useEditor({
     shouldRerenderOnTransaction: true,
@@ -838,6 +862,34 @@ export default function RichTextEditor({ value, onChange }) {
     }
     actionFn(chain);
     chain.run();
+  };
+
+  const handleSelectTextColor = (colorVal) => {
+    applyWithSelection((chain) => {
+      chain.setColor(colorVal);
+    });
+    setCustomColorInput(colorVal);
+  };
+
+  const handleClearTextColor = () => {
+    applyWithSelection((chain) => {
+      chain.unsetColor();
+    });
+    setCustomColorInput("");
+  };
+
+  const handleSelectHighlight = (colorVal) => {
+    applyWithSelection((chain) => {
+      chain.setHighlight({ color: colorVal });
+    });
+    setCustomHighlightInput(colorVal);
+  };
+
+  const handleClearHighlight = () => {
+    applyWithSelection((chain) => {
+      chain.unsetHighlight();
+    });
+    setCustomHighlightInput("");
   };
 
   // Detect active font family and font size anywhere in the editor (marks, DOM inline styles, computed styles)
@@ -1372,44 +1424,332 @@ export default function RichTextEditor({ value, onChange }) {
           </button>
         </div>
 
-        {/* Text Color & Highlight */}
-        <div className="flex items-center bg-zinc-100 dark:bg-zinc-800/70 rounded-md p-0.5 gap-1">
-          <label
-            className="flex items-center p-1.5 rounded hover:bg-white dark:hover:bg-zinc-700 cursor-pointer text-zinc-700 dark:text-zinc-200"
-            title="Text Color"
-          >
-            <Palette className="w-4 h-4 mr-0.5" />
-            <input
-              type="color"
-              ref={colorInputRef}
-              onChange={(e) => {
-                const colorVal = e.target.value;
-                applyWithSelection((chain) => {
-                  chain.setColor(colorVal);
-                });
+        {/* Text Color & Highlight Controls */}
+        <div className="flex items-center bg-zinc-100 dark:bg-zinc-800/70 rounded-md p-0.5 gap-1 relative z-20">
+          {/* Text Color Popover */}
+          <div className="relative" ref={colorPopoverRef}>
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                setShowColorPopover((prev) => !prev);
+                setShowHighlightPopover(false);
               }}
-              className="w-3.5 h-3.5 p-0 border-0 rounded cursor-pointer bg-transparent"
-            />
-          </label>
+              className={`flex items-center gap-1 px-1.5 py-1 rounded transition text-zinc-700 dark:text-zinc-200 cursor-pointer ${
+                showColorPopover
+                  ? "bg-white dark:bg-zinc-700 shadow-xs"
+                  : "hover:bg-white dark:hover:bg-zinc-700"
+              }`}
+              title="Text Color (Pick from 12 common colors or custom color)"
+            >
+              <div className="flex flex-col items-center justify-center">
+                <Palette className="w-4 h-4" />
+                <span
+                  className="w-3.5 h-1 rounded-full mt-0.5"
+                  style={{
+                    backgroundColor:
+                      editor.getAttributes("textStyle")?.color || "#111827",
+                  }}
+                />
+              </div>
+              <ChevronDown className="w-3 h-3 text-zinc-400" />
+            </button>
 
-          <label
-            className="flex items-center p-1.5 rounded hover:bg-white dark:hover:bg-zinc-700 cursor-pointer text-zinc-700 dark:text-zinc-200"
-            title="Highlight Color"
-          >
-            <Highlighter className="w-4 h-4 mr-0.5" />
-            <input
-              type="color"
-              ref={highlightInputRef}
-              defaultValue="#fef08a"
-              onChange={(e) => {
-                const highlightVal = e.target.value;
-                applyWithSelection((chain) => {
-                  chain.setHighlight({ color: highlightVal });
-                });
+            {/* Popover Card */}
+            {showColorPopover && (
+              <div
+                className="absolute left-0 top-full mt-1.5 z-50 p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-2xl w-64 space-y-3"
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                {/* Popover Header */}
+                <div className="flex items-center justify-between pb-1.5 border-b border-zinc-100 dark:border-zinc-800">
+                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5">
+                    <Palette className="w-3.5 h-3.5 text-primary-brand-color" />
+                    Text Color
+                  </span>
+                  <button
+                    type="button"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => {
+                      handleClearTextColor();
+                      setShowColorPopover(false);
+                    }}
+                    className="text-[11px] font-medium text-zinc-500 hover:text-rose-500 flex items-center gap-1 transition-colors cursor-pointer"
+                    title="Reset to default text color"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    Reset
+                  </button>
+                </div>
+
+                {/* 12 Most Common Color Boxes */}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+                    12 Common Colors
+                  </span>
+                  <div className="grid grid-cols-6 gap-1.5">
+                    {COMMON_COLORS.map((col) => {
+                      const isActive =
+                        editor.getAttributes("textStyle")?.color?.toLowerCase() ===
+                        col.value.toLowerCase();
+                      return (
+                        <button
+                          key={col.value}
+                          type="button"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => {
+                            handleSelectTextColor(col.value);
+                            setShowColorPopover(false);
+                          }}
+                          className={`w-7 h-7 rounded-lg border transition-transform hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center relative ${
+                            isActive
+                              ? "ring-2 ring-primary-brand-color ring-offset-1 border-white shadow-xs"
+                              : "border-black/10 dark:border-white/10 hover:shadow-xs"
+                          }`}
+                          style={{ backgroundColor: col.value }}
+                          title={`${col.label} (${col.value})`}
+                        >
+                          {isActive && (
+                            <Check className="w-3.5 h-3.5 text-white drop-shadow-md" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Custom Color Selector (Current color select) */}
+                <div className="space-y-1.5 pt-1.5 border-t border-zinc-100 dark:border-zinc-800">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+                    Custom Color
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <label
+                      className="relative w-8 h-8 rounded-lg border border-zinc-300 dark:border-zinc-700 overflow-hidden cursor-pointer shadow-xs flex items-center justify-center shrink-0 hover:opacity-90"
+                      title="Open Color Wheel / Palette"
+                    >
+                      <input
+                        type="color"
+                        ref={colorInputRef}
+                        value={
+                          editor.getAttributes("textStyle")?.color ||
+                          customColorInput ||
+                          "#111827"
+                        }
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setCustomColorInput(val);
+                          handleSelectTextColor(val);
+                        }}
+                        className="absolute -top-3 -left-3 w-16 h-16 cursor-pointer opacity-0"
+                      />
+                      <span
+                        className="w-full h-full"
+                        style={{
+                          backgroundColor:
+                            customColorInput ||
+                            editor.getAttributes("textStyle")?.color ||
+                            "#111827",
+                        }}
+                      />
+                    </label>
+
+                    <input
+                      type="text"
+                      value={customColorInput}
+                      placeholder={
+                        editor.getAttributes("textStyle")?.color || "#111827"
+                      }
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCustomColorInput(val);
+                        if (/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(val)) {
+                          handleSelectTextColor(val);
+                        }
+                      }}
+                      className="h-8 text-xs font-mono uppercase px-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 flex-1 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary-brand-color"
+                    />
+
+                    <button
+                      type="button"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => {
+                        if (customColorInput) {
+                          handleSelectTextColor(
+                            customColorInput.startsWith("#")
+                              ? customColorInput
+                              : `#${customColorInput}`
+                          );
+                        }
+                        setShowColorPopover(false);
+                      }}
+                      className="h-8 px-2.5 rounded-lg bg-primary-brand-color text-white text-xs font-medium hover:opacity-90 transition cursor-pointer"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Highlight Color Popover */}
+          <div className="relative" ref={highlightPopoverRef}>
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                setShowHighlightPopover((prev) => !prev);
+                setShowColorPopover(false);
               }}
-              className="w-3.5 h-3.5 p-0 border-0 rounded cursor-pointer bg-transparent"
-            />
-          </label>
+              className={`flex items-center gap-1 px-1.5 py-1 rounded transition text-zinc-700 dark:text-zinc-200 cursor-pointer ${
+                showHighlightPopover
+                  ? "bg-white dark:bg-zinc-700 shadow-xs"
+                  : "hover:bg-white dark:hover:bg-zinc-700"
+              }`}
+              title="Highlight Background Color"
+            >
+              <div className="flex flex-col items-center justify-center">
+                <Highlighter className="w-4 h-4" />
+                <span
+                  className="w-3.5 h-1 rounded-full mt-0.5"
+                  style={{
+                    backgroundColor:
+                      editor.getAttributes("highlight")?.color || "#fef08a",
+                  }}
+                />
+              </div>
+              <ChevronDown className="w-3 h-3 text-zinc-400" />
+            </button>
+
+            {/* Popover Card */}
+            {showHighlightPopover && (
+              <div
+                className="absolute left-0 top-full mt-1.5 z-50 p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-2xl w-60 space-y-3"
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-between pb-1.5 border-b border-zinc-100 dark:border-zinc-800">
+                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5">
+                    <Highlighter className="w-3.5 h-3.5 text-amber-500" />
+                    Highlight Color
+                  </span>
+                  <button
+                    type="button"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => {
+                      handleClearHighlight();
+                      setShowHighlightPopover(false);
+                    }}
+                    className="text-[11px] font-medium text-zinc-500 hover:text-rose-500 flex items-center gap-1 transition-colors cursor-pointer"
+                    title="Remove Highlight"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    Clear
+                  </button>
+                </div>
+
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+                    Quick Highlights
+                  </span>
+                  <div className="grid grid-cols-6 gap-1.5">
+                    {COMMON_HIGHLIGHTS.map((hl) => {
+                      const isActive =
+                        editor.getAttributes("highlight")?.color?.toLowerCase() ===
+                        hl.value.toLowerCase();
+                      return (
+                        <button
+                          key={hl.value}
+                          type="button"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => {
+                            handleSelectHighlight(hl.value);
+                            setShowHighlightPopover(false);
+                          }}
+                          className={`w-7 h-7 rounded-lg border transition-transform hover:scale-110 active:scale-95 cursor-pointer flex items-center justify-center relative ${
+                            isActive
+                              ? "ring-2 ring-primary-brand-color ring-offset-1 border-white shadow-xs"
+                              : "border-black/10 dark:border-white/10 hover:shadow-xs"
+                          }`}
+                          style={{ backgroundColor: hl.value }}
+                          title={`${hl.label} (${hl.value})`}
+                        >
+                          {isActive && (
+                            <Check className="w-3.5 h-3.5 text-zinc-800 drop-shadow-sm" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 pt-1.5 border-t border-zinc-100 dark:border-zinc-800">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+                    Custom Highlight
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <label
+                      className="relative w-8 h-8 rounded-lg border border-zinc-300 dark:border-zinc-700 overflow-hidden cursor-pointer shadow-xs flex items-center justify-center shrink-0 hover:opacity-90"
+                      title="Open Color Wheel"
+                    >
+                      <input
+                        type="color"
+                        ref={highlightInputRef}
+                        defaultValue="#fef08a"
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setCustomHighlightInput(val);
+                          handleSelectHighlight(val);
+                        }}
+                        className="absolute -top-3 -left-3 w-16 h-16 cursor-pointer opacity-0"
+                      />
+                      <span
+                        className="w-full h-full"
+                        style={{
+                          backgroundColor:
+                            customHighlightInput ||
+                            editor.getAttributes("highlight")?.color ||
+                            "#fef08a",
+                        }}
+                      />
+                    </label>
+
+                    <input
+                      type="text"
+                      value={customHighlightInput}
+                      placeholder="#fef08a"
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCustomHighlightInput(val);
+                        if (/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(val)) {
+                          handleSelectHighlight(val);
+                        }
+                      }}
+                      className="h-8 text-xs font-mono uppercase px-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 flex-1 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary-brand-color"
+                    />
+
+                    <button
+                      type="button"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => {
+                        if (customHighlightInput) {
+                          handleSelectHighlight(
+                            customHighlightInput.startsWith("#")
+                              ? customHighlightInput
+                              : `#${customHighlightInput}`
+                          );
+                        }
+                        setShowHighlightPopover(false);
+                      }}
+                      className="h-8 px-2.5 rounded-lg bg-primary-brand-color text-white text-xs font-medium hover:opacity-90 transition cursor-pointer"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="h-5 w-[1px] bg-zinc-200 dark:bg-zinc-800 mx-0.5" />

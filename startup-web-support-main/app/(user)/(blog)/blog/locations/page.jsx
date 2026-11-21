@@ -348,7 +348,10 @@ function LocationBlogsContent() {
                   </div>
 
                   {/* Title */}
-                  <h2 className="text-xl font-bold text-gray-900 group-hover:text-sky-600 transition-colors line-clamp-2 mb-3">
+                  <h2
+                    className="text-xl font-bold transition-colors line-clamp-2 mb-3 group-hover:opacity-85"
+                    style={{ color: post.title_color || "#111827" }}
+                  >
                     <Link href={`/${post.slug}`}>{post.title}</Link>
                   </h2>
 

@@ -158,9 +158,9 @@ const CustomImage = Image.extend({
 
     let inlineStyle = "";
     if (align === "left") {
-      inlineStyle = `float: left; margin: 0.5rem 1.5rem 1rem 0; width: ${width}; max-width: 100%; height: ${height}; ${objectFit} border-radius: 0.5rem;`;
+      inlineStyle = `float: left; margin: 0.5rem 1.5rem 1rem 0; width: ${width}; max-width: 100%; height: ${height}; ${objectFit} border-radius: 0.5rem; clear: none;`;
     } else if (align === "right") {
-      inlineStyle = `float: right; margin: 0.5rem 0 1rem 1.5rem; width: ${width}; max-width: 100%; height: ${height}; ${objectFit} border-radius: 0.5rem;`;
+      inlineStyle = `float: right; margin: 0.5rem 0 1rem 1.5rem; width: ${width}; max-width: 100%; height: ${height}; ${objectFit} border-radius: 0.5rem; clear: none;`;
     } else if (align === "full") {
       inlineStyle = `display: block; width: 100%; max-width: 100%; height: ${height}; ${objectFit} margin: 1.5rem auto; border-radius: 0.5rem; clear: both;`;
     } else {

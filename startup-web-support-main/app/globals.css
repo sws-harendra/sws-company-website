@@ -652,10 +652,8 @@
   clear: both;
 }
 
-/* Clearfix for paragraphs after floated images */
-.prose::after,
-.prose p::after,
-.prose div::after {
+/* Clearfix for article container to enclose floated images at the end of the post */
+.prose::after {
   content: "";
   display: table;
   clear: both;
